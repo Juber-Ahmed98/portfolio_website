@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Static-assets-only Worker: no server code, just serves the Next.js static
+  // export in `out/`. `npm run build` (next build) produces `out/`; `wrangler
+  // deploy` uploads it. Custom domain `juberahmed.dev` is attached in the dashboard.
+  "name": "portfolio-website",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./out",
+    // Serve out/404.html for unknown paths (matches the Next.js export 404 page).
+    "not_found_handling": "404-page"
+  }
+}
