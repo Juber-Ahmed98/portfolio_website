@@ -14,7 +14,7 @@ export function Featured() {
   return (
     <section
       id="work"
-      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-10 py-[70px]"
+      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[70px] sm:px-10"
     >
       <SectionHeading
         index={sections.featured.index}
@@ -23,8 +23,8 @@ export function Featured() {
       />
 
       {/* Flagship — Jembatan */}
-      <div className="mb-2 grid grid-cols-[1.05fr_460px] overflow-hidden rounded-[18px] border border-flag-line bg-flag text-[#f2f7f8] transition-[transform,box-shadow] duration-[250ms] hover:-translate-y-[3px] hover:shadow-[0_20px_48px_rgba(11,20,24,0.22)]">
-        <div className="flex flex-col justify-center gap-4 px-12 py-[52px]">
+      <div className="mb-2 grid grid-cols-1 overflow-hidden rounded-[18px] border border-flag-line bg-flag text-[#f2f7f8] transition-[transform,box-shadow] duration-[250ms] hover:-translate-y-[3px] hover:shadow-[0_20px_48px_rgba(11,20,24,0.22)] md:grid-cols-[1.05fr_460px]">
+        <div className="flex flex-col justify-center gap-4 px-7 py-10 sm:px-12 sm:py-[52px]">
           <div className="flex items-center gap-[10px] font-mono text-[12px]">
             <span className="text-[#22c8e0]">{flagship.index}</span>
             <span className="rounded-[4px] bg-[rgba(34,200,224,0.14)] px-[9px] py-[3px] text-[#22c8e0]">
@@ -70,7 +70,7 @@ export function Featured() {
       {featured.map((project, i) => (
         <div
           key={project.name}
-          className={`grid grid-cols-[60px_1.1fr_420px] items-center gap-10 transition-colors hover:bg-hover ${
+          className={`grid grid-cols-1 items-center gap-5 transition-colors hover:bg-hover md:grid-cols-[60px_1.1fr_420px] md:gap-10 ${
             i === featured.length - 1
               ? "pb-2 pt-9"
               : "border-b border-line py-9"

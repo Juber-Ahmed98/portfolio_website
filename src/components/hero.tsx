@@ -13,7 +13,7 @@ export function Hero({ showStats = true }: HeroProps) {
   return (
     <section
       id="top"
-      className="mx-auto max-w-[1180px] border-b border-line px-10 pb-[84px] pt-24"
+      className="mx-auto max-w-[1180px] border-b border-line px-6 pb-[64px] pt-16 sm:px-10 sm:pb-[84px] sm:pt-24"
     >
       <p className="mb-[26px] text-[15px] font-semibold text-body">
         {hero.eyebrow}

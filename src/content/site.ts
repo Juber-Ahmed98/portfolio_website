@@ -53,6 +53,9 @@ export const sections = {
     title: "The wall — 6 builds and counting",
     sub: "Every real build, big or small. The habit, not just the highlights.",
   },
+  experience: { index: "03", title: "Experience" },
+  /** Contact's H2 lives in `contact.heading`; only the mono index is shared here. */
+  contact: { index: "04" },
 } as const;
 
 // ── Featured work ────────────────────────────────────────────────────────────

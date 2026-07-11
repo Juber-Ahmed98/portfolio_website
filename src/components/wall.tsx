@@ -11,18 +11,18 @@ export function Wall() {
   return (
     <section
       id="wall"
-      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-10 py-[70px]"
+      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[70px] sm:px-10"
     >
       <SectionHeading
         index={sections.wall.index}
         title={sections.wall.title}
         className="mb-[10px]"
       />
-      <p className="mb-[30px] ml-[74px] text-[14.5px] text-muted">
+      <p className="mb-[30px] ml-0 text-[14.5px] text-muted sm:ml-[74px]">
         {sections.wall.sub}
       </p>
 
-      <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[12px] border border-line bg-line">
+      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[12px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
         {wall.map((project) => (
           <a
             key={project.name}

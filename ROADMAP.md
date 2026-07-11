@@ -148,7 +148,7 @@ Done when: both sections match the mockup in both themes, wall renders from data
   background .3s` — reads flip-flop unless you inject `*{transition:none!important}`
   first. Do that before trusting computed colours here.
 
-### ☐ CP3 · Experience + Contact + responsive & a11y pass
+### ☑ CP3 · Experience + Contact + responsive & a11y pass  ✅ done 2026-07-11
 Goal: finish the page and make it real on mobile + accessible.
 - **Experience**: two-column (roles timeline + toolbox chips).
 - **Contact**: dark CTA card ("Hire someone who ships."), Download CV (placeholder),
@@ -161,6 +161,34 @@ Goal: finish the page and make it real on mobile + accessible.
 
 Done when: full home page complete, looks right from 375px → wide desktop, keyboard-
 navigable, build passes.
+
+**Notes for next session (CP4):**
+- Page is now complete: `page.tsx` composes `Nav → Hero → Featured → Wall →
+  Experience → Contact`. New components: `experience.tsx`, `contact.tsx`,
+  `mobile-menu.tsx` (client). `sections` in `site.ts` gained `experience` (03) +
+  `contact` (04, index only — its H2 lives in `contact.heading`).
+- **Contact card** reuses the flagship pattern exactly: `bg-flag`/`border-flag-line`
+  shell (dark in both themes) + fixed dark hex internals (`#22c8e0`/`#f2f7f8`/
+  `#2c4148`), NOT tokens. Footer is a real `<footer>` (contentinfo) under the card.
+- **Responsive breakpoints** (verified at 375 / 768 / desktop, no horizontal overflow):
+  flagship + featured rows `grid-cols-1 → md:` fixed-px; wall `1 → sm:2 → lg:3`;
+  experience `1 → md:2` (the `ml-[74px]` indent drops to `ml-0` below `sm`). All
+  section horizontal padding is now `px-6 sm:px-10`. Hero padding also eased on mobile.
+- **Mobile nav:** below `sm` the anchor links collapse into `MobileMenu` (a client
+  `useState` hamburger dropdown, `aria-expanded`/`aria-controls`, closes on tap).
+  Inline links are `hidden sm:inline`; the nav "Download CV" button is
+  `hidden min-[400px]:inline-block` (too tight alongside the hamburger at 375).
+- **A11y:** landmarks confirmed via a11y tree (banner / nav "Primary" / main /
+  region "Experience" / region "Contact" / contentinfo). Sections carry `aria-label`.
+  Toolbox is a real `<ul>`/`<li>`. Global `:focus-visible` ring (accent, both themes)
+  added in `globals.css`; `prefers-reduced-motion` now also neutralises the hover-lift
+  transforms (not just scroll/theme transitions).
+- **⚠️ LinkedIn URL still `#`** (contact card + `site.ts`). Owner hasn't provided it —
+  left as an honest placeholder per the locked "don't fake it" rule. Wire it in when
+  supplied (also the featured "Live demo" links for Mission to Abs / E-commerce are
+  still `#`).
+- Screenshots still hang the in-app browser's compositor (as in CP2) — verified via
+  a11y tree + computed styles + `getComputedStyle` (inject `*{transition:none}` first).
 
 ### ☐ CP4 · Deploy to Cloudflare Pages
 Goal: live at juberahmed.dev.
@@ -226,7 +254,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 | CP0 | 1 · Scaffold & foundation | ☑ done |
 | CP1 | 1 · Nav + Hero + data | ☑ done |
 | CP2 | 1 · Featured + Wall | ☑ done |
-| CP3 | 1 · Experience + Contact + responsive/a11y | ☐ |
+| CP3 | 1 · Experience + Contact + responsive/a11y | ☑ done |
 | CP4 | 1 · Deploy to Cloudflare Pages | ☐ |
 | CP5 | 2 · Case-study template + routing | ☐ |
 | CP6 | 2 · Jembatan case study | ☐ |
