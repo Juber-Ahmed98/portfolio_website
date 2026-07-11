@@ -183,7 +183,7 @@ export const contact = {
   links: [
     { label: "Email", href: "mailto:legendkillerj@gmail.com" },
     { label: "GitHub ↗", href: "https://github.com/Juber-Ahmed98", external: true },
-    { label: "LinkedIn ↗", href: "#", external: true }, // URL pending (see ROADMAP open questions)
+    { label: "LinkedIn ↗", href: "https://www.linkedin.com/in/mohammed-juber-ahmed/", external: true },
   ] satisfies ContactLink[],
   footer: {
     left: "© 2026 mohammed juber ahmed",
