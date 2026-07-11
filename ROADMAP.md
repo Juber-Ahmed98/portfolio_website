@@ -190,7 +190,7 @@ navigable, build passes.
 - Screenshots still hang the in-app browser's compositor (as in CP2) — verified via
   a11y tree + computed styles + `getComputedStyle` (inject `*{transition:none}` first).
 
-### ☐ CP4 · Deploy to Cloudflare Pages
+### ◐ CP4 · Deploy to Cloudflare Pages  (repo ready — dashboard step pending owner)
 Goal: live at juberahmed.dev.
 - Owner creates the GitHub repo; Claude wires remote + pushes.
 - Create a Cloudflare Pages project from the repo (build: `next build`, output: `out`).
@@ -198,6 +198,27 @@ Goal: live at juberahmed.dev.
 
 Done when: the polished home page is live at https://juberahmed.dev and shareable.
 **← End of Milestone 1: the site is real.**
+
+**CP4 progress / notes:**
+- **LinkedIn URL resolved** — `https://www.linkedin.com/in/mohammed-juber-ahmed/`
+  now wired into `contact.links` in `site.ts` (the last CP3 open question). Contact
+  card renders it live (target=_blank, rel=noreferrer). Verified in preview.
+- **Repo pushed.** Local `main` was 3 commits ahead (CP1–CP3 unpushed); all pushed to
+  `github.com/Juber-Ahmed98/portfolio_website` along with the LinkedIn fix + Node pin.
+- **Deploy method chosen: Git integration** (owner's call, matches locked decision) —
+  auto-deploys on every push. NOT direct-upload wrangler.
+- **Node pinned** via `.node-version` (`22`) so CF Pages builds on a known-good Node
+  (local is 24; Next 16 needs ≥20.9). `out/` is gitignored — CF builds it server-side.
+- **Verified locally:** `npm run build` static-exports clean; `out/` has `index.html`,
+  `404.html`, `_next/`. This is exactly what Pages serves.
+- **⏳ Owner must do (dashboard — CLI can't authorize the GitHub OAuth connection):**
+  1. CF dashboard → **Workers & Pages → Create → Pages → Connect to Git** → pick
+     `Juber-Ahmed98/portfolio_website`, branch `main`.
+  2. Build settings — Framework preset: **Next.js (Static HTML Export)** (or None);
+     **Build command:** `npx next build`; **Build output directory:** `out`. Save & Deploy.
+  3. After first build goes green: project → **Custom domains → Set up a domain** →
+     `juberahmed.dev` (root). CF auto-adds the DNS record since the domain is on-account.
+  4. Verify HTTPS + light/dark both live at https://juberahmed.dev, then tick this box.
 
 ---
 
@@ -243,7 +264,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 
 ## Open questions to resolve before they're needed
 
-- **LinkedIn URL** — needed at CP3 (contact card currently has a `#` placeholder).
+- ~~**LinkedIn URL**~~ — ✅ resolved: `linkedin.com/in/mohammed-juber-ahmed/` (wired CP4).
 - **CV PDF** — needed at CP8 (or earlier if ready).
 - **Real screenshots** — captured at CP8 from the three live demos.
 
@@ -255,7 +276,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 | CP1 | 1 · Nav + Hero + data | ☑ done |
 | CP2 | 1 · Featured + Wall | ☑ done |
 | CP3 | 1 · Experience + Contact + responsive/a11y | ☑ done |
-| CP4 | 1 · Deploy to Cloudflare Pages | ☐ |
+| CP4 | 1 · Deploy to Cloudflare Pages | ◐ repo ready · dashboard pending |
 | CP5 | 2 · Case-study template + routing | ☐ |
 | CP6 | 2 · Jembatan case study | ☐ |
 | CP7 | 2 · Mission to Abs + E-commerce | ☐ |
