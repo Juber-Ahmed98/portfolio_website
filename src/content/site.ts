@@ -20,7 +20,7 @@ export const nav = {
     { label: "Experience", href: "#experience" },
     { label: "Contact", href: "#contact" },
   ] satisfies NavLink[],
-  /** Placeholder until the real CV PDF lands (CP8). */
+  /** Real CV PDF lives at public/cv.pdf. */
   cv: { label: "Download CV", href: "/cv.pdf" },
 } as const;
 
@@ -179,7 +179,7 @@ export type ContactLink = { label: string; href: string; external?: boolean };
 
 export const contact = {
   heading: ["Next on the wall:", "your product."], // rendered on two lines
-  cv: { label: "Download CV (PDF)", href: "/cv.pdf" }, // placeholder until CP8
+  cv: { label: "Download CV (PDF)", href: "/cv.pdf" }, // real CV at public/cv.pdf
   links: [
     { label: "Email", href: "mailto:mohammed.juber.ahmed@gmail.com" },
     { label: "GitHub ↗", href: "https://github.com/Juber-Ahmed98", external: true },
