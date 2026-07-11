@@ -110,7 +110,7 @@ module, build passes.
   compositor hangs on screenshots here — verified via a11y tree + computed styles
   instead, which is reliable.)
 
-### ☐ CP2 · Featured work + The Wall
+### ☑ CP2 · Featured work + The Wall  ✅ done 2026-07-11
 Goal: the two core "proof" sections.
 - **Featured work**: the dark **Jembatan flagship** card (2-col, "live in production"
   badge, live/case-study/code buttons) + the two featured rows (Mission to Abs,
@@ -122,6 +122,31 @@ Goal: the two core "proof" sections.
   content in — no separate section needed).
 
 Done when: both sections match the mockup in both themes, wall renders from data, build passes.
+
+**Notes for next session (CP3):**
+- **Section-header data** now lives in `src/content/site.ts` as `sections` — currently
+  only `featured` ({index,title}) and `wall` ({index,title,sub}). CP3 should add
+  `experience` (index `03`) + `contact` (index `04`) entries there and render via the
+  shared `<SectionHeading>` (`src/components/section-heading.tsx`: mono index + H2,
+  takes `className` for spacing).
+- Sections built: `src/components/featured.tsx` (flagship card + 2 rows) and
+  `wall.tsx` (6-card hairline grid + dashed WIP strip). `page.tsx` composes
+  `Nav → Hero → Featured → Wall`. Add Experience + Contact after Wall.
+- **Flagship + contact cards are dark in BOTH themes** — their *internal* colours are
+  the fixed dark hex from the mockup (`#22c8e0`/`#f2f7f8`/`#b8c8cd`/`#7e959c`/`#2c4148`),
+  NOT tokens. The card shell uses `bg-flag`/`border-flag-line` (already dark in both
+  themes). Reuse this exact pattern for the contact CTA card in CP3.
+- **Everything is still desktop-only** (fixed `grid-cols-[…px]`): flagship
+  `grid-cols-[1.05fr_460px]`, featured rows `grid-cols-[60px_1.1fr_420px]`, wall
+  `grid-cols-3`. CP3's responsive pass must add breakpoints so all of these stack
+  (flagship 2→1, rows 3→stacked, wall 3→2→1) — budget for it as first-class work.
+- `flagship.links` is `as const`, so its "Case study" entry has no `external` key —
+  narrow with `"external" in link && link.external` (not `link.external`) if you touch it.
+- Verified CP2: `npm run build` static-exports clean (TS strict passes); both sections
+  render from the data module; both themes resolve. **Gotcha:** the in-app browser's
+  `getComputedStyle` reports *mid-transition* values because of body's `transition:
+  background .3s` — reads flip-flop unless you inject `*{transition:none!important}`
+  first. Do that before trusting computed colours here.
 
 ### ☐ CP3 · Experience + Contact + responsive & a11y pass
 Goal: finish the page and make it real on mobile + accessible.
@@ -200,7 +225,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 |----|-----------|--------|
 | CP0 | 1 · Scaffold & foundation | ☑ done |
 | CP1 | 1 · Nav + Hero + data | ☑ done |
-| CP2 | 1 · Featured + Wall | ☐ |
+| CP2 | 1 · Featured + Wall | ☑ done |
 | CP3 | 1 · Experience + Contact + responsive/a11y | ☐ |
 | CP4 | 1 · Deploy to Cloudflare Pages | ☐ |
 | CP5 | 2 · Case-study template + routing | ☐ |

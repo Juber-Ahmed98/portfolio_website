@@ -43,6 +43,18 @@ export const hero = {
   cta: { label: "See the work ↓", href: "#work" },
 } as const;
 
+// ── Section headers ──────────────────────────────────────────────────────────
+// Mono index + H2 pairs shown at the top of each section (DESIGN.md pattern).
+
+export const sections = {
+  featured: { index: "01", title: "Featured work" },
+  wall: {
+    index: "02",
+    title: "The wall — 6 builds and counting",
+    sub: "Every real build, big or small. The habit, not just the highlights.",
+  },
+} as const;
+
 // ── Featured work ────────────────────────────────────────────────────────────
 
 export type FeaturedLink = { label: string; href: string; external?: boolean };
