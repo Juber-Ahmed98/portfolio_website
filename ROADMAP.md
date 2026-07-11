@@ -73,7 +73,7 @@ Done when: `npm run dev` shows a page that switches light/dark with no flash, an
   placeholder — replace it in CP1. Left-over scaffold SVGs in `public/` can be
   deleted whenever.
 
-### ☐ CP1 · Nav + Hero + content data model
+### ☑ CP1 · Nav + Hero + content data model  ✅ done 2026-07-11
 Goal: top of the page pixel-matches the mockup, and content is data-driven.
 - Create a typed content module (e.g. `src/content/site.ts`) holding: nav links,
   hero copy + stats, the 6 **wall** projects, the 3 **featured** projects, experience
@@ -86,6 +86,29 @@ Goal: top of the page pixel-matches the mockup, and content is data-driven.
 
 Done when: nav + hero match the mockup in both themes, content comes from the data
 module, build passes.
+
+**Notes for next session (CP2):**
+- **Content module `src/content/site.ts` already holds EVERYTHING** — not just nav +
+  hero. Exports: `nav`, `hero`, `flagship` (the dark Jembatan card, kept separate
+  from the rows), `featured` (the 2 rows), `wall` (6), `currentlyBuilding` (the
+  dashed strip), `experience`, `toolbox`, `contact`. CP2/CP3 should render from
+  these, not re-type data. Types are exported alongside each.
+- Section components live in `src/components/` (`nav.tsx`, `hero.tsx`). `page.tsx`
+  composes them: `<Nav/>` then `<main>` wrapping sections. Add Featured/Wall inside
+  `<main>`.
+- **Nav decision: sticky** (`sticky top-0 z-50`) with `bg-bg/80 backdrop-blur-md`
+  — better for one-page anchor nav. Nav links `hidden … sm:inline` (a stopgap; the
+  real mobile-nav collapse is CP3).
+- Hero takes `showStats?: boolean` (default true) — the `showHeroStats` gate.
+- CV buttons point to `/cv.pdf` (placeholder, file not added yet — per locked
+  decision). Contact LinkedIn is still `#` (needs URL, CP3).
+- Deleted the leftover CP0 scaffold SVGs in `public/`.
+- **Local preview:** `.claude/launch.json` runs `npm run dev` with `autoPort:true`
+  (port 3000 is taken by an unrelated "Arabic Academy" app on this machine).
+- Verified: build static-exports clean; theme toggle flips `.dark` on `<html>` and
+  all tokens resolve in both themes; no console errors. (Note: the in-app browser's
+  compositor hangs on screenshots here — verified via a11y tree + computed styles
+  instead, which is reliable.)
 
 ### ☐ CP2 · Featured work + The Wall
 Goal: the two core "proof" sections.
@@ -176,7 +199,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 | CP | Milestone | Status |
 |----|-----------|--------|
 | CP0 | 1 · Scaffold & foundation | ☑ done |
-| CP1 | 1 · Nav + Hero + data | ☐ |
+| CP1 | 1 · Nav + Hero + data | ☑ done |
 | CP2 | 1 · Featured + Wall | ☐ |
 | CP3 | 1 · Experience + Contact + responsive/a11y | ☐ |
 | CP4 | 1 · Deploy to Cloudflare Pages | ☐ |
