@@ -16,9 +16,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mohammed Juber Ahmed — Frontend Developer",
+  title: "Mohammed Juber Ahmed — Frontend Developer, Birmingham",
   description:
-    "Birmingham-based frontend developer. 3 years building a high-traffic B2B e-commerce frontend at Wolseley — and a stack of my own products in AI, health, and language.",
+    "Frontend developer in Birmingham, UK. 3+ years shipping and A/B-testing Wolseley's high-traffic B2B e-commerce frontend, plus live self-built products — including an AI-powered Android translator with its own Cloudflare Workers API.",
 };
 
 export default function RootLayout({

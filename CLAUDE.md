@@ -2,7 +2,7 @@
 
 Owner: Mohammed Juber Ahmed · Birmingham, UK
 Domain: **juberahmed.dev** (owned, empty — this site goes at root)
-GitHub: **github.com/Juber-Ahmed98** · Email: legendkillerj@gmail.com
+GitHub: **github.com/Juber-Ahmed98** · Email: mohammed.juber.ahmed@gmail.com
 Host: **Cloudflare** (domain + Jembatan Worker already here)
 
 This brief is the source of truth. It captures decisions made in a full planning

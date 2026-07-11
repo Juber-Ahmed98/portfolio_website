@@ -190,7 +190,7 @@ navigable, build passes.
 - Screenshots still hang the in-app browser's compositor (as in CP2) — verified via
   a11y tree + computed styles + `getComputedStyle` (inject `*{transition:none}` first).
 
-### ◐ CP4 · Deploy to Cloudflare Pages  (repo ready — dashboard step pending owner)
+### ☑ CP4 · Deploy to Cloudflare Pages  ✅ done 2026-07-11
 Goal: live at juberahmed.dev.
 - Owner creates the GitHub repo; Claude wires remote + pushes.
 - Create a Cloudflare Pages project from the repo (build: `next build`, output: `out`).
@@ -219,6 +219,8 @@ Done when: the polished home page is live at https://juberahmed.dev and shareabl
   3. After first build goes green: project → **Custom domains → Set up a domain** →
      `juberahmed.dev` (root). CF auto-adds the DNS record since the domain is on-account.
   4. Verify HTTPS + light/dark both live at https://juberahmed.dev, then tick this box.
+- **✅ Verified live 2026-07-11:** https://juberahmed.dev serves the full page (all
+  content present, HTTPS working). Milestone 1 is complete.
 
 ---
 
@@ -276,7 +278,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 | CP1 | 1 · Nav + Hero + data | ☑ done |
 | CP2 | 1 · Featured + Wall | ☑ done |
 | CP3 | 1 · Experience + Contact + responsive/a11y | ☑ done |
-| CP4 | 1 · Deploy to Cloudflare Pages | ◐ repo ready · dashboard pending |
+| CP4 | 1 · Deploy to Cloudflare Pages | ☑ done — live at juberahmed.dev |
 | CP5 | 2 · Case-study template + routing | ☐ |
 | CP6 | 2 · Jembatan case study | ☐ |
 | CP7 | 2 · Mission to Abs + E-commerce | ☐ |

@@ -33,7 +33,7 @@ export const hero = {
   /** H1 renders as `${headingLead} <highlight>${headingHighlight}</highlight>`. */
   headingLead: "I build web products —",
   headingHighlight: "front to back.",
-  sub: "3 years on Wolseley's high-traffic B2B e-commerce frontend — and a stack of my own products in AI, health, and language on the side.",
+  sub: "Three years shipping Wolseley's high-traffic B2B e-commerce frontend by day. By night I ship my own — a live AI translation keyboard with its own API, and counting.",
   /** Gated behind the Hero `showStats` prop (DESIGN.md). */
   stats: [
     { value: "3+", label: "yrs shipping at scale" },
@@ -77,8 +77,8 @@ export const flagship = {
   badge: "live in production",
   name: "Jembatan",
   blurb:
-    "Android floating-bubble translator with its own Cloudflare Worker API. Not just a UI — the whole product: app, backend, onboarding UX, branding, roadmap.",
-  stack: "kotlin · cloudflare-workers · rest-api",
+    "Android IME keyboard for high-quality, natural-tone translation — text, voice, and clipboard messages — powered by GPT + Whisper on its own Cloudflare Worker API. Not just a UI: the whole product — backend, onboarding UX, branding, roadmap.",
+  stack: "kotlin · cloudflare-workers · openai-api",
   links: [
     { label: "Live demo ↗", href: "https://jembatan.juberahmed.dev/", external: true },
     { label: "Case study →", href: "#" },
@@ -92,7 +92,7 @@ export const featured: FeaturedProject[] = [
     index: "/02",
     name: "Mission to Abs",
     blurb:
-      "Fitness tracker built for frontend craft — motion design, live charts, lean state management.",
+      "The frontend work you're actually hiring for — motion design, live charts, lean state — in a demo you can open right now.",
     stack: "react · framer-motion · recharts · zustand",
     links: [
       { label: "Live demo ↗", href: "#", external: true },
@@ -105,7 +105,7 @@ export const featured: FeaturedProject[] = [
     index: "/03",
     name: "E-commerce Store",
     blurb:
-      "A storefront in the same shape as my day job — responsive grids, cart flow, routing done properly.",
+      "The same work I do at Wolseley, in miniature — responsive product grids, cart flow, routing. Judge my day job from the outside.",
     stack: "react · tailwind · react-router",
     links: [
       { label: "Live demo ↗", href: "#", external: true },
@@ -128,9 +128,9 @@ export type WallProject = {
 };
 
 export const wall: WallProject[] = [
-  { name: "Jembatan-app", badge: "live ↗", live: true, desc: "Floating-bubble translator + Worker API", tags: "kotlin · workers", link: "https://github.com/Juber-Ahmed98/Jembatan-app" },
+  { name: "Jembatan-app", badge: "live ↗", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://github.com/Juber-Ahmed98/Jembatan-app" },
   { name: "mission_to_abs_app", badge: "live ↗", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app" },
-  { name: "ecommerce_store", badge: "live ↗", live: true, desc: "Storefront with cart + routing", tags: "react · tailwind", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
+  { name: "ecommerce_store", badge: "live ↗", live: true, desc: "Storefront — cart, routing, the day-job stack", tags: "react · tailwind", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
   { name: "habit_tracker", badge: "building", live: false, desc: "Modern-stack PWA shell", tags: "next16 · react19 · ts", link: "https://github.com/Juber-Ahmed98/habit_tracker" },
   { name: "quran-just-one-verse", badge: "building", live: false, desc: "One verse a day, beautifully", tags: "js", link: "https://github.com/Juber-Ahmed98/quran-just-one-verse" },
   { name: "Qibla_Compass", badge: "building", live: false, desc: "Sensor-driven qibla finder", tags: "js · sensors", link: "https://github.com/Juber-Ahmed98/Qibla_Compass" },
@@ -151,12 +151,12 @@ export const experience: Role[] = [
   {
     date: "2024.08 — now",
     title: "Digital Developer · Wolseley",
-    desc: "High-traffic B2B e-commerce frontend. Responsive + accessible pages, A/B testing, Monetate personalisation, Agile.",
+    desc: "High-traffic B2B e-commerce frontend. Responsive, accessible pages shipped through A/B and multivariate tests — merchandising badges, promos, seasonal lightboxes — keeping what moved the numbers and killing what didn't.",
   },
   {
     date: "2022.12 — 2024.08",
     title: "Apprentice Developer · Wolseley",
-    desc: "L3 Software Development Technician (QA Apprenticeships) while shipping to production.",
+    desc: "Earned the L3 Software Development Technician qualification (QA) while shipping to production.",
   },
 ];
 
@@ -178,10 +178,10 @@ export const toolbox: string[] = [
 export type ContactLink = { label: string; href: string; external?: boolean };
 
 export const contact = {
-  heading: ["Hire someone", "who ships."], // rendered on two lines
+  heading: ["Next on the wall:", "your product."], // rendered on two lines
   cv: { label: "Download CV (PDF)", href: "/cv.pdf" }, // placeholder until CP8
   links: [
-    { label: "Email", href: "mailto:legendkillerj@gmail.com" },
+    { label: "Email", href: "mailto:mohammed.juber.ahmed@gmail.com" },
     { label: "GitHub ↗", href: "https://github.com/Juber-Ahmed98", external: true },
     { label: "LinkedIn ↗", href: "https://www.linkedin.com/in/mohammed-juber-ahmed/", external: true },
   ] satisfies ContactLink[],
