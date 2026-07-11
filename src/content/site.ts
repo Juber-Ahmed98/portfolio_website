@@ -132,7 +132,7 @@ export const wall: WallProject[] = [
   { name: "mission_to_abs_app", badge: "live ↗", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app" },
   { name: "ecommerce_store", badge: "live ↗", live: true, desc: "Storefront — cart, routing, the day-job stack", tags: "react · tailwind", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
   { name: "habit_tracker", badge: "building", live: false, desc: "Modern-stack PWA shell", tags: "next16 · react19 · ts", link: "https://github.com/Juber-Ahmed98/habit_tracker" },
-  { name: "quran-just-one-verse", badge: "building", live: false, desc: "One verse a day, beautifully", tags: "js", link: "https://github.com/Juber-Ahmed98/quran-just-one-verse" },
+  { name: "quran-just-one-verse", badge: "building", live: false, desc: "One verse a day", tags: "js", link: "https://github.com/Juber-Ahmed98/quran-just-one-verse" },
   { name: "Qibla_Compass", badge: "building", live: false, desc: "Sensor-driven qibla finder", tags: "js · sensors", link: "https://github.com/Juber-Ahmed98/Qibla_Compass" },
 ];
 
