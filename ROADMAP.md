@@ -42,7 +42,7 @@ browser to see both themes). Our job is to rebuild it as a real Next.js app and 
 
 ## Milestone 1 — MVP home page, live and shareable
 
-### ☐ CP0 · Scaffold & foundation
+### ☑ CP0 · Scaffold & foundation  ✅ done 2026-07-11
 Goal: a themed, empty app that static-exports cleanly.
 - `create-next-app` — TypeScript, Tailwind, App Router, `src/` dir, no ESLint prompt drama.
 - `next.config`: `output: 'export'`, `images.unoptimized: true`, `trailingSlash: true`.
@@ -57,6 +57,21 @@ Goal: a themed, empty app that static-exports cleanly.
 
 Done when: `npm run dev` shows a page that switches light/dark with no flash, and
 `npm run build` produces a static `out/` with no errors.
+
+**Notes for next session (CP1):**
+- Stack landed: **Next 16.2.10, React 19.2.4, Tailwind v4** (no `tailwind.config`
+  — theme lives in `src/app/globals.css` via `@theme`/`@custom-variant`).
+- Tokens are Tailwind utilities now: `bg-bg`, `text-ink`, `text-body`, `text-muted`,
+  `bg-accent`, `border-line`, `bg-chip`, `text-wip`, `bg-flag`, etc. Fonts:
+  `font-sans` (Plus Jakarta) / `font-mono` (JetBrains Mono). Prefer these over
+  raw `var(--x)` where a utility exists.
+- Theme: `next-themes`, class strategy, `.dark` on `<html>`, `defaultTheme="system"`.
+  Toggle at `src/components/theme-toggle.tsx`; provider at `theme-provider.tsx`.
+- `next.config.ts` pins `turbopack.root` (a stray `package-lock.json` sits in the
+  parent `GitHub/` dir — leave it, the pin handles it).
+- Branch is `main`; first commit `6e47d13`. `src/app/page.tsx` is a throwaway CP0
+  placeholder — replace it in CP1. Left-over scaffold SVGs in `public/` can be
+  deleted whenever.
 
 ### ☐ CP1 · Nav + Hero + content data model
 Goal: top of the page pixel-matches the mockup, and content is data-driven.
@@ -160,7 +175,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 
 | CP | Milestone | Status |
 |----|-----------|--------|
-| CP0 | 1 · Scaffold & foundation | ☐ |
+| CP0 | 1 · Scaffold & foundation | ☑ done |
 | CP1 | 1 · Nav + Hero + data | ☐ |
 | CP2 | 1 · Featured + Wall | ☐ |
 | CP3 | 1 · Experience + Contact + responsive/a11y | ☐ |
