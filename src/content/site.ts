@@ -110,7 +110,7 @@ export const featured: FeaturedProject[] = [
     name: "E-commerce Store",
     slug: "ecommerce-store",
     blurb:
-      "The same work I do at Wolseley, in miniature — responsive product grids, cart flow, routing. Judge my day job from the outside.",
+      "A standalone store I built front to back — React UI plus a real Express + Postgres backend — teaching myself the backend my frontend day job doesn't touch.",
     stack: "react · tailwind · react-router",
     links: [
       { label: "Live demo ↗", href: "#", external: true },
@@ -325,9 +325,9 @@ export const caseStudies: Record<string, CaseStudy> = {
     slug: "ecommerce-store",
     eyebrow: "case study",
     name: "E-commerce Store",
-    tagline: "The Wolseley day-job, rebuilt in the open — frontend and a real backend.",
+    tagline: "A standalone storefront I built front to back — to teach myself the backend my day job doesn't touch.",
     intro:
-      "A storefront built from scratch — a React frontend with a real Express + PostgreSQL backend behind it — using the same building blocks I work in every day on Wolseley's high-traffic B2B e-commerce frontend. Most of that day-job work sits behind a corporate login recruiters can't see; this rebuilds the core of it in the open, so the patterns can be judged from the outside.",
+      "A complete e-commerce store I built from scratch and entirely on my own — a React frontend with a real Express + PostgreSQL backend behind it. My role at Wolseley is frontend-only, so I built this to learn the other half: how a product catalogue, user accounts, and authentication actually fit together end to end. E-commerce is the domain I know best from the day job, which made it the natural thing to build front to back — but every line here is my own.",
     stack: "react · tailwind · react-router",
     stackChips: [
       "React 19",
@@ -342,7 +342,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       {
         heading: "the problem",
         body: [
-          "Three years of my strongest work — shipping and A/B-testing a large B2B storefront — sits behind a login recruiters can't see. This project rebuilds that core experience in the open: browse products, open a detail page, add to a basket, sign in, check out. Nothing exotic; the point is the everyday patterns, done cleanly and end to end.",
+          "My day job at Wolseley is frontend-only. I ship and A/B-test a high-traffic B2B storefront, but I don't touch what happens once a request leaves the browser — and I wanted to close that gap. So I built a complete store of my own, front to back: browse products, open a detail page, add to a basket, register, sign in, check out, with a backend I wrote myself behind all of it.",
         ],
       },
       {
@@ -366,7 +366,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       {
         heading: "why it's here",
         body: [
-          "This is the project that maps directly onto the day job. The concerns are the same ones I handle at Wolseley — responsive layout, sensible component structure, state that stays predictable as pages are added — just visible end to end instead of behind a corporate login. If you want to sanity-check what \"three years on a B2B storefront\" means before an interview, this is the closest look I can give you.",
+          "This is where I push past the day job. Wolseley gave me the frontend instincts — responsive layout, sensible component structure, state that stays predictable as pages grow — and this project is me teaching myself the backend to match, on my own time. It's honest about what it is: a personal learning build, not a production platform. But it's a complete one, and it's entirely mine.",
         ],
       },
     ],
@@ -397,7 +397,7 @@ export type WallProject = {
 export const wall: WallProject[] = [
   { name: "Jembatan-app", badge: "live ↗", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://github.com/Juber-Ahmed98/Jembatan-app" },
   { name: "mission_to_abs_app", badge: "live ↗", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app" },
-  { name: "ecommerce_store", badge: "live ↗", live: true, desc: "Storefront — cart, routing, the day-job stack", tags: "react · tailwind", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
+  { name: "ecommerce_store", badge: "live ↗", live: true, desc: "Full-stack storefront — React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
   { name: "habit_tracker", badge: "building", live: false, desc: "Modern-stack PWA shell", tags: "next16 · react19 · ts", link: "https://github.com/Juber-Ahmed98/habit_tracker" },
   { name: "quran-just-one-verse", badge: "building", live: false, desc: "One verse a day", tags: "js", link: "https://github.com/Juber-Ahmed98/quran-just-one-verse" },
   { name: "Qibla_Compass", badge: "building", live: false, desc: "Sensor-driven qibla finder", tags: "js · sensors", link: "https://github.com/Juber-Ahmed98/Qibla_Compass" },
