@@ -293,9 +293,37 @@ Done when: three case-study routes build statically and link both ways with the 
   probe-kbd, 02-in-person) — ready to swap in at **CP8**.
 - CP7 (Mission to Abs + E-commerce) is unaffected; those studies are still the CP5 starter drafts.
 
-### ☐ CP7 · Mission to Abs + E-commerce case studies
+### ☑ CP7 · Mission to Abs + E-commerce case studies  ✅ done 2026-07-12
 - Two shorter studies. Mission to Abs → frontend craft (motion, charts, state).
   E-commerce → ties to the Wolseley day-job.
+
+**Notes for next session (CP8):**
+- **Sourced from the real repos, not the brief** (same lesson as CP6). Both live locally as
+  siblings: `C:\Users\moham\Documents\GitHub\mission_to_abs_app` and `…\ecommerce_store`
+  (both public GitHub, so the "Code ↗" links resolve). Both are richer than the CP5 drafts:
+  - **Mission to Abs** (internal name `abs-protocol`): **Vite + React 18 + TS** PWA (NOT Next),
+    Zustand (schema-versioned) + localStorage + IndexedDB (photo blobs), Recharts, Framer Motion,
+    offline PWA, self-hosted Inter. A real 15-week mission tracker **in daily personal use**.
+    Standout: **Renpho Bluetooth-scale sync** via a serverless proxy (password never touches the
+    client; a shared sync token does), a "manual wins" merge path shared with CSV import, and a
+    fixed timezone-drift bug. Rewrote to 5 deep blocks; stackChips now accurate (React 18, Vite,
+    IndexedDB, PWA — dropped the stale "Tailwind"-only framing).
+  - **E-commerce** (`ecommerce-store-redesign`): **React 19 + Tailwind v4 + React Router v7** front
+    end + a **real Express 5 + PostgreSQL backend** (bcrypt + JWT auth, `backend/` dir). Cart is a
+    React **Context** persisted to localStorage (NOT zustand). 5 blocks incl. a "going full-stack"
+    section; framed honestly as a from-scratch/learning-grade build, not production.
+- **stackChips got real** but the home `featured[].stack` mono lines are unchanged (still the
+  frontend-craft summary) — the case-study template renders `stackChips`, not `stack`, so `stack`
+  is vestigial for these pages.
+- **⚠️ Live-demo links still `#`** for both (filtered out by the template — only "Code ↗" shows).
+  Mission to Abs uses a Vercel serverless function (api/renpho) so it *may* be deployable; the
+  e-commerce store needs a running Express+Postgres backend (harder to host publicly). If either
+  has a live URL, set it in `caseStudies[...].links` **and** the home `featured[...]` live link.
+- **Real screenshots for CP8:** Mission to Abs screens = Dashboard/Journey/Progress(charts)/Photos;
+  E-commerce = Home/Products/ProductDetail/Basket/checkout/Login. Placeholder tile labels already
+  match these.
+- Verified: `npm run build` static-exports all three `/work/*` routes (● SSG), TS strict clean;
+  both new pages render in preview with no console errors; live `#` links correctly filtered.
 
 ---
 
@@ -335,7 +363,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 | CP4 | 1 · Deploy to Cloudflare Pages | ☑ done — live at juberahmed.dev |
 | CP5 | 2 · Case-study template + routing | ☑ done |
 | CP6 | 2 · Jembatan case study | ☑ done |
-| CP7 | 2 · Mission to Abs + E-commerce | ☐ |
+| CP7 | 2 · Mission to Abs + E-commerce | ☑ done |
 | CP8 | 3 · Real screenshots + CV | ☐ |
 | CP9 | 3 · Motion pass | ☐ |
 | CP10 | 3 · SEO/meta/a11y + launch | ☐ |

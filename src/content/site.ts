@@ -259,27 +259,63 @@ export const caseStudies: Record<string, CaseStudy> = {
     slug: "mission-to-abs",
     eyebrow: "case study",
     name: "Mission to Abs",
-    tagline: "Frontend craft: motion, live charts, and lean state.",
+    tagline: "A body-recomposition PWA I use daily — motion, live charts, and one genuinely hard integration.",
     intro:
-      "A fitness-tracking web app built to show the frontend work hiring managers actually care about — purposeful animation, real data visualisation, and state management that stays simple as the app grows.",
+      "Mission to Abs is a private, offline-first PWA I built to run my own 15-week body-recomposition mission: open it daily, log weight, diet, and exercise, take a weekly photo and waist measurement, and watch progress walk along a 105-day path. It's in real daily use — and it doubles as the clearest proof of the frontend work hiring managers actually care about: purposeful motion, live data-viz, lean state, and one integration that was much harder than it looks — syncing a Bluetooth smart scale through a backend proxy.",
     stack: "react · framer-motion · recharts · zustand",
-    stackChips: ["React", "TypeScript", "Framer Motion", "Recharts", "Zustand", "Tailwind"],
+    stackChips: [
+      "React 18",
+      "TypeScript",
+      "Vite",
+      "Zustand",
+      "Recharts",
+      "Framer Motion",
+      "IndexedDB",
+      "PWA (offline)",
+    ],
     blocks: [
       {
         heading: "the problem",
         body: [
-          "A CV can claim \"strong React and animation skills\" — a demo you can open and poke at proves it. I wanted one small, polished app that shows motion design, live charts, and clean state working together rather than in isolation.",
+          "Most fitness apps are either a spreadsheet or a hype machine. I wanted the opposite: a calm daily ritual for a fixed 15-week mission — bright but never loud, a moment you look forward to rather than a chore. It ships zero workouts and zero diet rules on purpose. The app is the witness, not the coach: you bring the plan, it keeps you honest.",
+          "It's also a deliberate portfolio piece. A CV can claim \"strong React and animation skills\" — an app you can open and poke at proves it. So none of it is faked: it's the tool I actually use every day, with my own data, not a demo wired to sample JSON.",
         ],
       },
       {
-        heading: "the approach",
+        heading: "the daily loop",
         body: [
-          "Framer Motion drives the transitions and micro-interactions, kept subtle and purposeful rather than decorative. Recharts renders the progress data live, and Zustand keeps global state small and predictable instead of reaching for a heavier store.",
-          "The whole thing is TypeScript-strict and component-driven — the same discipline I bring to production frontend work, at a size you can read in a sitting.",
+          "The loop is one screen: today's weight, diet, and exercise, each logged with a slide-to-confirm that only fires on release. Marking a failure is exactly as easy as marking a win — the app rewards accuracy, not just green days — and a planned rest day counts without penalty. Every action is reversible: each confirm drops an undo toast, and anything destructive is two-step.",
+          "That symmetry matters more than it looks. Honest logging is what makes everything downstream mean anything, so the daily loop is built to remove every reason to fudge it.",
+        ],
+      },
+      {
+        heading: "progress as a journey",
+        body: [
+          "Instead of a heatmap of squares, progress is a walk along a 105-day path split into five named stages — Foundation, Build, Push, Refine, Reveal. Logging earns XP and levels, a streak builds, and crossing a stage boundary plays a deliberate transition. The gamification is generous but quiet: earned satisfaction from motion and visible XP, never confetti or exclamation marks.",
+          "Recharts renders the weight trend, clipped to the mission window so pre-start synced days don't drag the line sideways. Weekly waist measurements and progress photos capture the change a scale misses, and Framer Motion carries the level-ups and page transitions — used to communicate state, not to decorate.",
+        ],
+      },
+      {
+        heading: "syncing a real smart scale",
+        body: [
+          "The feature I'm proudest of is the least visible. I weigh in on a Renpho Bluetooth scale, and the app pulls those readings automatically. The catch: there's no official API, and a scale password can never touch a static frontend. So the PWA talks to a small serverless backend proxy that holds the credentials — the client only ever sends a user-pasted sync token as a header.",
+          "Synced readings then flow through the exact same merge path as a manual CSV import, with a \"manual wins\" rule so a hand-typed weight is never silently overwritten by a sync. The bug that ate the most time was timezone drift: Renpho's wall-clock field sits ahead of the device, which tipped an evening weigh-in onto the next calendar day — landing one day late on the home screen and one day early on the chart. Dating each reading from its true UTC timestamp instead fixed both at the boundary.",
+        ],
+      },
+      {
+        heading: "offline-first & state",
+        body: [
+          "State is a single, schema-versioned Zustand store: entries and settings live in localStorage, photo blobs in IndexedDB, so the whole app is usable with no connection — which a daily-habit tool has to be. It's an installable PWA with a self-hosted font (no third-party CDN on first paint) and lazy-split routes to stay inside a tight bundle budget.",
+          "There's also a top-level error boundary that, if anything throws, shows a reload button and a one-tap \"export my data\" escape hatch. Silently losing someone's 15 weeks of logs was never an acceptable failure mode.",
         ],
       },
     ],
-    screenshots: ["dashboard overview", "progress charts", "animated transitions"],
+    screenshots: [
+      "daily dashboard — day N",
+      "the 105-day journey",
+      "weight & body-fat charts",
+      "weekly progress photos",
+    ],
     links: [
       { label: "Live demo ↗", href: "#", external: true },
       { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
@@ -289,27 +325,57 @@ export const caseStudies: Record<string, CaseStudy> = {
     slug: "ecommerce-store",
     eyebrow: "case study",
     name: "E-commerce Store",
-    tagline: "The Wolseley day-job stack, in miniature.",
+    tagline: "The Wolseley day-job, rebuilt in the open — frontend and a real backend.",
     intro:
-      "A storefront built with the same building blocks I use daily on Wolseley's high-traffic B2B e-commerce frontend — responsive product grids, a cart flow, and client-side routing — so my day job can be judged from the outside.",
+      "A storefront built from scratch — a React frontend with a real Express + PostgreSQL backend behind it — using the same building blocks I work in every day on Wolseley's high-traffic B2B e-commerce frontend. Most of that day-job work sits behind a corporate login recruiters can't see; this rebuilds the core of it in the open, so the patterns can be judged from the outside.",
     stack: "react · tailwind · react-router",
-    stackChips: ["React", "Tailwind CSS", "React Router", "Responsive design", "Cart state"],
+    stackChips: [
+      "React 19",
+      "Tailwind CSS v4",
+      "React Router v7",
+      "Context API",
+      "Express",
+      "PostgreSQL",
+      "JWT auth",
+    ],
     blocks: [
       {
         heading: "the problem",
         body: [
-          "Most of my strongest work — three years of shipping and A/B-testing a large B2B storefront — lives behind a corporate login. This project rebuilds the core of that experience in the open so the patterns are visible.",
+          "Three years of my strongest work — shipping and A/B-testing a large B2B storefront — sits behind a login recruiters can't see. This project rebuilds that core experience in the open: browse products, open a detail page, add to a basket, sign in, check out. Nothing exotic; the point is the everyday patterns, done cleanly and end to end.",
         ],
       },
       {
-        heading: "the approach",
+        heading: "the storefront",
         body: [
-          "Responsive product grids that reflow cleanly from mobile to desktop, a cart flow with add/remove/quantity state, and React Router handling navigation between listing and detail views.",
-          "It deliberately mirrors the day-job stack and concerns — accessibility, responsive layout, and maintainable component structure — rather than reaching for anything exotic.",
+          "A responsive product grid that reflows from mobile to desktop, product-detail pages, and client-side routing with React Router. It's React 19 and Tailwind v4 — the current versions — so the setup mirrors what a modern frontend team actually ships, not a tutorial from a few years ago.",
+        ],
+      },
+      {
+        heading: "the cart",
+        body: [
+          "The basket is a React Context that persists to localStorage, so a refresh never loses it. Add, remove, and per-item quantities are all handled in one place, with the basket count wired into the nav and a checkout flow on the far end.",
+        ],
+      },
+      {
+        heading: "going full-stack",
+        body: [
+          "It didn't stop at the frontend. Behind it sits a small Express + PostgreSQL backend that serves the product catalogue and handles accounts — registration and login with bcrypt-hashed passwords and JWT sessions. It isn't a production e-commerce platform and I don't pretend it is; it's a from-scratch build that walks the full request path, from a React form to a hashed row in Postgres and back.",
+        ],
+      },
+      {
+        heading: "why it's here",
+        body: [
+          "This is the project that maps directly onto the day job. The concerns are the same ones I handle at Wolseley — responsive layout, sensible component structure, state that stays predictable as pages are added — just visible end to end instead of behind a corporate login. If you want to sanity-check what \"three years on a B2B storefront\" means before an interview, this is the closest look I can give you.",
         ],
       },
     ],
-    screenshots: ["product grid", "product detail", "cart flow"],
+    screenshots: [
+      "product grid",
+      "product detail",
+      "basket & quantities",
+      "checkout & sign-in",
+    ],
     links: [
       { label: "Live demo ↗", href: "#", external: true },
       { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
