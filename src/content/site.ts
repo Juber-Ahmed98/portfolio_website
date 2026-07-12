@@ -80,7 +80,7 @@ export const flagship = {
   /** Case-study route: `/work/${slug}/`. */
   slug: "jembatan",
   blurb:
-    "Android IME keyboard for high-quality, natural-tone translation — text, voice, and clipboard messages — powered by GPT + Whisper on its own Cloudflare Worker API. Not just a UI: the whole product — backend, onboarding UX, branding, roadmap.",
+    "Android IME keyboard for high-quality, natural-tone translation — text, voice, and clipboard messages — powered by gpt-5-mini on its own Cloudflare Worker API, with on-device speech. Not just a UI: the whole product — backend, onboarding UX, branding, roadmap.",
   stack: "kotlin · cloudflare-workers · openai-api",
   links: [
     { label: "Live demo ↗", href: "https://jembatan.juberahmed.dev/", external: true },
@@ -168,32 +168,88 @@ export const caseStudies: Record<string, CaseStudy> = {
     name: "Jembatan",
     tagline: "An Android translation keyboard with its own production API.",
     intro:
-      "Jembatan is a system-wide Android keyboard (IME) that translates as you type — text, voice, and clipboard messages — in a natural, human tone rather than the stiff output most tools give you. It's the full product: the keyboard, a Cloudflare Worker backend, onboarding UX, branding, and a public roadmap.",
+      "Jembatan is a native Android keyboard that turns what you say into a natural, colloquial message in someone else's language — and drops it straight into WhatsApp. Hold the mic and speak, on-device speech recognition catches it, a Cloudflare Worker cleans it up and translates it, and the result lands in the field you're already typing in. It's the whole product: the Kotlin app, the backend, the AI prompt, onboarding, branding, billing, and a roadmap.",
     stack: "kotlin · cloudflare-workers · openai-api",
-    stackChips: ["Kotlin", "Android IME", "Cloudflare Workers", "OpenAI GPT", "Whisper", "REST API"],
+    stackChips: [
+      "Kotlin",
+      "Jetpack Compose",
+      "Android IME",
+      "Cloudflare Workers",
+      "OpenAI gpt-5-mini",
+      "On-device STT",
+      "RevenueCat",
+    ],
     blocks: [
       {
         heading: "the problem",
         body: [
-          "Translating a message on a phone usually means leaving the app you're in, pasting into a translator, copying the result back, and hoping the tone survived the round trip. For anyone messaging across a language barrier every day, that friction adds up fast.",
-          "I wanted translation to live where you already type — the keyboard — so it works in any app, and to read like something a person would actually say, not a literal word-for-word swap.",
+          "I'm marrying into a family that doesn't speak my language. Every message to my fiancée's family in Indonesia meant leaving WhatsApp, pasting into Google Translate, copying the stiff word-for-word result back, and hoping it didn't read as cold or clumsy. Doing that mid-conversation, every day, kills the conversation.",
+          "The fix had to live where you already type. So Jembatan is an Android keyboard: hold the mic, say it in English, and a natural, colloquial Indonesian version drops into the field you're in — ready to send.",
         ],
       },
       {
-        heading: "the approach",
+        heading: "the loop",
         body: [
-          "The client is a native Android IME in Kotlin, so it's available system-wide the moment it's enabled. Text, voice (via Whisper), and clipboard capture all feed one translation path.",
-          "The translation itself runs on my own Cloudflare Worker API (`/api/v1/translate`) — GPT prompted for natural, tone-aware output, with the key kept server-side rather than shipped in the app. Running the backend myself meant I owned latency, cost, and the prompt tuning end to end.",
+          "The core loop is one gesture. Hold the keyboard's mic and speak → on-device speech recognition → the text goes to my Cloudflare Worker, which translates and cleans it up → the result streams back into a review strip you can edit → tap to insert, then hit the app's own send. It works in any app's text box — WhatsApp first — with nothing to integrate on their end.",
+          "Two-way falls out for free: both people install it, and each phone only ever translates its own outgoing speech — English out on mine, Indonesian out on theirs. Typing and clipboard text translate the same way, and there's an in-person mode for talking face to face. Translation is free up to a daily cap; a Pro tier adds cloud speech recognition and more languages.",
         ],
       },
       {
-        heading: "what I learned",
+        heading: "the backend",
         body: [
-          "The hard parts weren't the translation call — they were the product edges: onboarding someone through Android's IME permission flow, keeping keyboard latency low enough to feel instant, and designing a voice/clipboard UX that didn't get in the way. Those are the notes this study will go deep on in the full write-up.",
+          "The whole thing runs on a single Cloudflare Worker exposing `POST /api/v1/translate`. The model API key lives only as a Worker secret — never in the APK, never in the repo — so the app can't leak it and I control cost and abuse centrally: input capped around 2,000 characters, output bounded, per-IP rate limits, no message text ever stored.",
+          "It's built around swappable seams. The translation model (OpenAI `gpt-5-mini` today) is one config file plus a thin adapter; the speech engine (on-device now, server-side transcription for Pro) swaps the same way; adding a language is a registry entry, not surgery.",
+        ],
+      },
+      {
+        heading: "the translation",
+        body: [
+          "The part that makes it not-Google-Translate is the prompt. Jembatan treats your speech as messy spoken intent — filler words, false starts, run-ons — and rewrites it into a message that reads exactly as a native speaker would text their own family: everyday register, natural particles, the speaker's own tone kept intact (blunt stays blunt, affectionate stays affectionate), never stiff textbook grammar.",
+          "The system prompt is kept byte-stable so the provider prefix-caches it. And because the input is untrusted speech-to-text, the instructions and the message ride in separate roles — so a stray “ignore the above” in what someone says can't hijack the translation. Register (casual / neutral / formal) is tuned per language.",
+        ],
+      },
+      {
+        heading: "making it feel instant",
+        body: [
+          "Speed is the product. The biggest win already shipped is streaming: the translation lands token-by-token in the review strip as the model writes it, so you're reading the answer before it's finished instead of watching a spinner.",
+          "Behind that, I measured real first-token latency across the model's reasoning-effort settings — sub-second at the lowest, climbing steeply as effort rises — to pick the setting where colloquial quality holds without the wait. Shaving the rest (warming the recognizer, preconnecting to the edge before you finish speaking) is the current focus.",
+        ],
+      },
+      {
+        heading: "the keyboard",
+        body: [
+          "A translating keyboard is worthless if it's a bad keyboard, and keyboard quality stays free. Several build waves put in a genuinely full stack: a custom-drawn QWERTY with per-key press feedback, a geometric swipe decoder, bilingual spatial-plus-context autocorrect and prediction, and an offline accuracy harness to measure it.",
+          "It's also where trust is won or lost. Android warns that any keyboard “can collect all the text you type, including passwords.” Jembatan's answer is in the code: it detects password and card fields and switches off learning, suggestions, and buffering entirely — it only ever sends the text you explicitly ask it to translate.",
+        ],
+      },
+      {
+        heading: "earning trust",
+        body: [
+          "The hardest problems weren't the translation — they were the product edges. A keyboard can't even raise its own microphone permission, and enabling it trips Android's scariest-sounding warning. So I built the onboarding around exactly those cliffs: a magic-first “Playground” lets you feel the speak-clean-translate loop inside the app before any scary ask, and a just-in-time coach highlights the mic and translate keys the first time the keyboard appears in a real chat.",
+          "The privacy stance is concrete, not a promise: message text is never stored and never used to train anything, and logs hold non-content metadata only.",
+        ],
+      },
+      {
+        heading: "design & brand",
+        body: [
+          "Jembatan means “bridge” in Indonesian, and the whole identity serves one feeling — a calm, trustworthy line to someone you love on the other side of a language. The surface is quiet: around 90% warm neutrals (paper and clay-charcoal) with a single terracotta accent that only shows up where it means something — the mic, the primary action, active states.",
+          "The typeface is Plus Jakarta Sans, Jakarta's officially commissioned typeface — a deliberate nod to the Indonesian side of the bridge. The app icon is a “two voices” mark, and motion only ever communicates state: a live waveform while listening, a gold sweep while translating. Fully light- and dark-themed.",
+        ],
+      },
+      {
+        heading: "where it is now",
+        body: [
+          "The Worker is deployed and the app is code-complete through the monetization wave: on-device and cloud translation, five languages (English, Indonesian, Bengali, Arabic, Spanish), and Pro billing wired through RevenueCat and the Play Console. It's in real daily use by exactly the people it was built for, running in a closed Play test.",
+          "Ahead: a final keyboard-craft polish pass, a public soft launch, and iOS once its keyboard-extension limits are validated. It's deliberately paced — I'd rather ship it right for the family already using it than rush it to a store.",
         ],
       },
     ],
-    screenshots: ["onboarding flow", "keyboard translating", "voice input", "translation result"],
+    screenshots: [
+      "keyboard translating in WhatsApp",
+      "hold-to-talk voice",
+      "review & edit strip",
+      "in-person mode",
+    ],
     links: [
       { label: "Live demo ↗", href: "https://jembatan.juberahmed.dev/", external: true },
       { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },

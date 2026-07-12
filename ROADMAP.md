@@ -262,10 +262,36 @@ Done when: three case-study routes build statically and link both ways with the 
   (Screenshot compositor still hangs in the in-app browser — verified via a11y tree +
   computed styles, as in CP2–CP4.)
 
-### ☐ CP6 · Jembatan case study (the deep one)
+### ☑ CP6 · Jembatan case study (the deep one)  ✅ done 2026-07-12
 - Full narrative: the product (app + Cloudflare Worker `/api/v1/translate`),
   approach, UX research (onboarding/keyboard/latency), roadmap, branding. This is the
   flagship — it should carry the most depth.
+
+**Notes for next session (CP7):**
+- **⚠️ The brief + prior content were out of date.** The *real* current Jembatan lives in a
+  **private** repo at `C:\Users\moham\Documents\Claude\Projects\Jembatan-app` (git remote
+  `github.com/Juber-Ahmed98/Jembatan-app` — **private, so the public "Code ↗" link 404s**).
+  The public `github.com/Juber-Ahmed98/Jembatan` repo is the **frozen legacy PWA** (its
+  `CLAUDE.md` says "BUILD NOT STARTED"); do not source facts from it.
+- **What Jembatan actually is (verified from the private repo):** a **native Kotlin Android
+  keyboard (IME)** + Jetpack Compose settings, backed by a **live** Cloudflare Worker
+  (`POST /api/v1/translate`, deployed 2026-06-19) using **OpenAI `gpt-5-mini`** (NOT Whisper —
+  that was an earlier model; STT is **on-device**, server transcription `gpt-4o-mini-transcribe`
+  is Pro-only). Five languages (en/id/bn/ar/es), free daily cap + Pro billing via RevenueCat +
+  Play Console (sandbox-confirmed). In real daily use + closed Play test; not yet public-launched.
+- **Fixed the stale "Whisper" claim** in `flagship.blurb` (→ "gpt-5-mini … with on-device
+  speech"). `flagship.stack` "kotlin · cloudflare-workers · openai-api" and the wall entry
+  ("kotlin · workers", "live ↗") are **accurate** — left as-is.
+- **CP6 rewrote `caseStudies.jembatan`** in `src/content/site.ts` — 9 deep blocks (problem →
+  loop → backend → translation → latency → keyboard → trust → design/brand → status), new
+  accurate intro + stackChips, and real screenshot labels. All claims are **shipped features
+  only**; the repo's `RESEARCH-*.md` docs are forward-looking ("nothing here is built") so their
+  proposals are framed as "current focus," not done.
+- **Two open items to raise with the owner (see chat):** (1) the private-repo 404 on the Code
+  button — make repo public before launch, or drop the button; (2) real screenshots for Jembatan
+  already exist at `…/Jembatan-app/screenshots/` (01-home, probe-translated, probe-review,
+  probe-kbd, 02-in-person) — ready to swap in at **CP8**.
+- CP7 (Mission to Abs + E-commerce) is unaffected; those studies are still the CP5 starter drafts.
 
 ### ☐ CP7 · Mission to Abs + E-commerce case studies
 - Two shorter studies. Mission to Abs → frontend craft (motion, charts, state).
@@ -308,7 +334,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 | CP3 | 1 · Experience + Contact + responsive/a11y | ☑ done |
 | CP4 | 1 · Deploy to Cloudflare Pages | ☑ done — live at juberahmed.dev |
 | CP5 | 2 · Case-study template + routing | ☑ done |
-| CP6 | 2 · Jembatan case study | ☐ |
+| CP6 | 2 · Jembatan case study | ☑ done |
 | CP7 | 2 · Mission to Abs + E-commerce | ☐ |
 | CP8 | 3 · Real screenshots + CV | ☐ |
 | CP9 | 3 · Motion pass | ☐ |
