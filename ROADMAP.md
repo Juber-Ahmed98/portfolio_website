@@ -226,13 +226,41 @@ Done when: the polished home page is live at https://juberahmed.dev and shareabl
 
 ## Milestone 2 — Case-study pages (Jembatan first)
 
-### ☐ CP5 · Case-study template + routing
+### ☑ CP5 · Case-study template + routing  ✅ done 2026-07-12
 - `/work/[slug]` static route with `generateStaticParams` (Jembatan, Mission to Abs,
   E-commerce). Shared layout: problem → approach → stack → screenshots → live + code
   links, plus back-to-home nav. Case-study content lives in the content module.
 - Wire the "Case study →" links from the featured section to these routes.
 
 Done when: three case-study routes build statically and link both ways with the home page.
+
+**Notes for next session (CP6):**
+- **Content model:** `src/content/site.ts` now has `caseStudies: Record<slug, CaseStudy>`
+  + `caseStudyOrder` (drives `generateStaticParams`). Each `CaseStudy` = eyebrow, name,
+  tagline, intro, `stack` (mono line), `stackChips[]`, `blocks[]` ({heading, body[]}),
+  `screenshots[]` (placeholder labels), `links[]`. CP6 deepens **Jembatan**'s `blocks`
+  (currently 3 starter blocks: problem / approach / what I learned) — just add/extend
+  blocks in the data; the template renders any number in order.
+- **Route:** `src/app/work/[slug]/page.tsx` — server component, `dynamicParams = false`,
+  `generateStaticParams` + `generateMetadata` (per-page `<title>`). Awaits
+  `params` (Next 16 Promise). Slim own header (← Home / brand / ThemeToggle / CV),
+  NOT the home `<Nav>` (its `#anchor` links don't work cross-page).
+- **Honesty rule kept:** links with `href: "#"` (Mission to Abs / E-commerce live demos
+  — still not public) are **filtered out**, so those pages show only a real Code button.
+  When those demos go live, set the real URL in `caseStudies[...].links` (and the home
+  `featured[...]` live link, still `#`).
+- **Linking:** `featured.tsx` gained a `ProjectLink` helper — internal `/work/…` hrefs
+  render as `next/link` (client nav, no theme flash); external stay `<a target=_blank>`.
+  Flagship + both rows wired. `flagship`/`featured` entries gained a `slug` field.
+- **Template is fully token-driven** → both themes verified (dark body `#0b1418`/`#f2f7f8`,
+  CV btn inverts, chips `#2c4148`). No fixed-hex except none — unlike the flagship/contact
+  cards, case-study pages use normal `bg-bg`/`text-ink` tokens (light-or-dark per theme).
+- **Screenshots** are still the diagonal-stripe placeholder tiles (real captures = CP8).
+- Verified: `npm run build` static-exports `/work/jembatan`, `/work/mission-to-abs`,
+  `/work/ecommerce-store` (all `● SSG`); no console errors; home "Case study →" links
+  navigate client-side and each page's "← Back to all work" returns to `/#work`.
+  (Screenshot compositor still hangs in the in-app browser — verified via a11y tree +
+  computed styles, as in CP2–CP4.)
 
 ### ☐ CP6 · Jembatan case study (the deep one)
 - Full narrative: the product (app + Cloudflare Worker `/api/v1/translate`),
@@ -279,7 +307,7 @@ Done when: strong Lighthouse scores, share previews look right, ready to send to
 | CP2 | 1 · Featured + Wall | ☑ done |
 | CP3 | 1 · Experience + Contact + responsive/a11y | ☑ done |
 | CP4 | 1 · Deploy to Cloudflare Pages | ☑ done — live at juberahmed.dev |
-| CP5 | 2 · Case-study template + routing | ☐ |
+| CP5 | 2 · Case-study template + routing | ☑ done |
 | CP6 | 2 · Jembatan case study | ☐ |
 | CP7 | 2 · Mission to Abs + E-commerce | ☐ |
 | CP8 | 3 · Real screenshots + CV | ☐ |

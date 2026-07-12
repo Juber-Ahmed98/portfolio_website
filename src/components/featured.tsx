@@ -1,5 +1,39 @@
+import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
 import { featured, flagship, sections } from "@/content/site";
+
+/**
+ * Internal case-study routes (`/work/…`) navigate client-side via next/link;
+ * external live/code links stay plain anchors with target=_blank.
+ */
+function ProjectLink({
+  href,
+  external,
+  className,
+  children,
+}: {
+  href: string;
+  external?: boolean;
+  className: string;
+  children: React.ReactNode;
+}) {
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+  return (
+    <a
+      href={href}
+      {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+      className={className}
+    >
+      {children}
+    </a>
+  );
+}
 
 /**
  * Featured work — the two core "proof" pieces: the dark Jembatan flagship card
@@ -42,12 +76,10 @@ export function Featured() {
           </div>
           <div className="mt-[10px] flex flex-wrap gap-3">
             {flagship.links.map((link, i) => (
-              <a
+              <ProjectLink
                 key={link.label}
                 href={link.href}
-                {...("external" in link && link.external
-                  ? { target: "_blank", rel: "noreferrer" }
-                  : {})}
+                external={"external" in link ? link.external : undefined}
                 className={
                   i === 0
                     ? "rounded-[8px] bg-[#22c8e0] px-6 py-3 text-[14px] font-bold text-[#0b1418] transition-transform hover:-translate-y-0.5"
@@ -55,7 +87,7 @@ export function Featured() {
                 }
               >
                 {link.label}
-              </a>
+              </ProjectLink>
             ))}
           </div>
         </div>
@@ -94,12 +126,10 @@ export function Featured() {
                 const isCode = link.label.startsWith("Code");
                 const isCase = link.label.startsWith("Case");
                 return (
-                  <a
+                  <ProjectLink
                     key={link.label}
                     href={link.href}
-                    {...(link.external
-                      ? { target: "_blank", rel: "noreferrer" }
-                      : {})}
+                    external={link.external}
                     className={
                       isCode
                         ? "font-semibold text-muted"
@@ -109,7 +139,7 @@ export function Featured() {
                     }
                   >
                     {link.label}
-                  </a>
+                  </ProjectLink>
                 );
               })}
             </div>
