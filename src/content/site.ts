@@ -183,15 +183,15 @@ export const caseStudies: Record<string, CaseStudy> = {
       {
         heading: "the problem",
         body: [
-          "I'm marrying into a family that doesn't speak my language. Every message to my fiancée's family in Indonesia meant leaving WhatsApp, pasting into Google Translate, copying the stiff word-for-word result back, and hoping it didn't read as cold or clumsy. Doing that mid-conversation, every day, kills the conversation.",
-          "The fix had to live where you already type. So Jembatan is an Android keyboard: hold the mic, say it in English, and a natural, colloquial Indonesian version drops into the field you're in — ready to send.",
+          "The person I most needed to reach was the one I couldn't. My dad doesn't read or speak English well, so every message to him has to be in Bengali — and I can't comfortably type Bengali, so it's voice notes or nothing. Getting there meant leaving WhatsApp, pasting into Google Translate, coaxing something that didn't read as cold or robotic, and copying it back. Doing that mid-conversation, every day, kills the conversation.",
+          "The fix had to live where you already type. So Jembatan is an Android keyboard: hold the mic, say it in English, and a natural, colloquial Bengali version drops into the field you're in — ready to send.",
         ],
       },
       {
         heading: "the loop",
         body: [
           "The core loop is one gesture. Hold the keyboard's mic and speak → on-device speech recognition → the text goes to my Cloudflare Worker, which translates and cleans it up → the result streams back into a review strip you can edit → tap to insert, then hit the app's own send. It works in any app's text box — WhatsApp first — with nothing to integrate on their end.",
-          "Two-way falls out for free: both people install it, and each phone only ever translates its own outgoing speech — English out on mine, Indonesian out on theirs. Typing and clipboard text translate the same way, and there's an in-person mode for talking face to face. Translation is free up to a daily cap; a Pro tier adds cloud speech recognition and more languages.",
+          "Two-way falls out for free: both people install it, and each phone only ever translates its own outgoing speech — English out on mine, Bengali out on his. Typing and clipboard text translate the same way, and there's an in-person mode for talking face to face. Translation is free up to a daily cap; a Pro tier adds cloud speech recognition and more languages.",
         ],
       },
       {
