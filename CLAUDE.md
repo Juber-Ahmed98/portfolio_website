@@ -28,16 +28,25 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 
 ## Content
 
-### Featured projects (all functional — safe behind a "Live Demo" button)
-- **Jembatan — HERO.** Android floating-bubble translator + Cloudflare Worker
-  backend (`/api/v1/translate`). Full-stack + mobile + real product maturity
+### Featured projects
+- **Jembatan — HERO (flagship card).** Android floating-bubble translator + Cloudflare
+  Worker backend (`/api/v1/translate`). Full-stack + mobile + real product maturity
   (roadmap, marketing, privacy, UX research on onboarding/keyboard/latency, branding).
   - Live demo → **https://jembatan.juberahmed.dev/** · Code → github.com/Juber-Ahmed98/Jembatan-app
   - Angle: "I don't just build UIs — I ship a whole product, backend included."
-- **mission_to_abs_app.** Polished React frontend (framer-motion, recharts, zustand).
-  Angle: frontend craft — animation, data-viz, state management. Live web demo.
-- **ecommerce_store.** React + Tailwind + react-router. Angle: ties directly to the
-  Wolseley e-commerce experience. Live web demo.
+  - Its case study carries a "the website" block showcasing the marketing site's
+    site-wide language picker and motion (the live URL is surfaced there).
+- **Stratemize (client site).** Full-stack marketing-agency site: React 19 + TypeScript
+  frontend over a Cloudflare Workers backend, tRPC API + D1 database behind a live
+  consultation booker. Card-only: one **"Visit site"** button → https://stratemize.co.uk/.
+  No case-study page, no code link (client-owned repo).
+- **Yoosuf Zaman (client site).** Personal-brand site for a business consultant, hand-built
+  in plain HTML/CSS/vanilla JS (no framework). Card-only: one **"Visit site"** button →
+  https://yoosufzaman.com/. No case-study page, no code link.
+
+> **Demoted, not deleted:** `mission_to_abs_app` and `ecommerce_store` moved out of Featured
+> into the wall, but their `/work/` case-study pages stay live and indexed; each wall entry
+> links to its case study. Don't restore them to Featured.
 
 ### "Currently building" strip (honest WIP — no live-demo button, or clearly labelled)
 - **habit_tracker (headliner).** Impressive *shell*: Next.js 16, React 19, TS strict,
@@ -77,9 +86,10 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 ## Tech & architecture
 
 - **Stack:** Next.js + TypeScript + Tailwind CSS.
-- **Structure:** Single-page **home** (hero → featured 3 → project wall → currently
-  building → experience → about → contact) + a **dedicated case-study page per
-  featured project** (problem, approach, screenshots, stack, live + code links).
+- **Structure:** Single-page **home** (hero → featured → project wall → currently
+  building → experience → about → contact) + **dedicated case-study pages** for Jembatan,
+  mission_to_abs, and ecommerce (problem, approach, screenshots, stack, live + code links).
+  The two client sites in Featured are card-only "Visit site" links with no case page.
 - **Deploy:** **Cloudflare Pages** via Next.js **static export** (`output: 'export'`).
   No SSR needed. Root domain `juberahmed.dev`. Keep everything in the existing
   Cloudflare account (also quietly demonstrates Cloudflare skills).

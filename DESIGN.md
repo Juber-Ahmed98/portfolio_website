@@ -137,16 +137,22 @@ nothing feels small on a 1400px+ canvas, while staying at-or-above old sizes on 
   right = screenshot area (diagonal-stripe placeholder). Hover: `translateY(-3px)` +
   soft shadow. Live demo button is filled accent; others are outlined. The screenshot
   label sits directly on the stripe — **no bordered chip** (card-in-card, post-audit).
-- **Featured row (post-audit)** — 2-col grid `1.1fr 420px`: content / screenshot tile.
+- **Featured row (post-audit)** — 2-col grid `1.1fr 420px`: content / screenshot.
   The `60px` mono-index track is gone with the rest of the numbering. Row hover tints
-  background `var(--hover)`. Links: Live demo, Case study, Code — each carries an explicit
-  `kind` (`live` | `case` | `code`) that drives its styling. Never match on label text.
+  background `var(--hover)`. Links carry an explicit `kind` (`live` | `case` | `code`)
+  that drives styling; never match on label text. The two current rows are **client
+  sites** (Stratemize, Yoosuf Zaman): each is card-only with a single `live` "Visit site"
+  link and no case/code. When a row has a real `image`, it renders a plain `<img>`
+  (`object-cover object-top`) from `public/featured/`; otherwise it falls back to the
+  diagonal-stripe placeholder tile.
 - **The Wall** — 3-col grid of cards (CP3: a 4th column at `2xl` was tried and reverted —
   with only 6 builds it left two empty grey cells reading as a rendering gap; the balanced
   3+3 wins). Joined by `1px` gaps over a `--line` background
   (hairline-grid look), outer radius 12px. Each card: name + badge (live=accent /
-  building=wip), one-line desc, mono tags. Whole card is a link. Below it: dashed
-  **"currently building"** strip (WIP tokens) describing habit_tracker.
+  building=wip), one-line desc, mono tags, and a mono links row (`code ↗`, plus
+  `case study →` when the entry has a `caseHref`). The card is a `div`, not a wrapping
+  `<a>` — a nested case-study link inside a card-wide anchor would be invalid HTML.
+  Below it: dashed **"currently building"** strip (WIP tokens) describing habit_tracker.
 - **Experience** — 2-col: left = role entries (mono date, bold title, description),
   right = "toolbox" chip cloud (bordered mono pills).
 - **Contact** — dark CTA card, space-between: left = H2 "Next on the wall: your product."
@@ -176,6 +182,7 @@ type WallProject = {
   desc: string;        // one line
   tags: string;        // "kotlin · workers"
   link: string;        // GitHub (or live) URL
+  caseHref?: string;   // internal /work/ route, when a case study exists
 };
 ```
 

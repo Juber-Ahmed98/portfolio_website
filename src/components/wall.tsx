@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
 import { currentlyBuilding, sections, wall } from "@/content/site";
 
@@ -22,12 +23,9 @@ export function Wall() {
 
       <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[12px] border border-line bg-line shadow-[var(--shadow-card)] sm:grid-cols-2 lg:grid-cols-3">
         {wall.map((project) => (
-          <a
+          <div
             key={project.name}
-            href={project.link}
-            target="_blank"
-            rel="noreferrer"
-            className="flex flex-col gap-[6px] bg-bg px-[22px] py-5 text-ink transition-colors hover:bg-hover"
+            className="flex flex-col gap-[6px] bg-bg px-[22px] py-5 transition-colors hover:bg-hover"
           >
             <span className="flex items-baseline justify-between">
               <span className="text-[15px] font-bold text-ink">
@@ -47,7 +45,25 @@ export function Wall() {
             <span className="font-mono text-[12px] text-faint">
               {project.tags}
             </span>
-          </a>
+            <span className="mt-1 flex gap-4 font-mono text-[12px]">
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold text-muted hover:text-accent"
+              >
+                code ↗
+              </a>
+              {project.caseHref && (
+                <Link
+                  href={project.caseHref}
+                  className="font-semibold text-ink hover:text-accent"
+                >
+                  case study →
+                </Link>
+              )}
+            </span>
+          </div>
         ))}
       </div>
 

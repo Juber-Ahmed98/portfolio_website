@@ -141,11 +141,20 @@ export function Featured() {
               ))}
             </div>
           </div>
-          <div className="flex h-[200px] items-center justify-center rounded-[10px] border border-line bg-[repeating-linear-gradient(-45deg,var(--hover),var(--hover)_8px,var(--panel)_8px,var(--panel)_16px)] shadow-[var(--shadow-card)]">
-            <span className="rounded-[5px] border border-chip bg-panel px-[10px] py-[5px] font-mono text-[11.5px] text-muted">
-              {project.screenshotLabel}
-            </span>
-          </div>
+          {project.image ? (
+            <img
+              src={project.image.src}
+              alt={project.image.alt}
+              loading="lazy"
+              className="h-[200px] w-full rounded-[10px] border border-line object-cover object-top shadow-[var(--shadow-card)]"
+            />
+          ) : (
+            <div className="flex h-[200px] items-center justify-center rounded-[10px] border border-line bg-[repeating-linear-gradient(-45deg,var(--hover),var(--hover)_8px,var(--panel)_8px,var(--panel)_16px)] shadow-[var(--shadow-card)]">
+              <span className="rounded-[5px] border border-chip bg-panel px-[10px] py-[5px] font-mono text-[11.5px] text-muted">
+                {project.screenshotLabel}
+              </span>
+            </div>
+          )}
         </div>
       ))}
     </section>

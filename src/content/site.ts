@@ -87,11 +87,12 @@ export type FeaturedLink = {
 
 export type FeaturedProject = {
   name: string;
-  slug: string; // case-study route: `/work/${slug}/`
+  slug?: string; // case-study route: `/work/${slug}/` — only for entries that own one
   blurb: string;
   stack: string; // mono stack line
   links: FeaturedLink[];
-  screenshotLabel: string;
+  screenshotLabel: string; // placeholder tile caption (fallback when no image)
+  image?: { src: string; alt: string }; // real screenshot for the card (CP2)
 };
 
 /** The dark hero card. Kept separate from the two rows — it has its own layout. */
@@ -115,30 +116,26 @@ export const flagship = {
 
 export const featured: FeaturedProject[] = [
   {
-    name: "Mission to Abs",
-    slug: "mission-to-abs",
+    name: "Stratemize",
     blurb:
-      "Motion design, live charts, and lean state management in a polished React app you can open and try right now.",
-    stack: "react · framer-motion · recharts · zustand",
+      "A full-stack agency site, not a static brochure: a React 19 and TypeScript frontend over a Cloudflare Workers backend. A tRPC API and a D1 database sit behind a consultation booker that stores live date and time slots. Eight services, a five-step process, and a lead-magnet capture, all designed and built by me.",
+    stack: "react · cloudflare-workers · d1",
     links: [
-      { kind: "live", label: "Live demo", href: "#", external: true },
-      { kind: "case", label: "Case study", href: "/work/mission-to-abs/" },
-      { kind: "code", label: "Code", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
+      { kind: "live", label: "Visit site", href: "https://stratemize.co.uk/", external: true },
     ],
-    screenshotLabel: "charts screenshot",
+    screenshotLabel: "stratemize.co.uk",
+    image: { src: "/featured/stratemize.png", alt: "Stratemize marketing agency homepage" },
   },
   {
-    name: "E-commerce Store",
-    slug: "ecommerce-store",
+    name: "Yoosuf Zaman",
     blurb:
-      "A store I built front to back: a React UI on top of an Express and Postgres backend I wrote to teach myself the server side my day job doesn't cover.",
-    stack: "react · tailwind · react-router",
+      "A personal-brand site for a business-setup consultant, hand-built in plain HTML, CSS, and vanilla JavaScript with no framework. An editorial hero, a portfolio grid of the ventures he's launched, a services-and-outcomes breakdown, a booking page, and a consultation CTA, with purposeful motion throughout.",
+    stack: "html · css · vanilla-js",
     links: [
-      { kind: "live", label: "Live demo", href: "#", external: true },
-      { kind: "case", label: "Case study", href: "/work/ecommerce-store/" },
-      { kind: "code", label: "Code", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
+      { kind: "live", label: "Visit site", href: "https://yoosufzaman.com/", external: true },
     ],
-    screenshotLabel: "storefront screenshot",
+    screenshotLabel: "yoosufzaman.com",
+    image: { src: "/featured/yoosuf.png", alt: "Yoosuf Zaman consultant portfolio homepage" },
   },
 ];
 
@@ -258,6 +255,13 @@ export const caseStudies: Record<string, CaseStudy> = {
         ],
       },
       {
+        heading: "the website",
+        body: [
+          "Jembatan has its own site at jembatan.juberahmed.dev, and I built it to do the one thing the app does: cross a language barrier in front of you. A site-wide language picker re-renders the entire page in your chosen language on the spot, so a visitor sees the product make its own case in their own words instead of reading about it.",
+          "The rest is motion built around that idea: a calm, staged reveal down the page, the same terracotta accent the app uses, and transitions that only fire to show state. It's the quickest way to feel what the keyboard does without installing anything, so it's the first thing I point people to.",
+        ],
+      },
+      {
         heading: "where it is now",
         body: [
           "The Worker is deployed and the app is code-complete through the monetization wave: on-device and cloud translation, five languages (English, Indonesian, Bengali, Arabic, Spanish), and Pro billing wired through RevenueCat and the Play Console. It's in daily use by the people it was built for, running in a closed Play test.",
@@ -272,7 +276,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       "in-person mode",
     ],
     links: [
-      { label: "Live demo", href: "https://jembatan.juberahmed.dev/", external: true },
+      { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
       { label: "Code", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
     ],
   },
@@ -412,13 +416,14 @@ export type WallProject = {
   live: boolean; // controls badge colour: accent vs --wip
   desc: string;
   tags: string;
-  link: string;
+  link: string; // GitHub (or live) URL
+  caseHref?: string; // internal /work/ route, when a case study exists
 };
 
 export const wall: WallProject[] = [
   { name: "Jembatan-app", badge: "live", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://github.com/Juber-Ahmed98/Jembatan-app" },
-  { name: "mission_to_abs_app", badge: "live", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app" },
-  { name: "ecommerce_store", badge: "live", live: true, desc: "Full-stack storefront: React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
+  { name: "mission_to_abs_app", badge: "live", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app", caseHref: "/work/mission-to-abs/" },
+  { name: "ecommerce_store", badge: "live", live: true, desc: "Full-stack storefront: React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store", caseHref: "/work/ecommerce-store/" },
   { name: "habit_tracker", badge: "building", live: false, desc: "Modern-stack PWA shell", tags: "next16 · react19 · ts", link: "https://github.com/Juber-Ahmed98/habit_tracker" },
   { name: "quran-just-one-verse", badge: "building", live: false, desc: "One verse a day", tags: "js", link: "https://github.com/Juber-Ahmed98/quran-just-one-verse" },
   { name: "Qibla_Compass", badge: "building", live: false, desc: "Sensor-driven qibla finder", tags: "js · sensors", link: "https://github.com/Juber-Ahmed98/Qibla_Compass" },
