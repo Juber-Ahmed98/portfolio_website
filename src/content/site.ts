@@ -11,18 +11,31 @@
 
 export type NavLink = { label: string; href: string };
 
+/**
+ * The nav carries the wordmark and the CV button and nothing else (DESIGN.md:
+ * Hallmark N9, edge-aligned minimal). The section anchors moved into the hero —
+ * see `jumpLinks` below.
+ */
 export const nav = {
   /** Logo splits so `.dev` can take the accent colour. */
   brand: { text: "juberahmed", accent: ".dev", href: "#top" },
-  links: [
-    { label: "Work", href: "#work" },
-    { label: "Wall", href: "#wall" },
-    { label: "Experience", href: "#experience" },
-    { label: "Contact", href: "#contact" },
-  ] satisfies NavLink[],
-  /** Real CV PDF lives at public/cv.pdf. */
-  cv: { label: "Download CV", href: "/cv.pdf" },
+  /**
+   * Real CV PDF lives at public/cv.pdf. `shortLabel` is what the button shows
+   * below 375px — the full label plus the wordmark and toggle needs 349px of
+   * bar, so under that it pushes past the right padding and off the screen,
+   * and it stays cramped against the wordmark until ~375px. The accessible
+   * name stays "Download CV" at every width.
+   */
+  cv: { label: "Download CV", shortLabel: "CV", href: "/cv.pdf" },
 } as const;
+
+/** Section anchors, rendered as the hero's jump list. */
+export const jumpLinks: NavLink[] = [
+  { label: "Work", href: "#work" },
+  { label: "Wall", href: "#wall" },
+  { label: "Experience", href: "#experience" },
+  { label: "Contact", href: "#contact" },
+];
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
@@ -40,30 +53,39 @@ export const hero = {
     { value: "6", label: "builds on the wall" },
     { value: "1", label: "API in production" },
   ] satisfies HeroStat[],
-  cta: { label: "See the work ↓", href: "#work" },
 } as const;
 
 // ── Section headers ──────────────────────────────────────────────────────────
-// Mono index + H2 pairs shown at the top of each section (DESIGN.md pattern).
+// Plain H2s. The numbered mono indices (01–04) that used to sit beside each one
+// were removed in the home-page audit — see DESIGN.md "post-audit". Don't add
+// them back, here or anywhere else.
 
 export const sections = {
-  featured: { index: "01", title: "Featured work" },
+  featured: { title: "Featured work" },
   wall: {
-    index: "02",
     title: "The wall: 6 builds and counting",
     sub: "Every real build, big or small, from finished products to works in progress.",
   },
-  experience: { index: "03", title: "Experience" },
-  /** Contact's H2 lives in `contact.heading`; only the mono index is shared here. */
-  contact: { index: "04" },
+  experience: { title: "Experience" },
 } as const;
 
 // ── Featured work ────────────────────────────────────────────────────────────
 
-export type FeaturedLink = { label: string; href: string; external?: boolean };
+/**
+ * `kind` drives link styling in `featured.tsx`. It used to be inferred from the
+ * label text (`label.startsWith("Code")`), which broke silently the moment a
+ * label was reworded — as it was when the trailing arrows came off.
+ */
+export type FeaturedLinkKind = "live" | "case" | "code";
+
+export type FeaturedLink = {
+  kind: FeaturedLinkKind;
+  label: string;
+  href: string;
+  external?: boolean;
+};
 
 export type FeaturedProject = {
-  index: string; // "/01"
   name: string;
   slug: string; // case-study route: `/work/${slug}/`
   blurb: string;
@@ -74,7 +96,8 @@ export type FeaturedProject = {
 
 /** The dark hero card. Kept separate from the two rows — it has its own layout. */
 export const flagship = {
-  index: "/01 · flagship",
+  /** Mono label on the card. Carries "this is the best one", not a position. */
+  label: "flagship",
   badge: "live in production",
   name: "Jembatan",
   /** Case-study route: `/work/${slug}/`. */
@@ -83,39 +106,37 @@ export const flagship = {
     "An Android keyboard that translates text, voice, and clipboard messages into natural, colloquial language, powered by gpt-5-mini on its own Cloudflare Worker API with on-device speech. I built the whole product: the app, the backend, onboarding, branding, and the roadmap.",
   stack: "kotlin · cloudflare-workers · openai-api",
   links: [
-    { label: "Live demo ↗", href: "https://jembatan.juberahmed.dev/", external: true },
-    { label: "Case study →", href: "/work/jembatan/" },
-    { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
-  ],
+    { kind: "live", label: "Live demo", href: "https://jembatan.juberahmed.dev/", external: true },
+    { kind: "case", label: "Case study", href: "/work/jembatan/" },
+    { kind: "code", label: "Code", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
+  ] satisfies FeaturedLink[],
   screenshotLabel: "jembatan app screenshot",
 } as const;
 
 export const featured: FeaturedProject[] = [
   {
-    index: "/02",
     name: "Mission to Abs",
     slug: "mission-to-abs",
     blurb:
       "Motion design, live charts, and lean state management in a polished React app you can open and try right now.",
     stack: "react · framer-motion · recharts · zustand",
     links: [
-      { label: "Live demo ↗", href: "#", external: true },
-      { label: "Case study →", href: "/work/mission-to-abs/" },
-      { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
+      { kind: "live", label: "Live demo", href: "#", external: true },
+      { kind: "case", label: "Case study", href: "/work/mission-to-abs/" },
+      { kind: "code", label: "Code", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
     ],
     screenshotLabel: "charts screenshot",
   },
   {
-    index: "/03",
     name: "E-commerce Store",
     slug: "ecommerce-store",
     blurb:
       "A store I built front to back: a React UI on top of an Express and Postgres backend I wrote to teach myself the server side my day job doesn't cover.",
     stack: "react · tailwind · react-router",
     links: [
-      { label: "Live demo ↗", href: "#", external: true },
-      { label: "Case study →", href: "/work/ecommerce-store/" },
-      { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
+      { kind: "live", label: "Live demo", href: "#", external: true },
+      { kind: "case", label: "Case study", href: "/work/ecommerce-store/" },
+      { kind: "code", label: "Code", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
     ],
     screenshotLabel: "storefront screenshot",
   },
@@ -251,8 +272,8 @@ export const caseStudies: Record<string, CaseStudy> = {
       "in-person mode",
     ],
     links: [
-      { label: "Live demo ↗", href: "https://jembatan.juberahmed.dev/", external: true },
-      { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
+      { label: "Live demo", href: "https://jembatan.juberahmed.dev/", external: true },
+      { label: "Code", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
     ],
   },
   "mission-to-abs": {
@@ -278,7 +299,7 @@ export const caseStudies: Record<string, CaseStudy> = {
         heading: "the problem",
         body: [
           "Most fitness apps are either a spreadsheet or a hype machine. I wanted a calm daily ritual for a fixed 15-week mission, bright but never loud, something to look forward to rather than a chore. It ships zero workouts and zero diet rules on purpose: you bring the plan, the app keeps you honest.",
-          "It's also a deliberate portfolio piece. A CV can claim \"strong React and animation skills\"; an app you can open and poke at proves it. Nothing in it is faked. It's the tool I use every day with my own data, not a demo wired to sample JSON.",
+          "It's also a deliberate portfolio piece. A CV can claim “strong React and animation skills”; an app you can open and poke at proves it. Nothing in it is faked. It's the tool I use every day with my own data, not a demo wired to sample JSON.",
         ],
       },
       {
@@ -299,14 +320,14 @@ export const caseStudies: Record<string, CaseStudy> = {
         heading: "syncing a real smart scale",
         body: [
           "The least visible feature took the most work. I weigh in on a Renpho Bluetooth scale, and the app pulls those readings automatically. The catch is that there's no official API, and a scale password can never touch a static frontend. So the PWA talks to a small serverless backend proxy that holds the credentials, and the client only ever sends a user-pasted sync token as a header.",
-          "Synced readings then flow through the same merge path as a manual CSV import, with a \"manual wins\" rule so a hand-typed weight is never silently overwritten by a sync. The bug that ate the most time was timezone drift: Renpho's wall-clock field sits ahead of the device, which tipped an evening weigh-in onto the next calendar day, landing one day late on the home screen and one day early on the chart. Dating each reading from its true UTC timestamp fixed both.",
+          "Synced readings then flow through the same merge path as a manual CSV import, with a “manual wins” rule so a hand-typed weight is never silently overwritten by a sync. The bug that ate the most time was timezone drift: Renpho's wall-clock field sits ahead of the device, which tipped an evening weigh-in onto the next calendar day, landing one day late on the home screen and one day early on the chart. Dating each reading from its true UTC timestamp fixed both.",
         ],
       },
       {
         heading: "offline-first & state",
         body: [
           "State is a single, schema-versioned Zustand store. Entries and settings live in localStorage and photo blobs in IndexedDB, so the whole app works with no connection, which a daily habit tool has to. It's an installable PWA with a self-hosted font (no third-party CDN on first paint) and lazy-split routes to stay inside a tight bundle budget.",
-          "A top-level error boundary catches anything that throws and shows a reload button plus a one-tap \"export my data\" escape hatch, because silently losing 15 weeks of logs was never an acceptable failure mode.",
+          "A top-level error boundary catches anything that throws and shows a reload button plus a one-tap “export my data” escape hatch, because silently losing 15 weeks of logs was never an acceptable failure mode.",
         ],
       },
     ],
@@ -317,8 +338,8 @@ export const caseStudies: Record<string, CaseStudy> = {
       "weekly progress photos",
     ],
     links: [
-      { label: "Live demo ↗", href: "#", external: true },
-      { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
+      { label: "Live demo", href: "#", external: true },
+      { label: "Code", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
     ],
   },
   "ecommerce-store": {
@@ -377,8 +398,8 @@ export const caseStudies: Record<string, CaseStudy> = {
       "checkout & sign-in",
     ],
     links: [
-      { label: "Live demo ↗", href: "#", external: true },
-      { label: "Code ↗", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
+      { label: "Live demo", href: "#", external: true },
+      { label: "Code", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
     ],
   },
 };
@@ -387,7 +408,7 @@ export const caseStudies: Record<string, CaseStudy> = {
 
 export type WallProject = {
   name: string;
-  badge: string; // "live ↗" | "building"
+  badge: string; // "live" | "building"
   live: boolean; // controls badge colour: accent vs --wip
   desc: string;
   tags: string;
@@ -395,9 +416,9 @@ export type WallProject = {
 };
 
 export const wall: WallProject[] = [
-  { name: "Jembatan-app", badge: "live ↗", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://github.com/Juber-Ahmed98/Jembatan-app" },
-  { name: "mission_to_abs_app", badge: "live ↗", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app" },
-  { name: "ecommerce_store", badge: "live ↗", live: true, desc: "Full-stack storefront: React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
+  { name: "Jembatan-app", badge: "live", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://github.com/Juber-Ahmed98/Jembatan-app" },
+  { name: "mission_to_abs_app", badge: "live", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app" },
+  { name: "ecommerce_store", badge: "live", live: true, desc: "Full-stack storefront: React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store" },
   { name: "habit_tracker", badge: "building", live: false, desc: "Modern-stack PWA shell", tags: "next16 · react19 · ts", link: "https://github.com/Juber-Ahmed98/habit_tracker" },
   { name: "quran-just-one-verse", badge: "building", live: false, desc: "One verse a day", tags: "js", link: "https://github.com/Juber-Ahmed98/quran-just-one-verse" },
   { name: "Qibla_Compass", badge: "building", live: false, desc: "Sensor-driven qibla finder", tags: "js · sensors", link: "https://github.com/Juber-Ahmed98/Qibla_Compass" },
@@ -405,7 +426,7 @@ export const wall: WallProject[] = [
 
 /** The dashed "currently building" strip beneath the wall. */
 export const currentlyBuilding = {
-  label: "currently building →",
+  label: "currently building",
   name: "habit_tracker",
   desc: "architecture-first PWA: Next.js 16, React 19, strict TS, Tailwind v4, installable, dual theme. Features landing next. No demo button until it earns one.",
 } as const;
@@ -449,8 +470,8 @@ export const contact = {
   cv: { label: "Download CV (PDF)", href: "/cv.pdf" }, // real CV at public/cv.pdf
   links: [
     { label: "Email", href: "mailto:mohammed.juber.ahmed@gmail.com" },
-    { label: "GitHub ↗", href: "https://github.com/Juber-Ahmed98", external: true },
-    { label: "LinkedIn ↗", href: "https://www.linkedin.com/in/mohammed-juber-ahmed/", external: true },
+    { label: "GitHub", href: "https://github.com/Juber-Ahmed98", external: true },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/mohammed-juber-ahmed/", external: true },
   ] satisfies ContactLink[],
   footer: {
     left: "© 2026 mohammed juber ahmed",

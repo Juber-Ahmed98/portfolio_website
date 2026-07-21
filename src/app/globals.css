@@ -8,7 +8,9 @@
    Light values live on :root; dark overrides on .dark. */
 :root {
   --bg: #fcfdfd;
-  --panel: #ffffff;
+  /* Tinted a shade toward the teal anchor rather than pure #fff — a pure-white
+     raised surface on a tinted page background is a default nobody chose. */
+  --panel: #fdfefe;
   --ink: #0e181b;
   --body: #3d4f54;
   --muted: #5c6b70;
@@ -70,8 +72,16 @@
   --color-flag: var(--flag);
   --color-flag-line: var(--flag-line);
 
+  --font-display: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), monospace;
+}
+
+/* The display face is 400-only and roman-only (DESIGN.md). Guard both so a stray
+   `font-bold`/`italic` utility on a heading can't trigger a synthetic face. */
+.font-display {
+  font-weight: 400;
+  font-style: normal;
 }
 
 html {

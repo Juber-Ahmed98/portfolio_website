@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { caseStudies, caseStudyOrder, nav } from "@/content/site";
 
@@ -51,14 +52,17 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      {/* Slim case-study header — back to home, brand, theme toggle, CV. */}
+      {/* Slim case-study header — back to home, brand, theme toggle, CV.
+          Edge-aligned like the home nav (DESIGN.md), so the bar doesn't change
+          shape when you click through from the featured cards. */}
       <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-[1180px] items-center justify-between px-6 py-[22px] sm:px-10">
+        <div className="flex items-center justify-between px-6 py-[22px] sm:px-10">
           <Link
             href="/"
-            className="font-mono text-[13px] font-semibold text-body transition-colors hover:text-accent"
+            className="flex items-center gap-2 font-mono text-[13px] font-semibold text-body transition-colors hover:text-accent"
           >
-            ← Home
+            <ArrowLeft size={14} aria-hidden />
+            Home
           </Link>
 
           <div className="flex items-center gap-4 sm:gap-[30px]">
@@ -74,7 +78,7 @@ export default async function CaseStudyPage({
 
             <a
               href={nav.cv.href}
-              className="hidden rounded-[8px] bg-btn-bg px-5 py-[10px] text-[13.5px] font-bold text-btn-fg transition-transform hover:-translate-y-0.5 min-[400px]:inline-block"
+              className="hidden whitespace-nowrap rounded-[8px] bg-btn-bg px-5 py-[10px] text-[13.5px] font-bold text-btn-fg transition-transform hover:-translate-y-0.5 min-[400px]:inline-block"
             >
               {nav.cv.label}
             </a>
@@ -86,7 +90,7 @@ export default async function CaseStudyPage({
         {/* Hero */}
         <section className="border-b border-line py-[70px]">
           <p className="font-mono text-[13px] text-accent">{study.eyebrow}</p>
-          <h1 className="mt-4 text-[clamp(40px,6vw,64px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink">
+          <h1 className="mt-4 font-display text-[clamp(40px,6.4vw,72px)] leading-[1.06] tracking-[-0.02em] text-ink">
             {study.name}
           </h1>
           <p className="mt-4 max-w-[620px] text-[19px] font-semibold leading-[1.4] text-body">
@@ -155,11 +159,9 @@ export default async function CaseStudyPage({
         <article className="border-b border-line py-[70px]">
           <div className="flex flex-col gap-14">
             {study.blocks.map((block) => (
-              <section
-                key={block.heading}
-                className="grid grid-cols-1 gap-3 md:grid-cols-[180px_1fr] md:gap-10"
-              >
-                <h2 className="font-mono text-[13px] font-semibold text-accent md:pt-[6px]">
+              /* One column: label above body, never beside it (DESIGN.md). */
+              <section key={block.heading} className="flex flex-col gap-3">
+                <h2 className="font-mono text-[13px] font-semibold text-accent">
                   {block.heading}
                 </h2>
                 <div className="flex max-w-[640px] flex-col gap-4">
@@ -181,9 +183,10 @@ export default async function CaseStudyPage({
         <div className="flex items-center justify-between gap-4 py-12">
           <Link
             href="/#work"
-            className="font-mono text-[13px] font-semibold text-body transition-colors hover:text-accent"
+            className="flex items-center gap-2 font-mono text-[13px] font-semibold text-body transition-colors hover:text-accent"
           >
-            ← Back to all work
+            <ArrowLeft size={14} aria-hidden />
+            Back to all work
           </Link>
           {links.length > 0 && (
             <a

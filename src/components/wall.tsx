@@ -4,21 +4,19 @@ import { currentlyBuilding, sections, wall } from "@/content/site";
 /**
  * The Wall — a 3-col hairline-grid of every real build (1px gaps over a --line
  * background give the joined-cell look). Badge colour is accent for live builds,
- * --wip for works-in-progress. The dashed "currently building → habit_tracker"
+ * --wip for works-in-progress. The dashed "currently building · habit_tracker"
  * strip sits directly beneath (how the mockup folds in the WIP content).
  */
 export function Wall() {
   return (
     <section
       id="wall"
-      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[70px] sm:px-10"
+      /* Tighter than featured — the wall is a dense index, and the compression
+         is what makes it read as "a lot of builds" rather than "a few cards". */
+      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[58px] sm:px-10"
     >
-      <SectionHeading
-        index={sections.wall.index}
-        title={sections.wall.title}
-        className="mb-[10px]"
-      />
-      <p className="mb-[30px] ml-0 text-[14.5px] text-muted sm:ml-[74px]">
+      <SectionHeading title={sections.wall.title} className="mb-[10px]" />
+      <p className="mb-[30px] max-w-[560px] text-[14.5px] text-muted">
         {sections.wall.sub}
       </p>
 

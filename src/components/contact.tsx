@@ -1,8 +1,8 @@
-import { contact, sections } from "@/content/site";
+import { contact } from "@/content/site";
 
 /**
- * Contact — the dark CTA card ("Hire someone / who ships."), primary Download CV
- * button plus Email / GitHub / LinkedIn, followed by the mono footer line.
+ * Contact — the dark CTA card ("Next on the wall: / your product."), primary
+ * Download CV button plus Email / GitHub / LinkedIn, then the mono footer line.
  *
  * Like the flagship card, this card is dark in BOTH themes (DESIGN.md): the shell
  * uses `bg-flag`/`border-flag-line` (dark in both) and its internal colours are
@@ -17,21 +17,16 @@ export function Contact() {
       className="mx-auto max-w-[1180px] scroll-mt-6 px-6 pb-10 pt-[70px] sm:px-10"
     >
       <div className="flex flex-col flex-wrap items-start gap-12 rounded-[20px] border border-flag-line bg-flag px-7 py-12 text-[#f2f7f8] sm:flex-row sm:items-center sm:justify-between sm:px-14 sm:py-16">
-        <div className="flex flex-col gap-3">
-          <span className="font-mono text-[13px] text-[#22c8e0]">
-            {sections.contact.index}
-          </span>
-          <h2 className="text-[34px] font-extrabold leading-[1.1] tracking-[-0.03em] sm:text-[42px]">
-            {contact.heading[0]}
-            <br />
-            {contact.heading[1]}
-          </h2>
-        </div>
+        <h2 className="font-display text-[36px] leading-[1.12] tracking-[-0.02em] sm:text-[46px]">
+          {contact.heading[0]}
+          <br />
+          {contact.heading[1]}
+        </h2>
 
         <div className="flex shrink-0 flex-col gap-3">
           <a
             href={contact.cv.href}
-            className="rounded-[9px] bg-[#22c8e0] px-[30px] py-[15px] text-center text-[15px] font-extrabold text-[#0b1418] transition-transform hover:-translate-y-0.5"
+            className="whitespace-nowrap rounded-[9px] bg-[#22c8e0] px-[30px] py-[15px] text-center text-[15px] font-extrabold text-[#0b1418] transition-transform hover:-translate-y-0.5"
           >
             {contact.cv.label}
           </a>

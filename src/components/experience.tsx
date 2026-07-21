@@ -3,8 +3,8 @@ import { experience, sections, toolbox } from "@/content/site";
 
 /**
  * Experience — two columns: the roles timeline (left) and the "toolbox" chip
- * cloud (right). Content is indented under the H2 to match the DESIGN.md section
- * pattern. Stacks to a single column below `md` (indent drops on mobile).
+ * cloud (right). Stacks to a single column below `md`. Content is flush with the
+ * heading: the old 74px indent existed only to clear a mono index that's gone.
  */
 export function Experience() {
   return (
@@ -13,13 +13,9 @@ export function Experience() {
       aria-label="Experience"
       className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[70px] sm:px-10"
     >
-      <SectionHeading
-        index={sections.experience.index}
-        title={sections.experience.title}
-        className="mb-9"
-      />
+      <SectionHeading title={sections.experience.title} className="mb-9" />
 
-      <div className="grid grid-cols-1 gap-10 sm:ml-[74px] md:grid-cols-2 md:gap-12">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12">
         {/* Roles timeline */}
         <div className="flex flex-col gap-[26px]">
           {experience.map((role) => (

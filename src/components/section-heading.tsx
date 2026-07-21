@@ -1,22 +1,28 @@
 /**
- * Section header pattern from DESIGN.md: a mono index (accent) baseline-aligned
- * with the H2, gap 14px. Callers control the surrounding spacing via `className`.
+ * Section header: a plain display-serif H2. Nothing sits beside it.
+ *
+ * This used to be a mono index (`01`…) baseline-aligned with the heading. That
+ * shape — small tag left, heading right — is the single most recognisable
+ * generated-portfolio section head, so it's gone and shouldn't come back. If a
+ * section ever needs a label, stack it above the heading in the same column
+ * (DESIGN.md, "Section header pattern").
+ *
+ * Callers control the surrounding spacing via `className`.
  */
 export function SectionHeading({
-  index,
   title,
   className,
 }: {
-  index: string;
   title: string;
   className?: string;
 }) {
   return (
-    <div className={`flex items-baseline gap-[14px] ${className ?? ""}`}>
-      <span className="font-mono text-[13px] text-accent">{index}</span>
-      <h2 className="text-[26px] font-extrabold tracking-[-0.02em] text-ink">
-        {title}
-      </h2>
-    </div>
+    <h2
+      className={`font-display text-[30px] tracking-[-0.015em] text-ink ${
+        className ?? ""
+      }`}
+    >
+      {title}
+    </h2>
   );
 }
