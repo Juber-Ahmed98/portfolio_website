@@ -10,7 +10,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 
 ---
 
-## 1. Purpose & positioning
+## Purpose & positioning
 
 - **Goal:** A job-hunting portfolio aimed at hiring managers/recruiters, to land a
   frontend (frontend-leaning full-stack) role a level up from the current one.
@@ -26,18 +26,18 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   AI, fitness, faith, and e-commerce. Turn *volume* into a design feature (a visible
   "things I've built" wall), while featuring 3 projects deeply.
 
-## 2. Content
+## Content
 
 ### Featured projects (all functional — safe behind a "Live Demo" button)
-1. **Jembatan — HERO.** Android floating-bubble translator + Cloudflare Worker
-   backend (`/api/v1/translate`). Full-stack + mobile + real product maturity
-   (roadmap, marketing, privacy, UX research on onboarding/keyboard/latency, branding).
-   - Live demo → **https://jembatan.juberahmed.dev/** · Code → github.com/Juber-Ahmed98/Jembatan-app
-   - Angle: "I don't just build UIs — I ship a whole product, backend included."
-2. **mission_to_abs_app.** Polished React frontend (framer-motion, recharts, zustand).
-   Angle: frontend craft — animation, data-viz, state management. Live web demo.
-3. **ecommerce_store.** React + Tailwind + react-router. Angle: ties directly to the
-   Wolseley e-commerce experience. Live web demo.
+- **Jembatan — HERO.** Android floating-bubble translator + Cloudflare Worker
+  backend (`/api/v1/translate`). Full-stack + mobile + real product maturity
+  (roadmap, marketing, privacy, UX research on onboarding/keyboard/latency, branding).
+  - Live demo → **https://jembatan.juberahmed.dev/** · Code → github.com/Juber-Ahmed98/Jembatan-app
+  - Angle: "I don't just build UIs — I ship a whole product, backend included."
+- **mission_to_abs_app.** Polished React frontend (framer-motion, recharts, zustand).
+  Angle: frontend craft — animation, data-viz, state management. Live web demo.
+- **ecommerce_store.** React + Tailwind + react-router. Angle: ties directly to the
+  Wolseley e-commerce experience. Live web demo.
 
 ### "Currently building" strip (honest WIP — no live-demo button, or clearly labelled)
 - **habit_tracker (headliner).** Impressive *shell*: Next.js 16, React 19, TS strict,
@@ -64,7 +64,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 - **Download CV (PDF)** button (primary) · **mailto** email button ·
   **GitHub** (Juber-Ahmed98) · **LinkedIn**. No contact form.
 
-## 3. Design direction
+## Design direction
 
 - **Style:** Clean, modern, one bold accent. Generous whitespace, strong typography,
   the work is the star, subtle motion (framer-motion — used sparingly, purposeful).
@@ -74,7 +74,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   habit_tracker.)
 - **No blog.** Depth lives in the case-study pages instead.
 
-## 4. Tech & architecture
+## Tech & architecture
 
 - **Stack:** Next.js + TypeScript + Tailwind CSS.
 - **Structure:** Single-page **home** (hero → featured 3 → project wall → currently
@@ -86,7 +86,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   - Note: static export means no server features — use client components / build-time
     data only. Images: `next/image` with `unoptimized: true` (or plain `<img>`).
 
-## 5. Sequencing (owner has a full-time job)
+## Sequencing (owner has a full-time job)
 
 **Ship a lean MVP first, then deepen.**
 - **Milestone 1 (live ASAP):** Home page — hero, featured-3 as cards (link out to live
@@ -95,7 +95,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 - **Milestone 2:** The 3 case-study pages (Jembatan first).
 - **Milestone 3:** "Currently building" section, polish, motion, SEO/meta, accessibility pass.
 
-## 6. Copy starters (draft, make them yours)
+## Copy starters (draft, make them yours)
 
 - Hero H1 options:
   - "I build web products — front to back."
