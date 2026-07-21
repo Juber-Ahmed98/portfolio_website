@@ -19,7 +19,7 @@ import { nav } from "@/content/site";
 export function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
-      <div className="flex items-center justify-between px-6 py-[22px] sm:px-10">
+      <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-[22px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16">
         <a
           href={nav.brand.href}
           className="text-[15px] font-extrabold tracking-[-0.01em] text-ink"

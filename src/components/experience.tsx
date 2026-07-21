@@ -11,7 +11,7 @@ export function Experience() {
     <section
       id="experience"
       aria-label="Experience"
-      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[70px] sm:px-10"
+      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[70px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16"
     >
       <SectionHeading title={sections.experience.title} className="mb-9" />
 
@@ -23,10 +23,10 @@ export function Experience() {
               <span className="font-mono text-[12px] text-muted">
                 {role.date}
               </span>
-              <span className="text-[17px] font-bold text-ink">
+              <span className="text-[clamp(17px,1.3vw,19px)] font-bold text-ink">
                 {role.title}
               </span>
-              <span className="text-[14.5px] leading-[1.65] text-body">
+              <span className="text-[15px] leading-[1.65] text-body">
                 {role.desc}
               </span>
             </div>

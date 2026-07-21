@@ -7,26 +7,29 @@
    Source of truth: DESIGN.md (extracted from design-reference/home-mockup.html).
    Light values live on :root; dark overrides on .dark. */
 :root {
-  --bg: #fcfdfd;
-  /* Tinted a shade toward the teal anchor rather than pure #fff — a pure-white
-     raised surface on a tinted page background is a default nobody chose. */
-  --panel: #fdfefe;
-  --ink: #0e181b;
-  --body: #3d4f54;
-  --muted: #5c6b70;
-  --faint: #74858a;
-  --line: #e6ecee;
-  --accent: #0e7490;
+  /* Page recedes to a soft teal-grey "paper"; cards (--panel) become the
+     lightest surface so raised surfaces lift instead of vanishing on near-white. */
+  --bg: #eef3f4;
+  --panel: #ffffff;
+  --ink: #0c1518;
+  --body: #2f4247;
+  --muted: #4c5b60;
+  --faint: #5b686d;
+  --line: #d4dee0;
+  --accent: #0c6a82;
   --hl: #bdeef7;
-  --hover: #f4fafb;
-  --chip: #dde5e7;
+  --hover: #e7f1f3;
+  --chip: #c9d5d8;
   --wip: #9a6b1f;
-  --wipbg: #f2f9fb;
+  --wipbg: #e6f2f5;
   --wipline: #b9dde6;
   --btn-bg: #0e181b;
   --btn-fg: #ffffff;
   --flag: #0b1418;
   --flag-line: #0b1418;
+  /* Card elevation, light only — a soft lift, not a drop-shadow theme. */
+  --shadow-card: 0 1px 2px rgba(12, 20, 22, 0.04),
+    0 10px 30px -18px rgba(12, 20, 22, 0.14);
 }
 
 .dark {
@@ -48,6 +51,8 @@
   --btn-fg: #0b1418;
   --flag: #101d22;
   --flag-line: #1c3a42;
+  /* Dark surfaces separate by value alone — no shadow needed. */
+  --shadow-card: none;
 }
 
 /* Expose tokens + fonts to Tailwind's utility layer so `bg-bg`, `text-ink`,
@@ -71,17 +76,11 @@
   --color-btn-fg: var(--btn-fg);
   --color-flag: var(--flag);
   --color-flag-line: var(--flag-line);
+  --shadow-card: var(--shadow-card);
 
-  --font-display: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-display: var(--font-plus-jakarta), system-ui, sans-serif;
   --font-sans: var(--font-plus-jakarta), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), monospace;
-}
-
-/* The display face is 400-only and roman-only (DESIGN.md). Guard both so a stray
-   `font-bold`/`italic` utility on a heading can't trigger a synthetic face. */
-.font-display {
-  font-weight: 400;
-  font-style: normal;
 }
 
 html {

@@ -14,10 +14,10 @@ export function Contact() {
     <section
       id="contact"
       aria-label="Contact"
-      className="mx-auto max-w-[1180px] scroll-mt-6 px-6 pb-10 pt-[70px] sm:px-10"
+      className="mx-auto max-w-[1180px] scroll-mt-6 px-6 pb-10 pt-[70px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16"
     >
       <div className="flex flex-col flex-wrap items-start gap-12 rounded-[20px] border border-flag-line bg-flag px-7 py-12 text-[#f2f7f8] sm:flex-row sm:items-center sm:justify-between sm:px-14 sm:py-16">
-        <h2 className="font-display text-[36px] leading-[1.12] tracking-[-0.02em] sm:text-[46px]">
+        <h2 className="font-display text-[clamp(30px,3.6vw,46px)] font-bold leading-[1.1] tracking-[-0.02em]">
           {contact.heading[0]}
           <br />
           {contact.heading[1]}

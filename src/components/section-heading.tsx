@@ -18,7 +18,7 @@ export function SectionHeading({
 }) {
   return (
     <h2
-      className={`font-display text-[30px] tracking-[-0.015em] text-ink ${
+      className={`font-display text-[clamp(28px,3vw,40px)] font-bold tracking-[-0.02em] text-ink ${
         className ?? ""
       }`}
     >

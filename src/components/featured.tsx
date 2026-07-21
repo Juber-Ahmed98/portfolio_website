@@ -50,7 +50,7 @@ export function Featured() {
       id="work"
       /* Featured gets the most room of any section; the wall is the tightest.
          Uniform padding everywhere reads as a template's default rhythm. */
-      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[88px] sm:px-10"
+      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[88px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16 2xl:py-[112px]"
     >
       <SectionHeading title={sections.featured.title} className="mb-9" />
 
@@ -63,10 +63,10 @@ export function Featured() {
               {flagship.badge}
             </span>
           </div>
-          <h3 className="font-display text-[40px] tracking-[-0.015em]">
+          <h3 className="font-display text-[clamp(30px,3vw,40px)] font-bold tracking-[-0.02em]">
             {flagship.name}
           </h3>
-          <p className="max-w-[440px] text-[15.5px] leading-[1.7] text-[#b8c8cd]">
+          <p className="max-w-[440px] text-[clamp(15.5px,1.15vw,17px)] leading-[1.7] text-[#b8c8cd]">
             {flagship.blurb}
           </p>
           <div className="font-mono text-[12px] text-[#7e959c]">
@@ -109,17 +109,21 @@ export function Featured() {
           }`}
         >
           <div className="flex flex-col gap-[11px]">
-            <h3 className="font-display text-[28px] tracking-[-0.015em] text-ink">
+            <h3 className="font-display text-[clamp(22px,2vw,28px)] font-bold tracking-[-0.02em] text-ink">
               {project.name}
             </h3>
-            <p className="max-w-[480px] text-[15px] leading-[1.65] text-body">
+            <p className="max-w-[480px] text-[clamp(15px,1.1vw,16.5px)] leading-[1.65] text-body">
               {project.blurb}
             </p>
             <div className="font-mono text-[12px] text-muted">
               {project.stack}
             </div>
             <div className="flex gap-5 text-[14px] font-bold">
-              {project.links.map((link) => (
+              {project.links
+                /* Drop live links that aren't public yet ("#") — no button that
+                   jumps to top. They reappear once a real URL lands in site.ts. */
+                .filter((l) => !(l.kind === "live" && l.href === "#"))
+                .map((link) => (
                 <ProjectLink
                   key={link.label}
                   href={link.href}
@@ -137,7 +141,7 @@ export function Featured() {
               ))}
             </div>
           </div>
-          <div className="flex h-[200px] items-center justify-center rounded-[10px] border border-line bg-[repeating-linear-gradient(-45deg,var(--hover),var(--hover)_8px,var(--panel)_8px,var(--panel)_16px)]">
+          <div className="flex h-[200px] items-center justify-center rounded-[10px] border border-line bg-[repeating-linear-gradient(-45deg,var(--hover),var(--hover)_8px,var(--panel)_8px,var(--panel)_16px)] shadow-[var(--shadow-card)]">
             <span className="rounded-[5px] border border-chip bg-panel px-[10px] py-[5px] font-mono text-[11.5px] text-muted">
               {project.screenshotLabel}
             </span>

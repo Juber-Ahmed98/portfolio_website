@@ -13,14 +13,14 @@ export function Wall() {
       id="wall"
       /* Tighter than featured — the wall is a dense index, and the compression
          is what makes it read as "a lot of builds" rather than "a few cards". */
-      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[58px] sm:px-10"
+      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[58px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16"
     >
       <SectionHeading title={sections.wall.title} className="mb-[10px]" />
-      <p className="mb-[30px] max-w-[560px] text-[14.5px] text-muted">
+      <p className="mb-[30px] max-w-[560px] text-[15px] text-muted">
         {sections.wall.sub}
       </p>
 
-      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[12px] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-[12px] border border-line bg-line shadow-[var(--shadow-card)] sm:grid-cols-2 lg:grid-cols-3">
         {wall.map((project) => (
           <a
             key={project.name}
@@ -30,7 +30,7 @@ export function Wall() {
             className="flex flex-col gap-[6px] bg-bg px-[22px] py-5 text-ink transition-colors hover:bg-hover"
           >
             <span className="flex items-baseline justify-between">
-              <span className="text-[14.5px] font-bold text-ink">
+              <span className="text-[15px] font-bold text-ink">
                 {project.name}
               </span>
               <span
@@ -41,7 +41,7 @@ export function Wall() {
                 {project.badge}
               </span>
             </span>
-            <span className="text-[13px] leading-[1.5] text-muted">
+            <span className="text-[13.5px] leading-[1.5] text-muted">
               {project.desc}
             </span>
             <span className="font-mono text-[12px] text-faint">
