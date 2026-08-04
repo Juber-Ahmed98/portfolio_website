@@ -3,16 +3,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Squiggle } from "@/components/squiggle";
 import { caseStudies, caseStudyOrder, nav } from "@/content/site";
 
 /**
- * Case-study template + routing (CP5).
+ * Case-study template + routing.
  *
  * One static `/work/[slug]/` route per featured project, generated from the
  * `caseStudies` content module. Shared layout: hero → screenshots → narrative
  * blocks (problem → approach → …) → live + code links, with a slim back-to-home
- * header and footer. Deep per-project narratives land in CP6/CP7 — this ships the
- * reusable shell and wires the links both ways.
+ * header and footer. Dressed in the Workshop system (DESIGN.md): squiggle
+ * wordmark, sticker-pill chips, taped polaroid screenshot tiles, terracotta
+ * block headings.
  *
  * Static export: `generateStaticParams` enumerates the three slugs and
  * `dynamicParams = false` rejects anything else at build time.
@@ -70,8 +72,8 @@ export default async function CaseStudyPage({
       {/* Slim case-study header — back to home, brand, theme toggle, CV.
           Edge-aligned like the home nav (DESIGN.md), so the bar doesn't change
           shape when you click through from the featured cards. */}
-      <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-[22px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16">
+      <header className="sticky top-0 z-50 border-b-2 border-ink bg-bg/85 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-[18px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16">
           <Link
             href="/"
             className="flex items-center gap-2 font-mono text-[13px] font-semibold text-body transition-colors hover:text-accent"
@@ -83,17 +85,18 @@ export default async function CaseStudyPage({
           <div className="flex items-center gap-4 sm:gap-[30px]">
             <Link
               href="/"
-              className="text-[15px] font-extrabold tracking-[-0.01em] text-ink"
+              className="relative pb-[6px] text-[16px] font-extrabold tracking-[-0.01em] text-ink"
             >
               {nav.brand.text}
               <span className="text-accent">{nav.brand.accent}</span>
+              <Squiggle className="absolute bottom-0 left-0 h-[6px] w-full" />
             </Link>
 
             <ThemeToggle />
 
             <a
               href={nav.cv.href}
-              className="hidden whitespace-nowrap rounded-[8px] bg-btn-bg px-5 py-[10px] text-[13.5px] font-bold text-btn-fg transition-transform hover:-translate-y-0.5 min-[400px]:inline-block"
+              className="hidden whitespace-nowrap rounded-[10px] border-2 border-ink bg-panel px-4 py-[8px] text-[13.5px] font-bold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)] min-[400px]:inline-block"
             >
               {nav.cv.label}
             </a>
@@ -103,24 +106,26 @@ export default async function CaseStudyPage({
 
       <main className="mx-auto max-w-[1180px] px-6 sm:px-10 2xl:max-w-[1320px] 2xl:px-16">
         {/* Hero */}
-        <section className="border-b border-line py-[70px]">
-          <p className="font-mono text-[13px] text-accent">{study.eyebrow}</p>
-          <h1 className="mt-4 font-display text-[clamp(38px,5.6vw,66px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink">
+        <section className="border-b-2 border-ink py-[70px]">
+          <p className="font-mono text-[13px] font-semibold text-accent">
+            {study.eyebrow}
+          </p>
+          <h1 className="mt-4 font-display text-[clamp(38px,5.6vw,66px)] font-extrabold leading-[1.05] tracking-[-0.025em] text-ink">
             {study.name}
           </h1>
           <p className="mt-4 max-w-[620px] text-[clamp(18px,1.6vw,22px)] font-semibold leading-[1.4] text-body">
             {study.tagline}
           </p>
-          <p className="mt-5 max-w-[620px] text-[clamp(16px,1.15vw,17.5px)] leading-[1.7] text-body">
+          <p className="mt-5 max-w-[620px] text-[clamp(16px,1.15vw,17.5px)] font-medium leading-[1.7] text-body">
             {study.intro}
           </p>
 
-          {/* Stack chips */}
-          <ul className="mt-7 flex flex-wrap gap-[10px]">
+          {/* Stack chips — sticker pills */}
+          <ul className="mt-7 flex flex-wrap gap-[9px]">
             {study.stackChips.map((chip) => (
               <li
                 key={chip}
-                className="rounded-[5px] border border-chip px-[11px] py-[6px] font-mono text-[12px] text-muted"
+                className="rounded-full border-2 border-chip bg-panel px-[14px] py-[6px] font-mono text-[12px] text-body transition-[border-color,transform] motion-safe:hover:rotate-[-1.5deg] hover:border-accent"
               >
                 {chip}
               </li>
@@ -139,8 +144,8 @@ export default async function CaseStudyPage({
                     : {})}
                   className={
                     i === 0
-                      ? "rounded-[8px] bg-btn-bg px-6 py-3 text-[14px] font-bold text-btn-fg transition-transform hover:-translate-y-0.5"
-                      : "rounded-[8px] border-[1.5px] border-line px-6 py-3 text-[14px] font-semibold text-ink transition-transform hover:-translate-y-0.5"
+                      ? "rounded-[10px] border-2 border-accent bg-accent px-6 py-3 text-[14px] font-bold text-bg shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--ink)]"
+                      : "rounded-[10px] border-2 border-ink bg-panel px-6 py-3 text-[14px] font-semibold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
                   }
                 >
                   {link.label}
@@ -150,19 +155,33 @@ export default async function CaseStudyPage({
           )}
         </section>
 
-        {/* Screenshots — placeholder tiles until CP8. */}
+        {/* Screenshots — taped polaroid placeholders until real captures land. */}
         <section
           aria-label="Screenshots"
-          className="border-b border-line py-[70px]"
+          className="border-b-2 border-ink py-[70px]"
         >
-          <p className="mb-6 font-mono text-[13px] text-accent">screenshots</p>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {study.screenshots.map((label) => (
+          <p className="mb-8 font-mono text-[13px] font-semibold text-accent">
+            screenshots
+          </p>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {study.screenshots.map((label, i) => (
               <div
                 key={label}
-                className="flex h-[220px] items-center justify-center rounded-[10px] border border-line bg-[repeating-linear-gradient(-45deg,var(--hover),var(--hover)_8px,var(--panel)_8px,var(--panel)_16px)]"
+                className={`relative grid h-[220px] place-items-center rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] ${
+                  i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"
+                } transition-transform motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px]`}
               >
-                <span className="rounded-[5px] border border-chip bg-panel px-[10px] py-[5px] font-mono text-[11.5px] text-muted">
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -top-[13px] left-[22px] h-[26px] w-[84px] rotate-[-6deg] border-x border-dashed"
+                  style={{
+                    background:
+                      "color-mix(in srgb, var(--accent) 20%, transparent)",
+                    borderColor:
+                      "color-mix(in srgb, var(--accent) 32%, transparent)",
+                  }}
+                />
+                <span className="px-4 text-center font-mono text-[11.5px] text-muted">
                   {label}
                 </span>
               </div>
@@ -171,7 +190,7 @@ export default async function CaseStudyPage({
         </section>
 
         {/* Narrative blocks — problem → approach → … */}
-        <article className="border-b border-line py-[70px]">
+        <article className="border-b-2 border-ink py-[70px]">
           <div className="flex flex-col gap-14">
             {study.blocks.map((block) => (
               /* One column: label above body, never beside it (DESIGN.md). */
@@ -183,7 +202,7 @@ export default async function CaseStudyPage({
                   {block.body.map((para, i) => (
                     <p
                       key={i}
-                      className="text-[clamp(16px,1.15vw,17.5px)] leading-[1.75] text-body [text-wrap:pretty]"
+                      className="text-[clamp(16px,1.15vw,17.5px)] font-medium leading-[1.75] text-body [text-wrap:pretty]"
                     >
                       {para}
                     </p>

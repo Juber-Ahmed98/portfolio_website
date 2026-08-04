@@ -1,199 +1,232 @@
-# Design system — juberahmed.dev
+# Design system — juberahmed.dev · "The Workshop"
 
-Concrete tokens & component specs, extracted from the approved mockup so they survive
-independent of the zip. The living reference is
-[`design-reference/home-mockup.html`](design-reference/home-mockup.html) — open it in a
-browser (it has a working light/dark toggle) whenever pixel truth is needed. This file
-is the machine-readable summary; the HTML wins if they ever disagree — **except where
-this file says "post-audit"**, which supersedes the mockup (see below).
+The design contract for the site. The direction was chosen 2026-08-04 from three
+rendered, deliberately contrasting candidates (see `design-reference/directions/`);
+the owner signed off **Direction C — The Workshop**. The signed-off render is
+[`design-reference/directions/c-the-workshop.html`](design-reference/directions/c-the-workshop.html)
+— open it in a browser (working light/dark toggle) when pixel truth is needed. This
+file is the machine-readable contract; production code is built from it, and any
+change of direction edits this file first.
 
-Design language: **clean, modern, one bold accent (teal), generous whitespace, a serif
-display face against a sans body, monospace micro-labels as the distinctive touch.**
-Fully dual-themed, respects system preference, no default opinion.
+## Design language
 
-## Post-audit changes (2026-07-21)
+**A warm maker's workshop.** Cream paper, espresso ink, one terracotta accent,
+offset block shadows like letterpress plates, stamp-style badges, taped-down
+screenshots, a literal pegboard behind the project wall, hand-drawn squiggle
+underlines. Tactile and hand-made, calibrated to stay professional: rotations are
+≤2°, shadows are a consistent 4px system, and type does the serious work.
 
-A Hallmark audit of the home page found ten AI-tells. The fixes changed decisions this
-file previously mandated, so the affected specs below are rewritten rather than annotated.
-The full finding-by-finding plan is [`docs/homepage-audit.md`](docs/homepage-audit.md).
-What changed, and why, so a future checkpoint doesn't helpfully restore it:
+The palette deliberately echoes **Jembatan's brand world** (warm neutrals +
+terracotta) so the flagship product and the portfolio read as one hand's work.
 
-- **Section indices `01`–`04` are gone.** Numbered section eyebrows are a recognisable
-  generated-portfolio pattern. Do not reintroduce them, in any section or case-study block.
-- **Mono labels never sit beside a heading.** The old baseline-aligned index+H2 pair is a
-  hard-banned form. Labels stack above their heading, same column, or they don't exist.
-- **Type is a real pairing now**, not one family doing display and body both.
-- **The nav lost its inline link row.** Anchors live in the hero.
-- **No directional arrows in link labels.** `↗ → ↓` are stripped site-wide; icons come
-  from Lucide, not from Unicode dingbats.
+Fully dual-themed, respects system preference, visible toggle, no default opinion.
+Dark mode is **warm espresso, not blue-black**.
 
----
+## Decision log
+
+Rules carried forward from the previous system (they were anti-AI-tell decisions,
+not aesthetics — they survive any redesign):
+
+- **No numbered section eyebrows** (`01`–`04` or equivalents), in any section or
+  case-study block.
+- **Mono labels never sit beside a heading.** Stack above, same column, or omit.
+- **The nav has no inline link row.** Wordmark left, toggle + CV right, nothing
+  between. Anchors live in the hero jump list.
+- **No directional arrows / Unicode dingbats in link labels** (`↗ → ↓`). Icons come
+  from `lucide-react` only. (The old wall cards still carried `↗`/`→` — the Workshop
+  build removes them.)
+- **No italic headings.**
+
+Superseded / historical:
+
+- **2026-08-04 — "The Workshop" supersedes "clean, modern, one bold teal accent".**
+  The old system read professional but forgettable; the owner asked for
+  "personality within professional" where the site itself is part of the proof.
+  Teal, the tinted teal-grey paper, and the weight-only Plus Jakarta system are gone.
+- **Serif history:** Instrument Serif was removed at CP2 as "a serif the owner
+  doesn't want". A serif direction ("The Ledger", Fraunces) was offered again in the
+  2026-08-04 exploration and not chosen — the sans direction won on its merits.
+  Display is now **Bricolage Grotesque** (characterful sans), not a serif.
+- **CP3:** a 4th wall column at `2xl` was tried and reverted (6 builds → two empty
+  cells). The wall stays 3-col max.
 
 ## Color tokens
 
-Set as CSS variables on `:root` (light) and `.dark`. Names match the mockup.
+CSS variables on `:root` (light) / `.dark`, exposed to Tailwind via `@theme inline`
+in `globals.css`. Token *names* are unchanged from the old system so utility
+classes (`bg-bg`, `text-ink`, …) survive; the values are the Workshop palette.
+Contrast figures are measured, not eyeballed.
 
 | Token | Light | Dark | Use |
 |-------|-------|------|-----|
-| `--bg` | `#eef3f4` | `#0b1418` | page background (CP1: tinted teal-grey "paper", recedes) |
-| `--panel` | `#ffffff` | `#101d22` | raised surfaces (CP1: pure white so cards are the lightest surface) |
-| `--ink` | `#0c1518` | `#f2f7f8` | headings / primary text |
-| `--body` | `#2f4247` | `#b8c8cd` | body text (CP1: ≈9:1 on white) |
-| `--muted` | `#4c5b60` | `#9fb2b8` | secondary text (CP1: clears AA on both surfaces) |
-| `--faint` | `#5b686d` | `#7e959c` | tertiary / mono captions (CP1: ≥4.5:1 even at 12px) |
-| `--line` | `#d4dee0` | `#1c2f35` | borders / dividers (CP1: hairlines actually read) |
-| `--accent` | `#0c6a82` | `#22c8e0` | the teal accent (CP1: deepened so accent text ≥4.5:1 on tinted bg) |
-| `--hl` | `#bdeef7` | `rgba(34,200,224,.32)` | hero highlight underline |
-| `--hover` | `#e7f1f3` | `#101d22` | row/card hover bg |
-| `--chip` | `#c9d5d8` | `#2c4148` | chip / pill borders |
-| `--wip` | `#9a6b1f` | `#d9a44a` | "building" badge color |
-| `--wipbg` | `#e6f2f5` | `#0f1c21` | WIP strip background |
-| `--wipline` | `#b9dde6` | `#1c3a42` | WIP strip dashed border |
-| `--btn-bg` | `#0e181b` | `#f2f7f8` | primary button bg |
-| `--btn-fg` | `#ffffff` | `#0b1418` | primary button text |
-| `--flag` | `#0b1418` | `#101d22` | dark flagship/contact card bg |
-| `--flag-line` | `#0b1418` | `#1c3a42` | flagship/contact card border |
-| `--shadow-card` | soft lift | `none` | CP1: light-only card elevation on the tinted page (wall grid + featured screenshot tiles). Dark separates by value. Not applied to the dark-in-both flagship/contact cards. |
+| `--bg` | `#f8f2e9` | `#201812` | page — warm cream paper / espresso |
+| `--panel` | `#fffdf8` | `#2a2019` | raised card surfaces |
+| `--ink` | `#2b2016` | `#f4ead9` | headings / primary text (~14.9:1 on bg) |
+| `--body` | `#4d3f30` | `#d3c4ad` | body text (≈8.9:1 light / ≈10:1 dark) |
+| `--muted` | `#75634f` | `#a8967c` | secondary text (≥5:1 both) |
+| `--faint` | `#7a6954` | `#9d8c74` | tertiary / mono captions (≥4.5:1 at 12px, measured on panel too) |
+| `--line` | `#e0d5c2` | `#3d3125` | borders / dividers |
+| `--accent` | `#a84b26` | `#e08a5c` | terracotta (≥5:1 as text on bg) |
+| `--hl` | `#f3e2d4` | `#35261c` | marker-highlight fill behind hero phrase |
+| `--hover` | `#f3ead9` | `#332818` | hover washes |
+| `--chip` | `#d9cbb4` | `#4a3c2d` | chip / pill borders |
+| `--live` | `#3f5c37` | `#9dc48f` | "live" stamp green (new token) |
+| `--wip` | `#8a5f1a` | `#d9ae4a` | "building" stamp gold |
+| `--wipbg` | `#fffdf8` | `#2a2019` | WIP strip background |
+| `--wipline` | `#b08a3f` | `#8a6f33` | WIP strip dashed border |
+| `--btn-bg` | `#2b2016` | `#f4ead9` | solid ink button bg |
+| `--btn-fg` | `#fffdf8` | `#201812` | solid ink button text |
+| `--flag` | `#2b2016` | `#2b2016` | flagship/contact card bg — **warm dark in both themes** |
+| `--flag-line` | `#2b2016` | `#f4ead9` | flagship/contact card 2px border (cream frame in dark) |
+| `--shadow-card` | `4px 4px 0 #2b2016` | `4px 4px 0 rgba(0,0,0,.55)` | the letterpress block shadow |
 
-**Note:** the flagship (Jembatan) card and the contact CTA card are **dark in both
-themes** — they use fixed dark values internally (`#22c8e0` accent, `#f2f7f8` text,
-`#b8c8cd`/`#7e959c` sub-text, `#2c4148` borders), not the theme variables. Keep that.
+**Flagship + contact cards stay dark in both themes** — fixed internals, not tokens:
+bg `#2b2016`, text `#f4ead9`, body `#d3c4ad`, faint `#a8967c`, quiet borders
+`#5c4a38`, accent `#e08a5c` (text-on-accent `#201812`), live-stamp `#9dc48f`.
+Their outer shadow is `6px 6px 0 var(--accent)` in both themes.
 
 Base transition: `background .3s, color .3s` on the body for theme switches.
 
-## Typography (CP2 — display swapped to Plus Jakarta)
+## The shadow system
 
-Two families now. The former Instrument Serif display face is removed entirely (CP2, an
-owner override of the earlier serif decision — see `docs/ux-seo-plan.md`). Display hierarchy
-comes from **weight + tight tracking**, not from a second family: Plus Jakarta at 700/800
-for headings against 400/500 body is a recognised single-family pairing. JetBrains Mono
-stays for micro-labels — that mono is what still makes the type system distinctive.
+Depth is **offset block shadows**, not blur — the letterpress signature. It is a
+system, not a garnish:
 
-- **Display (headings only):** `Plus Jakarta Sans` — **700 (bold) / 800 (extrabold)**, tight
-  tracking (−0.02 to −0.03em). It's a variable font (400–800 available, no `weight` array).
-- **Body / UI:** `Plus Jakarta Sans` — 400, 500, 600.
-- **Mono (labels, tags, badges):** `JetBrains Mono` — 400, 500, 600.
-- Load via `next/font/google`; expose as `--font-display` / `--font-sans` / `--font-mono`
-  (`--font-display` now resolves to `--font-plus-jakarta`).
+- Resting cards / buttons: `4px 4px 0` ink (light) / black-55% (dark) = `--shadow-card`.
+- Hover: element translates `(-2px,-2px…-3px)` and the shadow grows to
+  `6px 6px 0 var(--accent)` — the lift reveals terracotta.
+- The two dark cards (flagship, contact): `6px 6px 0 var(--accent)` at rest,
+  `9px 9px 0` on hover.
+- Small controls (theme toggle): `2px 2px 0` ink.
 
-The old `.font-display { font-weight:400; font-style:normal }` guard is deleted — it existed
-only to stop the serif being faux-bolded. Weight is now set per-heading via utilities
-(`font-bold` = 700, `font-extrabold` = 800). Hero/case H1 are 800, everything else 700.
+## Typography
 
-Type is **fluid** — headings and key body text grow on large screens via `clamp()` so
-nothing feels small on a 1400px+ canvas, while staying at-or-above old sizes on mobile.
+- **Display + body: `Bricolage Grotesque`** (variable, 200–800 via
+  `next/font/google`, exposed as `--font-bricolage`). Headings 700/800 with
+  `font-variation-settings: "opsz" 96` and tight tracking (−0.02 to −0.03em);
+  body 400/500.
+- **Mono (labels, tags, stamps, footer): `JetBrains Mono`** 400–600 — unchanged.
+- `--font-display` and `--font-sans` both resolve to Bricolage; `--font-mono` to
+  JetBrains Mono. Plus Jakarta Sans is removed entirely.
 
-| Element | Size | Weight | Notes |
-|---------|------|--------|-------|
-| Hero H1 | `clamp(42px, 6vw, 78px)` | display 800 | `line-height:1.03`, `-.03em`, max-width 1000px |
-| Section H2 | `clamp(28px, 3vw, 40px)` | display 700 | `-.02em`, no index, nothing beside it |
-| Flagship H3 | `clamp(30px, 3vw, 40px)` | display 700 | `-.02em` |
-| Featured-row H3 | `clamp(22px, 2vw, 28px)` | display 700 | `-.02em` |
-| Contact H2 | `clamp(30px, 3.6vw, 46px)` | display 700 | `-.02em`, `line-height:1.1` |
-| Case-study H1 | `clamp(38px, 5.6vw, 66px)` | display 800 | `-.03em`, `line-height:1.05` |
-| Body | `15–20px` fluid | sans 400 | `line-height:1.6–1.7`, `text-wrap:pretty` on hero sub |
-| Mono labels | `11–13.5px` | mono 500–600 | tags, badges, footer, hero jump list |
-| Case-study block H2 | `13px` | mono 600 | stays mono — it *is* the label; stacked above its body |
+Fluid type via `clamp()` — same scale skeleton as before:
+
+| Element | Size | Weight |
+|---------|------|--------|
+| Hero H1 | `clamp(42px, 6vw, 80px)` | 800, `-.025em`, lh 1.03 |
+| Section H2 | `clamp(28px, 3vw, 42px)` | 800, `-.02em` |
+| Flagship H3 | `clamp(30px, 3vw, 44px)` | 800 |
+| Featured-row H3 | `clamp(22px, 2vw, 28px)` | 800 |
+| Contact H2 | `clamp(30px, 3.6vw, 46px)` | 800, lh 1.1 |
+| Case-study H1 | `clamp(38px, 5.6vw, 66px)` | 800, `-.025em` |
+| Body | 15–20px fluid | 400/500, lh 1.6–1.7 |
+| Mono labels | 11–13.5px | 500–600 |
+| Case-study block H2 | 13px mono 600 | stacked above its body |
+
+## Signature elements
+
+- **Squiggle underline** — a hand-drawn SVG path (`stroke: var(--accent)`,
+  2–2.5px, round caps) under the nav wordmark and under every section H2. One
+  shared path shape; `aria-hidden`.
+- **Marker highlight** — the hero's "front to back." sits on an irregular SVG blob
+  filled `var(--hl)` behind the text (replaces the old inset box-shadow underline).
+- **Stamps** — status badges are mono uppercase, 1.5–2px border, 5–6px radius,
+  rotated −2°: live = `--live` green, building = `--wip` gold **dashed**.
+- **Tape** — screenshot frames carry translucent masking-tape strips
+  (semi-transparent cream/terracotta rectangles with dashed edges), rotated a few
+  degrees.
+- **Pegboard** — the wall grid sits inside a `--hl`-tinted container with a
+  radial-gradient dot grid (26px spacing) and 2px ink border.
+- **Rotation budget:** static rotations only on stat tiles (≤0.6°), screenshot
+  frames (≤1.4°), stamps/tape labels (≤2°). Nothing else rotates at rest.
 
 ## Layout
 
-- **Container:** `max-width: 1180px`, centered, horizontal padding `40px`. **CP3:** at `2xl`
-  (≥1536px) the column widens to `1320px` and gutters grow to `64px` (`2xl:max-w-[1320px]
-  2xl:px-16`) so content uses more of a large canvas instead of floating in a void; ≤1536px
-  is unchanged. The nav bar itself still spans the full viewport, but its *contents* align to
-  the same container (see Components).
-- **Section rhythm (post-audit + CP3):** vertical padding **varies** — every section on the
-  same `70px` was a flat, mechanical rhythm. Featured gets room (`~88px`, `112px` at `2xl`),
-  the wall is tight (`~58px`), experience sits in the middle (`~70px`). Each section still
-  separated by a `1px solid var(--line)` bottom border. Hero padding `96px 40px 84px`
-  (`128px … 104px` at `2xl`). Only the biggest sections gain air on large screens; the wall
-  stays tight on purpose.
-- **Section header pattern (post-audit):** a plain H2 in the display serif. **No index, no
-  eyebrow, nothing beside it.** Where a section genuinely needs a mono label, it stacks
-  *above* the heading in the same column (`flex flex-col`) — never to its left.
-  The old baseline-aligned label+heading row is banned; so is the `~74px` hanging indent
-  that existed only to line content up under it.
-- **Radii:** buttons `8–9px`, cards `10–20px` (flagship 18px, contact 20px), chips/pills `4–5px`.
-- `scroll-behavior: smooth`; sections have `scroll-margin-top: 24px` for anchor nav.
+- **Container:** `max-width: 1180px`, px `40px`; at `2xl` (≥1536px) `1320px` / `64px`
+  gutters. Nav header full-bleed, inner row container-aligned. (Unchanged.)
+- **Section rhythm:** varied vertical padding — featured `~88px` (`112px` at 2xl),
+  wall `~58px`, experience `~70px`; hero `96px/84px` (`128/104` at 2xl). Sections
+  separated by **2px solid `var(--ink)`** rules (the Workshop's heavier hand replaces
+  the old 1px `--line` hairlines between sections; hairlines remain for interior
+  dividers, which are **2px dashed `var(--line)`** between featured rows).
+- **Radii:** buttons 10px, cards 12px, flagship/contact 18px, screenshot frames 6px,
+  pills/chips 999px, stamps 5–6px.
+- Section header: H2 + squiggle. No index, no eyebrow, nothing beside it.
+- `scroll-behavior: smooth`; `scroll-margin-top` on sections.
 
 ## Components
 
-- **Nav (post-audit — Hallmark N9, edge-aligned minimal)** — wordmark hard-left at the
-  true viewport edge, theme toggle + dark "Download CV" button hard-right, **nothing in
-  between**. The empty middle is the design: the wordmark-left / four-inline-links /
-  CTA-right shape it replaced is the single most recognisable AI-nav fingerprint.
-  Do not "fill the space" with links. **CP3 refinement:** the `<header>` stays full-bleed
-  (sticky, bottom border spans the viewport), but its *inner row* is now container-aligned
-  (`mx-auto max-w-[1180px] 2xl:max-w-[1320px]`) so the wordmark and CV button sit directly
-  above the content's left/right edges instead of floating ~350px away on a wide monitor.
-  This is a refinement of the edge-min intent, **not** a return to the banned centered-links
-  nav — still no links in the bar. With no links to collapse, there is no mobile menu.
-- **Hero** — eyebrow line → H1 (with `box-shadow` inset highlight on "front to back.")
-  → sub-paragraph (max 560px) → mono stat row (`3+ yrs`, `6 builds`, `1 API`)
-  → **jump list** (Work / Wall / Experience / Contact) — the anchors the nav gave up.
-  Stat row gated behind `showHeroStats` prop.
-- **Flagship card (Jembatan)** — dark, 2-col grid `1.05fr 460px`: left = content
-  (badges, H3, blurb, mono stack line, 3 buttons: Live demo / Case study / Code),
-  right = screenshot area (diagonal-stripe placeholder). Hover: `translateY(-3px)` +
-  soft shadow. Live demo button is filled accent; others are outlined. The screenshot
-  label sits directly on the stripe — **no bordered chip** (card-in-card, post-audit).
-- **Featured row (post-audit)** — 2-col grid `1.1fr 420px`: content / screenshot.
-  The `60px` mono-index track is gone with the rest of the numbering. Row hover tints
-  background `var(--hover)`. Links carry an explicit `kind` (`live` | `case` | `code`)
-  that drives styling; never match on label text. The two current rows are **client
-  sites** (Stratemize, Yoosuf Zaman): each is card-only with a single `live` "Visit site"
-  link and no case/code. When a row has a real `image`, it renders a plain `<img>`
-  (`object-cover object-top`) from `public/featured/`; otherwise it falls back to the
-  diagonal-stripe placeholder tile.
-- **The Wall** — 3-col grid of cards (CP3: a 4th column at `2xl` was tried and reverted —
-  with only 6 builds it left two empty grey cells reading as a rendering gap; the balanced
-  3+3 wins). Joined by `1px` gaps over a `--line` background
-  (hairline-grid look), outer radius 12px. Each card: name + badge (live=accent /
-  building=wip), one-line desc, mono tags, and a mono links row (`code ↗`, plus
-  `case study →` when the entry has a `caseHref`). The card is a `div`, not a wrapping
-  `<a>` — a nested case-study link inside a card-wide anchor would be invalid HTML.
-  Below it: dashed **"currently building"** strip (WIP tokens) describing habit_tracker.
-- **Experience** — 2-col: left = role entries (mono date, bold title, description),
-  right = "toolbox" chip cloud (bordered mono pills).
-- **Contact** — dark CTA card, space-between: left = H2 "Next on the wall: your product."
-  (the mono `04` above it is gone); right = filled "Download CV" + outlined Email /
-  GitHub / LinkedIn. Footer line below: copyright + "birmingham, uk · juberahmed.dev"
-  in mono.
+- **Nav** — edge-aligned minimal (unchanged shape): wordmark + squiggle hard-left,
+  theme toggle + CV button hard-right, nothing between, no mobile menu. Toggle is a
+  36px **rounded-square** (10px radius, 2px ink border, 2px block shadow, Lucide
+  Sun/Moon). CV button is ghost-style: panel bg, 2px ink border, block shadow,
+  hover lift.
+- **Hero** — kicker (mono, accent) → H1 with marker-blob highlight → sub →
+  stat **tiles** (bordered, block-shadowed, alternately rotated ≤0.6°, terracotta
+  numerals; still gated behind `showStats`) → jump list as **sticker pills**
+  (2px border, pill radius, hover: `--hl` wash + −2px lift + −1° tilt).
+- **Flagship card (Jembatan)** — warm-dark in both themes, 18px radius, 2px
+  `--flag-line` border, `6px 6px 0` terracotta shadow, 2-col `1.05fr 440px`.
+  Left: mono "flagship" label + live stamp, H3, blurb, mono stack, buttons (Live
+  demo = filled `#e08a5c`; Case study / Code = quiet `#5c4a38` borders). Right:
+  screenshot as a **taped polaroid** (rotated 1.4°, tape strips top-left +
+  bottom-right) rendering the real capture (`public/featured/jembatan.png`, cropped
+  from the app's home screen); caption tile only as fallback.
+- **Featured rows** — 2-col `1.1fr 400px`, separated by 2px dashed `--line`.
+  Content left; screenshot right in a rotated (∓1°) 2px-ink-border frame with block
+  shadow and one tape strip; real `<img>` from `public/featured/` fills the frame,
+  else the placeholder caption tile. "Visit site" links are terracotta outline
+  pills that fill on hover. Links still carry `kind` (`live`|`case`|`code`).
+- **The Wall** — pegboard container; inside it the 3→2→1 grid of **tool cards**
+  (12px radius, 2px ink border, block shadow; hover −2/−3px lift + −0.4° tilt +
+  terracotta shadow). Card: name + stamp, one-liner, mono tags, mono links row
+  (`code`, `case study` — no arrows). Cards stay `div`s (nested-anchor rule).
+  Below: the dashed-gold **"currently building"** strip with a rotated
+  masking-tape label.
+- **Experience** — 2-col: role **cards** (bordered, block-shadowed) left; toolbox
+  as sticker pills right (hover: terracotta border + −1.5° tilt).
+- **Contact** — warm-dark card like the flagship (18px, terracotta shadow):
+  H2 with the second line in `#e08a5c`; filled Download CV + quiet Email / GitHub /
+  LinkedIn. Mono footer line below on the page surface.
+- **Case-study pages** — same header as home nav (back link, brand + squiggle,
+  toggle, CV ghost button). Eyebrow copy stays (it's content), styled mono accent.
+  Block headings stay mono labels stacked above their body. Stack chips are sticker
+  pills. Screenshot placeholders are taped, alternately-rotated polaroid tiles.
+  First link = filled terracotta button, rest = 2px ink outline.
 
 ## Interaction & motion
 
-- Hover lift on buttons/cards: `transform: translateY(-2px/-3px)`, `transition ~.2s`.
-- Theme toggle swaps `.dark` class on the root/body (use `next-themes`). Icons are
-  Lucide `Sun`/`Moon` inside the 34px circular shell — **not** the `☀`/`☾` characters,
-  which render per-OS and can come back as a colour emoji on Windows and Android.
-- Any icon added from here on comes from `lucide-react`. No Unicode dingbats.
-- Motion stays **subtle and purposeful** (framer-motion added at CP9). Everything
-  animated must respect `prefers-reduced-motion`.
+Zero dependencies — all motion is CSS. Everything gated `motion-safe`
+(`prefers-reduced-motion` honoured); static rotations are layout, not motion, and
+persist under reduced motion.
 
-## Data model (drives Wall + Featured)
+- **The one authored moment:** on home load, the hero marker-blob sweeps in
+  (scaleX 0→1, origin left, ~.5s exponential ease-out, ~.15s delay) while the H1
+  and sub fade up 8px. Runs once; no scroll-triggered entrances elsewhere.
+- Hover grammar: lift `(-2px,-2px)` + shadow grows and turns terracotta (cards,
+  buttons), pills tilt −1 to −2°, screenshot frames straighten to 0° and lift.
+- Theme toggle: `next-themes` class strategy, Lucide `Sun`/`Moon`, unchanged logic.
+- Transitions ~.15–.2s ease-out.
 
-The mockup embeds this — mirror it in the typed content module:
+## Data model
 
-```ts
-type WallProject = {
-  name: string;        // "Jembatan-app"
-  badge: string;       // "live" | "building"  (no arrow — post-audit)
-  live: boolean;       // controls badge color: accent vs --wip
-  desc: string;        // one line
-  tags: string;        // "kotlin · workers"
-  link: string;        // GitHub (or live) URL
-  caseHref?: string;   // internal /work/ route, when a case study exists
-};
-```
+Unchanged — `src/content/site.ts` remains the single content source; the redesign
+touches zero copy. `WallProject`, `FeaturedProject`, `CaseStudy` types as before.
+Wall links drop the `↗`/`→` glyphs (presentation, not content).
 
-Wall projects (6): `Jembatan-app` (live), `mission_to_abs_app` (live),
-`ecommerce_store` (live), `habit_tracker` (building), `quran-just-one-verse`
-(building), `Qibla_Compass` (building). **Exclude** the empty scaffolds per CLAUDE.md.
+## Meta surfaces
 
-## Responsive note (important — not in the mockup)
+- **OG image** (`src/app/opengraph-image.tsx`): espresso `#2b2016` field, cream
+  `#f4ead9` name, terracotta `#e08a5c` wordmark, `#a8967c` stack line. (System bold
+  sans — ImageResponse doesn't load web fonts without bundling font data; the
+  palette carries the brand.)
+- **Favicon** `src/app/icon.svg`: espresso rounded square, cream "j" as a *drawn
+  stroked path* (SVG favicons can't load web fonts and serif fallbacks are ruled
+  out by the decision log), terracotta tittle.
+- **`themeColor`** viewport export: `#f8f2e9` light / `#201812` dark.
 
-The mockup is **desktop-only**: it uses fixed-px `grid-template-columns` everywhere and
-will overflow on mobile. Building for real means adding breakpoints so every grid
-stacks — nav → collapsed/menu, flagship `2col → 1col`, featured rows `3col → stacked`,
-wall `3 → 2 → 1`, experience `2col → 1col`, contact card wraps. Treat this as first-class
-work at CP3, not an afterthought.
+## Responsive
+
+Same breakpoints and stacking behaviour as the old system (flagship 2→1, rows
+stack, wall 3→2→1, experience 2→1, contact wraps; verified at 375/768/desktop, no
+horizontal overflow). The pegboard padding tightens on mobile so cards keep width.

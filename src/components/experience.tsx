@@ -2,45 +2,50 @@ import { SectionHeading } from "@/components/section-heading";
 import { experience, sections, toolbox } from "@/content/site";
 
 /**
- * Experience — two columns: the roles timeline (left) and the "toolbox" chip
- * cloud (right). Stacks to a single column below `md`. Content is flush with the
- * heading: the old 74px indent existed only to clear a mono index that's gone.
+ * Experience — two columns: role cards (left, bordered + block-shadowed like
+ * everything else on the bench) and the "toolbox" sticker-pill cloud (right).
+ * Stacks to a single column below `md`.
  */
 export function Experience() {
   return (
     <section
       id="experience"
       aria-label="Experience"
-      className="mx-auto max-w-[1180px] scroll-mt-6 border-b border-line px-6 py-[70px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16"
+      className="mx-auto max-w-[1180px] scroll-mt-6 border-b-2 border-ink px-6 py-[70px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16"
     >
-      <SectionHeading title={sections.experience.title} className="mb-9" />
+      <SectionHeading title={sections.experience.title} className="mb-10" />
 
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-12">
-        {/* Roles timeline */}
-        <div className="flex flex-col gap-[26px]">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-[1.25fr_0.75fr] md:gap-16">
+        {/* Role cards */}
+        <div className="flex flex-col gap-5">
           {experience.map((role) => (
-            <div key={role.title} className="flex flex-col gap-[6px]">
-              <span className="font-mono text-[12px] text-muted">
+            <div
+              key={role.title}
+              className="flex flex-col gap-[7px] rounded-[12px] border-2 border-ink bg-panel px-6 py-5 shadow-[var(--shadow-card)]"
+            >
+              <span className="font-mono text-[12px] font-semibold text-accent">
                 {role.date}
               </span>
-              <span className="text-[clamp(17px,1.3vw,19px)] font-bold text-ink">
+              <span className="font-display text-[clamp(17px,1.3vw,19px)] font-extrabold tracking-[-0.015em] text-ink">
                 {role.title}
               </span>
-              <span className="text-[15px] leading-[1.65] text-body">
+              <span className="text-[14.5px] font-medium leading-[1.65] text-body">
                 {role.desc}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Toolbox chips */}
-        <div className="flex flex-col gap-3">
-          <span className="font-mono text-[12px] text-muted">toolbox</span>
-          <ul className="flex flex-wrap gap-2 font-mono text-[12px] text-body">
+        {/* Toolbox sticker pills */}
+        <div className="flex flex-col gap-3.5">
+          <span className="font-mono text-[12px] font-semibold text-muted">
+            toolbox
+          </span>
+          <ul className="flex flex-wrap gap-[9px] font-mono text-[12px] text-body">
             {toolbox.map((tool) => (
               <li
                 key={tool}
-                className="rounded-[5px] border border-chip px-3 py-[5px]"
+                className="rounded-full border-2 border-chip bg-panel px-[14px] py-[6px] transition-[border-color,transform] motion-safe:hover:rotate-[-1.5deg] hover:border-accent"
               >
                 {tool}
               </li>

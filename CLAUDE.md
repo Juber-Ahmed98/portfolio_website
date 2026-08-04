@@ -73,14 +73,23 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 - **Download CV (PDF)** button (primary) · **mailto** email button ·
   **GitHub** (Juber-Ahmed98) · **LinkedIn**. No contact form.
 
-## Design direction
+## Design direction — "The Workshop" (shipped 2026-08-04)
 
-- **Style:** Clean, modern, one bold accent. Generous whitespace, strong typography,
-  the work is the star, subtle motion (framer-motion — used sparingly, purposeful).
-  Distinctive accent so it never reads as a template.
+- **Style:** A warm maker's workshop — cream paper, espresso ink, one terracotta
+  accent, offset letterpress block shadows, stamp badges, taped screenshots, a
+  pegboard behind the project wall, hand-drawn squiggle underlines. Personality
+  is calibrated (rotations ≤2°, a consistent 4px shadow system) so it still reads
+  senior to a hiring manager. The palette deliberately echoes Jembatan's brand so
+  the flagship and the portfolio look like one hand's work. Chosen from three
+  rendered contrasting directions (`design-reference/directions/`); it supersedes
+  the earlier "clean, modern, one bold teal accent" system. **DESIGN.md is the
+  binding contract** — tokens, shadow system, signature elements, decision log.
+- **Type:** Bricolage Grotesque (display + body, variable) + JetBrains Mono
+  (labels/stamps). Motion is CSS-only, zero dependencies, one authored hero
+  entrance, everything `prefers-reduced-motion`-gated.
 - **Theme:** Fully dual-themed (light + dark), respects system preference, visible
-  toggle, no opinionated default. (Reuse the CSS-variable token pattern from
-  habit_tracker.)
+  toggle, no opinionated default. Dark is warm espresso, not blue-black. All
+  token contrast pairs measured ≥4.5:1.
 - **No blog.** Depth lives in the case-study pages instead.
 
 ## Tech & architecture

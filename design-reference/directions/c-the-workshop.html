@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction C — The Workshop · juberahmed.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   DIRECTION C — "THE WORKSHOP"
+   Warm maker studio. Cream paper, terracotta ink, offset hard
+   shadows like letterpress blocks, taped-down screenshots, stamp
+   badges. The palette deliberately echoes Jembatan's warm
+   neutrals + terracotta — one personal brand across everything
+   he ships. Personality lives in warmth and tactility.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --paper:  #f8f2e9;   /* warm cream */
+  --panel:  #fffdf8;
+  --ink:    #2b2016;   /* warm espresso ink */
+  --body:   #4d3f30;
+  --muted:  #75634f;
+  --faint:  #93826c;
+  --line:   #e0d5c2;
+  --terra:  #b4522a;   /* terracotta — the accent */
+  --terra-soft: #f3e2d4;
+  --gold:   #92651c;   /* "building" */
+  --leaf:   #4a6741;   /* "live" stamp green */
+  --card-shadow: 4px 4px 0 var(--ink);
+  --card-shadow-hover: 6px 6px 0 var(--terra);
+}
+.dark {
+  --paper:  #201812;   /* espresso, not blue-black */
+  --panel:  #2a2019;
+  --ink:    #f4ead9;
+  --body:   #d3c4ad;
+  --muted:  #a8967c;
+  --faint:  #877661;
+  --line:   #3d3125;
+  --terra:  #e08a5c;
+  --terra-soft: #35261c;
+  --gold:   #d9ae4a;
+  --leaf:   #9dc48f;
+  --card-shadow: 4px 4px 0 rgba(0,0,0,.55);
+  --card-shadow-hover: 6px 6px 0 var(--terra);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  transition: background .3s, color .3s;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: "JetBrains Mono", monospace; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--terra); outline-offset: 2px; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+@media (max-width: 720px) { .wrap { padding: 0 24px; } }
+
+.label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px; font-weight: 600; letter-spacing: .04em;
+  color: var(--muted);
+}
+
+/* ── Nav ──────────────────────────────────────────────── */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--ink);
+}
+.bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+.brand { font-weight: 800; font-size: 17px; letter-spacing: -.01em; position: relative; }
+.brand em { font-style: normal; color: var(--terra); }
+/* hand-drawn squiggle under the wordmark */
+.brand svg { position: absolute; left: 0; bottom: -7px; width: 100%; height: 6px; }
+.brand svg path { stroke: var(--terra); stroke-width: 2; fill: none; stroke-linecap: round; }
+.bar-right { display: flex; align-items: center; gap: 12px; }
+.toggle {
+  width: 36px; height: 36px; border-radius: 10px;
+  border: 2px solid var(--ink); background: var(--panel);
+  cursor: pointer; color: var(--ink); font-size: 14px;
+  display: grid; place-items: center;
+  box-shadow: 2px 2px 0 var(--ink);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.toggle:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0 var(--ink); }
+.btn {
+  display: inline-block; font-weight: 700; font-size: 14px;
+  padding: 11px 20px; border-radius: 10px;
+  border: 2px solid var(--ink);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn-primary { background: var(--terra); color: #fffdf8; border-color: var(--ink); box-shadow: var(--card-shadow); }
+.dark .btn-primary { color: #201812; }
+.btn-primary:hover { transform: translate(-2px,-2px); box-shadow: var(--card-shadow-hover); }
+.btn-ghost { background: var(--panel); color: var(--ink); box-shadow: var(--card-shadow); }
+.btn-ghost:hover { transform: translate(-2px,-2px); box-shadow: var(--card-shadow-hover); }
+
+/* ── Hero ─────────────────────────────────────────────── */
+.hero { padding: 86px 0 74px; border-bottom: 2px solid var(--ink); }
+.hero .kicker { margin-bottom: 26px; color: var(--terra); }
+.hero h1 {
+  font-weight: 800; font-variation-settings: "opsz" 96;
+  font-size: clamp(44px, 6.2vw, 82px);
+  line-height: 1.02; letter-spacing: -.025em; max-width: 980px;
+}
+/* marker-stroke highlight behind the last phrase */
+.hero h1 .mark { position: relative; white-space: nowrap; }
+.hero h1 .mark svg {
+  position: absolute; left: -2%; bottom: -4%; width: 104%; height: 46%;
+  z-index: -1;
+}
+.hero h1 .mark svg path { fill: var(--terra-soft); stroke: none; }
+.hero h1 .mark { z-index: 0; }
+.hero .sub {
+  margin-top: 32px; max-width: 580px;
+  font-size: clamp(17px, 1.3vw, 19.5px); line-height: 1.7; color: var(--body); font-weight: 500;
+}
+
+/* stat tokens — little stamped tiles */
+.stats { margin-top: 40px; display: flex; flex-wrap: wrap; gap: 14px; }
+.stats > div {
+  border: 2px solid var(--ink); border-radius: 12px; background: var(--panel);
+  padding: 12px 20px; box-shadow: var(--card-shadow);
+  transform: rotate(-.6deg);
+}
+.stats > div:nth-child(2) { transform: rotate(.5deg); }
+.stats > div:nth-child(3) { transform: rotate(-.3deg); }
+.stats .n { font-weight: 800; font-size: 24px; letter-spacing: -.02em; color: var(--terra); }
+.stats .l { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* jump list — sticker pills */
+.jump { margin-top: 38px; display: flex; flex-wrap: wrap; gap: 10px; }
+.jump a {
+  font-family: "JetBrains Mono", monospace; font-size: 12.5px; font-weight: 600;
+  border: 2px solid var(--ink); border-radius: 999px; background: var(--panel);
+  padding: 8px 18px; color: var(--ink);
+  transition: transform .15s ease, background .15s ease;
+}
+.jump a:hover { background: var(--terra-soft); transform: translateY(-2px) rotate(-1deg); }
+
+/* ── Sections ─────────────────────────────────────────── */
+section { padding: 76px 0; border-bottom: 2px solid var(--ink); }
+.sec-head { margin-bottom: 38px; }
+.sec-head h2 {
+  font-weight: 800; font-variation-settings: "opsz" 96;
+  font-size: clamp(29px, 3.1vw, 43px); letter-spacing: -.02em;
+  display: inline-block; position: relative;
+}
+/* squiggle under section headings */
+.sec-head h2 svg { position: absolute; left: 0; bottom: -12px; width: min(100%, 220px); height: 8px; }
+.sec-head h2 svg path { stroke: var(--terra); stroke-width: 2.5; fill: none; stroke-linecap: round; }
+.sec-head .sub { margin-top: 20px; color: var(--muted); font-size: 15px; max-width: 560px; font-weight: 500; }
+
+/* ── Flagship: the workbench centrepiece ──────────────── */
+.flagship {
+  border: 2px solid var(--ink); border-radius: 18px; overflow: hidden;
+  background: #2b2016; color: #f4ead9;   /* warm dark in BOTH themes */
+  box-shadow: 6px 6px 0 var(--terra);
+  display: grid; grid-template-columns: 1.05fr 440px;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.flagship:hover { transform: translate(-2px,-3px); box-shadow: 9px 9px 0 var(--terra); }
+@media (max-width: 860px) { .flagship { grid-template-columns: 1fr; } }
+.flag-left { padding: 46px 46px 42px; display: flex; flex-direction: column; gap: 15px; }
+@media (max-width: 720px) { .flag-left { padding: 30px 24px; } }
+.flag-tags { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.flag-tags .label { color: #e08a5c; }
+.stamp {
+  font-family: "JetBrains Mono", monospace; font-size: 10.5px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: #9dc48f; border: 2px solid #9dc48f; border-radius: 6px;
+  padding: 4px 10px; transform: rotate(-2deg);
+}
+.flagship h3 { font-weight: 800; font-size: clamp(32px, 3.2vw, 46px); letter-spacing: -.025em; }
+.flagship p { max-width: 460px; font-size: 16px; line-height: 1.7; color: #d3c4ad; font-weight: 500; }
+.flag-stack { font-family: "JetBrains Mono", monospace; font-size: 12px; color: #a8967c; }
+.flag-links { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 12px; }
+.flag-links .go {
+  background: #e08a5c; color: #201812; font-weight: 700; font-size: 14px;
+  padding: 12px 22px; border-radius: 10px; border: 2px solid #e08a5c;
+  transition: transform .15s ease;
+}
+.flag-links .go:hover { transform: translate(-1px,-2px); }
+.flag-links .quiet {
+  border: 2px solid #5c4a38; color: #f4ead9; font-weight: 600; font-size: 14px;
+  padding: 12px 22px; border-radius: 10px; transition: border-color .15s ease;
+}
+.flag-links .quiet:hover { border-color: #e08a5c; }
+/* taped polaroid screenshot area */
+.flag-right { display: grid; place-items: center; min-height: 340px; padding: 30px; }
+@media (max-width: 860px) { .flag-right { min-height: 240px; } }
+.polaroid {
+  width: 100%; height: 100%; min-height: 240px;
+  background: #35261c; border: 2px solid #5c4a38; border-radius: 6px;
+  display: grid; place-items: center; position: relative;
+  transform: rotate(1.4deg);
+}
+.polaroid .cap { font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: #e08a5c; }
+.tape {
+  position: absolute; width: 84px; height: 26px;
+  background: rgba(244, 234, 217, .28);
+  border-left: 1px dashed rgba(244,234,217,.35); border-right: 1px dashed rgba(244,234,217,.35);
+}
+.tape.tl { top: -13px; left: 22px; transform: rotate(-6deg); }
+.tape.br { bottom: -13px; right: 22px; transform: rotate(-4deg); }
+
+/* ── Featured rows: taped photos on the bench ─────────── */
+.row {
+  display: grid; grid-template-columns: 1.1fr 400px; gap: 44px;
+  padding: 40px 0; border-bottom: 2px dashed var(--line);
+  align-items: center;
+}
+.row:last-child { border-bottom: none; padding-bottom: 6px; }
+@media (max-width: 860px) { .row { grid-template-columns: 1fr; gap: 24px; } }
+.row h3 { font-weight: 800; font-size: clamp(23px, 2.1vw, 29px); letter-spacing: -.02em; margin-bottom: 10px; }
+.row p { max-width: 500px; font-size: 15.5px; line-height: 1.68; color: var(--body); font-weight: 500; }
+.row .stack { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--faint); margin-top: 10px; }
+.row .links { margin-top: 16px; }
+.row .links a {
+  display: inline-block;
+  font-weight: 700; font-size: 14px; color: var(--terra);
+  border: 2px solid var(--terra); border-radius: 999px; padding: 8px 18px;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+.row .links a:hover { background: var(--terra); color: var(--paper); transform: translateY(-2px); }
+.row .shot {
+  height: 214px; border: 2px solid var(--ink); border-radius: 6px; background: var(--panel);
+  box-shadow: var(--card-shadow);
+  display: grid; place-items: center; position: relative;
+  transform: rotate(-1deg);
+  transition: transform .18s ease;
+}
+.row:nth-child(odd) .shot { transform: rotate(1deg); }
+.row .shot:hover { transform: rotate(0deg) translateY(-3px); }
+.row .shot .tape { background: color-mix(in srgb, var(--terra) 22%, transparent); border-color: color-mix(in srgb, var(--terra) 30%, transparent); }
+.row .shot .cap { font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--muted); }
+
+/* ── The Wall: the pegboard ───────────────────────────── */
+.pegboard {
+  border: 2px solid var(--ink); border-radius: 16px; background: var(--terra-soft);
+  padding: 26px; position: relative;
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 14%, transparent) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+.wall-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 960px) { .wall-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .wall-grid { grid-template-columns: 1fr; } }
+.tool {
+  border: 2px solid var(--ink); border-radius: 12px; background: var(--panel);
+  padding: 18px 18px 15px; box-shadow: var(--card-shadow);
+  display: flex; flex-direction: column; gap: 7px;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.tool:hover { transform: translate(-2px,-3px) rotate(-.4deg); box-shadow: var(--card-shadow-hover); }
+.tool .head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.tool .name { font-weight: 800; font-size: 15.5px; letter-spacing: -.01em; }
+.tool .status {
+  font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 600;
+  letter-spacing: .07em; text-transform: uppercase;
+  border-radius: 5px; padding: 2px 7px; transform: rotate(-2deg);
+}
+.tool .status.live { color: var(--leaf); border: 1.5px solid var(--leaf); }
+.tool .status.building { color: var(--gold); border: 1.5px dashed var(--gold); }
+.tool .desc { font-size: 13.5px; line-height: 1.55; color: var(--body); font-weight: 500; }
+.tool .tags { font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--faint); }
+.tool .plinks { margin-top: 3px; display: flex; gap: 14px; font-family: "JetBrains Mono", monospace; font-size: 12px; }
+.tool .plinks a { color: var(--muted); border-bottom: 2px solid var(--line); }
+.tool .plinks a:hover { color: var(--terra); border-bottom-color: var(--terra); }
+
+/* WIP strip: masking-tape label */
+.wip {
+  margin-top: 24px; padding: 16px 20px;
+  border: 2px dashed var(--gold); border-radius: 12px; background: var(--panel);
+  font-size: 13.5px; line-height: 1.6; color: var(--body); font-weight: 500;
+  display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap;
+}
+.wip .lbl {
+  font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase;
+  background: color-mix(in srgb, var(--gold) 18%, transparent);
+  color: var(--gold); padding: 3px 10px; transform: rotate(-1.5deg); white-space: nowrap;
+}
+.wip b { color: var(--ink); }
+
+/* ── Experience ───────────────────────────────────────── */
+.exp { display: grid; grid-template-columns: 1.25fr .75fr; gap: 64px; }
+@media (max-width: 860px) { .exp { grid-template-columns: 1fr; gap: 40px; } }
+.role {
+  border: 2px solid var(--ink); border-radius: 12px; background: var(--panel);
+  padding: 22px 24px; box-shadow: var(--card-shadow); margin-bottom: 18px;
+}
+.role .date { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--terra); margin-bottom: 6px; }
+.role h3 { font-weight: 800; font-size: 19px; letter-spacing: -.015em; margin-bottom: 8px; }
+.role p { font-size: 14.5px; line-height: 1.65; color: var(--body); font-weight: 500; }
+.toolbox .label { display: block; margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 9px; list-style: none; }
+.chips li {
+  font-family: "JetBrains Mono", monospace; font-size: 12px;
+  border: 2px solid var(--line); border-radius: 999px; background: var(--panel);
+  padding: 6px 14px; color: var(--body);
+  transition: border-color .15s ease, transform .15s ease;
+}
+.chips li:hover { border-color: var(--terra); transform: rotate(-1.5deg); }
+
+/* ── Contact ──────────────────────────────────────────── */
+.contact-card {
+  border: 2px solid var(--ink); border-radius: 18px;
+  background: #2b2016; color: #f4ead9;   /* warm dark in both themes */
+  box-shadow: 6px 6px 0 var(--terra);
+  padding: 50px; display: flex; align-items: center; gap: 40px;
+  justify-content: space-between; flex-wrap: wrap;
+}
+@media (max-width: 720px) { .contact-card { padding: 30px 24px; } }
+.contact-card h2 {
+  font-weight: 800; font-variation-settings: "opsz" 96;
+  font-size: clamp(30px, 3.6vw, 46px); line-height: 1.1; letter-spacing: -.025em;
+}
+.contact-card h2 em { font-style: normal; color: #e08a5c; }
+.contact-card .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.contact-card .go {
+  background: #e08a5c; color: #201812; font-weight: 700; font-size: 14px;
+  padding: 12px 22px; border-radius: 10px; transition: transform .15s ease;
+}
+.contact-card .go:hover { transform: translate(-1px,-2px); }
+.contact-card .quiet {
+  border: 2px solid #5c4a38; color: #f4ead9; font-weight: 600; font-size: 14px;
+  padding: 12px 22px; border-radius: 10px; transition: border-color .15s ease;
+}
+.contact-card .quiet:hover { border-color: #e08a5c; }
+footer {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  padding: 26px 0 40px;
+  font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--faint);
+}
+
+.dir-tag {
+  position: fixed; bottom: 14px; left: 14px; z-index: 60;
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  background: var(--ink); color: var(--paper); padding: 6px 10px; border-radius: 6px; opacity: .85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; animation: none !important; }
+  .stats > div, .row .shot, .polaroid { transform: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="dir-tag">direction c · the workshop</div>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">juberahmed<em>.dev</em>
+      <svg viewBox="0 0 120 6" preserveAspectRatio="none" aria-hidden="true"><path d="M2 4 Q 12 1, 24 3.5 T 48 3 T 72 3.5 T 96 3 T 118 3.5"/></svg>
+    </a>
+    <div class="bar-right">
+      <button class="toggle" id="toggle" aria-label="Toggle theme">◐</button>
+      <a class="btn btn-ghost" href="#">Download CV</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none">
+    <p class="kicker label">Mohammed Juber Ahmed · frontend developer, Birmingham UK</p>
+    <h1>I build web products, <span class="mark">front to back.<svg viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true"><path d="M2 16 Q 20 8, 50 12 T 98 10 L 98 19 Q 60 16, 30 18 T 2 19 Z"/></svg></span></h1>
+    <p class="sub">Three years shipping Wolseley's high-traffic B2B e-commerce frontend by day. On my own time I build and ship my own products, including a live AI translation keyboard with its own API.</p>
+
+    <div class="stats">
+      <div><div class="n">3+</div><div class="l">yrs shipping at scale</div></div>
+      <div><div class="n">6</div><div class="l">builds on the wall</div></div>
+      <div><div class="n">1</div><div class="l">API in production</div></div>
+    </div>
+
+    <nav class="jump" aria-label="Sections">
+      <a href="#work">work</a>
+      <a href="#wall">wall</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </section>
+
+  <!-- FEATURED -->
+  <section id="work">
+    <div class="sec-head">
+      <h2>Featured work<svg viewBox="0 0 220 8" preserveAspectRatio="none" aria-hidden="true"><path d="M2 5 Q 30 1, 60 4.5 T 120 4 T 180 4.5 T 218 4"/></svg></h2>
+    </div>
+
+    <div class="flagship">
+      <div class="flag-left">
+        <div class="flag-tags">
+          <span class="label">flagship</span>
+          <span class="stamp">live in production</span>
+        </div>
+        <h3>Jembatan</h3>
+        <p>An Android keyboard that translates text, voice, and clipboard messages into natural, colloquial language, powered by gpt-5-mini on its own Cloudflare Worker API with on-device speech. I built the whole product: the app, the backend, onboarding, branding, and the roadmap.</p>
+        <div class="flag-stack">kotlin · cloudflare-workers · openai-api</div>
+        <div class="flag-links">
+          <a class="go" href="#">Live demo</a>
+          <a class="quiet" href="#">Case study</a>
+          <a class="quiet" href="#">Code</a>
+        </div>
+      </div>
+      <div class="flag-right">
+        <div class="polaroid">
+          <span class="tape tl"></span><span class="tape br"></span>
+          <span class="cap">jembatan app screenshot</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:22px">
+      <div>
+        <h3>Stratemize</h3>
+        <p>A full-stack agency site, not a static brochure: a React 19 and TypeScript frontend over a Cloudflare Workers backend. A tRPC API and a D1 database sit behind a consultation booker that stores live date and time slots. Eight services, a five-step process, and a lead-magnet capture, all designed and built by me.</p>
+        <div class="stack">react · cloudflare-workers · d1</div>
+        <div class="links"><a href="#">Visit site</a></div>
+      </div>
+      <div class="shot"><span class="tape tl"></span><span class="cap">stratemize.co.uk</span></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <h3>Yoosuf Zaman</h3>
+        <p>A personal-brand site for a business-setup consultant, hand-built in plain HTML, CSS, and vanilla JavaScript with no framework. An editorial hero, a portfolio grid of the ventures he's launched, a services-and-outcomes breakdown, a booking page, and a consultation CTA, with purposeful motion throughout.</p>
+        <div class="stack">html · css · vanilla-js</div>
+        <div class="links"><a href="#">Visit site</a></div>
+      </div>
+      <div class="shot"><span class="tape tl"></span><span class="cap">yoosufzaman.com</span></div>
+    </div>
+  </section>
+
+  <!-- THE WALL -->
+  <section id="wall">
+    <div class="sec-head">
+      <h2>The wall: 6 builds and counting<svg viewBox="0 0 220 8" preserveAspectRatio="none" aria-hidden="true"><path d="M2 5 Q 30 1, 60 4.5 T 120 4 T 180 4.5 T 218 4"/></svg></h2>
+      <p class="sub">Every real build, big or small, from finished products to works in progress.</p>
+    </div>
+
+    <div class="pegboard">
+      <div class="wall-grid">
+        <div class="tool">
+          <div class="head"><span class="name">Jembatan-app</span><span class="status live">live</span></div>
+          <div class="desc">AI translation keyboard + Worker API</div>
+          <div class="tags">kotlin · workers</div>
+          <div class="plinks"><a href="#">code</a></div>
+        </div>
+        <div class="tool">
+          <div class="head"><span class="name">mission_to_abs_app</span><span class="status live">live</span></div>
+          <div class="desc">Animated fitness tracker + data-viz</div>
+          <div class="tags">react · zustand</div>
+          <div class="plinks"><a href="#">code</a><a href="#">case study</a></div>
+        </div>
+        <div class="tool">
+          <div class="head"><span class="name">ecommerce_store</span><span class="status live">live</span></div>
+          <div class="desc">Full-stack storefront: React UI, Express + Postgres backend</div>
+          <div class="tags">react · express · postgres</div>
+          <div class="plinks"><a href="#">code</a><a href="#">case study</a></div>
+        </div>
+        <div class="tool">
+          <div class="head"><span class="name">habit_tracker</span><span class="status building">building</span></div>
+          <div class="desc">Modern-stack PWA shell</div>
+          <div class="tags">next16 · react19 · ts</div>
+          <div class="plinks"><a href="#">code</a></div>
+        </div>
+        <div class="tool">
+          <div class="head"><span class="name">quran-just-one-verse</span><span class="status building">building</span></div>
+          <div class="desc">One verse a day</div>
+          <div class="tags">js</div>
+          <div class="plinks"><a href="#">code</a></div>
+        </div>
+        <div class="tool">
+          <div class="head"><span class="name">Qibla_Compass</span><span class="status building">building</span></div>
+          <div class="desc">Sensor-driven qibla finder</div>
+          <div class="tags">js · sensors</div>
+          <div class="plinks"><a href="#">code</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wip">
+      <span class="lbl">currently building</span>
+      <span><b>habit_tracker</b>: architecture-first PWA: Next.js 16, React 19, strict TS, Tailwind v4, installable, dual theme. Features landing next. No demo button until it earns one.</span>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-head">
+      <h2>Experience<svg viewBox="0 0 220 8" preserveAspectRatio="none" aria-hidden="true"><path d="M2 5 Q 30 1, 60 4.5 T 120 4 T 180 4.5 T 218 4"/></svg></h2>
+    </div>
+    <div class="exp">
+      <div>
+        <div class="role">
+          <div class="date">2024.08 — now</div>
+          <h3>Digital Developer · Wolseley</h3>
+          <p>High-traffic B2B e-commerce frontend. Responsive, accessible pages shipped through A/B and multivariate tests: merchandising badges, promos, seasonal lightboxes. Kept what moved the numbers and dropped what didn't.</p>
+        </div>
+        <div class="role" style="margin-bottom:0">
+          <div class="date">2022.12 — 2024.08</div>
+          <h3>Apprentice Developer · Wolseley</h3>
+          <p>Earned the L3 Software Development Technician qualification (QA) while shipping to production.</p>
+        </div>
+      </div>
+      <div class="toolbox">
+        <span class="label">toolbox</span>
+        <ul class="chips">
+          <li>html/css/sass</li><li>javascript</li><li>react</li><li>typescript</li>
+          <li>a/b testing</li><li>monetate</li><li>python</li><li>c#</li><li>sql</li><li>cloudflare</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="border-bottom:none; padding-bottom:20px">
+    <div class="contact-card">
+      <h2>Next on the wall:<br><em>your product.</em></h2>
+      <div class="actions">
+        <a class="go" href="#">Download CV (PDF)</a>
+        <a class="quiet" href="#">Email</a>
+        <a class="quiet" href="#">GitHub</a>
+        <a class="quiet" href="#">LinkedIn</a>
+      </div>
+    </div>
+    <footer>
+      <span>© 2026 mohammed juber ahmed</span>
+      <span>birmingham, uk · juberahmed.dev</span>
+    </footer>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  if (matchMedia("(prefers-color-scheme: dark)").matches) root.classList.add("dark");
+  document.getElementById("toggle").addEventListener("click", () => root.classList.toggle("dark"));
+</script>
+</body>
+</html>

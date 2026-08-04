@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction A — The Ledger · juberahmed.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   DIRECTION A — "THE LEDGER"
+   Editorial print. Ink on warm paper, ruled lines, small caps,
+   dotted leaders, a proofreader's red. The site as a well-kept
+   record of things built — a maker's ledger, typeset like a
+   broadsheet. Personality lives in the typography and print
+   details; the confidence is quiet.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --paper:   #f6f1e7;   /* warm cream stock */
+  --panel:   #fdfaf3;   /* lighter sheet for cards */
+  --ink:     #211b12;   /* warm near-black ink */
+  --body:    #43392a;   /* body text */
+  --muted:   #6b5f4c;   /* secondary */
+  --faint:   #877a63;   /* tertiary / captions */
+  --rule:    #d8cfba;   /* hairline rules */
+  --rule-hard: #211b12; /* heavy rules take ink */
+  --red:     #a8321f;   /* proofreader's red — the accent */
+  --red-soft:#eadfd2;   /* red's quiet tint for hover washes */
+  --ochre:   #8a6a1f;   /* "building" status */
+  --stamp:   #2f5d3a;   /* "live" status — ledger green ink */
+  --shadow:  0 1px 2px rgba(33,27,18,.05), 0 12px 32px -20px rgba(33,27,18,.18);
+}
+.dark {
+  --paper:   #191510;
+  --panel:   #211c15;
+  --ink:     #f0e9da;
+  --body:    #cfc4ae;
+  --muted:   #a2957c;
+  --faint:   #837760;
+  --rule:    #352d21;
+  --rule-hard: #f0e9da;
+  --red:     #ef8b6d;
+  --red-soft:#2a211a;
+  --ochre:   #d9ae4a;
+  --stamp:   #8fbf82;
+  --shadow:  none;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Public Sans", system-ui, sans-serif;
+  transition: background .3s, color .3s;
+  -webkit-font-smoothing: antialiased;
+}
+.serif { font-family: "Fraunces", Georgia, serif; }
+.mono  { font-family: "JetBrains Mono", monospace; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+@media (max-width: 720px) { .wrap { padding: 0 24px; } }
+
+/* small-caps utility — the ledger's voice for labels */
+.sc {
+  font-family: "Public Sans", sans-serif;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+}
+
+/* ── Masthead ─────────────────────────────────────────── */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+/* double rule under the masthead — the print signature */
+header::after {
+  content: ""; display: block; height: 3px;
+  border-top: 1px solid var(--rule-hard);
+  margin-top: -4px;
+  border-bottom: 1px solid var(--rule-hard);
+}
+.mast { display: flex; align-items: center; justify-content: space-between; padding: 18px 0 14px; }
+.brand { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 19px; letter-spacing: -.01em; }
+.brand em { font-style: normal; color: var(--red); }
+.mast-right { display: flex; align-items: center; gap: 14px; }
+.toggle {
+  width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--rule); background: var(--panel);
+  cursor: pointer; color: var(--ink); font-size: 14px;
+  display: grid; place-items: center;
+}
+.btn-ink {
+  display: inline-block; background: var(--ink); color: var(--paper);
+  font-weight: 700; font-size: 13.5px; padding: 10px 20px;
+  border: 1px solid var(--ink);
+  transition: transform .18s ease;
+}
+.btn-ink:hover { transform: translateY(-2px); }
+
+/* ── Hero ─────────────────────────────────────────────── */
+.hero { padding: 88px 0 72px; border-bottom: 1px solid var(--rule); }
+.hero .kicker { color: var(--muted); margin-bottom: 30px; }
+.hero h1 {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 900; font-variation-settings: "opsz" 144;
+  font-size: clamp(46px, 6.4vw, 86px);
+  line-height: 1.02; letter-spacing: -.015em;
+  max-width: 980px;
+}
+/* the proofreader's underline — a red stroke under the last phrase */
+.hero h1 .mark {
+  position: relative; white-space: nowrap;
+}
+.hero h1 .mark::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: .04em;
+  height: .09em; background: var(--red);
+  transform: skewY(-.6deg);
+}
+.hero .sub {
+  margin-top: 34px; max-width: 570px;
+  font-size: clamp(17px, 1.3vw, 19.5px); line-height: 1.7; color: var(--body);
+}
+/* ledger stat row — columns divided by rules */
+.stats {
+  margin-top: 44px; display: flex; max-width: 640px;
+  border-top: 1px solid var(--rule-hard); border-bottom: 1px solid var(--rule);
+}
+.stats > div { flex: 1; padding: 14px 18px 14px 0; }
+.stats > div + div { border-left: 1px solid var(--rule); padding-left: 18px; }
+.stats .n { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 26px; }
+.stats .l { font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+/* contents — dotted leaders, like a table of contents */
+.contents { margin-top: 40px; max-width: 420px; }
+.contents .sc { color: var(--faint); margin-bottom: 10px; display: block; }
+.contents a {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 15px; font-weight: 600; padding: 7px 0;
+  color: var(--body);
+}
+.contents a:hover { color: var(--red); }
+.contents .dots {
+  flex: 1; border-bottom: 2px dotted var(--rule);
+  transform: translateY(-4px);
+}
+.contents .pg { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--faint); }
+
+/* ── Sections ─────────────────────────────────────────── */
+section { padding: 76px 0; border-bottom: 1px solid var(--rule); }
+.sec-head { margin-bottom: 36px; }
+.sec-head .rule-top {
+  height: 5px; border-top: 2px solid var(--rule-hard);
+  border-bottom: 1px solid var(--rule-hard);
+  margin-bottom: 20px;
+}
+.sec-head h2 {
+  font-family: "Fraunces", Georgia, serif; font-weight: 700;
+  font-size: clamp(30px, 3.2vw, 44px); letter-spacing: -.01em;
+}
+.sec-head .sub { margin-top: 10px; color: var(--muted); font-size: 15px; max-width: 560px; }
+
+/* ── Flagship: the feature story ──────────────────────── */
+.flagship {
+  border: 2px solid var(--ink);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  display: grid; grid-template-columns: 1.05fr 440px;
+}
+@media (max-width: 860px) { .flagship { grid-template-columns: 1fr; } }
+.flag-left { padding: 48px 48px 44px; display: flex; flex-direction: column; gap: 16px; }
+@media (max-width: 720px) { .flag-left { padding: 32px 26px; } }
+.flag-tags { display: flex; align-items: center; gap: 12px; }
+.flag-tags .sc { color: var(--red); }
+.badge-live {
+  font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 600;
+  color: var(--stamp); border: 1.5px solid var(--stamp);
+  padding: 3px 9px; letter-spacing: .05em;
+}
+.flagship h3 {
+  font-family: "Fraunces", Georgia, serif; font-weight: 900;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(34px, 3.4vw, 48px); letter-spacing: -.01em;
+}
+.flagship p { max-width: 460px; font-size: 16.5px; line-height: 1.7; color: var(--body); }
+.flag-stack { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--faint); }
+.flag-links { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-red {
+  background: var(--red); color: var(--paper); font-weight: 700; font-size: 14px;
+  padding: 12px 24px; border: 1px solid var(--red);
+  transition: transform .18s ease;
+}
+.dark .btn-red { color: #191510; }
+.btn-red:hover { transform: translateY(-2px); }
+.btn-line {
+  border: 1px solid var(--ink); color: var(--ink);
+  font-weight: 600; font-size: 14px; padding: 12px 24px;
+  transition: background .18s ease;
+}
+.btn-line:hover { background: var(--red-soft); }
+.flag-right {
+  border-left: 2px solid var(--ink);
+  background:
+    repeating-linear-gradient(-45deg,
+      var(--red-soft), var(--red-soft) 9px,
+      transparent 9px, transparent 18px);
+  display: grid; place-items: center; min-height: 340px;
+}
+@media (max-width: 860px) { .flag-right { border-left: none; border-top: 2px solid var(--ink); min-height: 220px; } }
+.flag-right .cap { font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--muted); }
+
+/* ── Featured rows: column entries ────────────────────── */
+.row {
+  display: grid; grid-template-columns: 1.1fr 400px; gap: 44px;
+  padding: 40px 0; border-bottom: 1px solid var(--rule);
+  align-items: center;
+}
+.row:last-child { border-bottom: none; padding-bottom: 8px; }
+@media (max-width: 860px) { .row { grid-template-columns: 1fr; gap: 20px; } }
+.row h3 {
+  font-family: "Fraunces", Georgia, serif; font-weight: 700;
+  font-size: clamp(24px, 2.2vw, 30px); letter-spacing: -.01em;
+  margin-bottom: 10px;
+}
+.row p { max-width: 500px; font-size: 15.5px; line-height: 1.68; color: var(--body); }
+.row .stack { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--faint); margin-top: 10px; }
+.row .links { margin-top: 14px; }
+.row .links a { font-weight: 700; font-size: 14px; color: var(--red); border-bottom: 1px solid var(--red); padding-bottom: 1px; }
+.row .shot {
+  height: 210px; border: 1px solid var(--ink); background: var(--panel);
+  box-shadow: var(--shadow); display: grid; place-items: center;
+}
+.row .shot .cap {
+  font-family: "JetBrains Mono", monospace; font-size: 11.5px;
+  color: var(--muted); border: 1px solid var(--rule); background: var(--paper);
+  padding: 5px 10px;
+}
+
+/* ── The Wall: a real ledger table ────────────────────── */
+.ledger { border-top: 2px solid var(--rule-hard); }
+.ledger-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 200px 90px 150px;
+  gap: 18px; align-items: baseline;
+  padding: 15px 4px; border-bottom: 1px solid var(--rule);
+  transition: background .15s ease;
+}
+.ledger-row:hover { background: var(--red-soft); }
+.ledger-head {
+  font-family: "Public Sans", sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--faint);
+  border-bottom: 1px solid var(--rule-hard);
+}
+.ledger-head:hover { background: transparent; }
+@media (max-width: 900px) {
+  .ledger-row { grid-template-columns: 1fr 90px; gap: 6px 14px; }
+  .ledger-row .c-desc, .ledger-row .c-tags { grid-column: 1 / -1; }
+  .ledger-head .c-desc, .ledger-head .c-tags, .ledger-head .c-links { display: none; }
+  .ledger-row .c-links { grid-column: 1 / -1; }
+}
+.c-name { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 16.5px; }
+.c-desc { font-size: 13.5px; color: var(--body); line-height: 1.5; }
+.c-tags { font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--faint); }
+.c-status { font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 600; }
+.c-status.live { color: var(--stamp); }
+.c-status.building { color: var(--ochre); }
+.c-links { font-family: "JetBrains Mono", monospace; font-size: 12px; display: flex; gap: 14px; }
+.c-links a { color: var(--muted); border-bottom: 1px dotted var(--rule); }
+.c-links a:hover { color: var(--red); border-bottom-color: var(--red); }
+
+/* currently-building: a marginal note in red ink */
+.margin-note {
+  margin-top: 26px; padding: 16px 20px 16px 24px;
+  border-left: 3px solid var(--red);
+  background: var(--panel);
+  font-size: 13.5px; line-height: 1.65; color: var(--body);
+  box-shadow: var(--shadow);
+}
+.margin-note .sc { color: var(--red); display: inline-block; margin-right: 8px; }
+.margin-note b { color: var(--ink); }
+
+/* ── Experience ───────────────────────────────────────── */
+.exp { display: grid; grid-template-columns: 1.25fr .75fr; gap: 64px; }
+@media (max-width: 860px) { .exp { grid-template-columns: 1fr; gap: 40px; } }
+.role { padding: 22px 0; border-bottom: 1px solid var(--rule); }
+.role:first-child { padding-top: 0; }
+.role .date { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--red); margin-bottom: 6px; }
+.role h3 { font-family: "Fraunces", Georgia, serif; font-weight: 700; font-size: 20px; margin-bottom: 8px; }
+.role p { font-size: 14.5px; line-height: 1.65; color: var(--body); }
+.toolbox .sc { color: var(--faint); display: block; margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+.chips li {
+  font-family: "JetBrains Mono", monospace; font-size: 12px;
+  border: 1px solid var(--rule); background: var(--panel);
+  padding: 6px 12px; color: var(--body);
+}
+
+/* ── Contact: the colophon ────────────────────────────── */
+.colophon {
+  border: 2px solid var(--ink); background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 52px 52px; display: flex; align-items: center; gap: 40px;
+  justify-content: space-between; flex-wrap: wrap;
+}
+@media (max-width: 720px) { .colophon { padding: 32px 26px; } }
+.colophon h2 {
+  font-family: "Fraunces", Georgia, serif; font-weight: 900;
+  font-variation-settings: "opsz" 144;
+  font-size: clamp(30px, 3.6vw, 46px); line-height: 1.12; letter-spacing: -.01em;
+}
+.colophon h2 em { font-style: normal; color: var(--red); }
+.colophon .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+footer {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  padding: 26px 0 40px;
+  font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--faint);
+}
+
+/* corner tag naming the direction (mockup-only chrome) */
+.dir-tag {
+  position: fixed; bottom: 14px; left: 14px; z-index: 60;
+  font-family: "JetBrains Mono", monospace; font-size: 11px;
+  background: var(--ink); color: var(--paper); padding: 6px 10px;
+  opacity: .85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="dir-tag">direction a · the ledger</div>
+
+<header>
+  <div class="wrap mast">
+    <a class="brand" href="#top">juberahmed<em>.dev</em></a>
+    <div class="mast-right">
+      <button class="toggle" id="toggle" aria-label="Toggle theme">◐</button>
+      <a class="btn-ink" href="#">Download CV</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none">
+    <p class="kicker sc">Mohammed Juber Ahmed · frontend developer, Birmingham UK</p>
+    <h1 class="serif">I build web products, <span class="mark">front to back.</span></h1>
+    <p class="sub">Three years shipping Wolseley's high-traffic B2B e-commerce frontend by day. On my own time I build and ship my own products, including a live AI translation keyboard with its own API.</p>
+
+    <div class="stats">
+      <div><div class="n serif">3+</div><div class="l">yrs shipping at scale</div></div>
+      <div><div class="n serif">6</div><div class="l">builds on the wall</div></div>
+      <div><div class="n serif">1</div><div class="l">API in production</div></div>
+    </div>
+
+    <nav class="contents" aria-label="Sections">
+      <span class="sc">Contents</span>
+      <a href="#work">Work <span class="dots"></span><span class="pg">i</span></a>
+      <a href="#wall">Wall <span class="dots"></span><span class="pg">ii</span></a>
+      <a href="#experience">Experience <span class="dots"></span><span class="pg">iii</span></a>
+      <a href="#contact">Contact <span class="dots"></span><span class="pg">iv</span></a>
+    </nav>
+  </section>
+
+  <!-- FEATURED -->
+  <section id="work">
+    <div class="sec-head">
+      <div class="rule-top"></div>
+      <h2 class="serif">Featured work</h2>
+    </div>
+
+    <div class="flagship">
+      <div class="flag-left">
+        <div class="flag-tags">
+          <span class="sc">flagship</span>
+          <span class="badge-live">live in production</span>
+        </div>
+        <h3>Jembatan</h3>
+        <p>An Android keyboard that translates text, voice, and clipboard messages into natural, colloquial language, powered by gpt-5-mini on its own Cloudflare Worker API with on-device speech. I built the whole product: the app, the backend, onboarding, branding, and the roadmap.</p>
+        <div class="flag-stack">kotlin · cloudflare-workers · openai-api</div>
+        <div class="flag-links">
+          <a class="btn-red" href="#">Live demo</a>
+          <a class="btn-line" href="#">Case study</a>
+          <a class="btn-line" href="#">Code</a>
+        </div>
+      </div>
+      <div class="flag-right"><span class="cap">jembatan app screenshot</span></div>
+    </div>
+
+    <div class="row" style="margin-top:16px">
+      <div>
+        <h3 class="serif">Stratemize</h3>
+        <p>A full-stack agency site, not a static brochure: a React 19 and TypeScript frontend over a Cloudflare Workers backend. A tRPC API and a D1 database sit behind a consultation booker that stores live date and time slots. Eight services, a five-step process, and a lead-magnet capture, all designed and built by me.</p>
+        <div class="stack">react · cloudflare-workers · d1</div>
+        <div class="links"><a href="#">Visit site</a></div>
+      </div>
+      <div class="shot"><span class="cap">stratemize.co.uk</span></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <h3 class="serif">Yoosuf Zaman</h3>
+        <p>A personal-brand site for a business-setup consultant, hand-built in plain HTML, CSS, and vanilla JavaScript with no framework. An editorial hero, a portfolio grid of the ventures he's launched, a services-and-outcomes breakdown, a booking page, and a consultation CTA, with purposeful motion throughout.</p>
+        <div class="stack">html · css · vanilla-js</div>
+        <div class="links"><a href="#">Visit site</a></div>
+      </div>
+      <div class="shot"><span class="cap">yoosufzaman.com</span></div>
+    </div>
+  </section>
+
+  <!-- THE WALL -->
+  <section id="wall">
+    <div class="sec-head">
+      <div class="rule-top"></div>
+      <h2 class="serif">The wall: 6 builds and counting</h2>
+      <p class="sub">Every real build, big or small, from finished products to works in progress.</p>
+    </div>
+
+    <div class="ledger" role="table" aria-label="All builds">
+      <div class="ledger-row ledger-head" role="row">
+        <span>Build</span><span class="c-desc">Description</span><span class="c-tags">Stack</span><span>Status</span><span class="c-links">Links</span>
+      </div>
+      <div class="ledger-row">
+        <span class="c-name serif">Jembatan-app</span>
+        <span class="c-desc">AI translation keyboard + Worker API</span>
+        <span class="c-tags">kotlin · workers</span>
+        <span class="c-status live">live</span>
+        <span class="c-links"><a href="#">code</a></span>
+      </div>
+      <div class="ledger-row">
+        <span class="c-name serif">mission_to_abs_app</span>
+        <span class="c-desc">Animated fitness tracker + data-viz</span>
+        <span class="c-tags">react · zustand</span>
+        <span class="c-status live">live</span>
+        <span class="c-links"><a href="#">code</a><a href="#">case study</a></span>
+      </div>
+      <div class="ledger-row">
+        <span class="c-name serif">ecommerce_store</span>
+        <span class="c-desc">Full-stack storefront: React UI, Express + Postgres backend</span>
+        <span class="c-tags">react · express · postgres</span>
+        <span class="c-status live">live</span>
+        <span class="c-links"><a href="#">code</a><a href="#">case study</a></span>
+      </div>
+      <div class="ledger-row">
+        <span class="c-name serif">habit_tracker</span>
+        <span class="c-desc">Modern-stack PWA shell</span>
+        <span class="c-tags">next16 · react19 · ts</span>
+        <span class="c-status building">building</span>
+        <span class="c-links"><a href="#">code</a></span>
+      </div>
+      <div class="ledger-row">
+        <span class="c-name serif">quran-just-one-verse</span>
+        <span class="c-desc">One verse a day</span>
+        <span class="c-tags">js</span>
+        <span class="c-status building">building</span>
+        <span class="c-links"><a href="#">code</a></span>
+      </div>
+      <div class="ledger-row">
+        <span class="c-name serif">Qibla_Compass</span>
+        <span class="c-desc">Sensor-driven qibla finder</span>
+        <span class="c-tags">js · sensors</span>
+        <span class="c-status building">building</span>
+        <span class="c-links"><a href="#">code</a></span>
+      </div>
+    </div>
+
+    <div class="margin-note">
+      <span class="sc">currently building</span>
+      <b>habit_tracker</b>: architecture-first PWA: Next.js 16, React 19, strict TS, Tailwind v4, installable, dual theme. Features landing next. No demo button until it earns one.
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-head">
+      <div class="rule-top"></div>
+      <h2 class="serif">Experience</h2>
+    </div>
+    <div class="exp">
+      <div>
+        <div class="role">
+          <div class="date">2024.08 — now</div>
+          <h3 class="serif">Digital Developer · Wolseley</h3>
+          <p>High-traffic B2B e-commerce frontend. Responsive, accessible pages shipped through A/B and multivariate tests: merchandising badges, promos, seasonal lightboxes. Kept what moved the numbers and dropped what didn't.</p>
+        </div>
+        <div class="role" style="border-bottom:none">
+          <div class="date">2022.12 — 2024.08</div>
+          <h3 class="serif">Apprentice Developer · Wolseley</h3>
+          <p>Earned the L3 Software Development Technician qualification (QA) while shipping to production.</p>
+        </div>
+      </div>
+      <div class="toolbox">
+        <span class="sc">Toolbox</span>
+        <ul class="chips">
+          <li>html/css/sass</li><li>javascript</li><li>react</li><li>typescript</li>
+          <li>a/b testing</li><li>monetate</li><li>python</li><li>c#</li><li>sql</li><li>cloudflare</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="border-bottom:none; padding-bottom:20px">
+    <div class="colophon">
+      <h2 class="serif">Next on the wall:<br><em>your product.</em></h2>
+      <div class="actions">
+        <a class="btn-red" href="#">Download CV (PDF)</a>
+        <a class="btn-line" href="#">Email</a>
+        <a class="btn-line" href="#">GitHub</a>
+        <a class="btn-line" href="#">LinkedIn</a>
+      </div>
+    </div>
+    <footer>
+      <span>© 2026 mohammed juber ahmed</span>
+      <span>birmingham, uk · juberahmed.dev</span>
+    </footer>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  if (matchMedia("(prefers-color-scheme: dark)").matches) root.classList.add("dark");
+  document.getElementById("toggle").addEventListener("click", () => root.classList.toggle("dark"));
+</script>
+</body>
+</html>

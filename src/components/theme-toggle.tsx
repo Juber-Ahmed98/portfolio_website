@@ -5,9 +5,10 @@ import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
 /**
- * Circular theme toggle (34px) matching the mockup nav.
+ * Theme toggle — a 36px rounded-square with the Workshop's 2px ink border and
+ * small block shadow (DESIGN.md, Components → Nav).
  *
- * Icons come from Lucide, not the `☀`/`☾` characters the mockup used: those are
+ * Icons come from Lucide, not the `☀`/`☾` characters the mockups used: those are
  * drawn by whatever font the OS falls back to, and `☀` has an emoji presentation
  * variant that some Windows and Android builds render as a colour emoji in the
  * middle of a monochrome nav.
@@ -32,7 +33,7 @@ export function ThemeToggle() {
           : "Toggle theme"
       }
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="flex h-[34px] w-[34px] items-center justify-center rounded-full border border-chip bg-transparent text-ink transition-transform hover:-translate-y-px"
+      className="flex h-[36px] w-[36px] items-center justify-center rounded-[10px] border-2 border-ink bg-panel text-ink shadow-[2px_2px_0_var(--ink)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-px motion-safe:hover:shadow-[3px_3px_0_var(--ink)]"
     >
       {/* Show the icon for the theme you'd switch TO. */}
       <span suppressHydrationWarning className="flex">

@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Direction B — The Drafting Table · juberahmed.dev</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   DIRECTION B — "THE DRAFTING TABLE"
+   Technical drawing. Graph paper, dimension lines, registration
+   marks, a title block for a footer. Light theme = a drawing on
+   the board; dark theme = a true blueprint (deep blue paper,
+   pale lines). "I build things" made literal — the site is the
+   engineering drawing of its own author.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --paper:  #f7f9fa;
+  --panel:  #ffffff;
+  --ink:    #14212b;
+  --body:   #33454f;
+  --muted:  #586b75;
+  --faint:  #7b8b93;
+  --line:   #cfdade;
+  --grid:   rgba(36, 86, 164, .07);
+  --grid-major: rgba(36, 86, 164, .13);
+  --draft:  #2456a4;   /* drafting-pen blue — the accent */
+  --draft-soft: rgba(36, 86, 164, .08);
+  --safety: #c2410c;   /* safety orange — WIP / building */
+  --stamp:  #1d6f4c;   /* inspection-stamp green — live */
+  --shadow: 0 1px 2px rgba(20,33,43,.05), 0 12px 30px -20px rgba(20,33,43,.2);
+}
+.dark {
+  --paper:  #0c1a2e;   /* blueprint paper */
+  --panel:  #11223a;
+  --ink:    #e8eff9;
+  --body:   #b9c9dd;
+  --muted:  #8ba0b9;
+  --faint:  #6d84a0;
+  --line:   #24384f;
+  --grid:   rgba(232, 239, 249, .05);
+  --grid-major: rgba(232, 239, 249, .10);
+  --draft:  #7fb4ff;
+  --draft-soft: rgba(127, 180, 255, .10);
+  --safety: #ffa94d;
+  --stamp:  #78d6a3;
+  --shadow: none;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  color: var(--ink);
+  font-family: "Archivo", system-ui, sans-serif;
+  transition: background .3s, color .3s;
+  -webkit-font-smoothing: antialiased;
+  /* the graph paper: fine grid + major grid, drawn on the page itself */
+  background:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px),
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+    var(--paper);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+}
+.mono { font-family: "IBM Plex Mono", monospace; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--draft); outline-offset: 2px; }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 40px; }
+@media (max-width: 720px) { .wrap { padding: 0 24px; } }
+
+/* mono annotation voice */
+.ann {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px; font-weight: 500; letter-spacing: .02em;
+  color: var(--muted);
+}
+.ann-accent { color: var(--draft); }
+
+/* corner registration ticks on major panels */
+.reg { position: relative; }
+.reg::before, .reg::after,
+.reg > .tick::before, .reg > .tick::after {
+  content: ""; position: absolute; width: 14px; height: 14px;
+  border: 2px solid var(--draft); pointer-events: none;
+}
+.reg::before  { top: -2px; left: -2px;  border-right: none; border-bottom: none; }
+.reg::after   { top: -2px; right: -2px; border-left: none;  border-bottom: none; }
+.reg > .tick::before { bottom: -2px; left: -2px;  border-right: none; border-top: none; }
+.reg > .tick::after  { bottom: -2px; right: -2px; border-left: none;  border-top: none; }
+
+/* ── Header: the drawing's top edge ───────────────────── */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1.5px solid var(--ink);
+}
+.bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+.brand { font-weight: 800; font-size: 16px; letter-spacing: -.01em; }
+.brand em { font-style: normal; color: var(--draft); }
+.bar-right { display: flex; align-items: center; gap: 12px; }
+.toggle {
+  width: 34px; height: 34px; border-radius: 0;
+  border: 1.5px solid var(--ink); background: var(--panel);
+  cursor: pointer; color: var(--ink); font-size: 14px;
+  display: grid; place-items: center;
+}
+.btn-solid {
+  display: inline-block; background: var(--ink); color: var(--paper);
+  font-weight: 700; font-size: 13.5px; padding: 10px 18px;
+  transition: transform .15s ease;
+}
+.btn-solid:hover { transform: translate(-1px, -2px); box-shadow: 3px 3px 0 var(--draft); }
+
+/* ── Hero ─────────────────────────────────────────────── */
+.hero { padding: 84px 0 70px; }
+.hero .kicker { margin-bottom: 26px; }
+.hero .kicker::before { content: "// "; color: var(--draft); }
+.hero h1 {
+  font-weight: 900; font-size: clamp(44px, 6.2vw, 82px);
+  line-height: 1.0; letter-spacing: -.03em; text-transform: none;
+  max-width: 980px;
+}
+.hero h1 .draft-word { color: var(--draft); }
+
+/* dimension line under the headline */
+.dim { max-width: 620px; margin-top: 26px; display: flex; align-items: center; gap: 10px; }
+.dim .line { flex: 1; height: 0; border-top: 1.5px solid var(--draft); position: relative; }
+.dim .line::before, .dim .line::after {
+  content: ""; position: absolute; top: -6px; width: 0; height: 12px;
+  border-left: 1.5px solid var(--draft);
+}
+.dim .line::before { left: 0; } .dim .line::after { right: 0; }
+.dim .lbl { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--draft); white-space: nowrap; }
+
+.hero .sub {
+  margin-top: 30px; max-width: 580px;
+  font-size: clamp(16.5px, 1.25vw, 19px); line-height: 1.7; color: var(--body); font-weight: 500;
+}
+
+/* spec readout cells */
+.spec { margin-top: 42px; display: flex; flex-wrap: wrap; }
+.spec > div {
+  border: 1.5px solid var(--ink); background: var(--panel);
+  padding: 12px 22px; margin: 0 -1.5px -1.5px 0;
+}
+.spec .n { font-weight: 900; font-size: 24px; letter-spacing: -.02em; }
+.spec .l { font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* jump list as layer toggles */
+.layers { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 10px; }
+.layers a {
+  font-family: "IBM Plex Mono", monospace; font-size: 12.5px; font-weight: 600;
+  border: 1.5px dashed var(--line); color: var(--muted);
+  padding: 8px 16px; transition: all .15s ease;
+}
+.layers a::before { content: "[ "; color: var(--faint); }
+.layers a::after  { content: " ]"; color: var(--faint); }
+.layers a:hover { border-color: var(--draft); border-style: solid; color: var(--draft); background: var(--draft-soft); }
+
+/* ── Sections ─────────────────────────────────────────── */
+section { padding: 74px 0; border-top: 1.5px solid var(--line); }
+.sec-head { margin-bottom: 38px; }
+.sec-head .ann { display: block; margin-bottom: 10px; }
+.sec-head h2 {
+  font-weight: 800; font-size: clamp(28px, 3vw, 42px); letter-spacing: -.025em;
+}
+.sec-head .sub { margin-top: 10px; color: var(--muted); font-size: 15px; max-width: 560px; }
+
+/* ── Flagship: the assembly drawing ───────────────────── */
+.flagship {
+  border: 1.5px solid var(--ink); background: var(--panel);
+  box-shadow: var(--shadow);
+  display: grid; grid-template-columns: 1.05fr 440px;
+}
+@media (max-width: 860px) { .flagship { grid-template-columns: 1fr; } }
+.flag-left { padding: 46px 46px 42px; display: flex; flex-direction: column; gap: 15px; }
+@media (max-width: 720px) { .flag-left { padding: 30px 24px; } }
+.flag-tags { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.flag-tags .ann-accent { font-weight: 600; }
+.stamp {
+  font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--stamp); border: 2px solid var(--stamp);
+  padding: 4px 10px; transform: rotate(-2deg);
+}
+.flagship h3 { font-weight: 900; font-size: clamp(32px, 3.2vw, 46px); letter-spacing: -.03em; }
+.flagship p { max-width: 460px; font-size: 16px; line-height: 1.7; color: var(--body); font-weight: 500; }
+.flag-stack { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--faint); }
+.flag-links { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-draft {
+  background: var(--draft); color: var(--paper); font-weight: 700; font-size: 14px;
+  padding: 12px 22px; transition: transform .15s ease;
+}
+.dark .btn-draft { color: #0c1a2e; }
+.btn-draft:hover { transform: translate(-1px,-2px); box-shadow: 3px 3px 0 var(--ink); }
+.btn-outline {
+  border: 1.5px solid var(--ink); color: var(--ink);
+  font-weight: 600; font-size: 14px; padding: 12px 22px; transition: background .15s ease;
+}
+.btn-outline:hover { background: var(--draft-soft); }
+.flag-right {
+  border-left: 1.5px dashed var(--line);
+  display: grid; place-items: center; min-height: 340px;
+  background:
+    linear-gradient(var(--grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-major) 1px, transparent 1px);
+  background-size: 24px 24px;
+  position: relative;
+}
+@media (max-width: 860px) { .flag-right { border-left: none; border-top: 1.5px dashed var(--line); min-height: 220px; } }
+.flag-right .crosshair {
+  position: absolute; width: 26px; height: 26px;
+}
+.flag-right .crosshair::before, .flag-right .crosshair::after {
+  content: ""; position: absolute; background: var(--draft);
+}
+.flag-right .crosshair::before { left: 50%; top: 0; bottom: 0; width: 1.5px; }
+.flag-right .crosshair::after  { top: 50%; left: 0; right: 0; height: 1.5px; }
+.flag-right .cap { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--draft); }
+
+/* ── Featured rows: detail drawings ───────────────────── */
+.row {
+  display: grid; grid-template-columns: 1.1fr 400px; gap: 44px;
+  padding: 38px 0; border-bottom: 1.5px dashed var(--line);
+  align-items: center;
+}
+.row:last-child { border-bottom: none; padding-bottom: 6px; }
+@media (max-width: 860px) { .row { grid-template-columns: 1fr; gap: 20px; } }
+.row h3 { font-weight: 800; font-size: clamp(23px, 2.1vw, 29px); letter-spacing: -.025em; margin-bottom: 10px; }
+.row p { max-width: 500px; font-size: 15.5px; line-height: 1.68; color: var(--body); font-weight: 500; }
+.row .stack { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--faint); margin-top: 10px; }
+.row .links { margin-top: 14px; }
+.row .links a {
+  font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 13px; color: var(--draft);
+  border-bottom: 1.5px solid var(--draft); padding-bottom: 1px;
+}
+.row .shot {
+  height: 210px; border: 1.5px solid var(--ink); background: var(--panel);
+  box-shadow: var(--shadow); display: grid; place-items: center; position: relative;
+}
+.row .shot .cap {
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--muted);
+  border: 1px dashed var(--line); padding: 5px 10px;
+}
+
+/* ── The Wall: component grid with brackets ───────────── */
+.wall-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+@media (max-width: 960px) { .wall-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .wall-grid { grid-template-columns: 1fr; } }
+.part {
+  border: 1.5px solid var(--line); background: var(--panel);
+  padding: 20px 20px 16px; position: relative;
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  display: flex; flex-direction: column; gap: 7px;
+  box-shadow: var(--shadow);
+}
+.part:hover { border-color: var(--draft); transform: translate(-1px,-2px); box-shadow: 4px 4px 0 var(--draft-soft), var(--shadow); }
+/* corner bracket top-left only — a quiet drafting mark */
+.part::before {
+  content: ""; position: absolute; top: -1.5px; left: -1.5px;
+  width: 12px; height: 12px;
+  border-top: 2.5px solid var(--draft); border-left: 2.5px solid var(--draft);
+}
+.part .head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.part .name { font-weight: 800; font-size: 15.5px; letter-spacing: -.01em; }
+.part .status { font-family: "IBM Plex Mono", monospace; font-size: 10.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.part .status.live { color: var(--stamp); }
+.part .status.building { color: var(--safety); }
+.part .desc { font-size: 13.5px; line-height: 1.55; color: var(--body); font-weight: 500; }
+.part .tags { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--faint); }
+.part .plinks { margin-top: 3px; display: flex; gap: 14px; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.part .plinks a { color: var(--muted); border-bottom: 1px dotted var(--line); }
+.part .plinks a:hover { color: var(--draft); border-bottom-color: var(--draft); }
+
+/* WIP strip: pencilled-in, dashed safety-orange */
+.wip {
+  margin-top: 22px; padding: 15px 20px;
+  border: 1.5px dashed var(--safety);
+  background: var(--panel);
+  font-size: 13.5px; line-height: 1.6; color: var(--body); font-weight: 500;
+  display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap;
+}
+.wip .lbl {
+  font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--safety); white-space: nowrap;
+}
+.wip b { color: var(--ink); }
+
+/* ── Experience ───────────────────────────────────────── */
+.exp { display: grid; grid-template-columns: 1.25fr .75fr; gap: 64px; }
+@media (max-width: 860px) { .exp { grid-template-columns: 1fr; gap: 40px; } }
+.role { padding: 22px 0; border-bottom: 1.5px dashed var(--line); position: relative; padding-left: 22px; }
+.role::before {
+  content: ""; position: absolute; left: 0; top: 30px;
+  width: 10px; height: 10px; border: 2px solid var(--draft); background: var(--paper);
+}
+.role:first-child { padding-top: 0; }
+.role:first-child::before { top: 8px; }
+.role .date { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--draft); margin-bottom: 6px; }
+.role h3 { font-weight: 800; font-size: 19px; letter-spacing: -.015em; margin-bottom: 8px; }
+.role p { font-size: 14.5px; line-height: 1.65; color: var(--body); font-weight: 500; }
+.toolbox .ann { display: block; margin-bottom: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+.chips li {
+  font-family: "IBM Plex Mono", monospace; font-size: 12px;
+  border: 1.5px solid var(--line); background: var(--panel);
+  padding: 6px 12px; color: var(--body);
+}
+
+/* ── Contact + title block ────────────────────────────── */
+.contact-card {
+  border: 1.5px solid var(--ink); background: var(--panel); box-shadow: var(--shadow);
+  padding: 50px; display: flex; align-items: center; gap: 40px;
+  justify-content: space-between; flex-wrap: wrap;
+}
+@media (max-width: 720px) { .contact-card { padding: 30px 24px; } }
+.contact-card h2 {
+  font-weight: 900; font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.08; letter-spacing: -.03em;
+}
+.contact-card h2 em { font-style: normal; color: var(--draft); }
+.contact-card .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* the drawing's title block — the footer as a real title block table */
+.title-block {
+  margin-top: 34px; border: 1.5px solid var(--ink); background: var(--panel);
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px;
+}
+@media (max-width: 720px) { .title-block { grid-template-columns: 1fr 1fr; } }
+.title-block > div { padding: 10px 14px; border-right: 1.5px solid var(--line); }
+.title-block > div:last-child { border-right: none; }
+@media (max-width: 720px) { .title-block > div:nth-child(2) { border-right: none; } .title-block > div:nth-child(-n+2) { border-bottom: 1.5px solid var(--line); } }
+.title-block .k { color: var(--faint); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+.title-block .v { color: var(--body); font-weight: 500; }
+
+.dir-tag {
+  position: fixed; bottom: 14px; left: 14px; z-index: 60;
+  font-family: "IBM Plex Mono", monospace; font-size: 11px;
+  background: var(--ink); color: var(--paper); padding: 6px 10px; opacity: .85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<div class="dir-tag">direction b · the drafting table</div>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top">juberahmed<em>.dev</em></a>
+    <div class="bar-right">
+      <button class="toggle" id="toggle" aria-label="Toggle theme">◐</button>
+      <a class="btn-solid" href="#">Download CV</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none">
+    <p class="kicker ann">Mohammed Juber Ahmed · frontend developer, Birmingham UK</p>
+    <h1>I build web products, <span class="draft-word">front to back.</span></h1>
+    <div class="dim" aria-hidden="true">
+      <div class="line"></div>
+      <span class="lbl">full stack — measured, not claimed</span>
+    </div>
+    <p class="sub">Three years shipping Wolseley's high-traffic B2B e-commerce frontend by day. On my own time I build and ship my own products, including a live AI translation keyboard with its own API.</p>
+
+    <div class="spec">
+      <div><div class="n">3+</div><div class="l">yrs shipping at scale</div></div>
+      <div><div class="n">6</div><div class="l">builds on the wall</div></div>
+      <div><div class="n">1</div><div class="l">API in production</div></div>
+    </div>
+
+    <nav class="layers" aria-label="Sections">
+      <a href="#work">work</a>
+      <a href="#wall">wall</a>
+      <a href="#experience">experience</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </section>
+
+  <!-- FEATURED -->
+  <section id="work">
+    <div class="sec-head">
+      <span class="ann"><span class="ann-accent">drawing 1 of 3</span> · assembly</span>
+      <h2>Featured work</h2>
+    </div>
+
+    <div class="flagship reg"><span class="tick"></span>
+      <div class="flag-left">
+        <div class="flag-tags">
+          <span class="ann ann-accent">flagship</span>
+          <span class="stamp">live in production</span>
+        </div>
+        <h3>Jembatan</h3>
+        <p>An Android keyboard that translates text, voice, and clipboard messages into natural, colloquial language, powered by gpt-5-mini on its own Cloudflare Worker API with on-device speech. I built the whole product: the app, the backend, onboarding, branding, and the roadmap.</p>
+        <div class="flag-stack">kotlin · cloudflare-workers · openai-api</div>
+        <div class="flag-links">
+          <a class="btn-draft" href="#">Live demo</a>
+          <a class="btn-outline" href="#">Case study</a>
+          <a class="btn-outline" href="#">Code</a>
+        </div>
+      </div>
+      <div class="flag-right">
+        <span class="crosshair" style="top:18px; left:18px"></span>
+        <span class="crosshair" style="bottom:18px; right:18px"></span>
+        <span class="cap">jembatan app screenshot</span>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top:14px">
+      <div>
+        <h3>Stratemize</h3>
+        <p>A full-stack agency site, not a static brochure: a React 19 and TypeScript frontend over a Cloudflare Workers backend. A tRPC API and a D1 database sit behind a consultation booker that stores live date and time slots. Eight services, a five-step process, and a lead-magnet capture, all designed and built by me.</p>
+        <div class="stack">react · cloudflare-workers · d1</div>
+        <div class="links"><a href="#">Visit site</a></div>
+      </div>
+      <div class="shot"><span class="cap">stratemize.co.uk</span></div>
+    </div>
+
+    <div class="row">
+      <div>
+        <h3>Yoosuf Zaman</h3>
+        <p>A personal-brand site for a business-setup consultant, hand-built in plain HTML, CSS, and vanilla JavaScript with no framework. An editorial hero, a portfolio grid of the ventures he's launched, a services-and-outcomes breakdown, a booking page, and a consultation CTA, with purposeful motion throughout.</p>
+        <div class="stack">html · css · vanilla-js</div>
+        <div class="links"><a href="#">Visit site</a></div>
+      </div>
+      <div class="shot"><span class="cap">yoosufzaman.com</span></div>
+    </div>
+  </section>
+
+  <!-- THE WALL -->
+  <section id="wall">
+    <div class="sec-head">
+      <span class="ann"><span class="ann-accent">drawing 2 of 3</span> · parts inventory</span>
+      <h2>The wall: 6 builds and counting</h2>
+      <p class="sub">Every real build, big or small, from finished products to works in progress.</p>
+    </div>
+
+    <div class="wall-grid">
+      <div class="part">
+        <div class="head"><span class="name">Jembatan-app</span><span class="status live">live</span></div>
+        <div class="desc">AI translation keyboard + Worker API</div>
+        <div class="tags">kotlin · workers</div>
+        <div class="plinks"><a href="#">code</a></div>
+      </div>
+      <div class="part">
+        <div class="head"><span class="name">mission_to_abs_app</span><span class="status live">live</span></div>
+        <div class="desc">Animated fitness tracker + data-viz</div>
+        <div class="tags">react · zustand</div>
+        <div class="plinks"><a href="#">code</a><a href="#">case study</a></div>
+      </div>
+      <div class="part">
+        <div class="head"><span class="name">ecommerce_store</span><span class="status live">live</span></div>
+        <div class="desc">Full-stack storefront: React UI, Express + Postgres backend</div>
+        <div class="tags">react · express · postgres</div>
+        <div class="plinks"><a href="#">code</a><a href="#">case study</a></div>
+      </div>
+      <div class="part">
+        <div class="head"><span class="name">habit_tracker</span><span class="status building">building</span></div>
+        <div class="desc">Modern-stack PWA shell</div>
+        <div class="tags">next16 · react19 · ts</div>
+        <div class="plinks"><a href="#">code</a></div>
+      </div>
+      <div class="part">
+        <div class="head"><span class="name">quran-just-one-verse</span><span class="status building">building</span></div>
+        <div class="desc">One verse a day</div>
+        <div class="tags">js</div>
+        <div class="plinks"><a href="#">code</a></div>
+      </div>
+      <div class="part">
+        <div class="head"><span class="name">Qibla_Compass</span><span class="status building">building</span></div>
+        <div class="desc">Sensor-driven qibla finder</div>
+        <div class="tags">js · sensors</div>
+        <div class="plinks"><a href="#">code</a></div>
+      </div>
+    </div>
+
+    <div class="wip">
+      <span class="lbl">currently building</span>
+      <span><b>habit_tracker</b>: architecture-first PWA: Next.js 16, React 19, strict TS, Tailwind v4, installable, dual theme. Features landing next. No demo button until it earns one.</span>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-head">
+      <span class="ann"><span class="ann-accent">drawing 3 of 3</span> · service record</span>
+      <h2>Experience</h2>
+    </div>
+    <div class="exp">
+      <div>
+        <div class="role">
+          <div class="date">2024.08 — now</div>
+          <h3>Digital Developer · Wolseley</h3>
+          <p>High-traffic B2B e-commerce frontend. Responsive, accessible pages shipped through A/B and multivariate tests: merchandising badges, promos, seasonal lightboxes. Kept what moved the numbers and dropped what didn't.</p>
+        </div>
+        <div class="role" style="border-bottom:none">
+          <div class="date">2022.12 — 2024.08</div>
+          <h3>Apprentice Developer · Wolseley</h3>
+          <p>Earned the L3 Software Development Technician qualification (QA) while shipping to production.</p>
+        </div>
+      </div>
+      <div class="toolbox">
+        <span class="ann">materials list</span>
+        <ul class="chips">
+          <li>html/css/sass</li><li>javascript</li><li>react</li><li>typescript</li>
+          <li>a/b testing</li><li>monetate</li><li>python</li><li>c#</li><li>sql</li><li>cloudflare</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" style="padding-bottom:44px">
+    <div class="contact-card reg"><span class="tick"></span>
+      <h2>Next on the wall:<br><em>your product.</em></h2>
+      <div class="actions">
+        <a class="btn-draft" href="#">Download CV (PDF)</a>
+        <a class="btn-outline" href="#">Email</a>
+        <a class="btn-outline" href="#">GitHub</a>
+        <a class="btn-outline" href="#">LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="title-block" role="contentinfo">
+      <div><span class="k">drawn by</span><span class="v">© 2026 mohammed juber ahmed</span></div>
+      <div><span class="k">location</span><span class="v">birmingham, uk</span></div>
+      <div><span class="k">sheet</span><span class="v">juberahmed.dev</span></div>
+      <div><span class="k">scale</span><span class="v">1 : 1 — as built</span></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  const root = document.documentElement;
+  if (matchMedia("(prefers-color-scheme: dark)").matches) root.classList.add("dark");
+  document.getElementById("toggle").addEventListener("click", () => root.classList.toggle("dark"));
+</script>
+</body>
+</html>

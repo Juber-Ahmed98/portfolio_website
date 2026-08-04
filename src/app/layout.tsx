@@ -1,16 +1,17 @@
-import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 /**
- * Display + body face. Plus Jakarta is a variable font, so 400–800 are all
- * available without a `weight` array. Headings drive hierarchy with weight
- * (700/800) + tight tracking; body stays 400/500 (see DESIGN.md).
+ * Display + body face. Bricolage Grotesque is a variable font (200–800 plus an
+ * optical-size axis), so no `weight` array is needed. Headings run 700/800 with
+ * `opsz` pushed up for the display cut; body stays 400/500 (see DESIGN.md,
+ * "The Workshop").
  */
-const plusJakarta = Plus_Jakarta_Sans({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta",
+  variable: "--font-bricolage",
   display: "swap",
 });
 
@@ -53,6 +54,14 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+/** Browser-chrome colour follows the Workshop paper: cream light, espresso dark. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8f2e9" },
+    { media: "(prefers-color-scheme: dark)", color: "#201812" },
+  ],
+};
+
 /** Person entity so search engines tie the site to the named individual. */
 const personLd = {
   "@context": "https://schema.org",
@@ -79,7 +88,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${plusJakarta.variable} ${jetbrainsMono.variable}`}
+      className={`${bricolage.variable} ${jetbrainsMono.variable}`}
     >
       <body>
         <script

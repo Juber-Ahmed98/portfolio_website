@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Workshop favicon: espresso plate, drawn bold grotesque "j" in cream,
+       terracotta tittle (DESIGN.md, "Meta surfaces"). The glyph is a stroked
+       path, not a font — SVG favicons can't load web fonts, and the brand's
+       decision log rules out serif fallbacks. -->
+  <rect width="64" height="64" rx="14" fill="#2b2016"/>
+  <path d="M37 25 v20 a10 10 0 0 1 -10 10 h-5" fill="none" stroke="#f4ead9" stroke-width="9" stroke-linecap="round"/>
+  <circle cx="37" cy="12" r="5.5" fill="#e08a5c"/>
+</svg>

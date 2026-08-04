@@ -327,6 +327,14 @@ Done when: three case-study routes build statically and link both ways with the 
 
 ---
 
+> **2026-08-04 — full visual redesign shipped: "The Workshop".** The site no longer
+> matches `design-reference/home-mockup.html`; the binding contract is the rewritten
+> `DESIGN.md` and the signed-off render `design-reference/directions/c-the-workshop.html`.
+> CP8 (screenshots + CV) is unaffected. CP9's motion pass is now largely done in CSS
+> (hero entrance + hover grammar, zero dependencies) — only add framer-motion if a
+> future need genuinely can't be met in CSS. CP10's SEO surfaces were retinted
+> (OG image, favicon, themeColor) in the redesign.
+
 ## Milestone 3 — Polish, real assets, launch-ready
 
 ### ☐ CP8 · Real screenshots + CV PDF

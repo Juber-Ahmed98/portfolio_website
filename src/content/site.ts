@@ -112,6 +112,10 @@ export const flagship = {
     { kind: "code", label: "Code", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
   ] satisfies FeaturedLink[],
   screenshotLabel: "jembatan app screenshot",
+  image: {
+    src: "/featured/jembatan.png",
+    alt: "Jembatan app home screen: EN to ID translation with in-person mode",
+  },
 } as const;
 
 export const featured: FeaturedProject[] = [
