@@ -32,7 +32,7 @@ export function Contact() {
         <div className="flex max-w-[420px] shrink-0 flex-wrap items-center gap-3">
           <a
             href={contact.cv.href}
-            className="whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-extrabold text-[#201812] transition-transform motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
+            className="whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-extrabold text-[#201812] transition-[translate] motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
           >
             {contact.cv.label}
           </a>

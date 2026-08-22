@@ -125,7 +125,7 @@ export default async function CaseStudyPage({
             {study.stackChips.map((chip) => (
               <li
                 key={chip}
-                className="rounded-full border-2 border-chip bg-panel px-[14px] py-[6px] font-mono text-[12px] text-body transition-[border-color,transform] motion-safe:hover:rotate-[-1.5deg] hover:border-accent"
+                className="rounded-full border-2 border-chip bg-panel px-[14px] py-[6px] font-mono text-[12px] text-body transition-[border-color,translate,rotate] motion-safe:hover:rotate-[-1.5deg] hover:border-accent"
               >
                 {chip}
               </li>
@@ -169,7 +169,7 @@ export default async function CaseStudyPage({
                 key={label}
                 className={`relative grid h-[220px] place-items-center rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] ${
                   i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"
-                } transition-transform motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px]`}
+                } transition-[translate,rotate] motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px]`}
               >
                 <span
                   aria-hidden

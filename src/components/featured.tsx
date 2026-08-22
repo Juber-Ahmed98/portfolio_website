@@ -104,7 +104,7 @@ export function Featured() {
                      already moved), just the border tell that says which of the
                      two you actually hit. */
                   link.kind === "live"
-                    ? "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-bold text-[#201812] transition-transform motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
+                    ? "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-bold text-[#201812] transition-[translate] motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
                     : "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] border-2 border-[#5c4a38] px-6 py-3 text-[14px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c] active:border-[#e08a5c]"
                 }
               >

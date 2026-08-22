@@ -45,7 +45,7 @@ export function Experience() {
             {toolbox.map((tool) => (
               <li
                 key={tool}
-                className="rounded-full border-2 border-chip bg-panel px-[14px] py-[6px] transition-[border-color,transform] motion-safe:hover:rotate-[-1.5deg] hover:border-accent"
+                className="rounded-full border-2 border-chip bg-panel px-[14px] py-[6px] transition-[border-color,translate,rotate] motion-safe:hover:rotate-[-1.5deg] hover:border-accent"
               >
                 {tool}
               </li>
