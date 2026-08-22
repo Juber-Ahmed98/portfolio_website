@@ -50,7 +50,7 @@ export const hero = {
   /** Gated behind the Hero `showStats` prop (DESIGN.md). */
   stats: [
     { value: "3+", label: "yrs shipping at scale" },
-    { value: "6", label: "builds on the wall" },
+    { get value() { return String(wall.length); }, label: "builds on the wall" },
     { value: "1", label: "API in production" },
   ] satisfies HeroStat[],
 } as const;
@@ -63,7 +63,10 @@ export const hero = {
 export const sections = {
   featured: { title: "Featured work" },
   wall: {
-    title: "The wall: 6 builds and counting",
+    /** Derived from `wall` below so the number can't drift out of date. */
+    get title() {
+      return `The wall: ${wall.length} builds and counting`;
+    },
     sub: "Every real build, big or small, from finished products to works in progress.",
   },
   experience: { title: "Experience" },
@@ -107,9 +110,10 @@ export const flagship = {
     "An Android keyboard that translates text, voice, and clipboard messages into natural, colloquial language, powered by gpt-5-mini on its own Cloudflare Worker API with on-device speech. I built the whole product: the app, the backend, onboarding, branding, and the roadmap.",
   stack: "kotlin · cloudflare-workers · openai-api",
   links: [
+    // No code link: Jembatan is a shipping commercial product and its repo is
+    // permanently private. Don't add one back — it would 404 on the flagship.
     { kind: "live", label: "Live demo", href: "https://jembatan.juberahmed.dev/", external: true },
     { kind: "case", label: "Case study", href: "/work/jembatan/" },
-    { kind: "code", label: "Code", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
   ] satisfies FeaturedLink[],
   screenshotLabel: "jembatan app screenshot",
   image: {
@@ -131,15 +135,18 @@ export const featured: FeaturedProject[] = [
     image: { src: "/featured/stratemize.png", alt: "Stratemize marketing agency homepage" },
   },
   {
-    name: "Yoosuf Zaman",
+    name: "Al-Ilm Martial Arts",
     blurb:
-      "A personal-brand site for a business-setup consultant, hand-built in plain HTML, CSS, and vanilla JavaScript with no framework. An editorial hero, a portfolio grid of the ventures he's launched, a services-and-outcomes breakdown, a booking page, and a consultation CTA, with purposeful motion throughout.",
-    stack: "html · css · vanilla-js",
+      "A one-page site for a Birmingham martial arts club, hand-built in plain HTML, CSS, and JavaScript and served straight off a Cloudflare Worker. The Worker also runs the enquiry endpoint: both waiting-list forms mail the club through a send_email binding, so no visitor data leaves Cloudflare, and both post natively and still work with JavaScript off.",
+    stack: "html · css · cloudflare-workers",
     links: [
-      { kind: "live", label: "Visit site", href: "https://yoosufzaman.com/", external: true },
+      { kind: "live", label: "Visit site", href: "https://alilmmartialarts.co.uk/", external: true },
     ],
-    screenshotLabel: "yoosufzaman.com",
-    image: { src: "/featured/yoosuf.png", alt: "Yoosuf Zaman consultant portfolio homepage" },
+    screenshotLabel: "alilmmartialarts.co.uk",
+    image: {
+      src: "/featured/al-ilm.png",
+      alt: "Al-Ilm Martial Arts homepage: the headline “Al-Ilm means the knowledge” over a darkened ring photo",
+    },
   },
 ];
 
@@ -279,9 +286,9 @@ export const caseStudies: Record<string, CaseStudy> = {
       "review & edit strip",
       "in-person mode",
     ],
+    // Code link deliberately absent — the repo is permanently private.
     links: [
       { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
-      { label: "Code", href: "https://github.com/Juber-Ahmed98/Jembatan-app", external: true },
     ],
   },
   "mission-to-abs": {
@@ -420,25 +427,31 @@ export type WallProject = {
   live: boolean; // controls badge colour: accent vs --wip
   desc: string;
   tags: string;
-  link: string; // GitHub (or live) URL
+  /**
+   * GitHub (or live) URL. Optional: a private repo with nothing public to point
+   * at renders no link rather than a 404 — verify visibility before adding one.
+   */
+  link?: string;
+  linkLabel?: string; // defaults to "code" — override when `link` isn't a repo
   caseHref?: string; // internal /work/ route, when a case study exists
 };
 
 export const wall: WallProject[] = [
-  { name: "Jembatan-app", badge: "live", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://github.com/Juber-Ahmed98/Jembatan-app" },
+  // Private repo (permanently) — this card points at the live product instead.
+  { name: "Jembatan-app", badge: "live", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://jembatan.juberahmed.dev/", linkLabel: "live site", caseHref: "/work/jembatan/" },
+  // The two Featured client sites. Client-owned repos, so both point at the live
+  // build. Order matters here: only the first `COLLAPSED_WIDE` show before the
+  // "view all" button, so the strongest builds go first.
+  { name: "Stratemize", badge: "live", live: true, desc: "Agency site: tRPC API + D1 behind a live consultation booker", tags: "react · workers · d1", link: "https://stratemize.co.uk/", linkLabel: "live site" },
+  { name: "Al-Ilm Martial Arts", badge: "live", live: true, desc: "Club one-pager on a Worker that mails its own enquiry forms", tags: "html · css · workers", link: "https://alilmmartialarts.co.uk/", linkLabel: "live site" },
   { name: "mission_to_abs_app", badge: "live", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app", caseHref: "/work/mission-to-abs/" },
   { name: "ecommerce_store", badge: "live", live: true, desc: "Full-stack storefront: React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store", caseHref: "/work/ecommerce-store/" },
-  { name: "habit_tracker", badge: "building", live: false, desc: "Modern-stack PWA shell", tags: "next16 · react19 · ts", link: "https://github.com/Juber-Ahmed98/habit_tracker" },
-  { name: "quran-just-one-verse", badge: "building", live: false, desc: "One verse a day", tags: "js", link: "https://github.com/Juber-Ahmed98/quran-just-one-verse" },
+  // Client-owned repo, so this one points at the live site rather than code.
+  { name: "Yoosuf Zaman", badge: "live", live: true, desc: "Personal-brand site for a business-setup consultant", tags: "html · css · vanilla-js", link: "https://yoosufzaman.com/", linkLabel: "live site" },
+  // Repo is spelled "habbit_tracker" on GitHub — the card keeps the correct spelling.
+  { name: "habit_tracker", badge: "building", live: false, desc: "Installable PWA shell: strict TS, dual theme, features next", tags: "next16 · react19 · tailwind4", link: "https://github.com/Juber-Ahmed98/habbit_tracker" },
   { name: "Qibla_Compass", badge: "building", live: false, desc: "Sensor-driven qibla finder", tags: "js · sensors", link: "https://github.com/Juber-Ahmed98/Qibla_Compass" },
 ];
-
-/** The dashed "currently building" strip beneath the wall. */
-export const currentlyBuilding = {
-  label: "currently building",
-  name: "habit_tracker",
-  desc: "architecture-first PWA: Next.js 16, React 19, strict TS, Tailwind v4, installable, dual theme. Features landing next. No demo button until it earns one.",
-} as const;
 
 // ── Experience ───────────────────────────────────────────────────────────────
 

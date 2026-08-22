@@ -36,6 +36,20 @@ not aesthetics — they survive any redesign):
   from `lucide-react` only. (The old wall cards still carried `↗`/`→` — the Workshop
   build removes them.)
 - **No italic headings.**
+- **2026-08-22 — link affordance pass.** The featured "Visit site" outline pills
+  and the wall's `--line` underlines were too close to the non-interactive stack
+  chips and mono captions to read as clickable. Primary links are now filled
+  letterpress buttons, wall links sit on a terracotta underline, and the row
+  screenshot links to its one destination. Don't quieten these back down.
+- **2026-08-22 — the wall collapses instead of growing.** It's meant to read as
+  "a lot of builds", which stops being true the moment it reads as "a long list".
+  The count in the H2 and in the hero stat is derived from `wall.length`, not
+  typed — both had already drifted once.
+- **2026-08-22 — the dashed-gold "currently building" strip is gone.** It restated
+  what the wall's `building` stamps already say. WIPs are carried by the stamp
+  alone now; don't reintroduce a second place that says the same thing. `--wip`
+  still colours those stamps; `--wipbg` and `--wipline` went unused with the strip
+  and are kept in the palette unclaimed.
 
 Superseded / historical:
 
@@ -175,14 +189,22 @@ Fluid type via `clamp()` — same scale skeleton as before:
 - **Featured rows** — 2-col `1.1fr 400px`, separated by 2px dashed `--line`.
   Content left; screenshot right in a rotated (∓1°) 2px-ink-border frame with block
   shadow and one tape strip; real `<img>` from `public/featured/` fills the frame,
-  else the placeholder caption tile. "Visit site" links are terracotta outline
-  pills that fill on hover. Links still carry `kind` (`live`|`case`|`code`).
+  else the placeholder caption tile. On a row with exactly one destination the
+  frame **is** the link (out of the tab order — the button already covers it).
+  Links still carry `kind` (`live`|`case`|`code`): `live` is a filled-terracotta
+  letterpress pill (2px ink border, block shadow), the rest take the nav CV
+  button's cream-on-ink treatment. External labels carry a Lucide `ArrowUpRight`.
 - **The Wall** — pegboard container; inside it the 3→2→1 grid of **tool cards**
   (12px radius, 2px ink border, block shadow; hover −2/−3px lift + −0.4° tilt +
   terracotta shadow). Card: name + stamp, one-liner, mono tags, mono links row
-  (`code`, `case study` — no arrows). Cards stay `div`s (nested-anchor rule).
-  Below: the dashed-gold **"currently building"** strip with a rotated
-  masking-tape label.
+  (`code`, `case study`, `live site` — no arrows) in ink on a solid 2px terracotta
+  underline; hover fills `--hl` behind the label. Cards stay `div`s
+  (nested-anchor rule), and a card with nothing public to point at shows no row.
+  **The board collapses to whole rows** — 4 below `sm` (one mobile column), 6 from
+  `sm` up (3×2, then 2×3 at `lg`) — with a centred "view all N builds" button on
+  the pegboard beneath the grid. Collapsing is `display:none`, so every build stays
+  in the HTML for crawlers and leaves the tab order at the same time. Ordering the
+  `wall` array is an editorial act: only the first 6 show unexpanded.
 - **Experience** — 2-col: role **cards** (bordered, block-shadowed) left; toolbox
   as sticker pills right (hover: terracotta border + −1.5° tilt).
 - **Contact** — warm-dark card like the flagship (18px, terracotta shadow):

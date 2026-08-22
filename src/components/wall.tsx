@@ -1,6 +1,20 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
-import { currentlyBuilding, sections, wall } from "@/content/site";
+import { sections, wall } from "@/content/site";
+
+/**
+ * How many cards show before "view all". Both numbers are whole grid rows, so a
+ * collapsed board never ends on a ragged half-row: 4 down the single mobile
+ * column, then 3×2 at `sm` and 2×3 at `lg` above it.
+ *
+ * Every card is still in the HTML — collapsing is `display:none`, so the hidden
+ * builds stay crawlable and leave the tab order at the same time.
+ */
+const COLLAPSED_MOBILE = 4;
+const COLLAPSED_WIDE = 6;
 
 /**
  * The Wall — a literal pegboard (DESIGN.md, "Signature elements"): a tinted,
@@ -13,6 +27,12 @@ import { currentlyBuilding, sections, wall } from "@/content/site";
  * (decision log: no Unicode dingbats).
  */
 export function Wall() {
+  const [expanded, setExpanded] = useState(false);
+  /* Below `sm` the button has work to do sooner, so it can be needed on mobile
+     and not on desktop. It disappears entirely once the wall fits either way. */
+  const hidesOnWide = wall.length > COLLAPSED_WIDE;
+  const hidesOnMobile = wall.length > COLLAPSED_MOBILE;
+
   return (
     <section
       id="wall"
@@ -34,11 +54,20 @@ export function Wall() {
           backgroundSize: "26px 26px",
         }}
       >
-        <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
-          {wall.map((project) => (
+        <div
+          id="wall-grid"
+          className="grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {wall.map((project, i) => (
             <div
               key={project.name}
-              className="flex flex-col gap-[7px] rounded-[12px] border-2 border-ink bg-panel px-[18px] py-4 shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:rotate-[-0.4deg] motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
+              className={`flex flex-col gap-[7px] rounded-[12px] border-2 border-ink bg-panel px-[18px] py-4 shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:rotate-[-0.4deg] motion-safe:hover:shadow-[6px_6px_0_var(--accent)] ${
+                expanded || i < COLLAPSED_MOBILE
+                  ? ""
+                  : i < COLLAPSED_WIDE
+                    ? "hidden sm:flex"
+                    : "hidden"
+              }`}
             >
               <span className="flex items-baseline justify-between gap-2">
                 <span className="text-[15.5px] font-extrabold tracking-[-0.01em] text-ink">
@@ -60,44 +89,49 @@ export function Wall() {
               <span className="font-mono text-[11.5px] text-faint">
                 {project.tags}
               </span>
-              <span className="mt-1 flex gap-4 font-mono text-[12px]">
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="border-b-2 border-line font-semibold text-muted transition-colors hover:border-accent hover:text-accent"
-                >
-                  code
-                </a>
-                {project.caseHref && (
-                  <Link
-                    href={project.caseHref}
-                    className="border-b-2 border-line font-semibold text-ink transition-colors hover:border-accent hover:text-accent"
-                  >
-                    case study
-                  </Link>
-                )}
-              </span>
+              {/* A card with nothing public to point at renders no link row at
+                  all — never a dead link (see `WallProject.link`). */}
+              {(project.link || project.caseHref) && (
+                <span className="mt-1 flex gap-4 font-mono text-[12px]">
+                  {project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="border-b-2 border-accent font-semibold text-ink transition-colors hover:bg-hl hover:text-accent"
+                    >
+                      {project.linkLabel ?? "code"}
+                    </a>
+                  )}
+                  {project.caseHref && (
+                    <Link
+                      href={project.caseHref}
+                      className="border-b-2 border-accent font-semibold text-ink transition-colors hover:bg-hl hover:text-accent"
+                    >
+                      case study
+                    </Link>
+                  )}
+                </span>
+              )}
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Currently-building strip: dashed gold border, masking-tape label. */}
-      <div className="mt-[22px] flex flex-wrap items-baseline gap-3 rounded-[12px] border-2 border-dashed border-wipline bg-wipbg px-5 py-4">
-        <span
-          className="shrink-0 rotate-[-1.5deg] px-[10px] py-[3px] font-mono text-[11px] font-semibold uppercase tracking-[0.06em] text-wip"
-          style={{
-            background: "color-mix(in srgb, var(--wip) 16%, transparent)",
-          }}
-        >
-          {currentlyBuilding.label}
-        </span>
-        <span className="text-[13.5px] font-medium leading-[1.6] text-body">
-          <span className="font-extrabold text-ink">{currentlyBuilding.name}</span>
-          {": "}
-          {currentlyBuilding.desc}
-        </span>
+        {/* Lives inside the pegboard: it acts on the board's contents, not on
+            the section. Nav CV button treatment — the site's "this is a button". */}
+        {hidesOnMobile && (
+          <div className={`mt-[18px] flex justify-center ${hidesOnWide ? "" : "sm:hidden"}`}>
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-expanded={expanded}
+              aria-controls="wall-grid"
+              className="rounded-[10px] border-2 border-ink bg-panel px-5 py-[11px] font-mono text-[12.5px] font-bold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
+            >
+              {expanded ? "show fewer" : `view all ${wall.length} builds`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

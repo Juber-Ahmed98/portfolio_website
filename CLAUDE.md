@@ -40,26 +40,44 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   frontend over a Cloudflare Workers backend, tRPC API + D1 database behind a live
   consultation booker. Card-only: one **"Visit site"** button → https://stratemize.co.uk/.
   No case-study page, no code link (client-owned repo).
-- **Yoosuf Zaman (client site).** Personal-brand site for a business consultant, hand-built
-  in plain HTML/CSS/vanilla JS (no framework). Card-only: one **"Visit site"** button →
-  https://yoosufzaman.com/. No case-study page, no code link.
+- **Al-Ilm Martial Arts (client site).** One-pager for a Birmingham martial arts club:
+  plain HTML/CSS/JS served off a Cloudflare Worker that also runs `POST /api/enquiry`,
+  mailing both waiting-list forms to the club via a `send_email` binding. Forms post
+  natively and work with JS off. Card-only: one **"Visit site"** button →
+  https://alilmmartialarts.co.uk/. No case-study page, no code link.
 
 > **Demoted, not deleted:** `mission_to_abs_app` and `ecommerce_store` moved out of Featured
 > into the wall, but their `/work/` case-study pages stay live and indexed; each wall entry
 > links to its case study. Don't restore them to Featured.
+>
+> **Yoosuf Zaman** (personal-brand site for a business-setup consultant, plain
+> HTML/CSS/vanilla JS, https://yoosufzaman.com/) moved from Featured to the wall on
+> 2026-08-22 to make room for Al-Ilm. It keeps its "live site" link and never had a
+> case study. **Ummah BJJ** is next into Featured once it's live.
 
-### "Currently building" strip (honest WIP — no live-demo button, or clearly labelled)
+### Works in progress (honest WIP — no live-demo button, or clearly labelled)
+
+> The dashed "currently building" strip under the wall was removed on 2026-08-22 as
+> redundant: the wall's `building` stamps already say it. These live on the wall.
 - **habit_tracker (headliner).** Impressive *shell*: Next.js 16, React 19, TS strict,
   Tailwind v4, installable PWA, light/dark theming, 5-tab architecture. Features not
   wired yet (tabs empty) — so it lives here, NOT in featured, to avoid an empty demo.
   Angle: modern-stack architecture showcase.
 - quran-just-one-verse, Qibla_Compass — early, shown as genuine works-in-progress.
+  (quran-just-one-verse is off the wall for now — see the exclusions below.)
 
 ### Project wall / index
 - A compact grid listing *all* real builds (even small ones) as proof of constant
-  building. Each: name, one line, tags, GitHub link, live link if any.
+  building, Featured ones included. Each: name, one line, tags, GitHub link, live
+  link if any.
+- It collapses to whole rows — 4 on mobile, 6 from `sm` up — behind a "view all N
+  builds" button, so it can keep growing without turning into a long list. Only the
+  first 6 show unexpanded, so **the order of the `wall` array is an editorial
+  decision**, strongest first.
 - **Exclude** empty scaffolds/starter templates: `my-react-app`, `AI-ecommerce-project`,
-  and the empty folders `just_arabic`, `sylhet-language-app`.
+  and the empty folders `just_arabic`, `sylhet-language-app`. `quran-just-one-verse` came
+  off the wall on 2026-08-22 — private repo, no live URL, so it was the one card with
+  nothing to click. It goes back on when there's something to point at.
 
 ### Experience (from CV)
 - Wolseley — Digital Developer (Aug 2024–present) & Apprentice Merchandiser/Developer
@@ -112,7 +130,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   + GitHub), project wall, experience, contact + CV download. Deploy to
   juberahmed.dev. It's real and shareable.
 - **Milestone 2:** The 3 case-study pages (Jembatan first).
-- **Milestone 3:** "Currently building" section, polish, motion, SEO/meta, accessibility pass.
+- **Milestone 3:** Polish, motion, SEO/meta, accessibility pass.
 
 ## Copy starters (draft, make them yours)
 

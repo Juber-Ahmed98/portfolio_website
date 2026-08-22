@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/section-heading";
 import { featured, flagship, sections } from "@/content/site";
@@ -96,11 +97,14 @@ export function Featured() {
                 external={"external" in link ? link.external : undefined}
                 className={
                   link.kind === "live"
-                    ? "whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-bold text-[#201812] transition-transform motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
-                    : "whitespace-nowrap rounded-[10px] border-2 border-[#5c4a38] px-6 py-3 text-[14px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c]"
+                    ? "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-bold text-[#201812] transition-transform motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
+                    : "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] border-2 border-[#5c4a38] px-6 py-3 text-[14px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c]"
                 }
               >
                 {link.label}
+                {"external" in link && link.external && (
+                  <ArrowUpRight size={15} aria-hidden strokeWidth={2.5} />
+                )}
               </ProjectLink>
             ))}
           </div>
@@ -135,7 +139,15 @@ export function Featured() {
       </div>
 
       {/* Featured rows — client sites. Dashed workbench dividers between rows. */}
-      {featured.map((project, i) => (
+      {featured.map((project, i) => {
+        /* Card-only client sites have exactly one destination, and the screenshot
+           is the biggest thing on the row — so it links there too rather than
+           looking clickable and doing nothing. */
+        const liveLink = project.links.find(
+          (l) => l.kind === "live" && l.href !== "#",
+        );
+        const Frame = liveLink ? "a" : "div";
+        return (
         <div
           key={project.name}
           className={`grid grid-cols-1 items-center gap-6 md:grid-cols-[1.1fr_400px] md:gap-11 ${
@@ -166,21 +178,34 @@ export function Featured() {
                     external={link.external}
                     className={
                       link.kind === "live"
-                        ? "rounded-full border-2 border-accent px-[18px] py-[8px] text-[14px] font-bold text-accent transition-[background-color,color,transform] hover:bg-accent hover:text-bg motion-safe:hover:-translate-y-0.5"
-                        : "rounded-full border-2 border-chip px-[18px] py-[8px] text-[14px] font-semibold text-ink transition-colors hover:border-accent"
+                        ? "inline-flex items-center gap-[6px] rounded-full border-2 border-ink bg-accent px-[20px] py-[9px] text-[14px] font-bold text-bg shadow-[var(--shadow-card)] transition-[transform,box-shadow] hover:shadow-[6px_6px_0_var(--ink)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5"
+                        : "inline-flex items-center gap-[6px] rounded-full border-2 border-ink bg-panel px-[20px] py-[9px] text-[14px] font-semibold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] hover:shadow-[6px_6px_0_var(--accent)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5"
                     }
                   >
                     {link.label}
+                    {link.external && <ArrowUpRight size={15} aria-hidden strokeWidth={2.5} />}
                   </ProjectLink>
                 ))}
             </div>
           </div>
           {/* Screenshot frame: 2px ink border, block shadow, slight alternating
-              tilt that straightens on hover. */}
-          <div
-            className={`relative rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] transition-transform motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px] ${
-              i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"
-            }`}
+              tilt that straightens on hover. As a link it also grows the block
+              shadow to terracotta, the system's "this is interactive" hover. */}
+          <Frame
+            {...(liveLink
+              ? {
+                  href: liveLink.href,
+                  ...(liveLink.external
+                    ? { target: "_blank", rel: "noreferrer" }
+                    : {}),
+                  /* Same destination as the button above it, so it stays out of
+                     the tab order rather than doubling every row's stops. */
+                  tabIndex: -1,
+                }
+              : {})}
+            className={`relative block rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px] ${
+              liveLink ? "hover:shadow-[6px_6px_0_var(--accent)]" : ""
+            } ${i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"}`}
           >
             <Tape className="-top-[13px] left-[22px] rotate-[-6deg]" />
             {project.image ? (
@@ -197,9 +222,10 @@ export function Featured() {
                 </span>
               </div>
             )}
-          </div>
+          </Frame>
         </div>
-      ))}
+        );
+      })}
     </section>
   );
 }
