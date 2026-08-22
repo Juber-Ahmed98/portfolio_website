@@ -78,7 +78,10 @@ export function Hero({ showStats = true }: HeroProps) {
           <a
             key={link.href}
             href={link.href}
-            className="rounded-full border-2 border-ink bg-panel px-[18px] py-[8px] font-mono text-[12.5px] font-semibold text-ink transition-[background-color,transform] motion-safe:hover:-translate-y-0.5 motion-safe:hover:rotate-[-1deg] hover:bg-hl"
+            /* No block shadow to collapse, so the pill just sinks. `active:bg-hl`
+               pairs with `hover:bg-hl` so touch still gets the highlight wash —
+               otherwise the colour half of the pill's grammar never fires. */
+            className="press-soft rounded-full border-2 border-ink bg-panel px-[18px] py-[8px] font-mono text-[12.5px] font-semibold text-ink motion-safe:hover:-translate-y-0.5 motion-safe:hover:rotate-[-1deg] hover:bg-hl active:bg-hl"
           >
             {link.label.toLowerCase()}
           </a>

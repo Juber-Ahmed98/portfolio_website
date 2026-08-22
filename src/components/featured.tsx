@@ -70,7 +70,11 @@ export function Featured() {
       <SectionHeading title={sections.featured.title} className="mb-10" />
 
       {/* Flagship — Jembatan. Warm espresso card, terracotta block shadow. */}
-      <div className="mb-6 grid grid-cols-1 overflow-hidden rounded-[18px] border-2 border-flag-line bg-flag text-[#f4ead9] shadow-[6px_6px_0_var(--accent)] transition-[transform,box-shadow] duration-200 motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:shadow-[9px_9px_0_var(--accent)] md:grid-cols-[1.05fr_440px]">
+      {/* The card is a div, so it can't be pressed itself — `press-plate` makes
+          it react when a link inside it is. On touch that's the whole flagship
+          sinking 6px onto its terracotta shadow, which is a far bigger signal
+          than nudging a 100px button, and it mirrors the desktop hover lift. */}
+      <div className="press-plate press-lg mb-6 grid grid-cols-1 overflow-hidden rounded-[18px] border-2 border-flag-line bg-flag text-[#f4ead9] shadow-[6px_6px_0_var(--accent)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:shadow-[9px_9px_0_var(--accent)] md:grid-cols-[1.05fr_440px]">
         <div className="flex flex-col justify-center gap-4 px-7 py-10 sm:px-12 sm:py-[52px]">
           <div className="flex flex-wrap items-center gap-3">
             <span className="font-mono text-[12px] font-semibold text-[#e08a5c]">
@@ -96,9 +100,12 @@ export function Featured() {
                 href={link.href}
                 external={"external" in link ? link.external : undefined}
                 className={
+                  /* Inside a press-plate: no translate of their own (the plate
+                     already moved), just the border tell that says which of the
+                     two you actually hit. */
                   link.kind === "live"
                     ? "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-bold text-[#201812] transition-transform motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
-                    : "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] border-2 border-[#5c4a38] px-6 py-3 text-[14px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c]"
+                    : "inline-flex items-center gap-[6px] whitespace-nowrap rounded-[10px] border-2 border-[#5c4a38] px-6 py-3 text-[14px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c] active:border-[#e08a5c]"
                 }
               >
                 {link.label}
@@ -178,8 +185,8 @@ export function Featured() {
                     external={link.external}
                     className={
                       link.kind === "live"
-                        ? "inline-flex items-center gap-[6px] rounded-full border-2 border-ink bg-accent px-[20px] py-[9px] text-[14px] font-bold text-bg shadow-[var(--shadow-card)] transition-[transform,box-shadow] hover:shadow-[6px_6px_0_var(--ink)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5"
-                        : "inline-flex items-center gap-[6px] rounded-full border-2 border-ink bg-panel px-[20px] py-[9px] text-[14px] font-semibold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] hover:shadow-[6px_6px_0_var(--accent)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5"
+                        ? "press inline-flex items-center gap-[6px] rounded-full border-2 border-ink bg-accent px-[20px] py-[9px] text-[14px] font-bold text-bg shadow-[var(--shadow-card)] hover:shadow-[6px_6px_0_var(--ink)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5"
+                        : "press inline-flex items-center gap-[6px] rounded-full border-2 border-ink bg-panel px-[20px] py-[9px] text-[14px] font-semibold text-ink shadow-[var(--shadow-card)] hover:shadow-[6px_6px_0_var(--accent)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5"
                     }
                   >
                     {link.label}
@@ -203,8 +210,10 @@ export function Featured() {
                   tabIndex: -1,
                 }
               : {})}
-            className={`relative block rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px] ${
-              liveLink ? "hover:shadow-[6px_6px_0_var(--accent)]" : ""
+            /* Only the link version presses — a plain frame that sinks under
+               your thumb would be promising a tap that goes nowhere. */
+            className={`relative block rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px] ${
+              liveLink ? "press hover:shadow-[6px_6px_0_var(--accent)]" : ""
             } ${i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"}`}
           >
             <Tape className="-top-[13px] left-[22px] rotate-[-6deg]" />

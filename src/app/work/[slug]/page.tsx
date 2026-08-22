@@ -76,7 +76,7 @@ export default async function CaseStudyPage({
         <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-[18px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16">
           <Link
             href="/"
-            className="flex items-center gap-2 font-mono text-[13px] font-semibold text-body transition-colors hover:text-accent"
+            className="press-soft -my-[11px] flex min-h-[44px] items-center gap-2 font-mono text-[13px] font-semibold text-body hover:text-accent active:text-accent"
           >
             <ArrowLeft size={14} aria-hidden />
             Home
@@ -85,7 +85,7 @@ export default async function CaseStudyPage({
           <div className="flex items-center gap-4 sm:gap-[30px]">
             <Link
               href="/"
-              className="relative pb-[6px] text-[16px] font-extrabold tracking-[-0.01em] text-ink"
+              className="press-soft relative pb-[6px] text-[16px] font-extrabold tracking-[-0.01em] text-ink"
             >
               {nav.brand.text}
               <span className="text-accent">{nav.brand.accent}</span>
@@ -96,7 +96,7 @@ export default async function CaseStudyPage({
 
             <a
               href={nav.cv.href}
-              className="hidden whitespace-nowrap rounded-[10px] border-2 border-ink bg-panel px-4 py-[8px] text-[13.5px] font-bold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)] min-[400px]:inline-block"
+              className="press hidden whitespace-nowrap rounded-[10px] border-2 border-ink bg-panel px-4 py-[8px] text-[13.5px] font-bold text-ink shadow-[var(--shadow-card)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)] min-[400px]:inline-block"
             >
               {nav.cv.label}
             </a>
@@ -144,8 +144,8 @@ export default async function CaseStudyPage({
                     : {})}
                   className={
                     i === 0
-                      ? "rounded-[10px] border-2 border-accent bg-accent px-6 py-3 text-[14px] font-bold text-bg shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--ink)]"
-                      : "rounded-[10px] border-2 border-ink bg-panel px-6 py-3 text-[14px] font-semibold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
+                      ? "press rounded-[10px] border-2 border-accent bg-accent px-6 py-3 text-[14px] font-bold text-bg shadow-[var(--shadow-card)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--ink)]"
+                      : "press rounded-[10px] border-2 border-ink bg-panel px-6 py-3 text-[14px] font-semibold text-ink shadow-[var(--shadow-card)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
                   }
                 >
                   {link.label}
@@ -217,7 +217,7 @@ export default async function CaseStudyPage({
         <div className="flex items-center justify-between gap-4 py-12">
           <Link
             href="/#work"
-            className="flex items-center gap-2 font-mono text-[13px] font-semibold text-body transition-colors hover:text-accent"
+            className="press-soft -my-[11px] flex min-h-[44px] items-center gap-2 font-mono text-[13px] font-semibold text-body hover:text-accent active:text-accent"
           >
             <ArrowLeft size={14} aria-hidden />
             Back to all work
@@ -228,7 +228,7 @@ export default async function CaseStudyPage({
               {...(links[0].external
                 ? { target: "_blank", rel: "noreferrer" }
                 : {})}
-              className="font-mono text-[13px] font-semibold text-accent transition-colors hover:text-ink"
+              className="press-soft -my-[11px] inline-flex min-h-[44px] items-center font-mono text-[13px] font-semibold text-accent hover:text-ink active:text-ink"
             >
               {links[0].label}
             </a>

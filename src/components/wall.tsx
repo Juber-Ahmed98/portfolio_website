@@ -61,7 +61,10 @@ export function Wall() {
           {wall.map((project, i) => (
             <div
               key={project.name}
-              className={`flex flex-col gap-[7px] rounded-[12px] border-2 border-ink bg-panel px-[18px] py-4 shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:rotate-[-0.4deg] motion-safe:hover:shadow-[6px_6px_0_var(--accent)] ${
+              /* The tappable thing here is a 12px link; the card is the visual
+                 unit. `press-plate` presses the whole plate when either link is
+                 held, which is the touch mirror of the hover lift above it. */
+              className={`press-plate flex flex-col gap-[7px] rounded-[12px] border-2 border-ink bg-panel px-[18px] py-4 shadow-[var(--shadow-card)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:rotate-[-0.4deg] motion-safe:hover:shadow-[6px_6px_0_var(--accent)] ${
                 expanded || i < COLLAPSED_MOBILE
                   ? ""
                   : i < COLLAPSED_WIDE
@@ -92,23 +95,33 @@ export function Wall() {
               {/* A card with nothing public to point at renders no link row at
                   all — never a dead link (see `WallProject.link`). */}
               {(project.link || project.caseHref) && (
-                <span className="mt-1 flex gap-4 font-mono text-[12px]">
+                /* 12px mono on a 2px underline is a 65×18px tap target. The
+                   anchors get padding out to 81×46 and the row pulls the same
+                   distance back with negative margins, so the hit area more
+                   than doubles while the card gains 5px of height. The
+                   underline moves to an inner span so the rule still hugs the
+                   text rather than floating at the bottom of the padding. */
+                <span className="-mx-2 -mb-[10px] -mt-[9px] flex gap-1 font-mono text-[12px]">
                   {project.link && (
                     <a
                       href={project.link}
                       target="_blank"
                       rel="noreferrer"
-                      className="border-b-2 border-accent font-semibold text-ink transition-colors hover:bg-hl hover:text-accent"
+                      className="group inline-flex min-h-[44px] items-center px-2 py-[13px]"
                     >
-                      {project.linkLabel ?? "code"}
+                      <span className="border-b-2 border-accent font-semibold text-ink transition-colors group-hover:bg-hl group-hover:text-accent group-active:bg-hl group-active:text-accent">
+                        {project.linkLabel ?? "code"}
+                      </span>
                     </a>
                   )}
                   {project.caseHref && (
                     <Link
                       href={project.caseHref}
-                      className="border-b-2 border-accent font-semibold text-ink transition-colors hover:bg-hl hover:text-accent"
+                      className="group inline-flex min-h-[44px] items-center px-2 py-[13px]"
                     >
-                      case study
+                      <span className="border-b-2 border-accent font-semibold text-ink transition-colors group-hover:bg-hl group-hover:text-accent group-active:bg-hl group-active:text-accent">
+                        case study
+                      </span>
                     </Link>
                   )}
                 </span>
@@ -126,7 +139,7 @@ export function Wall() {
               onClick={() => setExpanded((v) => !v)}
               aria-expanded={expanded}
               aria-controls="wall-grid"
-              className="rounded-[10px] border-2 border-ink bg-panel px-5 py-[11px] font-mono text-[12.5px] font-bold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
+              className="press rounded-[10px] border-2 border-ink bg-panel px-5 py-[11px] font-mono text-[12.5px] font-bold text-ink shadow-[var(--shadow-card)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
             >
               {expanded ? "show fewer" : `view all ${wall.length} builds`}
             </button>

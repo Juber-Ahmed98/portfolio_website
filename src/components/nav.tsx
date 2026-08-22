@@ -23,7 +23,7 @@ export function Nav() {
       <div className="mx-auto flex w-full max-w-[1180px] items-center justify-between px-6 py-[18px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16">
         <a
           href={nav.brand.href}
-          className="relative pb-[6px] text-[16px] font-extrabold tracking-[-0.01em] text-ink"
+          className="press-soft relative pb-[6px] text-[16px] font-extrabold tracking-[-0.01em] text-ink"
         >
           {nav.brand.text}
           <span className="text-accent">{nav.brand.accent}</span>
@@ -40,7 +40,7 @@ export function Nav() {
           <a
             href={nav.cv.href}
             aria-label={nav.cv.label}
-            className="whitespace-nowrap rounded-[10px] border-2 border-ink bg-panel px-4 py-[8px] text-[13.5px] font-bold text-ink shadow-[var(--shadow-card)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
+            className="press whitespace-nowrap rounded-[10px] border-2 border-ink bg-panel px-4 py-[8px] text-[13.5px] font-bold text-ink shadow-[var(--shadow-card)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-[6px_6px_0_var(--accent)]"
           >
             <span className="min-[375px]:hidden">{nav.cv.shortLabel}</span>
             <span className="hidden min-[375px]:inline">{nav.cv.label}</span>

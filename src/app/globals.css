@@ -115,6 +115,81 @@ body {
   border-radius: 3px;
 }
 
+/* ── Press state — the touch half of the shadow system ─────────────────────
+   Hover is a lift: the plate rises off the bench and terracotta shows in the
+   gap it leaves. Touch has no hover, so a phone gets the opposite gesture —
+   the plate is pushed INTO the paper. The element travels exactly its own
+   shadow offset (4px for `--shadow-card`, 6px for the two dark cards, 2px for
+   the theme toggle) and the shadow collapses to nothing, so the gap closes and
+   the plate sits flush. Release springs it back over 120ms.
+
+   Not a mobile-only rule — a mouse press should feel the same as a thumb
+   press. Tailwind v4 already wraps every `hover:` utility in
+   `@media (hover: hover)`, so a tapped card can never keep a stuck lift; press
+   is the whole of what touch sees, which is why it has to carry the weight.
+
+   These rules sit outside `@layer utilities` on purpose: unlayered CSS beats
+   layered CSS, so they override the hover utilities without a specificity war.
+
+   `.press`       an element carrying its own block shadow (buttons, the CV
+                  button, screenshot frames).
+   `.press-sm`    travel modifier for the 2px shadow (theme toggle).
+   `.press-lg`    travel modifier for the 6px shadows (flagship, contact).
+   `.press-soft`  shadowless controls (sticker pills, the wordmark, the filled
+                  terracotta buttons on the dark cards) — a sink, with no
+                  shadow to collapse.
+   `.press-plate` a card that isn't itself tappable but holds links: pressing
+                  any link inside pushes the whole plate in. That's how the
+                  wall cards and the two dark cards mirror their hover lift on
+                  touch. Their inner links deliberately don't move — only the
+                  plate does — so a press never doubles up.
+
+   Under `prefers-reduced-motion: reduce` the global rule below drops these to
+   0.01ms: the state still happens, the travel just isn't animated. Press is
+   feedback, not decoration, so it survives. */
+.press,
+.press-plate,
+.press-soft {
+  transition:
+    translate 0.12s cubic-bezier(0.16, 1, 0.3, 1),
+    rotate 0.12s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.12s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.15s ease-out,
+    border-color 0.15s ease-out,
+    color 0.15s ease-out;
+  /* The press is the feedback; no grey iOS flash layered on top of it. The
+     property inherits, so a `.press-plate` covers the links inside it too. */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Travel = the element's own resting shadow offset, so it lands flush. */
+.press,
+.press-plate {
+  --press-travel: 4px;
+}
+.press-soft {
+  --press-travel: 2px;
+}
+.press-sm {
+  --press-travel: 2px;
+}
+.press-lg {
+  --press-travel: 6px;
+}
+
+.press:active,
+/* `:is(a, button)` and not a bare `:active`: `:active` matches ancestors of
+   whatever is being pressed, so an unqualified `:has(:active)` would fire on a
+   jab at the card's dead space and promise an action there isn't one. */
+.press-plate:has(:is(a, button):active) {
+  translate: var(--press-travel) var(--press-travel);
+  box-shadow: 0 0 0 transparent;
+}
+
+.press-soft:active {
+  translate: var(--press-travel) var(--press-travel);
+}
+
 /* ── The one authored moment ────────────────────────────────────────────────
    On home load the hero's marker blob sweeps in left-to-right while the H1 and
    sub fade up. Runs once; nothing else on the site gets an entrance. Gated on

@@ -17,7 +17,10 @@ export function Contact() {
       aria-label="Contact"
       className="mx-auto max-w-[1180px] scroll-mt-6 px-6 pb-10 pt-[70px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16"
     >
-      <div className="flex flex-col flex-wrap items-start gap-12 rounded-[18px] border-2 border-flag-line bg-flag px-7 py-12 text-[#f4ead9] shadow-[6px_6px_0_var(--accent)] transition-[transform,box-shadow] duration-200 motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:shadow-[9px_9px_0_var(--accent)] sm:flex-row sm:items-center sm:justify-between sm:px-14 sm:py-16">
+      {/* Same treatment as the flagship: the card can't be tapped itself, so
+          `press-plate` makes it sink 6px onto its terracotta shadow whenever one
+          of the four buttons inside it is held. */}
+      <div className="press-plate press-lg flex flex-col flex-wrap items-start gap-12 rounded-[18px] border-2 border-flag-line bg-flag px-7 py-12 text-[#f4ead9] shadow-[6px_6px_0_var(--accent)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:shadow-[9px_9px_0_var(--accent)] sm:flex-row sm:items-center sm:justify-between sm:px-14 sm:py-16">
         <h2 className="font-display text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.1] tracking-[-0.025em]">
           {contact.heading[0]}
           <br />
@@ -40,7 +43,7 @@ export function Contact() {
               {...(link.external
                 ? { target: "_blank", rel: "noreferrer" }
                 : {})}
-              className="rounded-[10px] border-2 border-[#5c4a38] px-5 py-3 text-[13.5px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c]"
+              className="rounded-[10px] border-2 border-[#5c4a38] px-5 py-3 text-[13.5px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c] active:border-[#e08a5c]"
             >
               {link.label}
             </a>

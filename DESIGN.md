@@ -112,6 +112,58 @@ system, not a garnish:
 - The two dark cards (flagship, contact): `6px 6px 0 var(--accent)` at rest,
   `9px 9px 0` on hover.
 - Small controls (theme toggle): `2px 2px 0` ink.
+- **Press:** element translates *toward* the shadow by exactly its own offset
+  (`4px`, `6px` on the two dark cards, `2px` on the theme toggle) and the shadow
+  collapses to `0 0 0` — the plate is pushed flat into the paper. Hover lifts,
+  press sinks; both are the same offset read in opposite directions.
+
+## Press state
+
+Hover carries most of the Workshop's tactility, and touch devices have no hover
+— which left a phone with a static stack of bordered boxes. Press is the touch
+half of the same grammar, and it is not optional dressing: on a phone it is the
+*only* state feedback the interface has.
+
+Defined in `globals.css`, outside `@layer utilities` so it beats the hover
+utilities without a specificity fight:
+
+| Class | Applies to | Press |
+|-------|-----------|-------|
+| `.press` | anything carrying its own block shadow — buttons, CV button, screenshot frames | travel `4px`, shadow → `0 0 0` |
+| `.press-sm` | travel modifier: the 2px shadow (theme toggle) | travel `2px` |
+| `.press-lg` | travel modifier: the 6px shadows (flagship, contact) | travel `6px` |
+| `.press-soft` | shadowless controls — sticker pills, wordmark, filled terracotta buttons | travel `2px`, no shadow to collapse |
+| `.press-plate` | a card that isn't tappable itself but holds links | the whole plate presses when a link inside it is held |
+
+Rules:
+
+- **Only genuinely interactive things press.** A stat tile, an experience card
+  or a toolbox pill that sank under a thumb would be promising a tap that does
+  nothing. Same for a screenshot frame with no live URL — it presses only in
+  its link form.
+- **`.press-plate` fires on `:has(:is(a, button):active)`, never a bare
+  `:active`.** `:active` matches the ancestors of whatever is pressed, so an
+  unqualified `:has(:active)` would also fire on a jab at the card's dead
+  space. The wall cards and the two dark cards use this; their inner links stay
+  put and change colour only, so the press never doubles up.
+- **Colour halves get an `active:` twin.** Anything with a `hover:` colour
+  change (`hover:bg-hl`, `hover:border-[#e08a5c]`) carries the matching
+  `active:` variant, or touch never sees that half of the grammar at all.
+- Release springs back over `120ms` on the site's exponential ease-out
+  (`cubic-bezier(.16,1,.3,1)`); colours over `150ms`.
+- `-webkit-tap-highlight-color: transparent` on the press classes — the press
+  *is* the feedback, and it inherits, so a `.press-plate` covers its links too.
+- Not gated on `motion-safe`. Press is feedback, not decoration, so it survives
+  reduced motion; the global reduced-motion rule drops it to `0.01ms`, which
+  keeps the state and drops the travel animation.
+
+**Tap targets.** The wall's link row is 12px mono on a 2px underline — a 65×18
+target. The anchors take padding out to 81×46 and the row pulls the same
+distance back with negative margins, so the hit area more than doubles while
+the card gains 5px of height. The underline moves to an inner `<span>` so it
+still hugs the text instead of floating at the bottom of the padding. The
+case-study back-links get the same treatment. Measured at 375px, nothing
+interactive on the page is now under the WCAG 2.5.8 minimum of 24px.
 
 ## Typography
 
@@ -227,7 +279,13 @@ persist under reduced motion.
   and sub fade up 8px. Runs once; no scroll-triggered entrances elsewhere.
 - Hover grammar: lift `(-2px,-2px)` + shadow grows and turns terracotta (cards,
   buttons), pills tilt −1 to −2°, screenshot frames straighten to 0° and lift.
-- Theme toggle: `next-themes` class strategy, Lucide `Sun`/`Moon`, unchanged logic.
+  Every hover rule is inside `@media (hover: hover)` — Tailwind v4 wraps the
+  `hover:` variant itself, so nothing here can stick to a card after a tap.
+  Hover is desktop's half of the grammar; **press** (see *Press state*) is
+  touch's, and it is the half that carries a phone.
+- Theme toggle: `next-themes` class strategy, Lucide `Sun`/`Moon`, unchanged
+  logic. The press sinks 2px onto the plate; the icon swaps on `onClick`, which
+  fires on release, so the push and the state change stay separate beats.
 - Transitions ~.15–.2s ease-out.
 
 ## Data model

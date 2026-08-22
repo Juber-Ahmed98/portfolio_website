@@ -33,7 +33,10 @@ export function ThemeToggle() {
           : "Toggle theme"
       }
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="flex h-[36px] w-[36px] items-center justify-center rounded-[10px] border-2 border-ink bg-panel text-ink shadow-[2px_2px_0_var(--ink)] transition-[transform,box-shadow] motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-px motion-safe:hover:shadow-[3px_3px_0_var(--ink)]"
+      /* press-sm: a 2px shadow, so a 2px sink — the switch bottoms out against
+         the plate. The icon swap rides on `onClick`, which fires on release
+         (touchend), so the press and the state change stay separate beats. */
+      className="press press-sm flex h-[36px] w-[36px] items-center justify-center rounded-[10px] border-2 border-ink bg-panel text-ink shadow-[2px_2px_0_var(--ink)] motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-px motion-safe:hover:shadow-[3px_3px_0_var(--ink)]"
     >
       {/* Show the icon for the theme you'd switch TO. */}
       <span suppressHydrationWarning className="flex">
