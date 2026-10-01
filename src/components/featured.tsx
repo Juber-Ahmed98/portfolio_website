@@ -57,7 +57,7 @@ function Tape({ className }: { className?: string }) {
 /**
  * Featured work — the warm-dark Jembatan flagship card (dark in BOTH themes,
  * fixed internal hex per DESIGN.md) followed by the two client-site rows
- * (Stratemize, Yoosuf Zaman). Screenshots sit in rotated, taped frames — the
+ * (UMMA BJJ, Al-Ilm Martial Arts). Screenshots sit in rotated, taped frames — the
  * Workshop's polaroid treatment.
  */
 export function Featured() {

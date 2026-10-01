@@ -36,10 +36,12 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   - Angle: "I don't just build UIs — I ship a whole product, backend included."
   - Its case study carries a "the website" block showcasing the marketing site's
     site-wide language picker and motion (the live URL is surfaced there).
-- **Stratemize (client site).** Full-stack marketing-agency site: React 19 + TypeScript
-  frontend over a Cloudflare Workers backend, tRPC API + D1 database behind a live
-  consultation booker. Card-only: one **"Visit site"** button → https://stratemize.co.uk/.
-  No case-study page, no code link (client-owned repo).
+- **UMMA BJJ (client site, first featured row).** Six-page site for a Birmingham
+  Jiu-Jitsu/MMA gym, replacing a GoDaddy template: static HTML/CSS/JS, no build step,
+  served as Workers static assets. Timetable renders from one data block; the free-trial
+  form composes a WhatsApp message to the coaches. Paid, signed off, and the client
+  approved portfolio use. Card-only: one **"Visit site"** button → https://ummabjj.com/.
+  No case-study page, no code link (repo holds client photos of children, stays private).
 - **Al-Ilm Martial Arts (client site).** One-pager for a Birmingham martial arts club:
   plain HTML/CSS/JS served off a Cloudflare Worker that also runs `POST /api/enquiry`,
   mailing both waiting-list forms to the club via a `send_email` binding. Forms post
@@ -53,7 +55,11 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 > **Yoosuf Zaman** (personal-brand site for a business-setup consultant, plain
 > HTML/CSS/vanilla JS, https://yoosufzaman.com/) moved from Featured to the wall on
 > 2026-08-22 to make room for Al-Ilm. It keeps its "live site" link and never had a
-> case study. **Ummah BJJ** is next into Featured once it's live.
+> case study.
+>
+> **Stratemize** (full-stack agency site: React 19 + TS over Workers, tRPC + D1 behind
+> a live consultation booker, https://stratemize.co.uk/) moved from Featured to the wall
+> on 2026-10-01 to make room for UMMA BJJ. It stays in the wall's collapsed first six.
 
 ### Works in progress (honest WIP — no live-demo button, or clearly labelled)
 

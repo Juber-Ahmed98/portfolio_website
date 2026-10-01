@@ -132,15 +132,18 @@ export const flagship = {
 
 export const featured: FeaturedProject[] = [
   {
-    name: "Stratemize",
+    name: "UMMA BJJ",
     blurb:
-      "A full-stack agency site, not a static brochure: a React 19 and TypeScript frontend over a Cloudflare Workers backend. A tRPC API and a D1 database sit behind a consultation booker that stores live date and time slots. Eight services, a five-step process, and a lead-magnet capture, all designed and built by me.",
-    stack: "react · cloudflare-workers · d1",
+      "A client redesign moving a Birmingham Jiu-Jitsu and MMA gym off a GoDaddy site builder. The old site showed its timetable as a JPEG poster and listed classes the gym doesn't teach. I rebuilt it as six hand-coded pages in HTML, CSS, and JavaScript, with a filterable timetable and a trial form that opens WhatsApp. It ships no third-party scripts and serves AVIF photos from Cloudflare's edge, so it loads quickly on a phone.",
+    stack: "html · css · javascript · cloudflare-workers",
     links: [
-      { kind: "live", label: "Visit site", href: "https://stratemize.co.uk/", external: true },
+      { kind: "live", label: "Visit site", href: "https://ummabjj.com/", external: true },
     ],
-    screenshotLabel: "stratemize.co.uk",
-    image: { src: "/featured/stratemize.png", alt: "Stratemize marketing agency homepage" },
+    screenshotLabel: "ummabjj.com",
+    image: {
+      src: "/featured/umma-bjj.webp",
+      alt: "UMMA BJJ homepage: the headline “Learn real self-defence.” over a group photo of members on the mats",
+    },
   },
   {
     name: "Al-Ilm Martial Arts",
@@ -515,11 +518,13 @@ export type WallProject = {
 export const wall: WallProject[] = [
   // Private repo (permanently) — this card points at the live product instead.
   { name: "Jembatan-app", badge: "live", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://jembatan.juberahmed.dev/", linkLabel: "live site", caseHref: "/work/jembatan/" },
-  // The two Featured client sites. Client-owned repos, so both point at the live
-  // build. Order matters here: only the first `COLLAPSED_WIDE` show before the
-  // "view all" button, so the strongest builds go first.
-  { name: "Stratemize", badge: "live", live: true, desc: "Agency site: tRPC API + D1 behind a live consultation booker", tags: "react · workers · d1", link: "https://stratemize.co.uk/", linkLabel: "live site" },
+  // Client sites. Client-owned repos, so all three point at the live build.
+  // Order matters here: only the first `COLLAPSED_WIDE` show before the
+  // "view all" button, so the strongest builds go first. Stratemize left
+  // Featured for UMMA BJJ on 2026-10-01 but stays in the collapsed six.
+  { name: "UMMA BJJ", badge: "live", live: true, desc: "Six-page gym site: timetable from one data file, WhatsApp trial booking", tags: "html · js · workers", link: "https://ummabjj.com/", linkLabel: "live site" },
   { name: "Al-Ilm Martial Arts", badge: "live", live: true, desc: "Club one-pager on a Worker that mails its own enquiry forms", tags: "html · css · workers", link: "https://alilmmartialarts.co.uk/", linkLabel: "live site" },
+  { name: "Stratemize", badge: "live", live: true, desc: "Agency site: tRPC API + D1 behind a live consultation booker", tags: "react · workers · d1", link: "https://stratemize.co.uk/", linkLabel: "live site" },
   { name: "mission_to_abs_app", badge: "live", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app", caseHref: "/work/mission-to-abs/" },
   { name: "ecommerce_store", badge: "live", live: true, desc: "Full-stack storefront: React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store", caseHref: "/work/ecommerce-store/" },
   // Client-owned repo, so this one points at the live site rather than code.
