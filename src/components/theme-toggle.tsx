@@ -1,50 +1,67 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 
 /**
- * Theme toggle — a 36px rounded-square with the Workshop's 2px ink border and
- * small block shadow (DESIGN.md, Components → Nav).
+ * Light/dark switch. The new theme spreads out from the button as a circle,
+ * like a lamp being switched on (View Transitions; see `::view-transition-new`
+ * in globals.css). Browsers without the API, and reduced motion, swap
+ * instantly.
  *
- * Icons come from Lucide, not the `☀`/`☾` characters the mockups used: those are
- * drawn by whatever font the OS falls back to, and `☀` has an emoji presentation
- * variant that some Windows and Android builds render as a colour emoji in the
- * middle of a monochrome nav.
+ * The class is written onto <html> inside the transition callback rather than
+ * left to next-themes' effect, because the transition snapshots the page as
+ * soon as the callback returns. next-themes still owns persistence and
+ * applies the same class a moment later, which is a no-op.
  *
- * Renders a neutral placeholder until mounted so the icon never mismatches
- * between server and client (avoids hydration warnings).
+ * Renders a neutral icon until mounted so server and client markup match.
  */
-export function ThemeToggle() {
+export function ThemeToggle({ tone = "paper" }: { tone?: "paper" | "night" }) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+  const ref = useRef<HTMLButtonElement>(null);
 
   useEffect(() => setMounted(true), []);
 
-  const isDark = resolvedTheme === "dark";
+  const isDark = mounted && resolvedTheme === "dark";
+
+  const toggle = () => {
+    const next = isDark ? "light" : "dark";
+    const apply = () => {
+      const root = document.documentElement;
+      root.classList.toggle("dark", next === "dark");
+      root.style.colorScheme = next;
+      setTheme(next);
+    };
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || typeof document.startViewTransition !== "function") {
+      apply();
+      return;
+    }
+    const r = ref.current?.getBoundingClientRect();
+    if (r) {
+      const root = document.documentElement.style;
+      root.setProperty("--vt-x", `${r.left + r.width / 2}px`);
+      root.setProperty("--vt-y", `${r.top + r.height / 2}px`);
+    }
+    document.startViewTransition(apply);
+  };
 
   return (
     <button
+      ref={ref}
       type="button"
-      aria-label={
-        mounted
-          ? `Switch to ${isDark ? "light" : "dark"} theme`
-          : "Toggle theme"
-      }
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      /* press-sm: a 2px shadow, so a 2px sink — the switch bottoms out against
-         the plate. The icon swap rides on `onClick`, which fires on release
-         (touchend), so the press and the state change stay separate beats. */
-      className="press press-sm flex h-[36px] w-[36px] items-center justify-center rounded-[10px] border-2 border-ink bg-panel text-ink shadow-[2px_2px_0_var(--ink)] motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-px motion-safe:hover:shadow-[3px_3px_0_var(--ink)]"
+      aria-label={mounted ? `Switch to ${isDark ? "light" : "dark"} theme` : "Toggle theme"}
+      onClick={toggle}
+      className={`tap grid h-10 w-10 place-items-center rounded-full border ${
+        tone === "night"
+          ? "border-night-line text-night-ink hover:border-night-muted"
+          : "border-line-strong text-ink hover:border-ink"
+      }`}
     >
-      {/* Show the icon for the theme you'd switch TO. */}
       <span suppressHydrationWarning className="flex">
-        {mounted && isDark ? (
-          <Sun size={16} aria-hidden />
-        ) : (
-          <Moon size={16} aria-hidden />
-        )}
+        {isDark ? <Sun size={17} aria-hidden /> : <Moon size={17} aria-hidden />}
       </span>
     </button>
   );

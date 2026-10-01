@@ -1,24 +1,39 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, JetBrains_Mono } from "next/font/google";
+import { Anek_Bangla, JetBrains_Mono, Mona_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 /**
- * Display + body face. Bricolage Grotesque is a variable font (200–800 plus an
- * optical-size axis), so no `weight` array is needed. Headings run 700/800 with
- * `opsz` pushed up for the display cut; body stays 400/500 (see DESIGN.md,
- * "The Workshop").
+ * Display + body face. Mona Sans is GitHub's open-source variable sans, with a
+ * width axis (75–125) as well as weight: the display cut is the condensed end
+ * at 900, body runs at the normal width (see DESIGN.md, Type).
  */
-const bricolage = Bricolage_Grotesque({
+const mona = Mona_Sans({
   subsets: ["latin"],
-  variable: "--font-bricolage",
+  axes: ["wdth"],
+  variable: "--font-mona",
   display: "swap",
 });
 
+/**
+ * The hero's Bengali line, and nothing else. One weight, Bengali glyphs only,
+ * and not preloaded: it is the line under the H1, never the LCP element.
+ */
+const anekBangla = Anek_Bangla({
+  subsets: ["bengali"],
+  weight: "600",
+  variable: "--font-anek-bangla",
+  display: "swap",
+  preload: false,
+});
+
+/** Data only (dates, stacks, status) and nothing in the first screen uses
+ *  it, so it is not preloaded: 40 KB off the critical path. */
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
   display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -54,11 +69,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-/** Browser-chrome colour follows the Workshop paper: cream light, espresso dark. */
+/** Browser-chrome colour follows the paper: cream light, espresso dark. */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8f2e9" },
-    { media: "(prefers-color-scheme: dark)", color: "#201812" },
+    { media: "(prefers-color-scheme: light)", color: "#f3ede3" },
+    { media: "(prefers-color-scheme: dark)", color: "#15110e" },
   ],
 };
 
@@ -88,8 +103,13 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${bricolage.variable} ${jetbrainsMono.variable}`}
+      className={`${mona.variable} ${anekBangla.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        {/* Before first paint: lets CSS choose the scroll-driven film over its
+            stills fallback without a flash or a layout shift at hydration. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <script
           type="application/ld+json"

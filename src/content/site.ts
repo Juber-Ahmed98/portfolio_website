@@ -1,10 +1,10 @@
 /**
  * Single source of truth for the site's content.
  *
- * Extracted from `design-reference/home-mockup.html` (the approved mockup) and
- * `CLAUDE.md` (the brief). Sections render from this module so copy never lives
- * inline in components. CP1 wires up `nav` + `hero`; the remaining exports are
- * consumed as later checkpoints build out their sections.
+ * Every string and project on the site lives here, typed, so copy never lives
+ * inline in a component. The home page reads top to bottom in the order the
+ * exports appear: hero, film, Jembatan, demo, clients, builds, day job,
+ * contact. Case studies are keyed by slug further down.
  */
 
 // ── Nav ──────────────────────────────────────────────────────────────────────
@@ -29,137 +29,317 @@ export const nav = {
   cv: { label: "Download CV", shortLabel: "CV", href: "/cv.pdf" },
 } as const;
 
-/** Section anchors, rendered as the hero's jump list. */
-export const jumpLinks: NavLink[] = [
-  { label: "Work", href: "#work" },
-  { label: "Wall", href: "#wall" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
-];
-
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
-export type HeroStat = { value: string; label: string };
+export type Translation = {
+  /** BCP 47 tag, set on the element so screen readers switch voice. */
+  lang: string;
+  label: string;
+  text: string;
+  dir?: "rtl";
+};
 
 export const hero = {
-  eyebrow: "Mohammed Juber Ahmed · frontend developer, Birmingham UK",
-  /** H1 renders as `${headingLead} <highlight>${headingHighlight}</highlight>`. */
+  name: "Mohammed Juber Ahmed",
+  place: "Birmingham, UK",
+  /** Rendered as one H1; split so the desktop break lands on the comma. */
   headingLead: "I build web products,",
-  headingHighlight: "front to back.",
-  sub: "Three years shipping Wolseley's high-traffic B2B e-commerce frontend by day. On my own time I build and ship my own products, including a live AI translation keyboard with its own API.",
-  /** Gated behind the Hero `showStats` prop (DESIGN.md). */
-  stats: [
-    { value: "3+", label: "yrs shipping at scale" },
-    { get value() { return String(wall.length); }, label: "builds on the wall" },
-    { value: "1", label: "API in production" },
-  ] satisfies HeroStat[],
+  headingTail: "front to back.",
+  /**
+   * The same sentence in Jembatan's other languages. Bengali leads: it is the
+   * language the app exists for. Drafted by hand, not by the app, and the
+   * label never claims otherwise. Owner to check the wording (handoff note).
+   */
+  translations: [
+    { lang: "bn", label: "Bengali", text: "আমি ওয়েব প্রোডাক্ট বানাই, শুরু থেকে শেষ পর্যন্ত।" },
+    { lang: "id", label: "Indonesian", text: "Aku bikin produk web, dari frontend sampai backend." },
+    { lang: "ar", label: "Arabic", text: "أبني منتجات ويب، من الواجهة إلى الخلفية.", dir: "rtl" },
+    { lang: "es", label: "Spanish", text: "Construyo productos web, de principio a fin." },
+  ] satisfies Translation[],
+  translationNote: "Jembatan's languages",
+  sub: "Frontend developer at Wolseley since 2022, on a high-traffic B2B e-commerce storefront. In the evenings I ship my own products.",
 } as const;
 
-// ── Section headers ──────────────────────────────────────────────────────────
-// Plain H2s. The numbered mono indices (01–04) that used to sit beside each one
-// were removed in the home-page audit — see DESIGN.md "post-audit". Don't add
-// them back, here or anywhere else.
+// ── The film (Jembatan, under scroll) ────────────────────────────────────────
 
-export const sections = {
-  featured: { title: "Featured work" },
-  wall: {
-    /** Derived from `wall` below so the number can't drift out of date. */
-    get title() {
-      return `The wall: ${wall.length} builds and counting`;
+export type FilmStep = {
+  /** Second in the clip where this beat starts. */
+  at: number;
+  title: string;
+  body: string;
+};
+
+export const film = {
+  /** Scrub-encoded (keyframe every 8 frames). Phones get the 480 cut. */
+  src: { small: "/film/jembatan-480.mp4", large: "/film/jembatan-720.mp4" },
+  poster: "/film/jembatan-poster.webp",
+  alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
+  /** The reduced-motion / no-JS version: three stills. */
+  stills: [
+    { src: "/film/still-speak.webp", alt: "Holding the mic: a live waveform fills the keyboard" },
+    { src: "/film/still-review.webp", alt: "Review before sending: what I heard, and the Indonesian translation" },
+    { src: "/film/still-sent.webp", alt: "The Indonesian message sent in the WhatsApp thread" },
+  ],
+  steps: [
+    { at: 0, title: "Hold the mic and say it in English.", body: "Speech is recognised on the phone itself." },
+    { at: 2.2, title: "Read it back in natural Indonesian.", body: "My Cloudflare Worker rewrites it the way a native speaker would text it, streamed in as it's written." },
+    { at: 6.2, title: "Insert it and send.", body: "It all happens inside the keyboard, so you never leave WhatsApp." },
+  ] satisfies FilmStep[],
+} as const;
+
+// ── Jembatan, the product ────────────────────────────────────────────────────
+
+export const jembatan = {
+  name: "Jembatan",
+  meaning: "Indonesian for “bridge”",
+  status: "In daily use · closed Play test",
+  lede: "An Android keyboard that turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali, without leaving the chat.",
+  /** A spec sheet, not a paragraph: the hiring manager's skim path. */
+  parts: [
+    { k: "App", v: "Kotlin and Jetpack Compose, a custom Android keyboard with swipe typing and bilingual autocorrect" },
+    { k: "API", v: "A Cloudflare Worker at POST /api/v1/translate, streaming over SSE, rate-limited, storing no message text" },
+    { k: "Model", v: "gpt-5-mini behind a byte-stable prompt, swappable in one file" },
+    { k: "Product", v: "Onboarding, billing through RevenueCat, branding, the marketing site, the roadmap" },
+  ],
+  links: [
+    { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
+    { label: "Read the case study", href: "/work/jembatan/" },
+  ],
+} as const;
+
+// ── The demo ─────────────────────────────────────────────────────────────────
+
+export type DemoTarget = { code: "bn" | "id" | "ar" | "es"; label: string; dir?: "rtl" };
+
+export const demo = {
+  /**
+   * `false` until the demo proxy on the Jembatan landing Worker is deployed
+   * (design-reference/plans, session 2). Canned mode plays the samples below
+   * through the same streaming UI and says so on screen.
+   */
+  live: false,
+  endpoint: "https://jembatan.juberahmed.dev/api/demo/translate",
+  maxChars: 140,
+  targets: [
+    { code: "bn", label: "Bengali" },
+    { code: "id", label: "Indonesian" },
+    { code: "ar", label: "Arabic", dir: "rtl" },
+    { code: "es", label: "Spanish" },
+  ] satisfies DemoTarget[],
+  /** Drafted by hand to show the flow; replaced by real Worker output once live. */
+  samples: [
+    {
+      en: "Running ten minutes late, save me a seat.",
+      out: {
+        bn: "দশ মিনিট দেরি হবে, আমার জন্য একটা সিট রেখো।",
+        id: "Telat sepuluh menit nih, simpenin kursi buat aku ya.",
+        ar: "متأخر عشر دقائق، احجز لي مكان.",
+        es: "Llego diez minutos tarde, guárdame un sitio.",
+      },
     },
-    sub: "Every real build, big or small, from finished products to works in progress.",
-  },
-  experience: { title: "Experience" },
+    {
+      en: "Have you eaten yet? I can bring something back.",
+      out: {
+        bn: "খেয়েছ? আসার সময় কিছু নিয়ে আসতে পারি।",
+        id: "Udah makan belum? Aku bisa bawain sesuatu.",
+        ar: "أكلت؟ أقدر أجيب لك شي وأنا راجع.",
+        es: "¿Ya comiste? Te puedo llevar algo.",
+      },
+    },
+    {
+      en: "Call me when you land, no rush.",
+      out: {
+        bn: "নামার পর ফোন দিও, তাড়া নেই।",
+        id: "Kabarin aku kalau udah mendarat ya, santai aja.",
+        ar: "كلمني لما توصل، على راحتك.",
+        es: "Llámame cuando aterrices, sin prisa.",
+      },
+    },
+  ],
 } as const;
 
-// ── Featured work ────────────────────────────────────────────────────────────
+// ── Client sites ─────────────────────────────────────────────────────────────
+
+export type Client = {
+  name: string;
+  /** Who it's for, plainly. */
+  who: string;
+  url: string;
+  host: string;
+  summary: string;
+  /** Four facts a developer would ask about. */
+  facts: string[];
+  shots: { phone: string; desktop: string; alt: string };
+};
 
 /**
- * `kind` drives link styling in `featured.tsx`. It used to be inferred from the
- * label text (`label.startsWith("Code")`), which broke silently the moment a
- * label was reworded — as it was when the trailing arrows came off.
+ * Paid, signed-off work for real businesses, shown with the owners'
+ * permission. One live link each: no code link (client repos) and no
+ * case-study page.
  */
-export type FeaturedLinkKind = "live" | "case" | "code";
-
-export type FeaturedLink = {
-  kind: FeaturedLinkKind;
-  label: string;
-  href: string;
-  external?: boolean;
-};
-
-export type FeaturedProject = {
-  name: string;
-  slug?: string; // case-study route: `/work/${slug}/` — only for entries that own one
-  blurb: string;
-  stack: string; // mono stack line
-  links: FeaturedLink[];
-  screenshotLabel: string; // placeholder tile caption (fallback when no image)
-  image?: { src: string; alt: string }; // real screenshot for the card (CP2)
-};
-
-/** The dark hero card. Kept separate from the two rows — it has its own layout. */
-export const flagship = {
-  /** Mono label on the card. Carries "this is the best one", not a position. */
-  label: "flagship",
-  badge: "live in production",
-  name: "Jembatan",
-  /** Case-study route: `/work/${slug}/`. */
-  slug: "jembatan",
-  blurb:
-    "An Android keyboard that translates text, voice, and clipboard messages into natural, colloquial language, powered by gpt-5-mini on its own Cloudflare Worker API with on-device speech. I built the whole product: the app, the backend, onboarding, branding, and the roadmap.",
-  stack: "kotlin · cloudflare-workers · openai-api",
-  links: [
-    // No code link: Jembatan is a shipping commercial product and its repo is
-    // permanently private. Don't add one back — it would 404 on the flagship.
-    { kind: "live", label: "Live demo", href: "https://jembatan.juberahmed.dev/", external: true },
-    { kind: "case", label: "Case study", href: "/work/jembatan/" },
-  ] satisfies FeaturedLink[],
-  screenshotLabel: "jembatan app screenshot",
-  image: {
-    src: "/featured/jembatan.png",
-    alt: "Jembatan app home screen: EN to ID translation with in-person mode",
-  },
-  /** The polaroid's scroll-scrubbed clip — a real capture of the keyboard in
-      WhatsApp (spoken English → reviewed Indonesian → sent). Poster is the
-      clip's first frame; it is also the no-JS / reduced-motion / phone state. */
-  scrub: {
-    src: "/featured/jembatan-scrub.mp4",
-    poster: "/featured/jembatan-scrub-poster.webp",
-    alt: "Jembatan keyboard in WhatsApp: spoken English reviewed as Indonesian, then sent into the chat",
-  },
-} as const;
-
-export const featured: FeaturedProject[] = [
+export const clients: Client[] = [
   {
     name: "UMMA BJJ",
-    blurb:
-      "A client redesign moving a Birmingham Jiu-Jitsu and MMA gym off a GoDaddy site builder. The old site showed its timetable as a JPEG poster and listed classes the gym doesn't teach. I rebuilt it as six hand-coded pages in HTML, CSS, and JavaScript, with a filterable timetable and a trial form that opens WhatsApp. It ships no third-party scripts and serves AVIF photos from Cloudflare's edge, so it loads quickly on a phone.",
-    stack: "html · css · javascript · cloudflare-workers",
-    links: [
-      { kind: "live", label: "Visit site", href: "https://ummabjj.com/", external: true },
-    ],
-    screenshotLabel: "ummabjj.com",
-    image: {
-      src: "/featured/umma-bjj.webp",
-      alt: "UMMA BJJ homepage: the headline “Learn real self-defence.” over a group photo of members on the mats",
+    who: "Jiu-Jitsu and MMA gym, Sparkhill",
+    url: "https://ummabjj.com/",
+    host: "ummabjj.com",
+    summary: "The gym was on a GoDaddy template with its timetable posted as a JPEG. I rebuilt it as six hand-coded pages: the timetable renders from one data block, and the free-trial form writes the WhatsApp message to the coaches for you.",
+    facts: ["6 pages, no build step", "Timetable from one data block", "AVIF photos from Cloudflare's edge", "No third-party scripts"],
+    shots: {
+      phone: "/shots/umma-bjj/mobile-full.webp",
+      desktop: "/shots/umma-bjj/desktop.webp",
+      alt: "ummabjj.com on a phone, from the “Learn real self-defence” hero down through reviews, classes and the week's timetable",
     },
   },
   {
     name: "Al-Ilm Martial Arts",
-    blurb:
-      "A one-page site for a Birmingham martial arts club, hand-built in plain HTML, CSS, and JavaScript and served straight off a Cloudflare Worker. The Worker also runs the enquiry endpoint: both waiting-list forms mail the club through a send_email binding, so no visitor data leaves Cloudflare, and both post natively and still work with JavaScript off.",
-    stack: "html · css · cloudflare-workers",
-    links: [
-      { kind: "live", label: "Visit site", href: "https://alilmmartialarts.co.uk/", external: true },
-    ],
-    screenshotLabel: "alilmmartialarts.co.uk",
-    image: {
-      src: "/featured/al-ilm.png",
-      alt: "Al-Ilm Martial Arts homepage: the headline “Al-Ilm means the knowledge” over a darkened ring photo",
+    who: "Boxing, kickboxing and Muay Thai club",
+    url: "https://alilmmartialarts.co.uk/",
+    host: "alilmmartialarts.co.uk",
+    summary: "A one-pager served from a Cloudflare Worker that also runs its own enquiry endpoint. Both waiting-list forms mail the club through a send_email binding, post natively, and still work with JavaScript switched off.",
+    facts: ["One Worker, static + API", "POST /api/enquiry", "Works without JavaScript", "No visitor data leaves Cloudflare"],
+    shots: {
+      phone: "/shots/al-ilm/mobile-full.webp",
+      desktop: "/shots/al-ilm/desktop.webp",
+      alt: "alilmmartialarts.co.uk on a phone, from the “Al-Ilm means the knowledge” hero down through the three disciplines",
     },
   },
 ];
+
+// ── More builds ──────────────────────────────────────────────────────────────
+
+export type Build = {
+  name: string;
+  what: string;
+  stack: string;
+  /** Month it started. Every build here is from 2026, so the month is the signal. */
+  started: string;
+  status: "live" | "building";
+  links: { label: string; href: string; external?: boolean }[];
+};
+
+/**
+ * Everything else with something to click, strongest first. Rows without a
+ * public link stay off (a row you can't open is a dead end); the private work
+ * gets one honest line under the list instead (`privateBuilds`).
+ */
+export const builds: Build[] = [
+  {
+    name: "Stratemize",
+    what: "Agency site with a live consultation booker, a tRPC API and D1 behind it",
+    stack: "React 19 · TypeScript · Workers · D1",
+    started: "Jul 2026",
+    status: "live",
+    links: [{ label: "Live site", href: "https://stratemize.co.uk/", external: true }],
+  },
+  {
+    name: "Mission to Abs",
+    what: "The fitness PWA I use every day: animated progress, live charts, smart-scale sync",
+    stack: "React · Zustand · Recharts · Framer Motion",
+    started: "May 2026",
+    status: "live",
+    links: [
+      { label: "Case study", href: "/work/mission-to-abs/" },
+      { label: "Code", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
+    ],
+  },
+  {
+    name: "E-commerce store",
+    what: "A storefront with an Express and Postgres backend, built to learn the half my day job doesn't touch",
+    stack: "React 19 · Express · Postgres · JWT",
+    started: "May 2026",
+    status: "live",
+    links: [
+      { label: "Case study", href: "/work/ecommerce-store/" },
+      { label: "Code", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
+    ],
+  },
+  {
+    name: "Yoosuf Zaman",
+    what: "Personal-brand site for a business-setup consultant, with a Worker-backed booking form",
+    stack: "HTML · CSS · JavaScript · Workers",
+    started: "Jul 2026",
+    status: "live",
+    links: [{ label: "Live site", href: "https://yoosufzaman.com/", external: true }],
+  },
+  {
+    name: "Habit tracker",
+    // Repo is spelled "habbit_tracker" on GitHub; the row keeps the right spelling.
+    what: "An installable PWA shell with strict TypeScript and dual themes. The features come next",
+    stack: "Next.js 16 · React 19 · Tailwind 4",
+    started: "May 2026",
+    status: "building",
+    links: [{ label: "Code", href: "https://github.com/Juber-Ahmed98/habbit_tracker", external: true }],
+  },
+  {
+    name: "Qibla Compass",
+    what: "A browser qibla finder driven by the phone's orientation sensors, in about 8 KB",
+    stack: "HTML · CSS · JavaScript",
+    started: "Jan 2026",
+    status: "live",
+    links: [
+      { label: "Live site", href: "https://juber-ahmed98.github.io/Qibla_Compass/", external: true },
+      { label: "Code", href: "https://github.com/Juber-Ahmed98/Qibla_Compass", external: true },
+    ],
+  },
+  {
+    name: "FFMI calculator",
+    what: "Fat-free mass index from a few measurements, with a history table",
+    stack: "React 19 · Vite · Tailwind 4",
+    started: "Mar 2026",
+    status: "live",
+    links: [
+      { label: "Live site", href: "https://juber-ahmed98.github.io/ffmi-tracker/", external: true },
+      { label: "Code", href: "https://github.com/Juber-Ahmed98/ffmi-tracker", external: true },
+    ],
+  },
+];
+
+export const privateBuilds =
+  "Private for now: Second Brain, a Postgres and pgvector memory layer with its own MCP server so AI sessions start with my context, and Shatr, an Android qibla compass that tells you when its reading can't be trusted.";
+
+// ── Day job ──────────────────────────────────────────────────────────────────
+
+export type Role = { dates: string; title: string; desc: string };
+
+export const dayJob = {
+  heading: "By day, Wolseley.",
+  lede: "Since December 2022 I've worked on Wolseley's B2B e-commerce site, a high-traffic storefront where trade customers order plumbing and heating supplies.",
+  roles: [
+    {
+      dates: "Aug 2024 – now",
+      title: "Digital Developer",
+      desc: "Responsive, accessible pages, shipped through A/B and multivariate tests in Monetate: merchandising badges, promotions, seasonal lightboxes. We keep what moves the numbers and drop what doesn't.",
+    },
+    {
+      dates: "Dec 2022 – Aug 2024",
+      title: "Apprentice Merchandiser and Developer",
+      desc: "Shipped to production while earning the Level 3 Software Development Technician qualification with QA.",
+    },
+  ] satisfies Role[],
+  tools: [
+    { k: "At work", v: "HTML, SCSS, JavaScript, Monetate, Bloomreach, Yext, Jira" },
+    { k: "On my own", v: "React, Next.js, TypeScript, Kotlin, Cloudflare Workers and D1" },
+  ],
+} as const;
+
+// ── Contact ──────────────────────────────────────────────────────────────────
+
+export type ContactLink = { label: string; href: string; external?: boolean };
+
+export const contact = {
+  heading: "Let's build the next one.",
+  sub: "A frontend role, a site for your business, or a product idea: email is the quickest way to reach me.",
+  email: "mohammed.juber.ahmed@gmail.com",
+  cv: { label: "Download CV", href: "/cv.pdf" },
+  links: [
+    { label: "GitHub", href: "https://github.com/Juber-Ahmed98", external: true },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/mohammed-juber-ahmed/", external: true },
+  ] satisfies ContactLink[],
+  colophon: "Built with Next.js and Tailwind, set in Mona Sans, served from Cloudflare's edge.",
+  footer: "© 2026 Mohammed Juber Ahmed · Birmingham",
+} as const;
+
 
 // ── Case studies ─────────────────────────────────────────────────────────────
 // Drives the `/work/[slug]/` routes (CP5). One entry per featured project, keyed
@@ -498,86 +678,3 @@ export const caseStudies: Record<string, CaseStudy> = {
   },
 };
 
-// ── The Wall ─────────────────────────────────────────────────────────────────
-
-export type WallProject = {
-  name: string;
-  badge: string; // "live" | "building"
-  live: boolean; // controls badge colour: accent vs --wip
-  desc: string;
-  tags: string;
-  /**
-   * GitHub (or live) URL. Optional: a private repo with nothing public to point
-   * at renders no link rather than a 404 — verify visibility before adding one.
-   */
-  link?: string;
-  linkLabel?: string; // defaults to "code" — override when `link` isn't a repo
-  caseHref?: string; // internal /work/ route, when a case study exists
-};
-
-export const wall: WallProject[] = [
-  // Private repo (permanently) — this card points at the live product instead.
-  { name: "Jembatan-app", badge: "live", live: true, desc: "AI translation keyboard + Worker API", tags: "kotlin · workers", link: "https://jembatan.juberahmed.dev/", linkLabel: "live site", caseHref: "/work/jembatan/" },
-  // Client sites. Client-owned repos, so all three point at the live build.
-  // Order matters here: only the first `COLLAPSED_WIDE` show before the
-  // "view all" button, so the strongest builds go first. Stratemize left
-  // Featured for UMMA BJJ on 2026-10-01 but stays in the collapsed six.
-  { name: "UMMA BJJ", badge: "live", live: true, desc: "Six-page gym site: timetable from one data file, WhatsApp trial booking", tags: "html · js · workers", link: "https://ummabjj.com/", linkLabel: "live site" },
-  { name: "Al-Ilm Martial Arts", badge: "live", live: true, desc: "Club one-pager on a Worker that mails its own enquiry forms", tags: "html · css · workers", link: "https://alilmmartialarts.co.uk/", linkLabel: "live site" },
-  { name: "Stratemize", badge: "live", live: true, desc: "Agency site: tRPC API + D1 behind a live consultation booker", tags: "react · workers · d1", link: "https://stratemize.co.uk/", linkLabel: "live site" },
-  { name: "mission_to_abs_app", badge: "live", live: true, desc: "Animated fitness tracker + data-viz", tags: "react · zustand", link: "https://github.com/Juber-Ahmed98/mission_to_abs_app", caseHref: "/work/mission-to-abs/" },
-  { name: "ecommerce_store", badge: "live", live: true, desc: "Full-stack storefront: React UI, Express + Postgres backend", tags: "react · express · postgres", link: "https://github.com/Juber-Ahmed98/ecommerce_store", caseHref: "/work/ecommerce-store/" },
-  // Client-owned repo, so this one points at the live site rather than code.
-  { name: "Yoosuf Zaman", badge: "live", live: true, desc: "Personal-brand site for a business-setup consultant", tags: "html · css · vanilla-js", link: "https://yoosufzaman.com/", linkLabel: "live site" },
-  // Repo is spelled "habbit_tracker" on GitHub — the card keeps the correct spelling.
-  { name: "habit_tracker", badge: "building", live: false, desc: "Installable PWA shell: strict TS, dual theme, features next", tags: "next16 · react19 · tailwind4", link: "https://github.com/Juber-Ahmed98/habbit_tracker" },
-  { name: "Qibla_Compass", badge: "building", live: false, desc: "Sensor-driven qibla finder", tags: "js · sensors", link: "https://github.com/Juber-Ahmed98/Qibla_Compass" },
-];
-
-// ── Experience ───────────────────────────────────────────────────────────────
-
-export type Role = { date: string; title: string; desc: string };
-
-export const experience: Role[] = [
-  {
-    date: "2024.08 — now",
-    title: "Digital Developer · Wolseley",
-    desc: "High-traffic B2B e-commerce frontend. Responsive, accessible pages shipped through A/B and multivariate tests: merchandising badges, promos, seasonal lightboxes. Kept what moved the numbers and dropped what didn't.",
-  },
-  {
-    date: "2022.12 — 2024.08",
-    title: "Apprentice Developer · Wolseley",
-    desc: "Earned the L3 Software Development Technician qualification (QA) while shipping to production.",
-  },
-];
-
-export const toolbox: string[] = [
-  "html/css/sass",
-  "javascript",
-  "react",
-  "typescript",
-  "a/b testing",
-  "monetate",
-  "python",
-  "c#",
-  "sql",
-  "cloudflare",
-];
-
-// ── Contact ──────────────────────────────────────────────────────────────────
-
-export type ContactLink = { label: string; href: string; external?: boolean };
-
-export const contact = {
-  heading: ["Next on the wall:", "your product."], // rendered on two lines
-  cv: { label: "Download CV (PDF)", href: "/cv.pdf" }, // real CV at public/cv.pdf
-  links: [
-    { label: "Email", href: "mailto:mohammed.juber.ahmed@gmail.com" },
-    { label: "GitHub", href: "https://github.com/Juber-Ahmed98", external: true },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/mohammed-juber-ahmed/", external: true },
-  ] satisfies ContactLink[],
-  footer: {
-    left: "© 2026 mohammed juber ahmed",
-    right: "birmingham, uk · juberahmed.dev",
-  },
-} as const;

@@ -1,60 +1,83 @@
+"use client";
+
+import { useState } from "react";
+import { ArrowDown, ArrowUpRight, Check, Copy } from "lucide-react";
 import { contact } from "@/content/site";
 
 /**
- * Contact — the warm-dark CTA card ("Next on the wall: / your product."),
- * primary Download CV button plus Email / GitHub / LinkedIn, then the mono
- * footer line.
- *
- * Like the flagship card, this card is dark in BOTH themes (DESIGN.md): the
- * shell uses `bg-flag`/`border-flag-line` and its internal colours are the fixed
- * warm-dark hex, not theme tokens. The second heading line takes the terracotta.
- * The footer below the card sits on the page and uses normal tokens.
+ * The close, back in the dark room the film played in. The address is the
+ * biggest thing here, because copying it into their own mail client is how
+ * a lot of recruiters actually get in touch; there is a copy button for
+ * exactly that, and the address itself is a mailto link.
  */
 export function Contact() {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(contact.email);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      window.location.href = `mailto:${contact.email}`;
+    }
+  };
+
+  const [user, domain] = contact.email.split("@");
+
   return (
-    <section
-      id="contact"
-      aria-label="Contact"
-      className="mx-auto max-w-[1180px] scroll-mt-6 px-6 pb-10 pt-[70px] sm:px-10 2xl:max-w-[1320px] 2xl:px-16"
-    >
-      {/* Same treatment as the flagship: the card can't be tapped itself, so
-          `press-plate` makes it sink 6px onto its terracotta shadow whenever one
-          of the four buttons inside it is held. */}
-      <div className="press-plate press-lg flex flex-col flex-wrap items-start gap-12 rounded-[18px] border-2 border-flag-line bg-flag px-7 py-12 text-[#f4ead9] shadow-[6px_6px_0_var(--accent)] motion-safe:hover:-translate-x-0.5 motion-safe:hover:-translate-y-[3px] motion-safe:hover:shadow-[9px_9px_0_var(--accent)] sm:flex-row sm:items-center sm:justify-between sm:px-14 sm:py-16">
-        <h2 className="font-display text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.1] tracking-[-0.025em]">
-          {contact.heading[0]}
-          <br />
-          <span className="text-[#e08a5c]">{contact.heading[1]}</span>
+    <section id="contact" data-night aria-labelledby="contact-title" className="bg-night text-night-ink">
+      <div className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-20 sm:px-10 sm:pt-28 xl:px-16">
+        <h2 id="contact-title" className="t-poster max-w-[10ch] text-[clamp(56px,16vw,140px)]">
+          {contact.heading}
         </h2>
+        <p className="mt-6 max-w-[44ch] text-[18px] leading-[1.6] text-night-body">{contact.sub}</p>
 
-        {/* One wrapped row of four buttons beside the H2 (the signed comp's
-            balance — not a stacked column). */}
-        <div className="flex max-w-[420px] shrink-0 flex-wrap items-center gap-3">
+        <div className="mt-12 border-y border-night-line py-8">
           <a
-            href={contact.cv.href}
-            className="whitespace-nowrap rounded-[10px] bg-[#e08a5c] px-6 py-3 text-[14px] font-extrabold text-[#201812] transition-[translate] motion-safe:hover:-translate-x-px motion-safe:hover:-translate-y-0.5"
+            href={`mailto:${contact.email}`}
+            className="t-head block break-words text-[clamp(30px,8.6vw,76px)] text-night-ink hover:text-night-accent"
           >
-            {contact.cv.label}
+            {user}
+            <wbr />
+            <span className="text-night-accent">@{domain}</span>
           </a>
-          {contact.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              {...(link.external
-                ? { target: "_blank", rel: "noreferrer" }
-                : {})}
-              className="rounded-[10px] border-2 border-[#5c4a38] px-5 py-3 text-[13.5px] font-semibold text-[#f4ead9] transition-colors hover:border-[#e08a5c] active:border-[#e08a5c]"
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={copy}
+              className="tap inline-flex items-center gap-2 rounded-full bg-night-accent px-5 py-3 text-[15px] font-[650] text-night"
             >
-              {link.label}
+              {copied ? <Check size={17} aria-hidden /> : <Copy size={17} aria-hidden />}
+              <span aria-live="polite">{copied ? "Copied" : "Copy address"}</span>
+            </button>
+            <a
+              href={contact.cv.href}
+              className="tap inline-flex items-center gap-2 rounded-full border border-night-line px-5 py-3 text-[15px] font-[650] hover:border-night-muted"
+            >
+              <ArrowDown size={17} aria-hidden />
+              {contact.cv.label}
             </a>
-          ))}
+            {contact.links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                className="tap inline-flex items-center gap-1.5 rounded-full border border-night-line px-5 py-3 text-[15px] font-[650] hover:border-night-muted"
+              >
+                {l.label}
+                <ArrowUpRight size={16} aria-hidden />
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <footer className="mt-[26px] flex flex-col gap-2 font-mono text-[12px] text-muted sm:flex-row sm:justify-between">
-        <span>{contact.footer.left}</span>
-        <span>{contact.footer.right}</span>
-      </footer>
+        <footer className="mt-10 flex flex-col gap-2 text-[13.5px] text-night-muted sm:flex-row sm:justify-between">
+          <p>{contact.footer}</p>
+          <p>{contact.colophon}</p>
+        </footer>
+      </div>
     </section>
   );
 }

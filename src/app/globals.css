@@ -3,150 +3,435 @@
 /* Class-based dark mode (driven by next-themes adding `.dark` to <html>). */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Design tokens — "The Workshop" ─────────────────────────────────────────
-   Source of truth: DESIGN.md (signed-off render:
-   design-reference/directions/c-the-workshop.html). Warm cream paper, espresso
-   ink, terracotta accent, letterpress block shadows. Token *names* are kept from
-   the old system so `bg-bg`, `text-ink`, … utilities survive; the values are the
-   Workshop palette. Light values on :root; dark (warm espresso, not blue-black)
-   on .dark. All text tokens clear WCAG AA on their surfaces — figures in
-   DESIGN.md are measured. */
+/* ── Tokens — v3, "Proof you can hold" ─────────────────────────────────────
+   Source of truth: DESIGN.md. Warm paper and espresso, one terracotta signal,
+   and a third surface — `--night` — that is dark in BOTH themes: it is the
+   room the Jembatan film plays in. Every text/surface pair is measured ≥4.5:1
+   (figures in DESIGN.md).
+
+   The second block keeps the Workshop's token names alive as aliases so the
+   case-study pages still render until they are rebuilt in the v3 system. */
 :root {
-  --bg: #f8f2e9;
-  --panel: #fffdf8;
-  --ink: #2b2016;
-  --body: #4d3f30;
-  --muted: #75634f;
-  --faint: #7a6954;
-  --line: #e0d5c2;
-  --accent: #a84b26;
-  --hl: #f3e2d4;
-  --hover: #f3ead9;
-  --chip: #d9cbb4;
+  --bg: #f3ede3;
+  --surface: #fbf8f2;
+  --ink: #1d1611;
+  --body: #4a3d30;
+  --muted: #6e5e4e;
+  --line: #dcd1bf;
+  --line-strong: #c4b6a0;
+  --accent: #a94b25;
+  --on-accent: #fff8f0;
   --live: #3f5c37;
-  --wip: #8a5f1a;
-  --wipbg: #fffdf8;
-  --wipline: #b08a3f;
-  --btn-bg: #2b2016;
-  --btn-fg: #fffdf8;
+  --wip: #85591a;
+
+  /* The room — identical in both themes. */
+  --night: #14100d;
+  --night-raise: #1d1813;
+  --night-ink: #f1e8da;
+  --night-body: #c4b5a0;
+  --night-muted: #968671;
+  --night-line: #2c241d;
+  --night-accent: #e3895b;
+
+  /* Device shadows: warm, offset, soft. Elevation, never a glow. */
+  --lift: 0 34px 60px -28px rgb(48 24 8 / 0.5), 0 12px 24px -14px rgb(48 24 8 / 0.35);
+
+  /* Legacy aliases (case studies, until rebuilt). */
+  --panel: var(--surface);
+  --faint: var(--muted);
+  --hl: #ecdccb;
+  --hover: #ece2d2;
+  --chip: var(--line-strong);
+  --btn-bg: var(--ink);
+  --btn-fg: var(--surface);
   --flag: #2b2016;
   --flag-line: #2b2016;
-  /* The letterpress block shadow — offset, no blur. This is the depth system. */
-  --shadow-card: 4px 4px 0 #2b2016;
+  --shadow-card: 4px 4px 0 var(--ink);
 }
 
 .dark {
-  --bg: #201812;
-  --panel: #2a2019;
-  --ink: #f4ead9;
-  --body: #d3c4ad;
-  --muted: #a8967c;
-  --faint: #9d8c74;
-  --line: #3d3125;
-  --accent: #e08a5c;
-  --hl: #35261c;
-  --hover: #332818;
-  --chip: #4a3c2d;
+  --bg: #15110e;
+  --surface: #1e1914;
+  --ink: #f1e8da;
+  --body: #cbbda8;
+  --muted: #a08f7a;
+  --line: #2f2620;
+  --line-strong: #463a2f;
+  --accent: #e3895b;
+  --on-accent: #1a120c;
   --live: #9dc48f;
   --wip: #d9ae4a;
-  --wipbg: #2a2019;
-  --wipline: #8a6f33;
-  --btn-bg: #f4ead9;
-  --btn-fg: #201812;
-  --flag: #2b2016;
-  --flag-line: #f4ead9;
-  /* Dark keeps the block-shadow language but drops to a true shadow value —
-     an ink-coloured block would vanish, a cream one would glow. */
-  --shadow-card: 4px 4px 0 rgba(0, 0, 0, 0.55);
+
+  --lift: 0 34px 60px -28px rgb(0 0 0 / 0.7), 0 12px 24px -14px rgb(0 0 0 / 0.5);
+
+  --hl: #35261c;
+  --hover: #2a2019;
+  --flag-line: #f1e8da;
+  --shadow-card: 4px 4px 0 rgb(0 0 0 / 0.55);
 }
 
-/* Expose tokens + fonts to Tailwind's utility layer so `bg-bg`, `text-ink`,
-   `font-mono`, etc. resolve to our variables. */
 @theme inline {
   --color-bg: var(--bg);
-  --color-panel: var(--panel);
+  --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-body: var(--body);
   --color-muted: var(--muted);
-  --color-faint: var(--faint);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-live: var(--live);
+  --color-wip: var(--wip);
+  --color-night: var(--night);
+  --color-night-raise: var(--night-raise);
+  --color-night-ink: var(--night-ink);
+  --color-night-body: var(--night-body);
+  --color-night-muted: var(--night-muted);
+  --color-night-line: var(--night-line);
+  --color-night-accent: var(--night-accent);
+
+  /* legacy */
+  --color-panel: var(--panel);
+  --color-faint: var(--faint);
   --color-hl: var(--hl);
   --color-hover: var(--hover);
   --color-chip: var(--chip);
-  --color-live: var(--live);
-  --color-wip: var(--wip);
-  --color-wipbg: var(--wipbg);
-  --color-wipline: var(--wipline);
   --color-btn-bg: var(--btn-bg);
   --color-btn-fg: var(--btn-fg);
   --color-flag: var(--flag);
   --color-flag-line: var(--flag-line);
   --shadow-card: var(--shadow-card);
 
-  --font-display: var(--font-bricolage), system-ui, sans-serif;
-  --font-sans: var(--font-bricolage), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), monospace;
+  --font-display: var(--font-mona), system-ui, sans-serif;
+  --font-sans: var(--font-mona), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-bangla: var(--font-anek-bangla), "Noto Sans Bengali", "Kohinoor Bangla", sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
-  /* Smooth theme swap (DESIGN.md). */
-  transition: background 0.3s, color 0.3s;
+  font-weight: 450;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Display headings push Bricolage's optical-size axis up so the display cut
-   (tighter apertures, more character) renders instead of the text cut. */
-.font-display {
-  font-variation-settings: "opsz" 96;
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
-/* Consistent keyboard focus ring across every interactive element, in both
-   themes. Mouse users are unaffected (focus-visible only). */
 :focus-visible {
   outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 3px;
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-/* ── Press state — the touch half of the shadow system ─────────────────────
-   Hover is a lift: the plate rises off the bench and terracotta shows in the
-   gap it leaves. Touch has no hover, so a phone gets the opposite gesture —
-   the plate is pushed INTO the paper. The element travels exactly its own
-   shadow offset (4px for `--shadow-card`, 6px for the two dark cards, 2px for
-   the theme toggle) and the shadow collapses to nothing, so the gap closes and
-   the plate sits flush. Release springs it back over 120ms.
+/* ── Type ──────────────────────────────────────────────────────────────────
+   Mona Sans carries a width axis; the display cut is the condensed end of it
+   at full weight. One face, used at two widths, is what keeps the page from
+   reading as the default "one sans, one weight, sentence case" hierarchy. */
+@layer components {
+  .t-poster {
+    font-family: var(--font-display);
+    font-stretch: 75%;
+    font-weight: 900;
+    letter-spacing: -0.018em;
+    line-height: 0.86;
+  }
+  .t-head {
+    font-family: var(--font-display);
+    font-stretch: 75%;
+    font-weight: 850;
+    letter-spacing: -0.012em;
+    line-height: 0.92;
+  }
+  /* Data, never decoration: dates, stacks, status. Not a kicker. */
+  .t-data {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+}
 
-   Not a mobile-only rule — a mouse press should feel the same as a thumb
-   press. Tailwind v4 already wraps every `hover:` utility in
-   `@media (hover: hover)`, so a tapped card can never keep a stuck lift; press
-   is the whole of what touch sees, which is why it has to carry the weight.
+/* ── The phone ─────────────────────────────────────────────────────────────
+   A lit object made of DOM, not a mockup PNG: a dark body with a rim catching
+   the lamp from the upper left, a screen inset in it, and a camera punch-hole.
+   Sized by its wrapper (a size container), so the bezel and radii scale with
+   it at every width. Screen aspect is the capture's own: 480 × 1040. */
+.phone-wrap {
+  container-type: inline-size;
+}
+.phone {
+  position: relative;
+  padding: 3.4cqi;
+  border-radius: 15cqi;
+  background:
+    linear-gradient(150deg, #3a2f27 0%, #120e0b 22%, #070605 60%, #1a1511 100%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 238 214 / 0.14),
+    inset 0.6cqi 0.6cqi 0.8cqi -0.4cqi rgb(255 238 214 / 0.22),
+    var(--lift);
+}
+/* Side keys: power on the right, volume on the left. */
+.phone::before,
+.phone::after {
+  content: "";
+  position: absolute;
+  width: 1.1cqi;
+  border-radius: 1cqi;
+  background: linear-gradient(90deg, #2c241e, #0c0a08);
+}
+.phone::before {
+  right: -0.8cqi;
+  top: 24%;
+  height: 11%;
+}
+.phone::after {
+  left: -0.8cqi;
+  top: 18%;
+  height: 17%;
+}
+.phone-screen {
+  position: relative;
+  aspect-ratio: 480 / 1040;
+  /* clip, not hidden: `hidden` makes the screen a scroll container, and the
+     pan's view() timeline would then track the screen instead of the page. */
+  overflow: clip;
+  border-radius: 11.5cqi;
+  background: #0b0d0e;
+  /* Clip children (the video) to the rounded screen on Safari. */
+  isolation: isolate;
+}
+.phone-screen > img,
+.phone-screen > video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+/* Lamp light on glass: a faint diagonal sheen, top left. */
+.phone-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    125deg,
+    rgb(255 244 228 / 0.09) 0%,
+    rgb(255 244 228 / 0.02) 30%,
+    transparent 45%
+  );
+}
+.phone-cam {
+  position: absolute;
+  z-index: 3;
+  top: 2.2cqi;
+  left: 50%;
+  width: 3.4cqi;
+  aspect-ratio: 1;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2b3a44 0 18%, #050607 45%);
+  box-shadow: 0 0 0 0.5cqi #000;
+}
 
-   These rules sit outside `@layer utilities` on purpose: unlayered CSS beats
-   layered CSS, so they override the hover utilities without a specificity war.
+/* ── The film ──────────────────────────────────────────────────────────────
+   One scroll track. JS writes three numbers onto it — `--enter` (the phone
+   arriving), `--dim` (the room going dark) and the video's playhead — and the
+   CSS turns them into the scene. Without JS, or under reduced motion, the
+   track collapses to a normal section showing three stills. */
+/* Which version renders is decided by CSS alone, so there's no flash and no
+   layout shift at hydration: `.js` is set on <html> by an inline script in
+   the layout, before first paint. */
+.film-scrub {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .film-scrub {
+    display: block;
+  }
+  .js .film-stills {
+    display: none;
+  }
+}
 
-   `.press`       an element carrying its own block shadow (buttons, the CV
-                  button, screenshot frames).
-   `.press-sm`    travel modifier for the 2px shadow (theme toggle).
-   `.press-lg`    travel modifier for the 6px shadows (flagship, contact).
-   `.press-soft`  shadowless controls (sticker pills, the wordmark, the filled
-                  terracotta buttons on the dark cards) — a sink, with no
-                  shadow to collapse.
-   `.press-plate` a card that isn't itself tappable but holds links: pressing
-                  any link inside pushes the whole plate in. That's how the
-                  wall cards and the two dark cards mirror their hover lift on
-                  touch. Their inner links deliberately don't move — only the
-                  plate does — so a press never doubles up.
+.film-track {
+  /* One screen to pin, the rest is the playhead. ~2.4 screens of scrub for
+     a 10.5s clip on a phone: a beat per screen, unhurried. */
+  height: 340svh;
+}
+@media (min-width: 1024px) {
+  .film-track {
+    height: 320vh;
+  }
+}
+.film-stage {
+  background: color-mix(in oklab, var(--night) calc(var(--dim, 1) * 100%), var(--bg));
+}
+.film-phone {
+  rotate: calc((1 - var(--enter, 1)) * -6deg);
+  scale: calc(0.9 + var(--enter, 1) * 0.1);
+  will-change: rotate, scale;
+}
+/* The story text only exists once the room is dark: it is night-coloured
+   and would be unreadable on paper. */
+.film-copy {
+  opacity: calc(var(--dim, 1) * var(--dim, 1));
+}
+.film-fill {
+  scale: var(--fill, 0) 1;
+  transform-origin: left;
+}
+.film-video {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+.film-video[data-ready="true"] {
+  opacity: 1;
+}
+/* Phones: the three beats share one cell and only the current one shows. */
+.film-step {
+  opacity: 0;
+  color: var(--night-ink);
+  transition: opacity 0.35s var(--ease-out-expo);
+}
+.film-step[data-active="true"] {
+  opacity: 1;
+}
+.film-step-body {
+  color: var(--night-body);
+}
+/* Desktop: all three stay up; the current one is lit. */
+@media (min-width: 1024px) {
+  .film-step {
+    opacity: 1;
+    color: var(--night-muted);
+    transition: color 0.35s var(--ease-out-expo);
+  }
+  .film-step .film-step-body {
+    color: var(--night-muted);
+  }
+  .film-step[data-active="true"] {
+    color: var(--night-ink);
+  }
+  .film-step[data-active="true"] .film-step-body {
+    color: var(--night-body);
+  }
+}
 
-   Under `prefers-reduced-motion: reduce` the global rule below drops these to
-   0.01ms: the state still happens, the travel just isn't animated. Press is
-   feedback, not decoration, so it survives. */
+/* A line of text replaced by a click (the hero's language switch). */
+@media (prefers-reduced-motion: no-preference) {
+  .swap-in {
+    animation: swap-in 0.35s var(--ease-out-expo) both;
+  }
+}
+@keyframes swap-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* The phone settles into the hero: it is set down, it doesn't float in. */
+@media (prefers-reduced-motion: no-preference) {
+  .set-down {
+    animation: set-down 0.9s var(--ease-out-expo) 0.15s both;
+  }
+}
+@keyframes set-down {
+  from {
+    opacity: 0;
+    translate: 0 64px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* ── Client screens pan as you pass ────────────────────────────────────────
+   "Scroll their site by scrolling mine." A full-page capture inside a device
+   frame slides from its top to its bottom over the frame's trip through the
+   viewport. Compositor-only, zero JS (scroll-driven animations); browsers
+   without support, and reduced motion, rest on the top of the page. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pan-y {
+      animation: pan-y linear both;
+      animation-timeline: --frame;
+      animation-range: cover 12% cover 88%;
+    }
+  }
+}
+/* The tall capture inside a frame. The frame is a size container, so 100cqh
+   is the frame's own height and the pan ends flush with the page's foot. */
+.scroll-frame {
+  container-type: size;
+  /* The frame's trip through the viewport is the timeline, not the tall
+     image's own (which would take three screens to cross). */
+  view-timeline-name: --frame;
+}
+.scroll-frame > .scroll-shot {
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 100%;
+  height: auto;
+  --frame-h: 100cqh;
+}
+@keyframes pan-y {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 calc(-100% + var(--frame-h, 100%));
+  }
+}
+
+/* ── Theme switch: the lamp clicks. ────────────────────────────────────────
+   The new theme spreads from the toggle as a circle (View Transitions); the
+   toggle sets --vt-x/--vt-y to its own centre before starting. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: lamp 0.6s var(--ease-out-expo);
+}
+@keyframes lamp {
+  from {
+    clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 0));
+  }
+  to {
+    clip-path: circle(150vmax at var(--vt-x, 100%) var(--vt-y, 0));
+  }
+}
+
+/* ── Header hides on the way down, returns on the way up ─────────────────── */
+.site-header {
+  transition:
+    translate 0.35s var(--ease-out-expo),
+    background-color 0.35s ease-out,
+    border-color 0.35s ease-out;
+}
+.site-header[data-hidden="true"] {
+  translate: 0 -100%;
+}
+
+/* ── Legacy press system (case-study pages, until rebuilt) ───────────────── */
 .press,
 .press-plate,
 .press-soft {
@@ -157,85 +442,45 @@ body {
     background-color 0.15s ease-out,
     border-color 0.15s ease-out,
     color 0.15s ease-out;
-  /* The press is the feedback; no grey iOS flash layered on top of it. The
-     property inherits, so a `.press-plate` covers the links inside it too. */
   -webkit-tap-highlight-color: transparent;
 }
-
-/* Travel = the element's own resting shadow offset, so it lands flush. */
 .press,
 .press-plate {
   --press-travel: 4px;
 }
-.press-soft {
-  --press-travel: 2px;
-}
+.press-soft,
 .press-sm {
   --press-travel: 2px;
 }
 .press-lg {
   --press-travel: 6px;
 }
-
 .press:active,
-/* `:is(a, button)` and not a bare `:active`: `:active` matches ancestors of
-   whatever is being pressed, so an unqualified `:has(:active)` would fire on a
-   jab at the card's dead space and promise an action there isn't one. */
 .press-plate:has(:is(a, button):active) {
   translate: var(--press-travel) var(--press-travel);
   box-shadow: 0 0 0 transparent;
 }
-
 .press-soft:active {
   translate: var(--press-travel) var(--press-travel);
 }
 
-/* ── The one authored moment ────────────────────────────────────────────────
-   On home load the hero's marker blob sweeps in left-to-right while the H1 and
-   sub fade up. Runs once; nothing else on the site gets an entrance. Gated on
-   motion preference — under reduced motion everything is simply visible. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero-enter {
-    animation: hero-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-  .hero-enter-late {
-    animation: hero-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
-  }
-  .hero-blob {
-    animation: blob-sweep 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
-    transform-origin: left center;
-  }
+/* v3 press: a short sink, no shadow involved. Touch's only state feedback. */
+.tap {
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    scale 0.14s var(--ease-out-expo),
+    background-color 0.15s ease-out,
+    border-color 0.15s ease-out,
+    color 0.15s ease-out;
 }
-
-@keyframes hero-rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes blob-sweep {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+.tap:active {
+  scale: 0.97;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  body {
-    transition: none;
-  }
-  /* Neutralise hover-lift transforms/transitions site-wide. Static rotations
-     (stat tiles, tape, stamps) are layout, not motion — they persist. */
   *,
   *::before,
   *::after {

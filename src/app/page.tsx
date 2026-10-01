@@ -1,24 +1,29 @@
-import { Nav } from "@/components/nav";
+import { SiteHeader } from "@/components/site-header";
 import { Hero } from "@/components/hero";
-import { Featured } from "@/components/featured";
-import { Wall } from "@/components/wall";
-import { Experience } from "@/components/experience";
+import { Film } from "@/components/film";
+import { Jembatan } from "@/components/jembatan";
+import { Clients } from "@/components/clients";
+import { Builds } from "@/components/builds";
+import { DayJob } from "@/components/day-job";
 import { Contact } from "@/components/contact";
 
 /**
- * Home page. Assembled from section components that render from the typed
- * content module (`src/content/site.ts`). CP1 ships Nav + Hero; CP2 adds
- * Featured + Wall; CP3 completes the page with Experience + Contact.
+ * Home: one story, top to bottom. The claim (hero), the proof in your hand
+ * (the film, then the product and its demo, in the dark room), paid work for
+ * real businesses, everything else, the day job, and how to get in touch.
+ * Every string comes from `src/content/site.ts`.
  */
 export default function Home() {
   return (
     <>
-      <Nav />
+      <SiteHeader />
       <main>
         <Hero />
-        <Featured />
-        <Wall />
-        <Experience />
+        <Film />
+        <Jembatan />
+        <Clients />
+        <Builds />
+        <DayJob />
         <Contact />
       </main>
     </>
