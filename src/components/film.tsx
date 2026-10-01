@@ -63,6 +63,14 @@ export function Film() {
     let playhead = 0;
     let target = 0;
     let active = 0;
+    // Last values written, so a scroll far from the film writes nothing and
+    // invalidates no styles.
+    const written: Record<string, string> = {};
+    const write = (el: HTMLElement, key: string, name: string, value: string) => {
+      if (written[key] === value) return;
+      written[key] = value;
+      el.style.setProperty(name, value);
+    };
 
     const duration = () =>
       ready && Number.isFinite(video.duration) ? video.duration : FALLBACK_DURATION;
@@ -71,13 +79,13 @@ export function Film() {
       const r = track.getBoundingClientRect();
       const vh = window.innerHeight;
       // Arriving: 0 with the track's top at the bottom of the screen, 1 when it pins.
-      track.style.setProperty("--enter", clamp01((vh - r.top) / vh).toFixed(4));
+      write(track, "enter", "--enter", clamp01((vh - r.top) / vh).toFixed(3));
       // The lights go down over the second half of the arrival, so the room is
       // dark by the time the story text is on screen. Smoothstep, over a short
       // run, so the room spends as little time as possible half-lit (a flat
       // mid-grey reads as mud, not dusk).
       const d = clamp01((vh * 0.5 - r.top) / (vh * 0.32));
-      track.style.setProperty("--dim", (d * d * (3 - 2 * d)).toFixed(4));
+      write(track, "dim", "--dim", (d * d * (3 - 2 * d)).toFixed(3));
       // Pinned: 0 → 1 across the track's scrollable length.
       const p = clamp01(-r.top / Math.max(1, r.height - vh));
       target = p * (duration() - 0.06);
@@ -96,7 +104,7 @@ export function Film() {
         const i = Number(el.dataset.fill);
         const start = film.steps[i].at;
         const end = film.steps[i + 1]?.at ?? duration();
-        el.style.setProperty("--fill", clamp01((t - start) / (end - start)).toFixed(3));
+        write(el, `fill${fills.indexOf(el)}`, "--fill", clamp01((t - start) / (end - start)).toFixed(3));
       }
     };
 

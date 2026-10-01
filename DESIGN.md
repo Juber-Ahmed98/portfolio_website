@@ -1,352 +1,209 @@
-# Design system — juberahmed.dev · "The Workshop"
+# Design system — juberahmed.dev · v3, "Proof you can hold"
 
-The design contract for the site. The direction was chosen 2026-08-04 from three
-rendered, deliberately contrasting candidates (see `design-reference/directions/`);
-the owner signed off **Direction C — The Workshop**. The signed-off render is
-[`design-reference/directions/c-the-workshop.html`](design-reference/directions/c-the-workshop.html)
-— open it in a browser (working light/dark toggle) when pixel truth is needed. This
-file is the machine-readable contract; production code is built from it, and any
-change of direction edits this file first.
+The design contract for the site. v3 was decided on 2026-10-01 under the owner's
+full-control brief ("make something amazing… especially for mobile, since I share and
+show it on mobile… without making performance poor"). It supersedes "The Workshop"
+(2026-08-04). Production code is built from this file; any change of direction edits
+this file first. The working direction doc (premise, world, rung argument, budget,
+fallback matrix, kill criteria, session plan) is local-only at
+`design-reference/plans/2026-10-01-v3-direction.md`.
 
-## Design language
+## The idea
 
-**A warm maker's workshop.** Cream paper, espresso ink, one terracotta accent,
-offset block shadows like letterpress plates, stamp-style badges, taped-down
-screenshots, a literal pegboard behind the project wall, hand-drawn squiggle
-underlines. Tactile and hand-made, calibrated to stay professional: rotations are
-≤2°, shadows are a consistent 4px system, and type does the serious work.
+**Proof you can hold.** The site is built for the phone in someone's hand, and the work
+shows up there as the real thing, working, at device scale. The first screen is a claim
+at poster scale with the same claim in Bengali beneath it; the phone that rises under it
+plays a real recording of Jembatan as you scroll, while the room goes dark.
 
-The palette deliberately echoes **Jembatan's brand world** (warm neutrals +
-terracotta) so the flagship product and the portfolio read as one hand's work.
+**The world:** warm paper and lit glass, evening lamp light from the upper left. Things
+arrive like a phone set down on a table and stop: no float, no drift, no bounce.
 
-Fully dual-themed, respects system preference, visible toggle, no default opinion.
-Dark mode is **warm espresso, not blue-black**.
+**Two signature devices, and only two:** the bilingual poster hero, and the film. Every
+other section is quieter on purpose (bands and hairline rules, real screenshots as the
+only imagery), so the film is unmistakably the biggest thing on the page.
 
 ## Decision log
 
-Rules carried forward from the previous system (they were anti-AI-tell decisions,
-not aesthetics — they survive any redesign):
+Rules carried forward. These were anti-AI-tell decisions, not aesthetics, and they
+survive any redesign:
 
-- **No numbered section eyebrows** (`01`–`04` or equivalents), in any section or
-  case-study block.
-- **Mono labels never sit beside a heading.** Stack above, same column, or omit.
-- **The nav has no inline link row.** Wordmark left, toggle + CV right, nothing
-  between. Anchors live in the hero jump list.
-- **No directional arrows / Unicode dingbats in link labels** (`↗ → ↓`). Icons come
-  from `lucide-react` only. (The old wall cards still carried `↗`/`→` — the Workshop
-  build removes them.)
-- **No italic headings.**
-- **2026-08-23 — the case studies carry real screenshots.** All three pages
-  ran on caption-only placeholder tiles, which is the fastest way to lose the
-  "is the evidence real" question on the one page that exists to answer it.
-  Twelve real captures now fill them, four per study, sized and framed by what
-  they're of rather than dropped into one grid — the frame is the consistent
-  treatment, so the page reads as a set rather than a folder of PNGs. The
-  Jembatan three come from a single capture session so they grade as one shoot.
-  The frame carries no `overflow-hidden`: the tape hangs 13px proud of it and
-  clipping erases the signature. The label left the tile and became a real
-  `<figcaption>`.
-- **2026-08-23 — the flagship polaroid scrubs under scroll.** The card's
-  screenshot is now a real capture of the keyboard working in WhatsApp
-  (speak → review the Indonesian → sent), and the card's passage through the
-  viewport is the playhead — the page's one scroll-bound set-piece and its
-  peak. The rules hold: the motion lives entirely inside the taped frame
-  (images move, text never), and scroll-*bound* media is not a
-  scroll-*triggered* entrance, which stays banned. Zero dependencies kept —
-  a ~100-line bespoke scrubber (`src/components/scrub-frame.tsx`) using the
-  blob-load / lerped-playhead / deadband / reveal-on-first-painted-frame
-  mechanics from scrollcraft's devices.md; the 53KB engine itself was
-  deliberately not adopted. The clip is scrub-encoded (keyframe every 8
-  frames — a normal web encode plays fine and scrubs like mud) and
-  lazy-loads a viewport early, so first-view weight is untouched. The poster
-  (the clip's first frame) is the resting state for no-JS, reduced motion,
-  and viewports under `md` — phones don't pay the 2.3MB. The polaroid moved
-  from a landscape cover-crop to the clip's 4:5 portrait so no state of the
-  story is lost to `object-cover`.
-- **2026-08-22 — link affordance pass.** The featured "Visit site" outline pills
-  and the wall's `--line` underlines were too close to the non-interactive stack
-  chips and mono captions to read as clickable. Primary links are now filled
-  letterpress buttons, wall links sit on a terracotta underline, and the row
-  screenshot links to its one destination. Don't quieten these back down.
-- **2026-08-22 — the wall collapses instead of growing.** It's meant to read as
-  "a lot of builds", which stops being true the moment it reads as "a long list".
-  The count in the H2 and in the hero stat is derived from `wall.length`, not
-  typed — both had already drifted once.
-- **2026-08-22 — the dashed-gold "currently building" strip is gone.** It restated
-  what the wall's `building` stamps already say. WIPs are carried by the stamp
-  alone now; don't reintroduce a second place that says the same thing. `--wip`
-  still colours those stamps; `--wipbg` and `--wipline` went unused with the strip
-  and are kept in the palette unclaimed.
+- **No numbered section eyebrows**, anywhere.
+- **No mono kicker above headings.** JetBrains Mono is for data only: dates, stacks,
+  status, spec-sheet keys.
+- **The header has no inline link row.** Wordmark left, theme + CV right.
+- **No directional Unicode glyphs in link text** (`↗ → ↓`). Icons come from
+  `lucide-react` only.
+- **No italic headings.** No serif display face (twice rejected by the owner).
+- **The type never moves.** No fade-up, slide-in or reveal on any text. Media and planes
+  move; text is simply there. (The one text-level change, the language switch, is a
+  short opacity swap the visitor asked for.)
+- **No skills chip wall. No metric without its denominator.** Tools are a sentence each.
+- **Every interactive element has a touch state** (`.tap`: scale .97), because on a phone
+  it is the only state feedback there is. Hover is extra, never required.
+- **Counts are derived** (`builds.length`), never typed.
+- **Nothing overclaims.** The demo says "sample messages" until it is live; the Bengali
+  line is labelled as one of Jembatan's languages, not as the app's output.
 
-Superseded / historical:
+v3 decisions (2026-10-01):
 
-- **2026-08-04 — "The Workshop" supersedes "clean, modern, one bold teal accent".**
-  The old system read professional but forgettable; the owner asked for
-  "personality within professional" where the site itself is part of the proof.
-  Teal, the tinted teal-grey paper, and the weight-only Plus Jakarta system are gone.
-- **Serif history:** Instrument Serif was removed at CP2 as "a serif the owner
-  doesn't want". A serif direction ("The Ledger", Fraunces) was offered again in the
-  2026-08-04 exploration and not chosen — the sans direction won on its merits.
-  Display is now **Bricolage Grotesque** (characterful sans), not a serif.
-- **CP3:** a 4th wall column at `2xl` was tried and reverted (6 builds → two empty
-  cells). The wall stays 3-col max.
+- **The Workshop is retired.** Measured against the vault's `AI tells` and `Portfolio &
+  personal brand` notes it carried the very tells it was meant to avoid: bordered cards
+  around every unit, five equal bands, a skills chip wall, denominator-free stats, a mono
+  kicker over the H1. On a phone its personality (all hover) disappeared, and its best
+  moment, the flagship scrub, was switched off below `md`. Kept: the warm palette's logic
+  (it echoes Jembatan), dual theme with no default, the content module, every honesty rule.
+- **Phone first, literally.** The film runs on phones (a 480px encode, 578 KB) because
+  that is where the owner shows the site. Desktop gets a 720px encode (1.3 MB).
+- **Mona Sans over Bricolage.** Rendered side by side at 390px (Mona 75 / Bricolage 75 /
+  Archivo 62 / Mona 125): Mona's condensed 900 fills a phone width like a poster;
+  Bricolage condensed read soft and is now a common pick. Mona is GitHub's typeface,
+  which is a quiet nod for a developer, and its width axis gives a real display/body split
+  from one family.
+- **Rung 0–1 only (no Three.js).** A DOM phone with a lit rim reads as a phone; a modelled
+  one would cost ~150 KB gz and GPU on the phone the owner hands to people. Revisit only if
+  real-device measurements leave headroom.
+- **Client sites are shown on phones, panning.** A desktop screenshot shrunk to a phone
+  is illegible; the client's own mobile layout at device scale, sliding from hero to
+  footer as you scroll past, shows the whole site in two seconds.
+- **The builds index is a contents page, not a card grid.** Rows without a public link
+  stay off; the private work gets one honest sentence under the list.
 
 ## Color tokens
 
-CSS variables on `:root` (light) / `.dark`, exposed to Tailwind via `@theme inline`
-in `globals.css`. Token *names* are unchanged from the old system so utility
-classes (`bg-bg`, `text-ink`, …) survive; the values are the Workshop palette.
-Contrast figures are measured, not eyeballed.
+CSS variables on `:root` (light) / `.dark`, exposed to Tailwind via `@theme inline` in
+`globals.css`. Contrast is measured (WCAG 2.x), not eyeballed.
 
-| Token | Light | Dark | Use |
+| Token | Light | Dark | Use / contrast |
 |-------|-------|------|-----|
-| `--bg` | `#f8f2e9` | `#201812` | page — warm cream paper / espresso |
-| `--panel` | `#fffdf8` | `#2a2019` | raised card surfaces |
-| `--ink` | `#2b2016` | `#f4ead9` | headings / primary text (~14.9:1 on bg) |
-| `--body` | `#4d3f30` | `#d3c4ad` | body text (≈8.9:1 light / ≈10:1 dark) |
-| `--muted` | `#75634f` | `#a8967c` | secondary text (≥5:1 both) |
-| `--faint` | `#7a6954` | `#9d8c74` | tertiary / mono captions (≥4.5:1 at 12px, measured on panel too) |
-| `--line` | `#e0d5c2` | `#3d3125` | borders / dividers |
-| `--accent` | `#a84b26` | `#e08a5c` | terracotta (≥5:1 as text on bg) |
-| `--hl` | `#f3e2d4` | `#35261c` | marker-highlight fill behind hero phrase |
-| `--hover` | `#f3ead9` | `#332818` | hover washes |
-| `--chip` | `#d9cbb4` | `#4a3c2d` | chip / pill borders |
-| `--live` | `#3f5c37` | `#9dc48f` | "live" stamp green (new token) |
-| `--wip` | `#8a5f1a` | `#d9ae4a` | "building" stamp gold |
-| `--wipbg` | `#fffdf8` | `#2a2019` | WIP strip background |
-| `--wipline` | `#b08a3f` | `#8a6f33` | WIP strip dashed border |
-| `--btn-bg` | `#2b2016` | `#f4ead9` | solid ink button bg |
-| `--btn-fg` | `#fffdf8` | `#201812` | solid ink button text |
-| `--flag` | `#2b2016` | `#2b2016` | flagship/contact card bg — **warm dark in both themes** |
-| `--flag-line` | `#2b2016` | `#f4ead9` | flagship/contact card 2px border (cream frame in dark) |
-| `--shadow-card` | `4px 4px 0 #2b2016` | `4px 4px 0 rgba(0,0,0,.55)` | the letterpress block shadow |
+| `--bg` | `#f3ede3` | `#15110e` | paper / espresso |
+| `--surface` | `#fbf8f2` | `#1e1914` | raised band (day job) |
+| `--ink` | `#1d1611` | `#f1e8da` | headings, primary text · 15.4:1 / 15.5:1 on bg |
+| `--body` | `#4a3d30` | `#cbbda8` | body · 9.0:1 / 10.2:1 |
+| `--muted` | `#6e5e4e` | `#a08f7a` | secondary · 5.3:1 / 6.0:1 |
+| `--line` | `#dcd1bf` | `#2f2620` | hairline rules |
+| `--line-strong` | `#c4b6a0` | `#463a2f` | outline buttons |
+| `--accent` | `#a94b25` | `#e3895b` | terracotta · 4.85:1 / 7.15:1 as text on bg |
+| `--on-accent` | `#fff8f0` | `#1a120c` | text on accent · 5.4:1 / 7.0:1 |
+| `--live` | `#3f5c37` | `#9dc48f` | "live" status · 6.5:1 / 9.6:1 |
+| `--wip` | `#85591a` | `#d9ae4a` | "building" status · 5.2:1 / 9.0:1 |
 
-**Flagship + contact cards stay dark in both themes** — fixed internals, not tokens:
-bg `#2b2016`, text `#f4ead9`, body `#d3c4ad`, faint `#a8967c`, quiet borders
-`#5c4a38`, accent `#e08a5c` (text-on-accent `#201812`), live-stamp `#9dc48f`.
-Their outer shadow is `6px 6px 0 var(--accent)` in both themes.
+**The room** (`--night-*`) is identical in both themes. The film, the Jembatan section
+and the contact close sit in it:
 
-Base transition: `background .3s, color .3s` on the body for theme switches.
+| Token | Value | Contrast on `--night` |
+|-------|-------|------|
+| `--night` | `#14100d` | — |
+| `--night-raise` | `#1d1813` | demo panel |
+| `--night-ink` | `#f1e8da` | 15.6:1 |
+| `--night-body` | `#c4b5a0` | 9.4:1 |
+| `--night-muted` | `#968671` | 5.4:1 (5.0:1 on raise) |
+| `--night-line` | `#2c241d` | rules |
+| `--night-accent` | `#e3895b` | 7.2:1 |
 
-## The shadow system
+`--lift` is the only shadow: warm, offset, soft elevation for device frames
+(`0 34px 60px -28px` + `0 12px 24px -14px`), black in dark. No block shadows, no glows.
 
-Depth is **offset block shadows**, not blur — the letterpress signature. It is a
-system, not a garnish:
-
-- Resting cards / buttons: `4px 4px 0` ink (light) / black-55% (dark) = `--shadow-card`.
-- Hover: element translates `(-2px,-2px…-3px)` and the shadow grows to
-  `6px 6px 0 var(--accent)` — the lift reveals terracotta.
-- The two dark cards (flagship, contact): `6px 6px 0 var(--accent)` at rest,
-  `9px 9px 0` on hover.
-- Small controls (theme toggle): `2px 2px 0` ink.
-- **Press:** element translates *toward* the shadow by exactly its own offset
-  (`4px`, `6px` on the two dark cards, `2px` on the theme toggle) and the shadow
-  collapses to `0 0 0` — the plate is pushed flat into the paper. Hover lifts,
-  press sinks; both are the same offset read in opposite directions.
-
-## Press state
-
-Hover carries most of the Workshop's tactility, and touch devices have no hover
-— which left a phone with a static stack of bordered boxes. Press is the touch
-half of the same grammar, and it is not optional dressing: on a phone it is the
-*only* state feedback the interface has.
-
-Defined in `globals.css`, outside `@layer utilities` so it beats the hover
-utilities without a specificity fight:
-
-| Class | Applies to | Press |
-|-------|-----------|-------|
-| `.press` | anything carrying its own block shadow — buttons, CV button, screenshot frames | travel `4px`, shadow → `0 0 0` |
-| `.press-sm` | travel modifier: the 2px shadow (theme toggle) | travel `2px` |
-| `.press-lg` | travel modifier: the 6px shadows (flagship, contact) | travel `6px` |
-| `.press-soft` | shadowless controls — sticker pills, wordmark, filled terracotta buttons | travel `2px`, no shadow to collapse |
-| `.press-plate` | a card that isn't tappable itself but holds links | the whole plate presses when a link inside it is held |
-
-Rules:
-
-- **Only genuinely interactive things press.** A stat tile, an experience card
-  or a toolbox pill that sank under a thumb would be promising a tap that does
-  nothing. Same for a screenshot frame with no live URL — it presses only in
-  its link form.
-- **`.press-plate` fires on `:has(:is(a, button):active)`, never a bare
-  `:active`.** `:active` matches the ancestors of whatever is pressed, so an
-  unqualified `:has(:active)` would also fire on a jab at the card's dead
-  space. The wall cards and the two dark cards use this; their inner links stay
-  put and change colour only, so the press never doubles up.
-- **Colour halves get an `active:` twin.** Anything with a `hover:` colour
-  change (`hover:bg-hl`, `hover:border-[#e08a5c]`) carries the matching
-  `active:` variant, or touch never sees that half of the grammar at all.
-- Release springs back over `120ms` on the site's exponential ease-out
-  (`cubic-bezier(.16,1,.3,1)`); colours over `150ms`.
-- `-webkit-tap-highlight-color: transparent` on the press classes — the press
-  *is* the feedback, and it inherits, so a `.press-plate` covers its links too.
-- Not gated on `motion-safe`. Press is feedback, not decoration, so it survives
-  reduced motion; the global reduced-motion rule drops it to `0.01ms`, which
-  keeps the state and drops the travel animation.
-
-**Tap targets.** The wall's link row is 12px mono on a 2px underline — a 65×18
-target. The anchors take padding out to 81×46 and the row pulls the same
-distance back with negative margins, so the hit area more than doubles while
-the card gains 5px of height. The underline moves to an inner `<span>` so it
-still hugs the text instead of floating at the bottom of the padding. The
-case-study back-links get the same treatment. Measured at 375px, nothing
-interactive on the page is now under the WCAG 2.5.8 minimum of 24px.
+The Workshop's token names (`--panel`, `--hl`, `--chip`, `--shadow-card`, `--flag`, …)
+survive as aliases at the bottom of each block **only** so the case-study pages render
+until they are rebuilt in v3 (session 2). Delete them with that work.
 
 ## Typography
 
-- **Display + body: `Bricolage Grotesque`** (variable, 200–800 via
-  `next/font/google`, exposed as `--font-bricolage`). Headings 700/800 with
-  `font-variation-settings: "opsz" 96` and tight tracking (−0.02 to −0.03em);
-  body 400/500.
-- **Mono (labels, tags, stamps, footer): `JetBrains Mono`** 400–600 — unchanged.
-- `--font-display` and `--font-sans` both resolve to Bricolage; `--font-mono` to
-  JetBrains Mono. Plus Jakarta Sans is removed entirely.
+- **Mona Sans** (variable: `wdth` 75–125, `wght` 200–900), `--font-mona`, display + body.
+- **Anek Bangla** 600, Bengali subset only, not preloaded: the hero's Bengali line.
+- **JetBrains Mono**, not preloaded: data only.
 
-Fluid type via `clamp()` — same scale skeleton as before:
-
-| Element | Size | Weight |
-|---------|------|--------|
-| Hero H1 | `clamp(42px, 6vw, 80px)` | 800, `-.025em`, lh 1.03 |
-| Section H2 | `clamp(28px, 3vw, 42px)` | 800, `-.02em` |
-| Flagship H3 | `clamp(30px, 3vw, 44px)` | 800 |
-| Featured-row H3 | `clamp(22px, 2vw, 28px)` | 800 |
-| Contact H2 | `clamp(30px, 3.6vw, 46px)` | 800, lh 1.1 |
-| Case-study H1 | `clamp(38px, 5.6vw, 66px)` | 800, `-.025em` |
-| Body | 15–20px fluid | 400/500, lh 1.6–1.7 |
-| Mono labels | 11–13.5px | 500–600 |
-| Case-study block H2 | 13px mono 600 | stacked above its body |
-
-## Signature elements
-
-- **Squiggle underline** — a hand-drawn SVG path (`stroke: var(--accent)`,
-  2–2.5px, round caps) under the nav wordmark and under every section H2. One
-  shared path shape; `aria-hidden`.
-- **Marker highlight** — the hero's "front to back." sits on an irregular SVG blob
-  filled `var(--hl)` behind the text (replaces the old inset box-shadow underline).
-- **Stamps** — status badges are mono uppercase, 1.5–2px border, 5–6px radius,
-  rotated −2°: live = `--live` green, building = `--wip` gold **dashed**.
-- **Tape** — screenshot frames carry translucent masking-tape strips
-  (semi-transparent cream/terracotta rectangles with dashed edges), rotated a few
-  degrees.
-- **Pegboard** — the wall grid sits inside a `--hl`-tinted container with a
-  radial-gradient dot grid (26px spacing) and 2px ink border.
-- **Rotation budget:** static rotations only on stat tiles (≤0.6°), screenshot
-  frames (≤1.4°), stamps/tape labels (≤2°). Nothing else rotates at rest.
+| Class / element | Spec |
+|---|---|
+| `.t-poster` (H1, section H2s) | wdth 75, 900, −0.018em, lh .86 |
+| `.t-head` (H3s, film beats, client names) | wdth 75, 850, −0.012em, lh .92 |
+| `.t-data` | JetBrains Mono 12px 500 |
+| Hero H1 | `clamp(64px, 19vw, 156px)`; from `lg` `min(9.6vw, 148px)` with the break at the comma |
+| Section H2 | `clamp(52px, 14vw, 120px)` |
+| Body | 16–18px, 450 weight, lh 1.55–1.65 |
 
 ## Layout
 
-- **Container:** `max-width: 1180px`, px `40px`; at `2xl` (≥1536px) `1320px` / `64px`
-  gutters. Nav header full-bleed, inner row container-aligned. (Unchanged.)
-- **Section rhythm:** varied vertical padding — featured `~88px` (`112px` at 2xl),
-  wall `~58px`, experience `~70px`; hero `96px/84px` (`128/104` at 2xl). Sections
-  separated by **2px solid `var(--ink)`** rules (the Workshop's heavier hand replaces
-  the old 1px `--line` hairlines between sections; hairlines remain for interior
-  dividers, which are **2px dashed `var(--line)`** between featured rows).
-- **Radii:** buttons 10px, cards 12px, flagship/contact 18px, screenshot frames 6px,
-  pills/chips 999px, stamps 5–6px.
-- Section header: H2 + squiggle. No index, no eyebrow, nothing beside it.
-- `scroll-behavior: smooth`; `scroll-margin-top` on sections.
+- Container `max-w-[1240px]`, gutters 20px / 40px (`sm`) / 64px (`xl`).
+- Sections are bands separated by hairlines or a change of surface, never boxed.
+- Order: Hero → Film → Jembatan (+ demo) → Clients → Builds → Day job → Contact.
+- Radii: pill buttons 999px; demo panel 26px; review strip 18px; browser frame 14px.
 
 ## Components
 
-- **Nav** — edge-aligned minimal (unchanged shape): wordmark + squiggle hard-left,
-  theme toggle + CV button hard-right, nothing between, no mobile menu. Toggle is a
-  36px **rounded-square** (10px radius, 2px ink border, 2px block shadow, Lucide
-  Sun/Moon). CV button is ghost-style: panel bg, 2px ink border, block shadow,
-  hover lift.
-- **Hero** — kicker (mono, accent) → H1 with marker-blob highlight → sub →
-  stat **tiles** (bordered, block-shadowed, alternately rotated ≤0.6°, terracotta
-  numerals; still gated behind `showStats`) → jump list as **sticker pills**
-  (2px border, pill radius, hover: `--hl` wash + −2px lift + −1° tilt).
-- **Flagship card (Jembatan)** — warm-dark in both themes, 18px radius, 2px
-  `--flag-line` border, `6px 6px 0` terracotta shadow, 2-col `1.05fr 440px`.
-  Left: mono "flagship" label + live stamp, H3, blurb, mono stack, buttons (Live
-  demo = filled `#e08a5c`; Case study / Code = quiet `#5c4a38` borders). Right:
-  a **taped polaroid** (rotated 1.4°, tape strips top-left + bottom-right) at the
-  clip's 4:5 aspect, scrubbing a real WhatsApp capture under scroll
-  (`/featured/jembatan-scrub.mp4`, poster `jembatan-scrub-poster.webp` — see the
-  2026-08-23 decision); falls back to the still (`public/featured/jembatan.png`)
-  and then the caption tile.
-- **Featured rows** — 2-col `1.1fr 400px`, separated by 2px dashed `--line`.
-  Content left; screenshot right in a rotated (∓1°) 2px-ink-border frame with block
-  shadow and one tape strip; real `<img>` from `public/featured/` fills the frame,
-  else the placeholder caption tile. On a row with exactly one destination the
-  frame **is** the link (out of the tab order — the button already covers it).
-  Links still carry `kind` (`live`|`case`|`code`): `live` is a filled-terracotta
-  letterpress pill (2px ink border, block shadow), the rest take the nav CV
-  button's cream-on-ink treatment. External labels carry a Lucide `ArrowUpRight`.
-- **The Wall** — pegboard container; inside it the 3→2→1 grid of **tool cards**
-  (12px radius, 2px ink border, block shadow; hover −2/−3px lift + −0.4° tilt +
-  terracotta shadow). Card: name + stamp, one-liner, mono tags, mono links row
-  (`code`, `case study`, `live site` — no arrows) in ink on a solid 2px terracotta
-  underline; hover fills `--hl` behind the label. Cards stay `div`s
-  (nested-anchor rule), and a card with nothing public to point at shows no row.
-  **The board collapses to whole rows** — 4 below `sm` (one mobile column), 6 from
-  `sm` up (3×2, then 2×3 at `lg`) — with a centred "view all N builds" button on
-  the pegboard beneath the grid. Collapsing is `display:none`, so every build stays
-  in the HTML for crawlers and leaves the tab order at the same time. Ordering the
-  `wall` array is an editorial act: only the first 6 show unexpanded.
-- **Experience** — 2-col: role **cards** (bordered, block-shadowed) left; toolbox
-  as sticker pills right (hover: terracotta border + −1.5° tilt).
-- **Contact** — warm-dark card like the flagship (18px, terracotta shadow):
-  H2 with the second line in `#e08a5c`; filled Download CV + quiet Email / GitHub /
-  LinkedIn. Mono footer line below on the page surface.
-- **Case-study pages** — same header as home nav (back link, brand + squiggle,
-  toggle, CV ghost button). Eyebrow copy stays (it's content), styled mono accent.
-  Block headings stay mono labels stacked above their body. Stack chips are sticker
-  pills. Screenshots are real captures in taped, alternately-rotated (∓1°)
-  polaroid frames with a mono caption below each; tape alternates corners along
-  the row. **One shape per study** (`shotShape`): `phone` gives four frames
-  across at device aspect (`6/13`), two across below `lg`; `web` gives two
-  across at `16/10`, cropped from the top of the page. A study without captures
-  falls back to the caption-only tile.
-  First link = filled terracotta button, rest = 2px ink outline.
+- **Header** (`site-header.tsx`): fixed, 64px. Transparent at the top, paper with blur once
+  scrolled, night-toned over any `[data-night]` section. Slides away while scrolling down,
+  returns on scroll up.
+- **Theme toggle**: 40px circle. The new theme spreads from the button as a circle
+  (`document.startViewTransition` + `clip-path`), instant under reduced motion or without
+  the API.
+- **Hero** (`hero.tsx`, `bilingual.tsx`): name · place; the H1; the Bengali line with a
+  one-button language switch (bn → id → ar → es; `lang`/`dir` set; `aria-live`); sub;
+  Email (accent) + Download CV (outline).
+- **Phone** (`phone.tsx`): DOM body, lit rim, side keys, punch-hole, screen at the
+  capture's own 480:1040. Scales via container units.
+- **Film** (`film.tsx`): see *Motion*.
+- **Jembatan** (`jembatan.tsx`): status with live dot; name at poster scale; meaning;
+  lede; four-row spec sheet (App / API / Model / Product); Visit the site + case study.
+- **Demo** (`demo.tsx`): the keyboard's review strip on the page. Canned mode: three
+  sample messages × four languages, streamed in grapheme clusters (Intl.Segmenter, so
+  Bengali conjuncts never render half-built), auto-plays once on first view. Live mode
+  (`demo.live`): free text → POST to the landing Worker's demo proxy, SSE frames
+  `{"delta"}` / `{"done","translation"}` / `{"error"}` exactly as the API emits them.
+- **Clients** (`clients.tsx`): name, who, summary, four facts in a ruled 2×2, Visit
+  button. Media: the client's mobile full-page capture in a Phone, panning as it passes;
+  from `lg` a browser frame with the desktop capture sits behind it.
+- **Builds** (`builds.tsx`): ruled index; name, month started, status, what, stack, links.
+- **Day job** (`day-job.tsx`): "By day, Wolseley." at poster scale; two roles; tools as
+  two sentences.
+- **Contact** (`contact.tsx`): the room again. Heading, the address at poster scale
+  (mailto), Copy address, CV, GitHub, LinkedIn; footer with a one-line colophon.
 
-## Interaction & motion
+## Motion
 
-Zero dependencies — all motion is CSS, plus the one bespoke scroll-scrubbed
-flagship clip (2026-08-23 decision). Everything gated `motion-safe`
-(`prefers-reduced-motion` honoured); static rotations are layout, not motion, and
-persist under reduced motion.
+Zero animation dependencies. All of it is gated on `prefers-reduced-motion:
+no-preference`; under reduce the page is complete and still.
 
-- **The one authored moment:** on home load, the hero marker-blob sweeps in
-  (scaleX 0→1, origin left, ~.5s exponential ease-out, ~.15s delay) while the H1
-  and sub fade up 8px. Runs once; no scroll-triggered entrances elsewhere.
-- **The one scroll-bound moment:** the flagship polaroid scrubs a real capture
-  of the keyboard under the visitor's scroll (`scrub-frame.tsx`). It moves no
-  type, pins nothing, and rests on its poster under reduced motion, without
-  JavaScript, and below `md`. It is the only scroll-bound motion on the site;
-  a second one would make it a gimmick.
-- Hover grammar: lift `(-2px,-2px)` + shadow grows and turns terracotta (cards,
-  buttons), pills tilt −1 to −2°, screenshot frames straighten to 0° and lift.
-  Every hover rule is inside `@media (hover: hover)` — Tailwind v4 wraps the
-  `hover:` variant itself, so nothing here can stick to a card after a tap.
-  Hover is desktop's half of the grammar; **press** (see *Press state*) is
-  touch's, and it is the half that carries a phone.
-- Theme toggle: `next-themes` class strategy, Lucide `Sun`/`Moon`, unchanged
-  logic. The press sinks 2px onto the plate; the icon swaps on `onClick`, which
-  fires on release, so the push and the state change stay separate beats.
-- Transitions ~.15–.2s ease-out.
+- **Set down** (`.set-down`): the film's phone rises 64px and fades in on load, .9s
+  expo-out. The page's one load animation, and it moves a plane, not text.
+- **The film** (`film.tsx`), the one scroll-bound set-piece. A 340svh track (320vh at
+  `lg`) holds a sticky stage. JS writes `--enter` (the phone straightens from −6° and
+  scales .9→1 as the track arrives), `--dim` (the stage mixes from paper to night,
+  smoothstep over 32% of a screen so it never sits at a muddy mid-grey) and the playhead.
+  Mechanics: Blob fetch a screen early; lerped playhead (0.22) that stops when settled;
+  no seek while seeking or under one frame; play()/pause() prime for iOS; video revealed
+  on its first painted frame. Beats: phones show one at a time under a three-part progress
+  bar; desktop lists all three with the current one lit. Save-Data never fetches the clip.
+- **Client pans** (`.pan-y`): CSS scroll-driven animation on the frame's own
+  `view-timeline` (`--frame`), range `cover 12% → 88%`. Compositor-only, no JS; rests on
+  the top of the page where unsupported.
+- **The lamp** theme transition (above). **Swap-in** for the language line (opacity).
+- **Touch** (`.tap`): scale .97 on `:active`, 140ms.
 
-## Data model
+## Fallbacks
 
-Unchanged — `src/content/site.ts` remains the single content source; the redesign
-touches zero copy. `WallProject`, `FeaturedProject`, `CaseStudy` types as before.
-Wall links drop the `↗`/`→` glyphs (presentation, not content).
+| Condition | Result |
+|---|---|
+| No JS | `.js` never lands on `<html>`, so CSS shows the stills version of the film (three phones, swipeable); everything else is server-rendered; the demo panel renders but cannot stream |
+| Reduced motion | Same stills; no set-down, no pans, no lamp transition; demo output appears whole |
+| Save-Data | The film pins and its beats advance over the poster frame; the clip is never fetched |
+| No scroll-driven animation support | Client captures rest at the top of their pages |
+| No View Transitions | Instant theme swap |
+
+## Measured (2026-10-01, production build)
+
+| | Budget | Measured |
+|---|---|---|
+| HTML (gz) | — | 16 KB |
+| JS gz, modern browsers | ≤ 130 KB (set below Next's floor; revised to ≤ 170 KB) | 161 KB, of which React DOM + Next runtime ≈ 111 KB |
+| CSS gz | — | 10 KB |
+| Fonts on first view | — | Mona Sans 98 KB (preloaded) + Anek Bangla Bengali subset |
+| Film | ≤ 600 KB / ≤ 1.4 MB | 578 KB / 1.3 MB, fetched a screen early |
+| Client captures | — | 244–372 KB each, lazy |
+| Real-device fps, LCP, CLS | ≥ 50 fps · ≤ 1.8 s · ≤ 0.02 | **not yet measured: owner's phone, session 3** |
 
 ## Meta surfaces
 
-- **OG image** (`src/app/opengraph-image.tsx`): espresso `#2b2016` field, cream
-  `#f4ead9` name, terracotta `#e08a5c` wordmark, `#a8967c` stack line. (System bold
-  sans — ImageResponse doesn't load web fonts without bundling font data; the
-  palette carries the brand.)
-- **Favicon** `src/app/icon.svg`: espresso rounded square, cream "j" as a *drawn
-  stroked path* (SVG favicons can't load web fonts and serif fallbacks are ruled
-  out by the decision log), terracotta tittle.
-- **`themeColor`** viewport export: `#f8f2e9` light / `#201812` dark.
-
-## Responsive
-
-Same breakpoints and stacking behaviour as the old system (flagship 2→1, rows
-stack, wall 3→2→1, experience 2→1, contact wraps; verified at 375/768/desktop, no
-horizontal overflow). The pegboard padding tightens on mobile so cards keep width.
+Not yet moved to v3 (session 2): `opengraph-image.tsx` and `icon.svg` still carry the
+Workshop palette, close enough to v3's that nothing clashes. `themeColor` is updated
+(`#f3ede3` / `#15110e`).

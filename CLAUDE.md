@@ -72,18 +72,17 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 - quran-just-one-verse, Qibla_Compass — early, shown as genuine works-in-progress.
   (quran-just-one-verse is off the wall for now — see the exclusions below.)
 
-### Project wall / index
-- A compact grid listing *all* real builds (even small ones) as proof of constant
-  building, Featured ones included. Each: name, one line, tags, GitHub link, live
-  link if any.
-- It collapses to whole rows — 4 on mobile, 6 from `sm` up — behind a "view all N
-  builds" button, so it can keep growing without turning into a long list. Only the
-  first 6 show unexpanded, so **the order of the `wall` array is an editorial
-  decision**, strongest first.
-- **Exclude** empty scaffolds/starter templates: `my-react-app`, `AI-ecommerce-project`,
-  and the empty folders `just_arabic`, `sylhet-language-app`. `quran-just-one-verse` came
-  off the wall on 2026-08-22 — private repo, no live URL, so it was the one card with
-  nothing to click. It goes back on when there's something to point at.
+### More builds (the index)
+- v3 replaced the collapsing card wall with a ruled index (`builds` in `site.ts`): every
+  other real build with something public to click, strongest first, each with name,
+  month started, live/building status, one line, stack and links. The count in the
+  copy is derived from `builds.length`.
+- Rows without a public link stay off the list (a row you can't open is a dead end);
+  private work gets one honest sentence under it (`privateBuilds`).
+- **Exclude** empty scaffolds/starter templates (`my-react-app`, `AI-ecommerce-project`),
+  third-party clones (`open-design`), duplicates (`qibla_compass_v2`), docs-only folders,
+  and anything personal (`sakinah`, `little_one`, `bali_itinerary`, `job-hunt`).
+  `quran-just-one-verse` returns when there's something to point at.
 
 ### Experience (from CV)
 - Wolseley — Digital Developer (Aug 2024–present) & Apprentice Merchandiser/Developer
@@ -97,34 +96,37 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 - **Download CV (PDF)** button (primary) · **mailto** email button ·
   **GitHub** (Juber-Ahmed98) · **LinkedIn**. No contact form.
 
-## Design direction — "The Workshop" (shipped 2026-08-04)
+## Design direction — v3, "Proof you can hold" (2026-10-01, branch `redesign/v3`)
 
-- **Style:** A warm maker's workshop — cream paper, espresso ink, one terracotta
-  accent, offset letterpress block shadows, stamp badges, taped screenshots, a
-  pegboard behind the project wall, hand-drawn squiggle underlines. Personality
-  is calibrated (rotations ≤2°, a consistent 4px shadow system) so it still reads
-  senior to a hiring manager. The palette deliberately echoes Jembatan's brand so
-  the flagship and the portfolio look like one hand's work. Chosen from three
-  rendered contrasting directions (`design-reference/directions/`); it supersedes
-  the earlier "clean, modern, one bold teal accent" system. **DESIGN.md is the
-  binding contract** — tokens, shadow system, signature elements, decision log.
-- **Type:** Bricolage Grotesque (display + body, variable) + JetBrains Mono
-  (labels/stamps). Motion is dependency-free — CSS plus one bespoke
-  scroll-scrubbed clip on the flagship polaroid (a real capture of the keyboard
-  translating, scrubbed by the card's passage; DESIGN.md 2026-08-23) — one
-  authored hero entrance, everything `prefers-reduced-motion`-gated.
-- **Theme:** Fully dual-themed (light + dark), respects system preference, visible
-  toggle, no opinionated default. Dark is warm espresso, not blue-black. All
-  token contrast pairs measured ≥4.5:1.
-- **No blog.** Depth lives in the case-study pages instead.
+- **Idea:** the site is built for the phone in someone's hand (the owner shows it on his
+  phone, in person), and the work appears there as the real thing, working, at device
+  scale. Supersedes "The Workshop" (2026-08-04), which read as a picked style and went
+  flat on touch. **DESIGN.md is the binding contract**; the working direction doc is
+  local-only in `design-reference/plans/`.
+- **First screen:** "I build web products, front to back." in Mona Sans at its condensed
+  end, poster scale, with the same line in Bengali beneath (switchable through
+  Jembatan's languages), then Email / CV.
+- **The film:** the phone under the hero pins, the room goes dark, and a real
+  full-screen recording of the Jembatan keyboard scrubs under the scroll (speak →
+  review → sent). Runs on phones. Then Jembatan's spec sheet and a demo panel styled as
+  the keyboard's review strip (canned samples until the demo proxy is live).
+- **Then:** client sites in DOM phones whose full pages pan as you scroll by; a ruled
+  index of more builds; "By day, Wolseley."; a close in the same dark room.
+- **Type & colour:** Mona Sans (wdth 75 / 900 display, normal width body), Anek Bangla
+  for the Bengali line, JetBrains Mono for data only. Warm paper / espresso, terracotta
+  as the one signal, plus a "night" surface identical in both themes. Fully dual-themed,
+  system preference, visible toggle (the new theme spreads from the button).
+- **Motion:** zero dependencies; the type never moves; everything gated on reduced
+  motion, which gets a complete still page.
+- **No blog.** Depth lives in the case-study pages.
 
 ## Tech & architecture
 
 - **Stack:** Next.js + TypeScript + Tailwind CSS.
-- **Structure:** Single-page **home** (hero → featured → project wall → currently
-  building → experience → about → contact) + **dedicated case-study pages** for Jembatan,
+- **Structure:** Single-page **home** (hero → film → Jembatan + demo → client sites →
+  more builds → day job → contact) + **dedicated case-study pages** for Jembatan,
   mission_to_abs, and ecommerce (problem, approach, screenshots, stack, live + code links).
-  The two client sites in Featured are card-only "Visit site" links with no case page.
+  The client sites are card-only "Visit site" links with no case page.
 - **Deploy:** **Cloudflare Pages** via Next.js **static export** (`output: 'export'`).
   No SSR needed. Root domain `juberahmed.dev`. Keep everything in the existing
   Cloudflare account (also quietly demonstrates Cloudflare skills).
