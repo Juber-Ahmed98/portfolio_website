@@ -77,8 +77,9 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   other real build with something public to click, strongest first, each with name,
   month started, live/building status, one line, stack and links. The count in the
   copy is derived from `builds.length`.
-- Rows without a public link stay off the list (a row you can't open is a dead end);
-  private work gets one honest sentence under it (`privateBuilds`).
+- Rows without a public link stay off the list (a row you can't open is a dead end), and
+  so does any line about private work. Thin builds stay off too (the FFMI calculator was
+  dropped on 2026-10-01): every row should be worth an interview question.
 - **Exclude** empty scaffolds/starter templates (`my-react-app`, `AI-ecommerce-project`),
   third-party clones (`open-design`), duplicates (`qibla_compass_v2`), docs-only folders,
   and anything personal (`sakinah`, `little_one`, `bali_itinerary`, `job-hunt`).
@@ -110,8 +111,9 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   full-screen recording of the Jembatan keyboard scrubs under the scroll (speak →
   review → sent). Runs on phones. Then Jembatan's spec sheet and a demo panel styled as
   the keyboard's review strip (canned samples until the demo proxy is live).
-- **Then:** client sites in DOM phones whose full pages pan as you scroll by; a ruled
-  index of more builds; "By day, Wolseley."; a close in the same dark room.
+- **Then:** client sites in DOM phones whose full pages pan as you scroll by;
+  "By day, Wolseley." (above the side projects: it's the job being applied for); a ruled
+  index of more builds; a close in the same dark room.
 - **Type & colour:** Mona Sans (wdth 75 / 900 display, normal width body), Anek Bangla
   for the Bengali line, JetBrains Mono for data only. Warm paper / espresso, terracotta
   as the one signal, plus a "night" surface identical in both themes. Fully dual-themed,
@@ -124,7 +126,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 
 - **Stack:** Next.js + TypeScript + Tailwind CSS.
 - **Structure:** Single-page **home** (hero → film → Jembatan + demo → client sites →
-  more builds → day job → contact) + **dedicated case-study pages** for Jembatan,
+  day job → more builds → contact) + **dedicated case-study pages** for Jembatan,
   mission_to_abs, and ecommerce (problem, approach, screenshots, stack, live + code links).
   The client sites are card-only "Visit site" links with no case page.
 - **Deploy:** **Cloudflare Pages** via Next.js **static export** (`output: 'export'`).

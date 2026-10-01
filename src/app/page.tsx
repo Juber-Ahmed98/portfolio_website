@@ -10,7 +10,8 @@ import { Contact } from "@/components/contact";
 /**
  * Home: one story, top to bottom. The claim (hero), the proof in your hand
  * (the film, then the product and its demo, in the dark room), paid work for
- * real businesses, everything else, the day job, and how to get in touch.
+ * real businesses, the day job (the job being applied for, so it comes before
+ * the side projects, not after), everything else, and how to get in touch.
  * Every string comes from `src/content/site.ts`.
  */
 export default function Home() {
@@ -22,8 +23,8 @@ export default function Home() {
         <Film />
         <Jembatan />
         <Clients />
-        <Builds />
         <DayJob />
+        <Builds />
         <Contact />
       </main>
     </>

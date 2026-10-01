@@ -50,19 +50,25 @@
 }
 
 .dark {
-  --bg: #15110e;
-  --surface: #1e1914;
+  --bg: #1d1813;
+  --surface: #28201a;
   --ink: #f1e8da;
   --body: #cbbda8;
   --muted: #a08f7a;
-  --line: #2f2620;
-  --line-strong: #463a2f;
+  --line: #362c24;
+  --line-strong: #4d4034;
   --accent: #e3895b;
   --on-accent: #1a120c;
   --live: #9dc48f;
   --wip: #d9ae4a;
 
   --lift: 0 34px 60px -28px rgb(0 0 0 / 0.7), 0 12px 24px -14px rgb(0 0 0 / 0.5);
+
+  /* The room, deeper than the page. With the page already dark, a room the
+     same tone (they were 1.01:1) made the lights-down moment and the night
+     sections vanish; the page lifted and the room sank to 1.13:1. */
+  --night: #0b0907;
+  --night-raise: #171310;
 
   --hl: #35261c;
   --hover: #2a2019;
@@ -303,14 +309,17 @@ body {
 .film-video[data-ready="true"] {
   opacity: 1;
 }
-/* Phones: the three beats share one cell and only the current one shows. */
+/* Phones: the three beats share one cell and only the current one shows.
+   The outgoing beat clears before the incoming one starts, so two captions
+   never sit on top of each other mid-swap. */
 .film-step {
   opacity: 0;
   color: var(--night-ink);
-  transition: opacity 0.35s var(--ease-out-expo);
+  transition: opacity 0.12s ease-out;
 }
 .film-step[data-active="true"] {
   opacity: 1;
+  transition: opacity 0.3s var(--ease-out-expo) 0.12s;
 }
 .film-step-body {
   color: var(--night-body);

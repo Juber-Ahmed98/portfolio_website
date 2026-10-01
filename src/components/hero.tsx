@@ -16,8 +16,10 @@ export function Hero() {
       id="top"
       className="mx-auto w-full max-w-[1240px] px-5 pb-8 pt-[84px] sm:px-10 sm:pb-14 sm:pt-[132px] xl:px-16 xl:pt-[150px]"
     >
-      <p className="mb-4 text-[15px] font-[550] text-muted sm:mb-7 sm:text-[16px]">
-        {hero.name} · {hero.place}
+      {/* Who, then what, before the claim: the H1 never says "frontend". */}
+      <p className="mb-4 text-[16px] leading-[1.35] sm:mb-7 sm:text-[17px]">
+        <span className="block font-[700] text-ink">{hero.name}</span>
+        <span className="block font-[550] text-body">{hero.role}</span>
       </p>
 
       {/* From lg up the break sits at the comma, on purpose: two lines, the

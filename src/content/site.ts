@@ -41,14 +41,16 @@ export type Translation = {
 
 export const hero = {
   name: "Mohammed Juber Ahmed",
-  place: "Birmingham, UK",
+  /** The H1 is a claim, so the role has to be said plainly right above it. */
+  role: "Frontend developer, Birmingham",
   /** Rendered as one H1; split so the desktop break lands on the comma. */
   headingLead: "I build web products,",
   headingTail: "front to back.",
   /**
-   * The same sentence in Jembatan's other languages. Bengali leads: it is the
-   * language the app exists for. Drafted by hand, not by the app, and the
-   * label never claims otherwise. Owner to check the wording (handoff note).
+   * The same sentence in the languages the keyboard below speaks. Bengali
+   * leads: it is the reason the app exists. Drafted by hand, not by the app.
+   * Owner to check the wording. No captions: the button's label already says
+   * which language is showing next.
    */
   translations: [
     { lang: "bn", label: "Bengali", text: "আমি ওয়েব প্রোডাক্ট বানাই, শুরু থেকে শেষ পর্যন্ত।" },
@@ -56,8 +58,8 @@ export const hero = {
     { lang: "ar", label: "Arabic", text: "أبني منتجات ويب، من الواجهة إلى الخلفية.", dir: "rtl" },
     { lang: "es", label: "Spanish", text: "Construyo productos web, de principio a fin." },
   ] satisfies Translation[],
-  translationNote: "Jembatan's languages",
-  sub: "Frontend developer at Wolseley since 2022, on a high-traffic B2B e-commerce storefront. In the evenings I ship my own products.",
+  /** The role line already says "frontend developer", so this one doesn't. */
+  sub: "Building Wolseley's high-traffic B2B e-commerce storefront since 2022. In the evenings I ship my own products.",
 } as const;
 
 // ── The film (Jembatan, under scroll) ────────────────────────────────────────
@@ -70,8 +72,11 @@ export type FilmStep = {
 };
 
 export const film = {
-  /** Scrub-encoded (keyframe every 8 frames). Phones get the 480 cut. */
-  src: { small: "/film/jembatan-480.mp4", large: "/film/jembatan-720.mp4" },
+  /** Says what the film is, on screen, before the first beat. */
+  label: { name: "Jembatan", rest: "the Android keyboard I built" },
+  /** Scrub-encoded (keyframe every 8 frames). Both are 720 wide, so text stays
+      sharp on a 3x phone; phones get the 15fps cut (729 KB), desktop 20fps. */
+  src: { small: "/film/jembatan-phone.mp4", large: "/film/jembatan-720.mp4" },
   poster: "/film/jembatan-poster.webp",
   alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
   /** The reduced-motion / no-JS version: three stills. */
@@ -92,14 +97,14 @@ export const film = {
 export const jembatan = {
   name: "Jembatan",
   meaning: "Indonesian for “bridge”",
-  status: "In daily use · closed Play test",
+  status: "Used daily by my family · Google Play closed testing",
   lede: "An Android keyboard that turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali, without leaving the chat.",
   /** A spec sheet, not a paragraph: the hiring manager's skim path. */
   parts: [
     { k: "App", v: "Kotlin and Jetpack Compose, a custom Android keyboard with swipe typing and bilingual autocorrect" },
-    { k: "API", v: "A Cloudflare Worker at POST /api/v1/translate, streaming over SSE, rate-limited, storing no message text" },
-    { k: "Model", v: "gpt-5-mini behind a byte-stable prompt, swappable in one file" },
-    { k: "Product", v: "Onboarding, billing through RevenueCat, branding, the marketing site, the roadmap" },
+    { k: "API", v: "A Cloudflare Worker at POST /api/v1/translate. It streams tokens over SSE, so the translation appears as it's written, and never stores message text" },
+    { k: "Model", v: "gpt-5-mini, with my instructions and the speech kept in separate roles, so a stray “ignore the above” can't hijack a translation" },
+    { k: "Product", v: "Onboarding built around Android's two scariest prompts, billing through RevenueCat, the brand and the marketing site" },
   ],
   links: [
     { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
@@ -118,6 +123,23 @@ export const demo = {
    * through the same streaming UI and says so on screen.
    */
   live: false,
+  /**
+   * What the panel calls itself in each mode. The canned note sits right under
+   * the title, not in a footnote: if someone is told "try it" and asks "is
+   * that real?", the panel has already answered.
+   */
+  copy: {
+    live: {
+      title: "Try the keyboard",
+      badge: "live · on the app's Worker",
+      note: "Runs on the same Worker the app uses, capped per visitor. Nothing you type is stored.",
+    },
+    canned: {
+      title: "How it reads",
+      badge: "samples",
+      note: "Sample messages, with translations written by hand to show the review step. Not live output from the app.",
+    },
+  },
   endpoint: "https://jembatan.juberahmed.dev/api/demo/translate",
   maxChars: 140,
   targets: [
@@ -220,13 +242,14 @@ export type Build = {
 
 /**
  * Everything else with something to click, strongest first. Rows without a
- * public link stay off (a row you can't open is a dead end); the private work
- * gets one honest line under the list instead (`privateBuilds`).
+ * public link stay off: a row you can't open is a dead end, and so is a
+ * sentence about private work. Thin builds (a one-day calculator) stay off
+ * too; each row should be worth an interview question.
  */
 export const builds: Build[] = [
   {
     name: "Stratemize",
-    what: "Agency site with a live consultation booker, a tRPC API and D1 behind it",
+    what: "Client site for a marketing agency, with a live consultation booker on a tRPC API and D1",
     stack: "React 19 · TypeScript · Workers · D1",
     started: "Jul 2026",
     status: "live",
@@ -256,7 +279,7 @@ export const builds: Build[] = [
   },
   {
     name: "Yoosuf Zaman",
-    what: "Personal-brand site for a business-setup consultant, with a Worker-backed booking form",
+    what: "Client site for a business-setup consultant, with a Worker-backed booking form",
     stack: "HTML · CSS · JavaScript · Workers",
     started: "Jul 2026",
     status: "live",
@@ -282,21 +305,8 @@ export const builds: Build[] = [
       { label: "Code", href: "https://github.com/Juber-Ahmed98/Qibla_Compass", external: true },
     ],
   },
-  {
-    name: "FFMI calculator",
-    what: "Fat-free mass index from a few measurements, with a history table",
-    stack: "React 19 · Vite · Tailwind 4",
-    started: "Mar 2026",
-    status: "live",
-    links: [
-      { label: "Live site", href: "https://juber-ahmed98.github.io/ffmi-tracker/", external: true },
-      { label: "Code", href: "https://github.com/Juber-Ahmed98/ffmi-tracker", external: true },
-    ],
-  },
 ];
 
-export const privateBuilds =
-  "Private for now: Second Brain, a Postgres and pgvector memory layer with its own MCP server so AI sessions start with my context, and Shatr, an Android qibla compass that tells you when its reading can't be trusted.";
 
 // ── Day job ──────────────────────────────────────────────────────────────────
 
@@ -309,7 +319,7 @@ export const dayJob = {
     {
       dates: "Aug 2024 – now",
       title: "Digital Developer",
-      desc: "Responsive, accessible pages, shipped through A/B and multivariate tests in Monetate: merchandising badges, promotions, seasonal lightboxes. We keep what moves the numbers and drop what doesn't.",
+      desc: "Responsive, accessible pages, shipped through A/B and multivariate tests in Monetate: merchandising badges, promotions, seasonal lightboxes. Each change goes out as a test, and only the winners stay.",
     },
     {
       dates: "Dec 2022 – Aug 2024",

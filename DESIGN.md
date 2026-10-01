@@ -41,8 +41,9 @@ survive any redesign:
 - **Every interactive element has a touch state** (`.tap`: scale .97), because on a phone
   it is the only state feedback there is. Hover is extra, never required.
 - **Counts are derived** (`builds.length`), never typed.
-- **Nothing overclaims.** The demo says "sample messages" until it is live; the Bengali
-  line is labelled as one of Jembatan's languages, not as the app's output.
+- **Nothing overclaims.** Until the demo is live it says, right under its title, that
+  its translations were written by hand; the hero translations carry no caption, and
+  nothing near them claims to be the app's output.
 
 v3 decisions (2026-10-01):
 
@@ -52,8 +53,10 @@ v3 decisions (2026-10-01):
   kicker over the H1. On a phone its personality (all hover) disappeared, and its best
   moment, the flagship scrub, was switched off below `md`. Kept: the warm palette's logic
   (it echoes Jembatan), dual theme with no default, the content module, every honesty rule.
-- **Phone first, literally.** The film runs on phones (a 480px encode, 578 KB) because
-  that is where the owner shows the site. Desktop gets a 720px encode (1.3 MB).
+- **Phone first, literally.** The film runs on phones because that is where the owner
+  shows the site. Both encodes are 720px wide: the first 480px cut was shown about 1.7×
+  upscaled on a 3x phone and the chat text went soft. Phones get 15fps (729 KB), desktop
+  20fps (1.3 MB).
 - **Mona Sans over Bricolage.** Rendered side by side at 390px (Mona 75 / Bricolage 75 /
   Archivo 62 / Mona 125): Mona's condensed 900 fills a phone width like a poster;
   Bricolage condensed read soft and is now a common pick. Mona is GitHub's typeface,
@@ -66,7 +69,21 @@ v3 decisions (2026-10-01):
   is illegible; the client's own mobile layout at device scale, sliding from hero to
   footer as you scroll past, shows the whole site in two seconds.
 - **The builds index is a contents page, not a card grid.** Rows without a public link
-  stay off; the private work gets one honest sentence under the list.
+  stay off, and so does any sentence about private work (a promise with nothing to
+  click). Thin builds stay off too: every row should be worth an interview question.
+
+After a hiring-manager critique of the first build (2026-10-01):
+
+- **The role is said before the claim.** The H1 never says "frontend", so the name and
+  "Frontend developer, Birmingham" sit above it in ink, not as a grey byline.
+- **The day job comes before the side projects.** Wolseley moved above the builds index:
+  it is the job being applied for, and at screen 12 of 14 it read as an afterthought.
+- **The film names itself.** "Jembatan, the Android keyboard I built" sits under the
+  pinned phone; a cold visitor was three screens into a WhatsApp chat before learning
+  what it was.
+- **Light is not made the default.** The critique asked for it because the room vanished
+  in dark mode. Instead the dark theme's page lifts and its room sinks (see the colour
+  tables), and "no opinionated default" stands.
 
 ## Color tokens
 
@@ -75,30 +92,32 @@ CSS variables on `:root` (light) / `.dark`, exposed to Tailwind via `@theme inli
 
 | Token | Light | Dark | Use / contrast |
 |-------|-------|------|-----|
-| `--bg` | `#f3ede3` | `#15110e` | paper / espresso |
-| `--surface` | `#fbf8f2` | `#1e1914` | raised band (day job) |
-| `--ink` | `#1d1611` | `#f1e8da` | headings, primary text · 15.4:1 / 15.5:1 on bg |
-| `--body` | `#4a3d30` | `#cbbda8` | body · 9.0:1 / 10.2:1 |
-| `--muted` | `#6e5e4e` | `#a08f7a` | secondary · 5.3:1 / 6.0:1 |
-| `--line` | `#dcd1bf` | `#2f2620` | hairline rules |
-| `--line-strong` | `#c4b6a0` | `#463a2f` | outline buttons |
-| `--accent` | `#a94b25` | `#e3895b` | terracotta · 4.85:1 / 7.15:1 as text on bg |
+| `--bg` | `#f3ede3` | `#1d1813` | paper / espresso |
+| `--surface` | `#fbf8f2` | `#28201a` | raised band (day job) |
+| `--ink` | `#1d1611` | `#f1e8da` | headings, primary text · 15.4:1 / 14.5:1 on bg |
+| `--body` | `#4a3d30` | `#cbbda8` | body · 9.0:1 / 9.6:1 |
+| `--muted` | `#6e5e4e` | `#a08f7a` | secondary · 5.3:1 / 5.6:1 (5.1:1 on surface) |
+| `--line` | `#dcd1bf` | `#362c24` | hairline rules |
+| `--line-strong` | `#c4b6a0` | `#4d4034` | outline buttons |
+| `--accent` | `#a94b25` | `#e3895b` | terracotta · 4.85:1 / 6.7:1 as text on bg |
 | `--on-accent` | `#fff8f0` | `#1a120c` | text on accent · 5.4:1 / 7.0:1 |
-| `--live` | `#3f5c37` | `#9dc48f` | "live" status · 6.5:1 / 9.6:1 |
-| `--wip` | `#85591a` | `#d9ae4a` | "building" status · 5.2:1 / 9.0:1 |
+| `--live` | `#3f5c37` | `#9dc48f` | "live" status · 6.5:1 / 9.0:1 |
+| `--wip` | `#85591a` | `#d9ae4a` | "building" status · 5.2:1 / 8.5:1 |
 
-**The room** (`--night-*`) is identical in both themes. The film, the Jembatan section
-and the contact close sit in it:
+**The room** (`--night-*`) is dark in both themes. The film, the Jembatan section and the
+contact close sit in it. In the dark theme the room sinks below the page, because a room
+the same tone as an already-dark page (they were 1.01:1) made the lights-down moment and
+the night sections disappear. Page to room is now 1.13:1, surface to room 1.24:1.
 
-| Token | Value | Contrast on `--night` |
-|-------|-------|------|
-| `--night` | `#14100d` | — |
-| `--night-raise` | `#1d1813` | demo panel |
-| `--night-ink` | `#f1e8da` | 15.6:1 |
-| `--night-body` | `#c4b5a0` | 9.4:1 |
-| `--night-muted` | `#968671` | 5.4:1 (5.0:1 on raise) |
-| `--night-line` | `#2c241d` | rules |
-| `--night-accent` | `#e3895b` | 7.2:1 |
+| Token | Light theme | Dark theme | Contrast on `--night` (light / dark) |
+|-------|-------|------|------|
+| `--night` | `#14100d` | `#0b0907` | — |
+| `--night-raise` | `#1d1813` | `#171310` | demo panel |
+| `--night-ink` | `#f1e8da` | same | 15.6:1 / 16.4:1 |
+| `--night-body` | `#c4b5a0` | same | 9.4:1 / 9.9:1 |
+| `--night-muted` | `#968671` | same | 5.4:1 / 5.6:1 (5.0:1 / 5.2:1 on raise) |
+| `--night-line` | `#2c241d` | same | rules |
+| `--night-accent` | `#e3895b` | same | 7.2:1 / 7.6:1 |
 
 `--lift` is the only shadow: warm, offset, soft elevation for device frames
 (`0 34px 60px -28px` + `0 12px 24px -14px`), black in dark. No block shadows, no glows.
@@ -126,7 +145,7 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
 
 - Container `max-w-[1240px]`, gutters 20px / 40px (`sm`) / 64px (`xl`).
 - Sections are bands separated by hairlines or a change of surface, never boxed.
-- Order: Hero → Film → Jembatan (+ demo) → Clients → Builds → Day job → Contact.
+- Order: Hero → Film → Jembatan (+ demo) → Clients → Day job → Builds → Contact.
 - Radii: pill buttons 999px; demo panel 26px; review strip 18px; browser frame 14px.
 
 ## Components
@@ -137,16 +156,19 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
 - **Theme toggle**: 40px circle. The new theme spreads from the button as a circle
   (`document.startViewTransition` + `clip-path`), instant under reduced motion or without
   the API.
-- **Hero** (`hero.tsx`, `bilingual.tsx`): name · place; the H1; the Bengali line with a
-  one-button language switch (bn → id → ar → es; `lang`/`dir` set; `aria-live`); sub;
-  Email (accent) + Download CV (outline).
+- **Hero** (`hero.tsx`, `bilingual.tsx`): name and role line; the H1; the Bengali line
+  with a one-button switch (bn → id → ar → es; `lang`/`dir` set; `aria-live`), no
+  caption: the button's label is enough. The line sits in a cell sized by every language
+  at once (invisible copies stacked beneath), so switching never moves the 44px button.
+  Sub; Email (accent) + Download CV (outline).
 - **Phone** (`phone.tsx`): DOM body, lit rim, side keys, punch-hole, screen at the
   capture's own 480:1040. Scales via container units.
 - **Film** (`film.tsx`): see *Motion*.
 - **Jembatan** (`jembatan.tsx`): status with live dot; name at poster scale; meaning;
   lede; four-row spec sheet (App / API / Model / Product); Visit the site + case study.
-- **Demo** (`demo.tsx`): the keyboard's review strip on the page. Canned mode: three
-  sample messages × four languages, streamed in grapheme clusters (Intl.Segmenter, so
+- **Demo** (`demo.tsx`): the keyboard's review strip on the page, titled "How it reads"
+  in canned mode with the hand-written disclosure under the title ("Try the keyboard"
+  once live). Canned mode: three sample messages × four languages, streamed in grapheme clusters (Intl.Segmenter, so
   Bengali conjuncts never render half-built), auto-plays once on first view. Live mode
   (`demo.live`): free text → POST to the landing Worker's demo proxy, SSE frames
   `{"delta"}` / `{"done","translation"}` / `{"error"}` exactly as the API emits them.
@@ -154,6 +176,7 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
   button. Media: the client's mobile full-page capture in a Phone, panning as it passes;
   from `lg` a browser frame with the desktop capture sits behind it.
 - **Builds** (`builds.tsx`): ruled index; name, month started, status, what, stack, links.
+  Nothing under the list.
 - **Day job** (`day-job.tsx`): "By day, Wolseley." at poster scale; two roles; tools as
   two sentences.
 - **Contact** (`contact.tsx`): the room again. Heading, the address at poster scale
@@ -173,7 +196,10 @@ no-preference`; under reduce the page is complete and still.
   Mechanics: Blob fetch a screen early; lerped playhead (0.22) that stops when settled;
   no seek while seeking or under one frame; play()/pause() prime for iOS; video revealed
   on its first painted frame. Beats: phones show one at a time under a three-part progress
-  bar; desktop lists all three with the current one lit. Save-Data never fetches the clip.
+  bar, the outgoing beat clearing (120ms) before the next fades in, so two captions never
+  overlap; desktop lists all three with the current one lit. The label under the phone
+  shares the beats' `--dim` opacity (it is night-coloured). Save-Data never fetches the
+  clip.
 - **Client pans** (`.pan-y`): CSS scroll-driven animation on the frame's own
   `view-timeline` (`--frame`), range `cover 12% → 88%`. Compositor-only, no JS; rests on
   the top of the page where unsupported.
@@ -198,7 +224,7 @@ no-preference`; under reduce the page is complete and still.
 | JS gz, modern browsers | ≤ 130 KB (set below Next's floor; revised to ≤ 170 KB) | 161 KB, of which React DOM + Next runtime ≈ 111 KB |
 | CSS gz | — | 10 KB |
 | Fonts on first view | — | Mona Sans 98 KB (preloaded) + Anek Bangla Bengali subset |
-| Film | ≤ 600 KB / ≤ 1.4 MB | 578 KB / 1.3 MB, fetched a screen early |
+| Film | ≤ 600 KB / ≤ 1.4 MB | 729 KB / 1.3 MB, fetched a screen early. The phone cut is 129 KB over, accepted for sharp text at 3x; it loads after first paint, so first view is unaffected |
 | Client captures | — | 244–372 KB each, lazy |
 | Real-device fps, LCP, CLS | ≥ 50 fps · ≤ 1.8 s · ≤ 0.02 | **not yet measured: owner's phone, session 3** |
 
@@ -206,4 +232,4 @@ no-preference`; under reduce the page is complete and still.
 
 Not yet moved to v3 (session 2): `opengraph-image.tsx` and `icon.svg` still carry the
 Workshop palette, close enough to v3's that nothing clashes. `themeColor` is updated
-(`#f3ede3` / `#15110e`).
+(`#f3ede3` / `#1d1813`).

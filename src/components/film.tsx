@@ -30,8 +30,9 @@ const FALLBACK_DURATION = 10.47;
  *   that has been seeked but never played is blank on iOS, so it is primed
  *   with play() then pause() first.
  *
- * Phones get a 480px-wide encode (578 KB), larger screens the 720 (1.3 MB).
- * Save-Data never fetches either: the poster holds and the story still runs.
+ * Both encodes are 720px wide, so the chat text stays sharp on a 3x phone:
+ * phones get a 15fps cut (729 KB), larger screens 20fps (1.3 MB). Save-Data
+ * never fetches either: the poster holds and the story still runs.
  * Reduced motion and no-JS never mount the stage at all (CSS, `.film-scrub`)
  * and get three stills instead.
  */
@@ -53,7 +54,7 @@ export function Film() {
     const src = window.matchMedia("(min-width: 768px)").matches ? film.src.large : film.src.small;
 
     const LERP = 0.22;
-    const DEADBAND = 1 / 30; // one frame of the 20fps cut is 0.05s
+    const DEADBAND = 1 / 30; // under a frame of either cut (0.05s / 0.067s)
 
     let raf = 0;
     let disposed = false;
@@ -194,7 +195,7 @@ export function Film() {
   return (
     <section data-night aria-labelledby="film-title">
       <h2 id="film-title" className="sr-only">
-        Jembatan, in use
+        {film.label.name}, {film.label.rest}
       </h2>
 
       {/* ── The show: motion allowed and JS on ── */}
@@ -234,7 +235,7 @@ export function Film() {
             </div>
 
             <div className="film-phone order-1 lg:order-2">
-              <Phone className="set-down w-[min(74vw,calc((100svh-250px)*0.479))] lg:w-[min(400px,calc(82svh*0.479))]">
+              <Phone className="set-down w-[min(74vw,calc((100svh-280px)*0.479))] lg:w-[min(400px,calc(78svh*0.479))]">
                 <img src={film.poster} alt={film.alt} fetchPriority="high" />
                 <video
                   ref={videoRef}
@@ -246,6 +247,9 @@ export function Film() {
                   tabIndex={-1}
                 />
               </Phone>
+              {/* Names what's playing, so a cold visitor isn't three screens
+                  into a WhatsApp chat before learning what it is. */}
+              <FilmLabel className="film-copy mt-4 text-center" />
             </div>
           </div>
         </div>
@@ -253,6 +257,7 @@ export function Film() {
 
       {/* ── Reduced motion / no JS: the same story as three stills ── */}
       <div className="film-stills bg-night px-5 py-16 sm:px-10 lg:py-24">
+        <FilmLabel className="mx-auto mb-10 max-w-[1240px] xl:px-6" />
         <ol className="mx-auto flex max-w-[1240px] snap-x snap-mandatory gap-5 overflow-x-auto pb-2 lg:grid lg:grid-cols-3 lg:gap-12 lg:overflow-visible xl:px-6">
           {film.steps.map((s, i) => (
             <li key={s.at} className="w-[64vw] shrink-0 snap-center lg:w-auto">
@@ -266,5 +271,13 @@ export function Film() {
         </ol>
       </div>
     </section>
+  );
+}
+
+function FilmLabel({ className = "" }: { className?: string }) {
+  return (
+    <p aria-hidden className={`text-[14.5px] text-night-body ${className}`}>
+      <span className="font-[700] text-night-ink">{film.label.name}</span>, {film.label.rest}
+    </p>
   );
 }

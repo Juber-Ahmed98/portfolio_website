@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { builds, privateBuilds } from "@/content/site";
+import { builds } from "@/content/site";
 
 /**
  * Everything else, as an index rather than a grid of cards: one row per
@@ -20,11 +20,13 @@ export function Builds() {
           </p>
         </div>
 
-        <ol className="mt-12 border-t border-ink sm:mt-16">
+        {/* On desktop every row is a subgrid of the list, so the description
+            and links columns line up down the page whatever each row holds. */}
+        <ol className="mt-12 border-t border-ink sm:mt-16 lg:grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_auto] lg:gap-x-8">
           {builds.map((b) => (
             <li
               key={b.name}
-              className="grid gap-x-8 gap-y-2 border-b border-line py-6 sm:py-7 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)_auto] lg:items-baseline"
+              className="grid gap-x-8 gap-y-2 border-b border-line py-6 sm:py-7 lg:col-span-3 lg:grid-cols-subgrid lg:items-baseline"
             >
               <div className="flex items-baseline justify-between gap-4 lg:block">
                 <h3 className="t-head text-[clamp(30px,8vw,40px)]">{b.name}</h3>
@@ -64,8 +66,6 @@ export function Builds() {
             </li>
           ))}
         </ol>
-
-        <p className="mt-8 max-w-[70ch] text-[15px] leading-[1.6] text-muted">{privateBuilds}</p>
       </div>
     </section>
   );

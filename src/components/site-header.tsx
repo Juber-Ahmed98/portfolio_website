@@ -70,7 +70,7 @@ export function SiteHeader() {
       } backdrop-blur-md`}
     >
       <div className="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between px-5 sm:px-10 xl:px-16">
-        <a href="#top" className="tap text-[16px] font-[650] tracking-[-0.01em]">
+        <a href="#top" className="tap -mx-2 inline-flex min-h-11 items-center px-2 text-[16px] font-[650] tracking-[-0.01em]">
           {nav.brand.text}
           <span className={night ? "text-night-accent" : "text-accent"}>{nav.brand.accent}</span>
         </a>
@@ -79,7 +79,7 @@ export function SiteHeader() {
           <a
             href={nav.cv.href}
             aria-label={nav.cv.label}
-            className={`tap rounded-full px-[18px] py-[9px] text-[14px] font-[650] ${
+            className={`tap inline-flex min-h-10 items-center rounded-full px-[18px] text-[14px] font-[650] ${
               night ? "bg-night-ink text-night" : "bg-ink text-bg"
             }`}
           >

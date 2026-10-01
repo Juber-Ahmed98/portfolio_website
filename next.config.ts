@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // Let a phone on the home network load dev scripts and HMR from
+  // `next dev` (dev only; the static export ignores it).
+  allowedDevOrigins: ["192.168.*.*"],
   // Static export → Cloudflare Pages. No SSR / server actions.
   output: "export",
   trailingSlash: true,

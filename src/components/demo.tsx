@@ -26,7 +26,7 @@ function graphemes(text: string, lang: string): string[] {
  *   as they land, `{"done","translation"}` is authoritative and replaces them,
  *   `{"error"}` ends it.
  * - canned (now): three sample messages played through the same streaming
- *   path, and the panel says plainly that they are samples.
+ *   path, and the panel says plainly, under its title, that they are samples.
  *
  * It plays once by itself when it first scrolls into view, so someone being
  * shown the site on a phone sees it work without being asked to tap.
@@ -44,6 +44,7 @@ export function Demo() {
   const played = useRef(false);
 
   const target = demo.targets.find((t) => t.code === lang)!;
+  const copy = demo.live ? demo.copy.live : demo.copy.canned;
   const source = demo.live ? text : demo.samples[sample].en;
 
   const stop = () => {
@@ -162,11 +163,12 @@ export function Demo() {
       className="rounded-[26px] border border-night-line bg-night-raise p-4 text-night-ink sm:p-6"
     >
       <div className="flex items-center justify-between gap-3">
-        <p className="text-[15px] font-[650]">Try the keyboard</p>
+        <p className="text-[15px] font-[650]">{copy.title}</p>
         <span className="t-data rounded-full border border-night-line px-2.5 py-1 text-[11px] text-night-muted">
-          {demo.live ? "live · on the app's Worker" : "sample messages"}
+          {copy.badge}
         </span>
       </div>
+      <p className="mt-2 text-[14px] leading-[1.5] text-night-body">{copy.note}</p>
 
       {/* What you said */}
       <div className="mt-5">
@@ -274,11 +276,6 @@ export function Demo() {
         </p>
       </div>
 
-      <p className="mt-4 text-[13px] leading-[1.5] text-night-muted">
-        {demo.live
-          ? "Runs on the same Worker the app uses, capped per visitor. Nothing you type is stored."
-          : "Sample messages written to show the flow. The live version, on the same Worker the app uses, is on its way."}
-      </p>
     </div>
   );
 }
