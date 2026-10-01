@@ -57,7 +57,10 @@ export function Bilingual() {
       >
         <Languages size={16} aria-hidden />
         <span>
-          <span className="sr-only">Show it in </span>
+          <span className="sr-only">Showing </span>
+          <span className="font-[500] text-muted">{t.label}</span>
+          <span className="sr-only">. Show it in </span>
+          <span aria-hidden className="px-1.5 text-muted">→</span>
           {next.label}
         </span>
       </button>

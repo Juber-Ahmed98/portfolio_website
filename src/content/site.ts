@@ -49,8 +49,8 @@ export const hero = {
   /**
    * The same sentence in the languages the keyboard below speaks. Bengali
    * leads: it is the reason the app exists. Drafted by hand, not by the app.
-   * Owner to check the wording. No captions: the button's label already says
-   * which language is showing next.
+   * Owner to check the wording. No captions: the button names both the
+   * language showing and the one a tap switches to.
    */
   translations: [
     { lang: "bn", label: "Bengali", text: "আমি ওয়েব প্রোডাক্ট বানাই, শুরু থেকে শেষ পর্যন্ত।" },
