@@ -32,6 +32,13 @@ export function Contact() {
           {contact.heading}
         </h2>
         <p className="mt-6 max-w-[44ch] text-[18px] leading-[1.6] text-night-body">{contact.sub}</p>
+        <a
+          href={contact.forBusiness.href}
+          className="tap mt-4 inline-flex min-h-11 items-center gap-1.5 text-[16px] font-[650] text-night-ink underline decoration-night-line underline-offset-4 hover:decoration-night-accent"
+        >
+          {contact.forBusiness.label}
+          <ArrowUpRight size={16} aria-hidden />
+        </a>
 
         <div className="mt-12 border-y border-night-line py-8">
           <a

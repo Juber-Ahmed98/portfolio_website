@@ -340,6 +340,8 @@ export type ContactLink = { label: string; href: string; external?: boolean };
 export const contact = {
   heading: "Let's build the next one.",
   sub: "A frontend role, a site for your business, or a product idea: email is the quickest way to reach me.",
+  /** One-way door to the client page; `/websites` never links back here. */
+  forBusiness: { label: "Need a website for your business? See the sites I build for clients", href: "/websites/" },
   email: "mohammed.juber.ahmed@gmail.com",
   cv: { label: "Download CV", href: "/cv.pdf" },
   links: [

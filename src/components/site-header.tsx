@@ -13,7 +13,21 @@ import { nav } from "@/content/site";
  * which carry `data-night`. Without that it would sit as a cream strip across
  * the darkened room.
  */
-export function SiteHeader() {
+type HeaderAction = { label: string; href: string; ariaLabel?: string };
+
+/**
+ * `/websites` reuses the bar with its own brand and button and no theme
+ * toggle; with no props it is the home page's bar.
+ */
+export function SiteHeader({
+  brand = nav.brand,
+  action = { label: "CV", href: nav.cv.href, ariaLabel: nav.cv.label },
+  themeToggle = true,
+}: {
+  brand?: { text: string; accent?: string; href: string };
+  action?: HeaderAction;
+  themeToggle?: boolean;
+} = {}) {
   const [hidden, setHidden] = useState(false);
   const [night, setNight] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -70,20 +84,20 @@ export function SiteHeader() {
       } backdrop-blur-md`}
     >
       <div className="mx-auto flex h-16 w-full max-w-[1240px] items-center justify-between px-5 sm:px-10 xl:px-16">
-        <a href="#top" className="tap -mx-2 inline-flex min-h-11 items-center px-2 text-[16px] font-[650] tracking-[-0.01em]">
-          {nav.brand.text}
-          <span className={night ? "text-night-accent" : "text-accent"}>{nav.brand.accent}</span>
+        <a href={brand.href} className="tap -mx-2 inline-flex min-h-11 items-center px-2 text-[16px] font-[650] tracking-[-0.01em]">
+          {brand.text}
+          {brand.accent && <span className={night ? "text-night-accent" : "text-accent"}>{brand.accent}</span>}
         </a>
         <div className="flex items-center gap-2.5">
-          <ThemeToggle tone={night ? "night" : "paper"} />
+          {themeToggle && <ThemeToggle tone={night ? "night" : "paper"} />}
           <a
-            href={nav.cv.href}
-            aria-label={nav.cv.label}
+            href={action.href}
+            aria-label={action.ariaLabel}
             className={`tap inline-flex min-h-10 items-center rounded-full px-[18px] text-[14px] font-[650] ${
               night ? "bg-night-ink text-night" : "bg-ink text-bg"
             }`}
           >
-            CV
+            {action.label}
           </a>
         </div>
       </div>

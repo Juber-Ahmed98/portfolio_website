@@ -5,7 +5,7 @@ export const dynamic = "force-static";
 const base = "https://juberahmed.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["/", "/work/jembatan/", "/work/mission-to-abs/", "/work/ecommerce-store/"];
+  const paths = ["/", "/websites/", "/work/jembatan/", "/work/mission-to-abs/", "/work/ecommerce-store/"];
   return paths.map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),

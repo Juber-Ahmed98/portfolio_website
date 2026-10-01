@@ -129,6 +129,15 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   day job → more builds → contact) + **dedicated case-study pages** for Jembatan,
   mission_to_abs, and ecommerce (problem, approach, screenshots, stack, live + code links).
   The client sites are card-only "Visit site" links with no case page.
+- **`/websites` (added 2026-10-01):** the page linked from cold emails to small and
+  medium businesses, for freelance website work. Written for a business owner on a
+  phone: offer → client sites (UMMA BJJ, Yoosuf Zaman, Al-Ilm, Stratemize) → client
+  quotes → services → how it works → "I build apps too" (Jembatan) → who you're working
+  with → contact. Copy in `src/content/websites.ts`. It never links back to the
+  job-hunting material (no CV, builds index or day job); the home page's close links to
+  it, one way. The quotes section stays hidden until real quotes are added (being
+  collected from Stratemize, Yoosuf Zaman and UMMA BJJ). WhatsApp buttons appear once
+  `reach.whatsapp` is set. No prices or timelines on the page until the owner sets them.
 - **Deploy:** **Cloudflare Pages** via Next.js **static export** (`output: 'export'`).
   No SSR needed. Root domain `juberahmed.dev`. Keep everything in the existing
   Cloudflare account (also quietly demonstrates Cloudflare skills).

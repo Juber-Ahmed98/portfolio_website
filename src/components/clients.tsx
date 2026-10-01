@@ -30,32 +30,7 @@ export function Clients() {
             className="grid items-center gap-10 border-b border-line py-16 last:border-b-0 sm:py-24 lg:grid-cols-2 lg:gap-16"
           >
             {/* Media */}
-            <div className={`relative ${i % 2 ? "lg:order-2" : ""}`}>
-              <div aria-hidden className="hidden overflow-clip rounded-[14px] border border-line-strong bg-surface shadow-[var(--lift)] lg:block">
-                <div className="flex h-9 items-center justify-center border-b border-line">
-                  <span className="t-data rounded-full bg-bg px-3 py-0.5 text-[11px] text-muted">{c.host}</span>
-                </div>
-                <img
-                  src={c.shots.desktop}
-                  alt=""
-                  loading="lazy"
-                  className="aspect-[16/10] w-full object-cover object-top"
-                />
-              </div>
-              <a
-                href={c.url}
-                target="_blank"
-                rel="noreferrer"
-                tabIndex={-1}
-                className={`tap mx-auto block w-[min(68vw,290px)] lg:absolute lg:-bottom-12 lg:w-[34%] ${
-                  i % 2 ? "lg:-left-6" : "lg:-right-6"
-                }`}
-              >
-                <Phone screenClassName="scroll-frame">
-                  <img src={c.shots.phone} alt={c.shots.alt} loading="lazy" className="scroll-shot pan-y" />
-                </Phone>
-              </a>
-            </div>
+            <ClientMedia url={c.url} host={c.host} shots={c.shots} flip={i % 2 === 1} />
 
             {/* Words */}
             <div className={i % 2 ? "lg:order-1" : ""}>
@@ -92,5 +67,46 @@ export function Clients() {
         ))}
       </div>
     </section>
+  );
+}
+
+/**
+ * The media half of a client row: the desktop capture in a browser frame from
+ * `lg` up, with the phone overlapping its lower corner (on the side away from
+ * the words), and the phone alone below that. Shared with `/websites`.
+ */
+export function ClientMedia({
+  url,
+  host,
+  shots,
+  flip,
+}: {
+  url: string;
+  host: string;
+  shots: { phone: string; desktop: string; alt: string };
+  flip: boolean;
+}) {
+  return (
+    <div className={`relative ${flip ? "lg:order-2" : ""}`}>
+      <div aria-hidden className="hidden overflow-clip rounded-[14px] border border-line-strong bg-surface shadow-[var(--lift)] lg:block">
+        <div className="flex h-9 items-center justify-center border-b border-line">
+          <span className="t-data rounded-full bg-bg px-3 py-0.5 text-[11px] text-muted">{host}</span>
+        </div>
+        <img src={shots.desktop} alt="" loading="lazy" className="aspect-[16/10] w-full object-cover object-top" />
+      </div>
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        tabIndex={-1}
+        className={`tap mx-auto block w-[min(68vw,290px)] lg:absolute lg:-bottom-12 lg:w-[34%] ${
+          flip ? "lg:-left-6" : "lg:-right-6"
+        }`}
+      >
+        <Phone screenClassName="scroll-frame">
+          <img src={shots.phone} alt={shots.alt} loading="lazy" className="scroll-shot pan-y" />
+        </Phone>
+      </a>
+    </div>
   );
 }
