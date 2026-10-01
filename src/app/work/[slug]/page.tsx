@@ -66,6 +66,7 @@ export default async function CaseStudyPage({
 
   // Skip live links that aren't public yet ("#") — don't fake a demo button.
   const links = study.links.filter((link) => link.href !== "#");
+  const phoneShots = study.shotShape === "phone";
 
   return (
     <>
@@ -155,7 +156,10 @@ export default async function CaseStudyPage({
           )}
         </section>
 
-        {/* Screenshots — taped polaroid placeholders until real captures land. */}
+        {/* Screenshots — real captures in taped polaroid frames, one shape per
+            study (DESIGN.md → "Case-study pages"). Phone captures stand four
+            across at device aspect; web captures run two across at 16:10 and
+            are cropped from the top of the page. */}
         <section
           aria-label="Screenshots"
           className="border-b-2 border-ink py-[70px]"
@@ -163,28 +167,61 @@ export default async function CaseStudyPage({
           <p className="mb-8 font-mono text-[13px] font-semibold text-accent">
             screenshots
           </p>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {study.screenshots.map((label, i) => (
-              <div
-                key={label}
-                className={`relative grid h-[220px] place-items-center rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] ${
-                  i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"
-                } transition-[translate,rotate] motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px]`}
-              >
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute -top-[13px] left-[22px] h-[26px] w-[84px] rotate-[-6deg] border-x border-dashed"
-                  style={{
-                    background:
-                      "color-mix(in srgb, var(--accent) 20%, transparent)",
-                    borderColor:
-                      "color-mix(in srgb, var(--accent) 32%, transparent)",
-                  }}
-                />
-                <span className="px-4 text-center font-mono text-[11.5px] text-muted">
-                  {label}
-                </span>
-              </div>
+          <div
+            className={`grid gap-x-6 gap-y-8 ${
+              phoneShots
+                ? "grid-cols-2 lg:grid-cols-4"
+                : "grid-cols-1 sm:grid-cols-2"
+            }`}
+          >
+            {study.screenshots.map((shot, i) => (
+              <figure key={shot.label}>
+                {/* No `overflow-hidden` here: the tape hangs 13px above the
+                    frame and clipping would erase it. The capture takes its
+                    own inner radius instead, as the featured cards do. */}
+                <div
+                  className={`relative rounded-[6px] border-2 border-ink bg-panel shadow-[var(--shadow-card)] ${
+                    phoneShots ? "aspect-[6/13]" : "aspect-[16/10]"
+                  } ${i % 2 === 0 ? "rotate-[-1deg]" : "rotate-[1deg]"} transition-[translate,rotate] motion-safe:hover:rotate-0 motion-safe:hover:-translate-y-[3px]`}
+                >
+                  {shot.src ? (
+                    <img
+                      src={shot.src}
+                      alt={shot.alt ?? shot.label}
+                      /* Below the fold on every case study, and there are four
+                         of them — the intro copy shouldn't wait on any. */
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full rounded-[4px] object-cover object-top"
+                    />
+                  ) : (
+                    <span className="grid h-full place-items-center px-4 text-center font-mono text-[11.5px] text-muted">
+                      {shot.label}
+                    </span>
+                  )}
+                  {/* Tape sits above the capture, alternating corners so a row
+                      doesn't read as a repeated stamp. */}
+                  <span
+                    aria-hidden
+                    className={`pointer-events-none absolute -top-[13px] h-[26px] w-[84px] border-x border-dashed ${
+                      i % 2 === 0
+                        ? "left-[18px] rotate-[-6deg]"
+                        : "right-[18px] rotate-[4deg]"
+                    }`}
+                    style={{
+                      background:
+                        "color-mix(in srgb, var(--accent) 20%, transparent)",
+                      borderColor:
+                        "color-mix(in srgb, var(--accent) 32%, transparent)",
+                    }}
+                  />
+                </div>
+                {/* The label moves out of the tile and becomes a real caption
+                    now that the capture fills the frame. */}
+                <figcaption className="mt-[14px] font-mono text-[11.5px] leading-[1.5] text-faint">
+                  {shot.label}
+                </figcaption>
+              </figure>
             ))}
           </div>
         </section>

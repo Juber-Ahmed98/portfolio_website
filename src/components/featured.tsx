@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
+import { ScrubFrame } from "@/components/scrub-frame";
 import { SectionHeading } from "@/components/section-heading";
 import { featured, flagship, sections } from "@/content/site";
 
@@ -116,12 +117,26 @@ export function Featured() {
             ))}
           </div>
         </div>
-        {/* Screenshot as a taped polaroid, tilted on the bench. */}
+        {/* Screenshot as a taped polaroid, tilted on the bench. With the scrub
+            it holds the clip's 4:5 crop exactly, so no state of the story is
+            lost to object-cover; without one it fills the cell as before. */}
         <div className="grid min-h-[300px] place-items-center p-7 sm:min-h-[340px]">
-          <div className="relative grid h-full min-h-[220px] w-full rotate-[1.4deg] place-items-center rounded-[6px] border-2 border-[#5c4a38] bg-[#35261c]">
+          <div
+            className={`relative grid w-full rotate-[1.4deg] place-items-center rounded-[6px] border-2 border-[#5c4a38] bg-[#35261c] ${
+              flagship.scrub
+                ? "aspect-[4/5] max-w-[400px]"
+                : "h-full min-h-[220px]"
+            }`}
+          >
             {/* The image is near the fold and is the page's focal proof —
                 eager with high priority, unlike the lazy row screenshots. */}
-            {flagship.image ? (
+            {flagship.scrub ? (
+              <ScrubFrame
+                src={flagship.scrub.src}
+                poster={flagship.scrub.poster}
+                alt={flagship.scrub.alt}
+              />
+            ) : flagship.image ? (
               <img
                 src={flagship.image.src}
                 alt={flagship.image.alt}

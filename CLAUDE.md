@@ -103,8 +103,10 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   the earlier "clean, modern, one bold teal accent" system. **DESIGN.md is the
   binding contract** — tokens, shadow system, signature elements, decision log.
 - **Type:** Bricolage Grotesque (display + body, variable) + JetBrains Mono
-  (labels/stamps). Motion is CSS-only, zero dependencies, one authored hero
-  entrance, everything `prefers-reduced-motion`-gated.
+  (labels/stamps). Motion is dependency-free — CSS plus one bespoke
+  scroll-scrubbed clip on the flagship polaroid (a real capture of the keyboard
+  translating, scrubbed by the card's passage; DESIGN.md 2026-08-23) — one
+  authored hero entrance, everything `prefers-reduced-motion`-gated.
 - **Theme:** Fully dual-themed (light + dark), respects system preference, visible
   toggle, no opinionated default. Dark is warm espresso, not blue-black. All
   token contrast pairs measured ≥4.5:1.

@@ -120,6 +120,14 @@ export const flagship = {
     src: "/featured/jembatan.png",
     alt: "Jembatan app home screen: EN to ID translation with in-person mode",
   },
+  /** The polaroid's scroll-scrubbed clip — a real capture of the keyboard in
+      WhatsApp (spoken English → reviewed Indonesian → sent). Poster is the
+      clip's first frame; it is also the no-JS / reduced-motion / phone state. */
+  scrub: {
+    src: "/featured/jembatan-scrub.mp4",
+    poster: "/featured/jembatan-scrub-poster.webp",
+    alt: "Jembatan keyboard in WhatsApp: spoken English reviewed as Indonesian, then sent into the chat",
+  },
 } as const;
 
 export const featured: FeaturedProject[] = [
@@ -155,7 +163,6 @@ export const featured: FeaturedProject[] = [
 // by slug. This is the CP5 *template* content — honest starter drafts; the deep
 // narratives land in CP6 (Jembatan) and CP7 (Mission to Abs, E-commerce).
 //
-// Screenshots are placeholder tile labels until real captures arrive at CP8.
 // Links reuse the home-page values; a live link of "#" means "not public yet" and
 // is skipped rather than faked (the "don't fake it" rule).
 
@@ -167,6 +174,14 @@ export type CaseStudyBlock = {
 };
 
 export type CaseStudyLink = { label: string; href: string; external?: boolean };
+
+export type CaseStudyShot = {
+  /** Mono caption under the frame. Names what the capture shows, plainly. */
+  label: string;
+  /** Real capture. Without one the frame falls back to a caption-only tile. */
+  src?: string;
+  alt?: string;
+};
 
 export type CaseStudy = {
   slug: string;
@@ -181,8 +196,14 @@ export type CaseStudy = {
   stackChips: string[]; // toolbox-style pills
   /** Narrative blocks rendered in order: problem → approach → … */
   blocks: CaseStudyBlock[];
-  /** Placeholder screenshot tile labels (real captures at CP8). */
-  screenshots: string[];
+  /**
+   * What the captures are of — decides the frame aspect and how many sit in a
+   * row. Phone captures stand four across at device aspect; web captures run
+   * two across at 16:10. Mixing shapes in one grid is what makes a case study
+   * read as a folder of PNGs.
+   */
+  shotShape: "phone" | "web";
+  screenshots: CaseStudyShot[];
   /** Live + code links. Live entries with href "#" are skipped (not yet public). */
   links: CaseStudyLink[];
 };
@@ -280,11 +301,32 @@ export const caseStudies: Record<string, CaseStudy> = {
         ],
       },
     ],
+    shotShape: "phone",
+    /* All four are captures of the shipping app on a real device — the first
+       three from one session, so they read as one shoot rather than a folder
+       of PNGs. The conversation in them is the demo thread from the launch
+       capture, not anyone's real messages. */
     screenshots: [
-      "keyboard translating in WhatsApp",
-      "hold-to-talk voice",
-      "review & edit strip",
-      "in-person mode",
+      {
+        label: "keyboard translating in WhatsApp",
+        src: "/work/jembatan/01-keyboard.webp",
+        alt: "WhatsApp with the Jembatan keyboard: the translated Indonesian sits in the composer, ready to send",
+      },
+      {
+        label: "hold-to-talk voice",
+        src: "/work/jembatan/02-voice.webp",
+        alt: "Hold-to-talk recording in progress, a live waveform filling the keyboard area",
+      },
+      {
+        label: "review & edit strip",
+        src: "/work/jembatan/03-review.webp",
+        alt: "Review before sending: what I heard, the Indonesian translation, and discard, verify or insert",
+      },
+      {
+        label: "in-person mode",
+        src: "/work/jembatan/04-in-person.webp",
+        alt: "In-person mode: English and Indonesian mic buttons for a two-way spoken conversation",
+      },
     ],
     // Code link deliberately absent — the repo is permanently private.
     links: [
@@ -346,11 +388,28 @@ export const caseStudies: Record<string, CaseStudy> = {
         ],
       },
     ],
+    shotShape: "phone",
     screenshots: [
-      "daily dashboard · day N",
-      "the 105-day journey",
-      "weight & body-fat charts",
-      "weekly progress photos",
+      {
+        label: "daily dashboard · day 47",
+        src: "/work/mission-to-abs/01-dashboard.webp",
+        alt: "Day 47 dashboard: today's diet and exercise cards, XP level, weight and body-fat readings",
+      },
+      {
+        label: "the 105-day journey",
+        src: "/work/mission-to-abs/02-journey.webp",
+        alt: "The 105-day journey map, five stages from foundation to reveal with the current day marked",
+      },
+      {
+        label: "weight & body-fat charts",
+        src: "/work/mission-to-abs/03-progress.webp",
+        alt: "Progress tab: weight down 2.8kg and waist down 2.7cm, with a weight trend chart and adherence score",
+      },
+      {
+        label: "weekly progress photos",
+        src: "/work/mission-to-abs/04-photos.webp",
+        alt: "Weekly photo ritual: the week's prompt and a grid of six past weeks, each labelled with its weight",
+      },
     ],
     links: [
       { label: "Live demo", href: "#", external: true },
@@ -406,11 +465,28 @@ export const caseStudies: Record<string, CaseStudy> = {
         ],
       },
     ],
+    shotShape: "web",
     screenshots: [
-      "product grid",
-      "product detail",
-      "basket & quantities",
-      "checkout & sign-in",
+      {
+        label: "product grid",
+        src: "/work/ecommerce/01-grid.webp",
+        alt: "Shop products: three supplement cards with prices and inline quantity steppers",
+      },
+      {
+        label: "product detail",
+        src: "/work/ecommerce/02-detail.webp",
+        alt: "Whey Protein Isolate detail page: large product shot, price and specification",
+      },
+      {
+        label: "basket & quantities",
+        src: "/work/ecommerce/03-basket.webp",
+        alt: "Basket with three line items, per-line quantity controls and a running total",
+      },
+      {
+        label: "checkout",
+        src: "/work/ecommerce/04-checkout.webp",
+        alt: "Checkout: shipping details form beside an order summary totalling £149.96",
+      },
     ],
     links: [
       { label: "Live demo", href: "#", external: true },

@@ -36,6 +36,33 @@ not aesthetics — they survive any redesign):
   from `lucide-react` only. (The old wall cards still carried `↗`/`→` — the Workshop
   build removes them.)
 - **No italic headings.**
+- **2026-08-23 — the case studies carry real screenshots.** All three pages
+  ran on caption-only placeholder tiles, which is the fastest way to lose the
+  "is the evidence real" question on the one page that exists to answer it.
+  Twelve real captures now fill them, four per study, sized and framed by what
+  they're of rather than dropped into one grid — the frame is the consistent
+  treatment, so the page reads as a set rather than a folder of PNGs. The
+  Jembatan three come from a single capture session so they grade as one shoot.
+  The frame carries no `overflow-hidden`: the tape hangs 13px proud of it and
+  clipping erases the signature. The label left the tile and became a real
+  `<figcaption>`.
+- **2026-08-23 — the flagship polaroid scrubs under scroll.** The card's
+  screenshot is now a real capture of the keyboard working in WhatsApp
+  (speak → review the Indonesian → sent), and the card's passage through the
+  viewport is the playhead — the page's one scroll-bound set-piece and its
+  peak. The rules hold: the motion lives entirely inside the taped frame
+  (images move, text never), and scroll-*bound* media is not a
+  scroll-*triggered* entrance, which stays banned. Zero dependencies kept —
+  a ~100-line bespoke scrubber (`src/components/scrub-frame.tsx`) using the
+  blob-load / lerped-playhead / deadband / reveal-on-first-painted-frame
+  mechanics from scrollcraft's devices.md; the 53KB engine itself was
+  deliberately not adopted. The clip is scrub-encoded (keyframe every 8
+  frames — a normal web encode plays fine and scrubs like mud) and
+  lazy-loads a viewport early, so first-view weight is untouched. The poster
+  (the clip's first frame) is the resting state for no-JS, reduced motion,
+  and viewports under `md` — phones don't pay the 2.3MB. The polaroid moved
+  from a landscape cover-crop to the clip's 4:5 portrait so no state of the
+  story is lost to `object-cover`.
 - **2026-08-22 — link affordance pass.** The featured "Visit site" outline pills
   and the wall's `--line` underlines were too close to the non-interactive stack
   chips and mono captions to read as clickable. Primary links are now filled
@@ -235,9 +262,11 @@ Fluid type via `clamp()` — same scale skeleton as before:
   `--flag-line` border, `6px 6px 0` terracotta shadow, 2-col `1.05fr 440px`.
   Left: mono "flagship" label + live stamp, H3, blurb, mono stack, buttons (Live
   demo = filled `#e08a5c`; Case study / Code = quiet `#5c4a38` borders). Right:
-  screenshot as a **taped polaroid** (rotated 1.4°, tape strips top-left +
-  bottom-right) rendering the real capture (`public/featured/jembatan.png`, cropped
-  from the app's home screen); caption tile only as fallback.
+  a **taped polaroid** (rotated 1.4°, tape strips top-left + bottom-right) at the
+  clip's 4:5 aspect, scrubbing a real WhatsApp capture under scroll
+  (`/featured/jembatan-scrub.mp4`, poster `jembatan-scrub-poster.webp` — see the
+  2026-08-23 decision); falls back to the still (`public/featured/jembatan.png`)
+  and then the caption tile.
 - **Featured rows** — 2-col `1.1fr 400px`, separated by 2px dashed `--line`.
   Content left; screenshot right in a rotated (∓1°) 2px-ink-border frame with block
   shadow and one tape strip; real `<img>` from `public/featured/` fills the frame,
@@ -265,18 +294,29 @@ Fluid type via `clamp()` — same scale skeleton as before:
 - **Case-study pages** — same header as home nav (back link, brand + squiggle,
   toggle, CV ghost button). Eyebrow copy stays (it's content), styled mono accent.
   Block headings stay mono labels stacked above their body. Stack chips are sticker
-  pills. Screenshot placeholders are taped, alternately-rotated polaroid tiles.
+  pills. Screenshots are real captures in taped, alternately-rotated (∓1°)
+  polaroid frames with a mono caption below each; tape alternates corners along
+  the row. **One shape per study** (`shotShape`): `phone` gives four frames
+  across at device aspect (`6/13`), two across below `lg`; `web` gives two
+  across at `16/10`, cropped from the top of the page. A study without captures
+  falls back to the caption-only tile.
   First link = filled terracotta button, rest = 2px ink outline.
 
 ## Interaction & motion
 
-Zero dependencies — all motion is CSS. Everything gated `motion-safe`
+Zero dependencies — all motion is CSS, plus the one bespoke scroll-scrubbed
+flagship clip (2026-08-23 decision). Everything gated `motion-safe`
 (`prefers-reduced-motion` honoured); static rotations are layout, not motion, and
 persist under reduced motion.
 
 - **The one authored moment:** on home load, the hero marker-blob sweeps in
   (scaleX 0→1, origin left, ~.5s exponential ease-out, ~.15s delay) while the H1
   and sub fade up 8px. Runs once; no scroll-triggered entrances elsewhere.
+- **The one scroll-bound moment:** the flagship polaroid scrubs a real capture
+  of the keyboard under the visitor's scroll (`scrub-frame.tsx`). It moves no
+  type, pins nothing, and rests on its poster under reduced motion, without
+  JavaScript, and below `md`. It is the only scroll-bound motion on the site;
+  a second one would make it a gimmick.
 - Hover grammar: lift `(-2px,-2px)` + shadow grows and turns terracotta (cards,
   buttons), pills tilt −1 to −2°, screenshot frames straighten to 0° and lift.
   Every hover rule is inside `@media (hover: hover)` — Tailwind v4 wraps the
