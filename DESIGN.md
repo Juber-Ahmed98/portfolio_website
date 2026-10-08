@@ -189,8 +189,9 @@ no-preference`; under reduce the page is complete and still.
 
 - **Set down** (`.set-down`): the film's phone rises 64px and fades in on load, .9s
   expo-out. The page's one load animation, and it moves a plane, not text.
-- **The film** (`film.tsx`), the one scroll-bound set-piece. A 340svh track (320vh at
-  `lg`) holds a sticky stage. JS writes `--enter` (the phone straightens from −6° and
+- **The film** (`film.tsx`), the one scroll-bound set-piece. A 300svh track (260vh at
+  `lg`) holds a sticky stage. Kept short on purpose: longer read as a stuck page to
+  first-time visitors. JS writes `--enter` (the phone straightens from −6° and
   scales .9→1 as the track arrives), `--dim` (the stage mixes from paper to night,
   smoothstep over 32% of a screen so it never sits at a muddy mid-grey) and the playhead.
   Mechanics: Blob fetch a screen early; lerped playhead (0.22) that stops when settled;
@@ -198,7 +199,11 @@ no-preference`; under reduce the page is complete and still.
   on its first painted frame. Beats: phones show one at a time under a three-part progress
   bar, the outgoing beat clearing (120ms) before the next fades in, so two captions never
   overlap; desktop lists all three with the current one lit. The label under the phone
-  shares the beats' `--dim` opacity (it is night-coloured). Save-Data never fetches the
+  shares the beats' `--dim` opacity (it is night-coloured). A "Keep scrolling" cue sits
+  at the foot of the stage so nobody thinks the page is stuck: it arrives with the dark
+  room and fades over the last eighth of the film (JS writes `--p`); only its chevron
+  nudges. On `lg` the phone grows to 80svh tall (560px wide at most), so a tall monitor
+  doesn't open a band of empty paper between hero and phone. Save-Data never fetches the
   clip.
 - **Client pans** (`.pan-y`): CSS scroll-driven animation on the frame's own
   `view-timeline` (`--frame`), range `cover 12% → 88%`. Compositor-only, no JS; rests on

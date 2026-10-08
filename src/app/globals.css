@@ -276,13 +276,14 @@ body {
 }
 
 .film-track {
-  /* One screen to pin, the rest is the playhead. ~2.4 screens of scrub for
-     a 10.5s clip on a phone: a beat per screen, unhurried. */
-  height: 340svh;
+  /* One screen to pin, the rest is the playhead. ~2 screens of scrub for a
+     10.5s clip on a phone. Longer read as a stuck page to first-time
+     visitors, so it stays this short. */
+  height: 300svh;
 }
 @media (min-width: 1024px) {
   .film-track {
-    height: 320vh;
+    height: 260vh;
   }
 }
 .film-stage {
@@ -297,6 +298,23 @@ body {
    and would be unreadable on paper. */
 .film-copy {
   opacity: calc(var(--dim, 1) * var(--dim, 1));
+}
+/* Arrives with the dark room, leaves over the last eighth of the film. */
+.film-cue {
+  opacity: calc(var(--dim, 1) * var(--dim, 1) * clamp(0, (1 - var(--p, 0)) * 8, 1));
+}
+/* The icon nudges, the words don't. */
+.film-cue-icon {
+  animation: cue-nudge 1.6s var(--ease-out-expo) infinite;
+}
+@keyframes cue-nudge {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  45% {
+    translate: 0 4px;
+  }
 }
 .film-fill {
   scale: var(--fill, 0) 1;

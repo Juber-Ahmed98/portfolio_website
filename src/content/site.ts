@@ -74,6 +74,8 @@ export type FilmStep = {
 export const film = {
   /** Says what the film is, on screen, before the first beat. */
   label: { name: "Jembatan", rest: "the Android keyboard I built" },
+  /** Pinned at the foot of the stage, so nobody wonders whether the page is stuck. */
+  cue: "Keep scrolling",
   /** Scrub-encoded (keyframe every 8 frames). Both are 720 wide, so text stays
       sharp on a 3x phone; phones get the 15fps cut (729 KB), desktop 20fps. */
   src: { small: "/film/jembatan-phone.mp4", large: "/film/jembatan-720.mp4" },

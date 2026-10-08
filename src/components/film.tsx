@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { ChevronDown } from "lucide-react";
 import { Phone } from "@/components/phone";
 import { film } from "@/content/site";
 
@@ -89,6 +90,7 @@ export function Film() {
       write(track, "dim", "--dim", (d * d * (3 - 2 * d)).toFixed(3));
       // Pinned: 0 → 1 across the track's scrollable length.
       const p = clamp01(-r.top / Math.max(1, r.height - vh));
+      write(track, "p", "--p", p.toFixed(3));
       target = p * (duration() - 0.06);
     };
 
@@ -235,7 +237,7 @@ export function Film() {
             </div>
 
             <div className="film-phone order-1 lg:order-2">
-              <Phone className="set-down w-[min(74vw,calc((100svh-280px)*0.479))] lg:w-[min(400px,calc(78svh*0.479))]">
+              <Phone className="set-down w-[min(74vw,calc((100svh-310px)*0.479))] lg:w-[min(560px,calc(80svh*0.479))]">
                 <img src={film.poster} alt={film.alt} fetchPriority="high" />
                 <video
                   ref={videoRef}
@@ -252,6 +254,17 @@ export function Film() {
               <FilmLabel className="film-copy mt-4 text-center" />
             </div>
           </div>
+
+          {/* A pinned stage reads as a stuck page to anyone who hasn't met
+              scroll-scrubbing before. This says there is more, and leaves as
+              the film ends. */}
+          <p
+            aria-hidden
+            className="film-cue absolute inset-x-0 bottom-3 flex items-center justify-center gap-1.5 text-[13.5px] font-[600] text-night-body lg:bottom-6 lg:text-[14.5px]"
+          >
+            {film.cue}
+            <ChevronDown size={16} className="film-cue-icon" aria-hidden />
+          </p>
         </div>
       </div>
 
