@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { Demo } from "@/components/demo";
+import { JembatanRoute } from "@/components/jembatan-route";
 import { jembatan } from "@/content/site";
 
 /**
- * The product behind the film, still in the dark room. Name at poster scale,
- * the reason it exists in one line, then a spec sheet a developer can skim in
- * five seconds, and the demo beside it.
+ * The flagship, front to back, in one dark band straight under the hero. Name
+ * at poster scale and the reason it exists; then the route a message takes:
+ * what you say, the four layers it passes through, what the other person
+ * reads, beside the real recording on loop. The scroll-scrubbed film and the
+ * demo panel are on the case study, where someone who clicked in wants depth.
+ *
+ * One DOM for both layouts. Phones read intro, route, links; from `lg` the
+ * intro and links share the left column and the route takes the right.
  */
 export function Jembatan() {
   return (
@@ -16,69 +21,50 @@ export function Jembatan() {
       aria-labelledby="jembatan-title"
       className="bg-night text-night-ink"
     >
-      <div className="mx-auto grid w-full max-w-[1240px] gap-12 px-5 pb-14 pt-6 sm:px-10 sm:pb-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-8 xl:px-16">
-        <div>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <span className="inline-flex items-center gap-2 text-[14px] font-[600] text-night-body">
-              <span aria-hidden className="relative flex h-2 w-2">
-                <span className="absolute inset-0 rounded-full bg-[#9dc48f] motion-safe:animate-ping motion-safe:opacity-60" />
-                <span className="relative h-2 w-2 rounded-full bg-[#9dc48f]" />
-              </span>
-              {jembatan.status}
+      <div className="mx-auto grid w-full max-w-[1240px] gap-10 px-5 py-14 [grid-template-areas:'intro'_'route'_'links'] sm:px-10 sm:py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-8 lg:[grid-template-areas:'intro_route'_'links_route'] xl:px-16">
+        <div className="[grid-area:intro]">
+          <span className="inline-flex items-center gap-2 text-[14px] font-[600] text-night-body">
+            <span aria-hidden className="relative flex h-2 w-2">
+              <span className="absolute inset-0 rounded-full bg-[#9dc48f] motion-safe:animate-ping motion-safe:opacity-60" />
+              <span className="relative h-2 w-2 rounded-full bg-[#9dc48f]" />
             </span>
-          </div>
+            {jembatan.status}
+          </span>
 
-          <h2 id="jembatan-title" className="t-poster mt-5 text-[clamp(72px,22vw,168px)]">
+          <h2
+            id="jembatan-title"
+            className="t-poster mt-4 text-[clamp(72px,22vw,150px)] lg:text-[clamp(88px,8.6vw,124px)]"
+          >
             {jembatan.name}
           </h2>
-          <p className="mt-3 text-[15px] text-night-muted">{jembatan.meaning}</p>
+          <p className="mt-2 text-[15px] text-night-muted">{jembatan.meaning}</p>
 
-          <p className="mt-8 max-w-[34ch] text-[clamp(20px,5.2vw,26px)] font-[500] leading-[1.4] text-night-ink [text-wrap:pretty]">
+          <p className="mt-6 max-w-[34ch] text-[clamp(19px,5vw,23px)] font-[500] leading-[1.42] text-night-ink [text-wrap:pretty]">
             {jembatan.lede}
           </p>
-
-          <dl className="mt-10 border-t border-night-line">
-            {jembatan.parts.map((p) => (
-              <div
-                key={p.k}
-                className="grid grid-cols-[84px_1fr] gap-4 border-b border-night-line py-4 sm:grid-cols-[110px_1fr]"
-              >
-                <dt className="t-data pt-[3px] text-night-accent">{p.k}</dt>
-                <dd className="text-[15.5px] leading-[1.55] text-night-body">{p.v}</dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            {jembatan.links.map((l, i) =>
-              "external" in l && l.external ? (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={`tap inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-[15px] font-[650] ${
-                    i === 0 ? "bg-night-accent text-night" : "border border-night-line text-night-ink hover:border-night-muted"
-                  }`}
-                >
-                  {l.label}
-                  <ArrowUpRight size={17} aria-hidden />
-                </a>
-              ) : (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className="tap inline-flex items-center rounded-full border border-night-line px-5 py-3 text-[15px] font-[650] text-night-ink hover:border-night-muted"
-                >
-                  {l.label}
-                </Link>
-              ),
-            )}
-          </div>
+          <p className="mt-4 max-w-[44ch] text-[15.5px] leading-[1.6] text-night-body [text-wrap:pretty]">
+            {jembatan.also}
+          </p>
         </div>
 
-        <div className="lg:pt-24">
-          <Demo />
+        <JembatanRoute />
+
+        <div className="flex flex-wrap gap-3 [grid-area:links] lg:self-start">
+          {jembatan.links.map((l, i) => {
+            const cls = `tap inline-flex items-center gap-1.5 rounded-full px-5 py-3 text-[15px] font-[650] ${
+              i === 0 ? "bg-night-accent text-night" : "border border-night-line text-night-ink hover:border-night-muted"
+            }`;
+            return "external" in l && l.external ? (
+              <a key={l.href} href={l.href} target="_blank" rel="noreferrer" className={cls}>
+                {l.label}
+                <ArrowUpRight size={17} aria-hidden />
+              </a>
+            ) : (
+              <Link key={l.href} href={l.href} className={cls}>
+                {l.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </section>

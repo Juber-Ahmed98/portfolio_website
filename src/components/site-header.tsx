@@ -9,7 +9,7 @@ import { nav } from "@/content/site";
  * link row). On a phone the bar gets out of the way: it slides up while you
  * read down the page and comes back the moment you scroll up.
  *
- * It also changes tone over the night sections (the film and the close),
+ * It also changes tone over the night sections (Jembatan and the close),
  * which carry `data-night`. Without that it would sit as a cream strip across
  * the darkened room.
  */

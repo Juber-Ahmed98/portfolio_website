@@ -5,8 +5,8 @@ import { contact, hero } from "@/content/site";
 /**
  * The poster. A claim at the condensed end of Mona Sans, the same claim in
  * Bengali under it, and the two things a recruiter came for (email, CV) within
- * thumb reach. The phone that rises under it belongs to the film below: the
- * hero hands straight over to it, with no section break between.
+ * thumb reach. Jembatan's dark band follows straight on: the claim, then the
+ * product that proves it.
  *
  * Nothing here animates. On this site the type never moves; the planes do.
  */

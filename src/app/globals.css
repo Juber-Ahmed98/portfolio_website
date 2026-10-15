@@ -360,6 +360,29 @@ body {
   }
 }
 
+/* ── Jembatan's route (home) ───────────────────────────────────────────────
+   The four layers a message passes through. While the loop plays, JS moves
+   the dot along the rail (`transform`, one element) and marks the layer it is
+   at; the layer's name takes the accent. Nothing here moves text. Without the
+   loop (reduced motion, Save-Data, autoplay refused) the dot stays hidden and
+   the layers sit as a plain list. */
+.route-mark {
+  background: var(--night-line);
+  transition: background-color 0.3s var(--ease-out-expo);
+}
+.route-k {
+  transition: color 0.3s var(--ease-out-expo);
+}
+.route[data-live="true"] .route-layer[data-on="true"] .route-mark {
+  background: var(--night-accent);
+}
+.route[data-live="true"] .route-layer[data-on="true"] .route-k {
+  color: var(--night-accent);
+}
+.route-dot {
+  will-change: transform, opacity;
+}
+
 /* A line of text replaced by a click (the hero's language switch). */
 @media (prefers-reduced-motion: no-preference) {
   .swap-in {

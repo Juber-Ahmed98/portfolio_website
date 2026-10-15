@@ -12,15 +12,17 @@ fallback matrix, kill criteria, session plan) is local-only at
 
 **Proof you can hold.** The site is built for the phone in someone's hand, and the work
 shows up there as the real thing, working, at device scale. The first screen is a claim
-at poster scale with the same claim in Bengali beneath it; the phone that rises under it
-plays a real recording of Jembatan as you scroll, while the room goes dark.
+at poster scale with the same claim in Bengali beneath it; straight under it, in the dark
+room, Jembatan proves it front to back: what you say, the four layers it passes through,
+what the other person reads, beside a real recording of the keyboard on loop.
 
 **The world:** warm paper and lit glass, evening lamp light from the upper left. Things
 arrive like a phone set down on a table and stop: no float, no drift, no bounce.
 
-**Two signature devices, and only two:** the bilingual poster hero, and the film. Every
-other section is quieter on purpose (bands and hairline rules, real screenshots as the
-only imagery), so the film is unmistakably the biggest thing on the page.
+**Two signature devices, and only two:** the bilingual poster hero, and Jembatan's route.
+Every other section is quieter on purpose (bands and hairline rules, real screenshots as
+the only imagery). The scroll-scrubbed film is the case study's set-piece now, not the
+home page's (2026-10-15, below).
 
 ## Decision log
 
@@ -85,6 +87,24 @@ After a hiring-manager critique of the first build (2026-10-01):
   in dark mode. Instead the dark theme's page lifts and its room sinks (see the colour
   tables), and "no opinionated default" stands.
 
+The owner's spacing pass (2026-10-15):
+
+- **The film and the demo moved to the Jembatan case study.** Together with the spec
+  sheet they took ~4,200px of a ~10,400px phone page, about 40% of it for one project,
+  ahead of the client work and the day job. The canned demo was also the weakest proof on
+  the page (hand-written translations). Home now has one compact section (below), and the
+  phone page went from 10,429px to 7,801px.
+- **"Front to back" replaces the spec sheet.** The hero claims "front to back"; the
+  section proves it with the layers a message actually passes through, the dot running
+  them in time with the recording. Said-vs-sent pairs frame the layers so a non-developer
+  gets the product in one glance.
+- **Examples are real output, and are the message itself.** The first is the pair on
+  screen in the recording; the others are the production prompt and model's most common
+  answer in Jembatan's eval sweep. Jembatan translates what you say; it doesn't take
+  instructions, so an example never reads "Tell Dad...".
+- **Facts corrected from Jembatan's repo:** the model is `gpt-5.6-luna` (since
+  2026-08-03, not gpt-5-mini) and the app is in Play *open* testing.
+
 ## Color tokens
 
 CSS variables on `:root` (light) / `.dark`, exposed to Tailwind via `@theme inline` in
@@ -148,7 +168,8 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
   on 2026-10-15: on a phone every section boundary was 160–190px of bare paper, which
   read as dead space rather than rhythm.
 - Sections are bands separated by hairlines or a change of surface, never boxed.
-- Order: Hero → Film → Jembatan (+ demo) → Clients → Day job → Builds → Contact.
+- Order: Hero → Jembatan → Clients → Day job → Builds → Contact. The film and the demo
+  sit on `/work/jembatan/`, full bleed after the intro.
 - Radii: pill buttons 999px; demo panel 26px; review strip 18px; browser frame 14px.
 
 ## Components
@@ -166,10 +187,19 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
   Sub; Email (accent) + Download CV (outline).
 - **Phone** (`phone.tsx`): DOM body, lit rim, side keys, punch-hole, screen at the
   capture's own 480:1040. Scales via container units.
-- **Film** (`film.tsx`): see *Motion*.
-- **Jembatan** (`jembatan.tsx`): status with live dot; name at poster scale; meaning;
-  lede; four-row spec sheet (App / API / Model / Product); Visit the site + case study.
-- **Demo** (`demo.tsx`): the keyboard's review strip on the page, titled "How it reads"
+- **Film** (`film.tsx`, on the Jembatan case study): see *Motion*.
+- **Jembatan** (`jembatan.tsx`, `jembatan-route.tsx`): status with live dot; name at
+  poster scale; meaning; lede; one line on the product work (onboarding, billing, brand,
+  site); Read the case study + Visit the site. The route: "You say" (the words as
+  spoken), the four layers (Phone / Keyboard / Worker / Model) on a rail, "Sent in
+  <language>" in a review-strip bubble, then the honesty note and Next example (n/3).
+  Three examples, changed by tap only, stacked in one cell so a swap never moves the
+  button. Beside them a Phone plays the film's recording muted on loop. One DOM: phones
+  read said / phone + layers / sent; from `lg` intro and links take the left column and
+  the route the right, the phone standing beside the words. About 1½ screens on a phone,
+  under one on desktop.
+- **Demo** (`demo.tsx`, on the Jembatan case study under the film): the keyboard's
+  review strip on the page, titled "How it reads"
   in canned mode with the hand-written disclosure under the title ("Try the keyboard"
   once live). Canned mode: three sample messages × four languages, streamed in grapheme clusters (Intl.Segmenter, so
   Bengali conjuncts never render half-built), auto-plays once on first view. Live mode
@@ -192,9 +222,17 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
 Zero animation dependencies. All of it is gated on `prefers-reduced-motion:
 no-preference`; under reduce the page is complete and still.
 
+- **The route** (`jembatan-route.tsx`): the recording loops muted beside the layers,
+  fetched a screen early, playing while a third of the section is on screen and paused
+  otherwise. A dot runs the rail, driven by the video's own clock so the two can't drift:
+  on the phone while you speak (to ~1.9s), down to the model as the mic lets go, streaming
+  back up to the keyboard while the review strip fills (to ~5.4s), then held there for
+  insert and send; it fades over the loop's seam. The layer it is at takes the accent
+  (colour only). Reduced motion and Save-Data never fetch the clip: the poster is the
+  review frame, which shows the first example, and the dot stays hidden.
 - **Set down** (`.set-down`): the film's phone rises 64px and fades in on load, .9s
-  expo-out. The page's one load animation, and it moves a plane, not text.
-- **The film** (`film.tsx`), the one scroll-bound set-piece. A 260svh track (230vh at
+  expo-out. It moves a plane, not text. Case study only, since the film moved.
+- **The film** (`film.tsx`, on `/work/jembatan/`), the site's one scroll-bound set-piece. A 260svh track (230vh at
   `lg`; shortened from 300 / 260 on 2026-10-15) holds a sticky stage. On phones the
   phone is sized to leave 270px for the copy (was 310, which left ~90px of dark stage
   under the last beat). Kept short on purpose: longer read as a stuck page to
@@ -222,9 +260,9 @@ no-preference`; under reduce the page is complete and still.
 
 | Condition | Result |
 |---|---|
-| No JS | `.js` never lands on `<html>`, so CSS shows the stills version of the film (three phones, swipeable); everything else is server-rendered; the demo panel renders but cannot stream |
-| Reduced motion | Same stills; no set-down, no pans, no lamp transition; demo output appears whole |
-| Save-Data | The film pins and its beats advance over the poster frame; the clip is never fetched |
+| No JS | Home: the route shows the first example over the review frame; Next does nothing. Case study: `.js` never lands on `<html>`, so CSS shows the film's stills (three phones, swipeable); the demo panel renders but cannot stream |
+| Reduced motion | Route: poster, no dot, no loop. Case study: the film's stills; no set-down, no pans, no lamp transition; demo output appears whole |
+| Save-Data | Neither clip is fetched: the route holds its poster; the film pins and its beats advance over the poster frame |
 | No scroll-driven animation support | Client captures rest at the top of their pages |
 | No View Transitions | Instant theme swap |
 
@@ -236,7 +274,7 @@ no-preference`; under reduce the page is complete and still.
 | JS gz, modern browsers | ≤ 130 KB (set below Next's floor; revised to ≤ 170 KB) | 161 KB, of which React DOM + Next runtime ≈ 111 KB |
 | CSS gz | — | 10 KB |
 | Fonts on first view | — | Mona Sans 98 KB (preloaded) + Anek Bangla Bengali subset |
-| Film | ≤ 600 KB / ≤ 1.4 MB | 729 KB / 1.3 MB, fetched a screen early. The phone cut is 129 KB over, accepted for sharp text at 3x; it loads after first paint, so first view is unaffected |
+| Film | ≤ 600 KB / ≤ 1.4 MB | 729 KB / 1.3 MB, fetched a screen early. The phone cut is 129 KB over, accepted for sharp text at 3x; it loads after first paint, so first view is unaffected. Since 2026-10-15 home loads only the 729 KB cut, for the route's loop, and only near the section |
 | Client captures | — | 244–372 KB each, lazy |
 | Real-device fps, LCP, CLS | ≥ 50 fps · ≤ 1.8 s · ≤ 0.02 | **not yet measured: owner's phone, session 3** |
 

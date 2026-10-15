@@ -113,11 +113,15 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 - **First screen:** "I build web products, front to back." in Mona Sans at its condensed
   end, poster scale, with the same line in Bengali beneath (switchable through
   Jembatan's languages), then Email / CV.
-- **The film:** the phone under the hero pins, the room goes dark, and a real
-  full-screen recording of the Jembatan keyboard scrubs under the scroll (speak →
-  review → sent). Runs on phones. Then Jembatan's spec sheet and a demo panel styled as
-  the keyboard's review strip (canned samples until the demo proxy is live).
-- **Then:** client sites in DOM phones whose full pages pan as you scroll by;
+- **Jembatan, front to back (2026-10-15):** straight under the hero, in the dark room:
+  what you say, the four layers it passes through (Phone, Keyboard, Worker, Model), and
+  what the other person reads, beside the real recording on loop with a dot running the
+  layers in time with it. Examples are real app output and are the message itself
+  ("Dad, I'll be home late", never "Tell Dad..."). The scroll-scrubbed film and the
+  canned demo panel moved to the Jembatan case study: on home they took ~40% of the
+  phone page for one project.
+- **Then:** client sites (desktop capture with the phone over its corner, at every
+  width) whose full pages pan as you scroll by;
   "By day, Wolseley." (above the side projects: it's the job being applied for); a ruled
   index of more builds; a close in the same dark room.
 - **Type & colour:** Mona Sans (wdth 75 / 900 display, normal width body), Anek Bangla
@@ -131,7 +135,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 ## Tech & architecture
 
 - **Stack:** Next.js + TypeScript + Tailwind CSS.
-- **Structure:** Single-page **home** (hero → film → Jembatan + demo → client sites →
+- **Structure:** Single-page **home** (hero → Jembatan, front to back → client sites →
   day job → more builds → contact) + **dedicated case-study pages** for Jembatan,
   Waystone, and ecommerce (problem, approach, screenshots, stack, live + code links).
   The client sites are card-only "Visit site" links with no case page.

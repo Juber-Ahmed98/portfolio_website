@@ -2,9 +2,9 @@
  * Single source of truth for the site's content.
  *
  * Every string and project on the site lives here, typed, so copy never lives
- * inline in a component. The home page reads top to bottom in the order the
- * exports appear: hero, film, Jembatan, demo, clients, builds, day job,
- * contact. Case studies are keyed by slug further down.
+ * inline in a component. The home page reads top to bottom: hero, Jembatan,
+ * clients, day job, builds, contact. The film and the demo belong to the
+ * Jembatan case study. Case studies are keyed by slug further down.
  */
 
 // ── Nav ──────────────────────────────────────────────────────────────────────
@@ -62,7 +62,7 @@ export const hero = {
   sub: "Building Wolseley's high-traffic B2B e-commerce storefront since 2022. In the evenings I ship my own products.",
 } as const;
 
-// ── The film (Jembatan, under scroll) ────────────────────────────────────────
+// ── The film (Jembatan, under scroll; on the case study) ─────────────────────
 
 export type FilmStep = {
   /** Second in the clip where this beat starts. */
@@ -96,25 +96,86 @@ export const film = {
 
 // ── Jembatan, the product ────────────────────────────────────────────────────
 
+export type RouteLayer = { k: string; v: string };
+
+export type RouteExample = {
+  /** What was said, as it was said (fillers and all: cleaning them up is the job). */
+  said: string;
+  lang: "bn" | "id";
+  langLabel: string;
+  sent: string;
+};
+
+/**
+ * The home page's Jembatan section: "front to back". What you say, the four
+ * layers it passes through, and what the other person reads, beside the real
+ * recording on loop. The scroll-scrubbed film and the demo panel live on the
+ * case study (`/work/jembatan/`).
+ */
 export const jembatan = {
   name: "Jembatan",
   meaning: "Indonesian for “bridge”",
-  status: "Used daily by my family · Google Play closed testing",
+  status: "Used daily by my family · Google Play open testing",
   lede: "An Android keyboard that turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali, without leaving the chat.",
-  /** A spec sheet, not a paragraph: the hiring manager's skim path. */
-  parts: [
-    { k: "App", v: "Kotlin and Jetpack Compose, a custom Android keyboard with swipe typing and bilingual autocorrect" },
-    { k: "API", v: "A Cloudflare Worker at POST /api/v1/translate. It streams tokens over SSE, so the translation appears as it's written, and never stores message text" },
-    { k: "Model", v: "gpt-5-mini, with my instructions and the speech kept in separate roles, so a stray “ignore the above” can't hijack a translation" },
-    { k: "Product", v: "Onboarding built around Android's two scariest prompts, billing through RevenueCat, the brand and the marketing site" },
-  ],
+  also: "Every layer is mine, and so are the onboarding, billing through RevenueCat, the brand and the marketing site.",
+  /** Top to bottom, the order a message travels. */
+  layers: [
+    { k: "Phone", v: "Speech recognised on the device" },
+    { k: "Keyboard", v: "Kotlin and Compose, a custom Android keyboard with swipe typing" },
+    { k: "Worker", v: "Cloudflare Worker at POST /api/v1/translate, streamed over SSE, stores no message text" },
+    { k: "Model", v: "gpt-5.6-luna, with my instructions and your speech kept in separate roles" },
+  ] satisfies RouteLayer[],
+  route: {
+    said: "You say",
+    sent: "Sent in",
+    next: "Next example",
+    note: "Real output, not written by hand. The first is the message in the recording; the others ran through the app's own prompt and model.",
+  },
+  /**
+   * Real output only. The first pair is on screen in the recording beside it
+   * (its review strip). The other two are the most common answer across nine
+   * runs of the production prompt and model (`gpt-5.6-luna`, neutral register)
+   * in Jembatan's eval sweep (`cpm-neutral.json`, `worker/tools/ttft-sweep.mjs`).
+   * Every `said` is the message itself, addressed to the reader: the app
+   * translates what you say, it doesn't take instructions.
+   */
+  examples: [
+    {
+      said: "Great, I will start getting ready. Let's meet up in one hour.",
+      lang: "id",
+      langLabel: "Indonesian",
+      sent: "Oke, aku mulai siap-siap. Kita ketemu dalam satu jam, ya.",
+    },
+    {
+      said: "can you uh pick up some rice and eggs on the way home please",
+      lang: "bn",
+      langLabel: "Bengali",
+      sent: "আপনি কি দয়া করে বাড়ি ফেরার পথে কিছু চাল আর ডিম নিয়ে আসবেন?",
+    },
+    {
+      said: "im running a bit late the traffic is crazy right now sorry",
+      lang: "bn",
+      langLabel: "Bengali",
+      sent: "আমার একটু দেরি হয়ে যাচ্ছে, এখন রাস্তায় ভীষণ জ্যাম। দুঃখিত।",
+    },
+  ] satisfies RouteExample[],
+  /**
+   * The film's recording, played on its own (muted, looping, only while on
+   * screen). The phone cut is 720px wide, sharp at this size. The poster is
+   * the review frame, so a still shows the first example as it appears.
+   */
+  loop: {
+    src: "/film/jembatan-phone.mp4",
+    poster: "/film/still-review.webp",
+    alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
+  },
   links: [
-    { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
     { label: "Read the case study", href: "/work/jembatan/" },
+    { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
   ],
 } as const;
 
-// ── The demo ─────────────────────────────────────────────────────────────────
+// ── The demo (on the case study) ─────────────────────────────────────────────
 
 export type DemoTarget = { code: "bn" | "id" | "ar" | "es"; label: string; dir?: "rtl" };
 
@@ -422,7 +483,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       "Jetpack Compose",
       "Android IME",
       "Cloudflare Workers",
-      "OpenAI gpt-5-mini",
+      "OpenAI gpt-5.6-luna",
       "On-device STT",
       "RevenueCat",
     ],
@@ -445,7 +506,7 @@ export const caseStudies: Record<string, CaseStudy> = {
         heading: "the backend",
         body: [
           "The whole thing runs on a single Cloudflare Worker exposing `POST /api/v1/translate`. The model API key lives only as a Worker secret, never in the APK or the repo, so the app can't leak it and I control cost and abuse centrally: input capped around 2,000 characters, output bounded, per-IP rate limits, and no message text ever stored.",
-          "It's built around swappable seams. The translation model (OpenAI `gpt-5-mini` today) is one config file plus a thin adapter. The speech engine swaps the same way, on-device now with server-side transcription for Pro. Adding a language is a registry entry.",
+          "It's built around swappable seams. The translation model is one config file plus a thin adapter: when `gpt-5-mini` was scheduled to leave OpenAI's API, the swap to `gpt-5.6-luna` changed that file and nothing in the app. The speech engine swaps the same way, on-device now with server-side transcription for Pro. Adding a language is a registry entry.",
         ],
       },
       {
