@@ -48,9 +48,15 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
   natively and work with JS off. Card-only: one **"Visit site"** button →
   https://alilmmartialarts.co.uk/. No case-study page, no code link.
 
-> **Demoted, not deleted:** `mission_to_abs_app` and `ecommerce_store` moved out of Featured
-> into the wall, but their `/work/` case-study pages stay live and indexed; each wall entry
-> links to its case study. Don't restore them to Featured.
+> **Demoted, not deleted:** `ecommerce_store` moved out of Featured into the wall, but its
+> `/work/` case-study page stays live and indexed; the wall entry links to it. Don't
+> restore it to Featured.
+>
+> **Waystone replaced Mission to Abs** (2026-10-15). The PWA was rebuilt as Waystone, a
+> native Android app (Kotlin + Compose, Room, BLE scale sync, an AI coach that only
+> proposes), in Play internal testing. Its repo is private (health data in the docs), so
+> the builds row and `/work/waystone/` link to https://waystone.juberahmed.dev/ and never to
+> code. `/work/mission-to-abs/` 301s to it via `public/_redirects`.
 >
 > **Yoosuf Zaman** (personal-brand site for a business-setup consultant, plain
 > HTML/CSS/vanilla JS, https://yoosufzaman.com/) moved from Featured to the wall on
@@ -127,7 +133,7 @@ session. Feed it to Claude Code as context (it's also mirrored in `CLAUDE.md`).
 - **Stack:** Next.js + TypeScript + Tailwind CSS.
 - **Structure:** Single-page **home** (hero → film → Jembatan + demo → client sites →
   day job → more builds → contact) + **dedicated case-study pages** for Jembatan,
-  mission_to_abs, and ecommerce (problem, approach, screenshots, stack, live + code links).
+  Waystone, and ecommerce (problem, approach, screenshots, stack, live + code links).
   The client sites are card-only "Visit site" links with no case page.
 - **`/websites` (added 2026-10-01):** the page linked from cold emails to small and
   medium businesses, for freelance website work. Written for a business owner on a

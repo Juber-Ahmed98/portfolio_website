@@ -279,11 +279,11 @@ body {
   /* One screen to pin, the rest is the playhead. ~2 screens of scrub for a
      10.5s clip on a phone. Longer read as a stuck page to first-time
      visitors, so it stays this short. */
-  height: 300svh;
+  height: 260svh;
 }
 @media (min-width: 1024px) {
   .film-track {
-    height: 260vh;
+    height: 230vh;
   }
 }
 .film-stage {

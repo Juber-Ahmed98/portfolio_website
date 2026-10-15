@@ -10,7 +10,7 @@ import { builds } from "@/content/site";
 export function Builds() {
   return (
     <section id="builds" aria-labelledby="builds-title" className="scroll-mt-16 border-t border-line">
-      <div className="mx-auto w-full max-w-[1240px] px-5 py-20 sm:px-10 sm:py-28 xl:px-16">
+      <div className="mx-auto w-full max-w-[1240px] px-5 py-14 sm:px-10 sm:py-20 xl:px-16">
         <div className="grid gap-5 lg:grid-cols-[1fr_1fr] lg:items-end">
           <h2 id="builds-title" className="t-poster text-[clamp(52px,14vw,120px)]">
             More builds.

@@ -16,7 +16,7 @@ export function Jembatan() {
       aria-labelledby="jembatan-title"
       className="bg-night text-night-ink"
     >
-      <div className="mx-auto grid w-full max-w-[1240px] gap-12 px-5 pb-20 pt-6 sm:px-10 sm:pb-28 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-16 xl:px-16">
+      <div className="mx-auto grid w-full max-w-[1240px] gap-12 px-5 pb-14 pt-6 sm:px-10 sm:pb-20 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pt-8 xl:px-16">
         <div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
             <span className="inline-flex items-center gap-2 text-[14px] font-[600] text-night-body">

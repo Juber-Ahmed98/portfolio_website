@@ -237,7 +237,7 @@ export function Film() {
             </div>
 
             <div className="film-phone order-1 lg:order-2">
-              <Phone className="set-down w-[min(74vw,calc((100svh-310px)*0.479))] lg:w-[min(560px,calc(80svh*0.479))]">
+              <Phone className="set-down w-[min(74vw,calc((100svh-270px)*0.479))] lg:w-[min(560px,calc(80svh*0.479))]">
                 <img src={film.poster} alt={film.alt} fetchPriority="high" />
                 <video
                   ref={videoRef}

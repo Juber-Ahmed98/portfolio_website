@@ -112,7 +112,7 @@ export function Work() {
           <article
             key={c.name}
             aria-labelledby={`site-${i}`}
-            className="grid items-center gap-10 border-b border-line py-16 last:border-b-0 sm:py-24 lg:grid-cols-2 lg:gap-16"
+            className="grid items-center gap-10 border-b border-line py-12 last:border-b-0 sm:py-20 lg:grid-cols-2 lg:gap-16"
           >
             <ClientMedia url={c.url} host={c.host} shots={c.shots} flip={i % 2 === 1} />
 
@@ -157,7 +157,7 @@ export function Quotes() {
   if (quotes.length === 0) return null;
   return (
     <section aria-labelledby="quotes-title" className="border-t border-line">
-      <div className={`${wrap} py-20 sm:py-28`}>
+      <div className={`${wrap} py-14 sm:py-20`}>
         <h2 id="quotes-title" className={sectionTitle}>
           What clients say.
         </h2>
@@ -181,7 +181,7 @@ export function Quotes() {
 export function Services() {
   return (
     <section aria-labelledby="services-title" className="bg-surface">
-      <div className={`${wrap} grid gap-12 py-20 sm:py-28 lg:grid-cols-[1fr_1.2fr] lg:gap-20`}>
+      <div className={`${wrap} grid gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1.2fr] lg:gap-20`}>
         <h2 id="services-title" className={`${sectionTitle} max-w-[10ch]`}>
           {services.heading}
         </h2>
@@ -201,7 +201,7 @@ export function Services() {
 export function HowItWorks() {
   return (
     <section aria-labelledby="how-title">
-      <div className={`${wrap} py-20 sm:py-28`}>
+      <div className={`${wrap} py-14 sm:py-20`}>
         <h2 id="how-title" className={sectionTitle}>
           {howItWorks.heading}
         </h2>
@@ -226,7 +226,7 @@ export function HowItWorks() {
 export function Apps() {
   return (
     <section aria-labelledby="apps-title" className="border-t border-line">
-      <div className={`${wrap} grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-[1.3fr_1fr] lg:gap-20`}>
+      <div className={`${wrap} grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.3fr_1fr] lg:gap-20`}>
         <div>
           <h2 id="apps-title" className={sectionTitle}>
             {apps.heading}
@@ -255,7 +255,7 @@ export function Apps() {
 export function About() {
   return (
     <section aria-labelledby="about-title" className="bg-surface">
-      <div className={`${wrap} grid gap-10 py-20 sm:py-28 lg:grid-cols-[1fr_1.2fr] lg:gap-20`}>
+      <div className={`${wrap} grid gap-10 py-14 sm:py-20 lg:grid-cols-[1fr_1.2fr] lg:gap-20`}>
         <h2 id="about-title" className={`${sectionTitle} max-w-[10ch]`}>
           {about.heading}
         </h2>

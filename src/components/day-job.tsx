@@ -7,7 +7,7 @@ import { dayJob } from "@/content/site";
 export function DayJob() {
   return (
     <section id="experience" aria-labelledby="dayjob-title" className="scroll-mt-16 bg-surface">
-      <div className="mx-auto grid w-full max-w-[1240px] gap-12 px-5 py-20 sm:px-10 sm:py-28 lg:grid-cols-[1fr_1.1fr] lg:gap-20 xl:px-16">
+      <div className="mx-auto grid w-full max-w-[1240px] gap-12 px-5 py-14 sm:px-10 sm:py-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20 xl:px-16">
         <div>
           <h2 id="dayjob-title" className="t-poster max-w-[9ch] text-[clamp(52px,14vw,120px)]">
             {dayJob.heading}

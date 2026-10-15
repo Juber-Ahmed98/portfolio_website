@@ -258,14 +258,14 @@ export const builds: Build[] = [
     links: [{ label: "Live site", href: "https://stratemize.co.uk/", external: true }],
   },
   {
-    name: "Mission to Abs",
-    what: "The fitness PWA I use every day: animated progress, live charts, smart-scale sync",
-    stack: "React · Zustand · Recharts · Framer Motion",
+    name: "Waystone",
+    what: "My fitness PWA rebuilt as a native Android app: Bluetooth scale sync, food and training logs, and an AI coach that only proposes",
+    stack: "Kotlin · Compose · Room · Firebase",
     started: "May 2026",
-    status: "live",
+    status: "building",
     links: [
-      { label: "Case study", href: "/work/mission-to-abs/" },
-      { label: "Code", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
+      { label: "Case study", href: "/work/waystone/" },
+      { label: "Site", href: "https://waystone.juberahmed.dev/", external: true },
     ],
   },
   {
@@ -358,7 +358,7 @@ export const contact = {
 // ── Case studies ─────────────────────────────────────────────────────────────
 // Drives the `/work/[slug]/` routes (CP5). One entry per featured project, keyed
 // by slug. This is the CP5 *template* content — honest starter drafts; the deep
-// narratives land in CP6 (Jembatan) and CP7 (Mission to Abs, E-commerce).
+// narratives land in CP6 (Jembatan) and CP7 (Waystone, E-commerce).
 //
 // Links reuse the home-page values; a live link of "#" means "not public yet" and
 // is skipped rather than faked (the "don't fake it" rule).
@@ -406,7 +406,7 @@ export type CaseStudy = {
 };
 
 /** Build order — also drives `generateStaticParams` for the static export. */
-export const caseStudyOrder = ["jembatan", "mission-to-abs", "ecommerce-store"] as const;
+export const caseStudyOrder = ["jembatan", "waystone", "ecommerce-store"] as const;
 
 export const caseStudies: Record<string, CaseStudy> = {
   jembatan: {
@@ -530,87 +530,85 @@ export const caseStudies: Record<string, CaseStudy> = {
       { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
     ],
   },
-  "mission-to-abs": {
-    slug: "mission-to-abs",
+  waystone: {
+    slug: "waystone",
     eyebrow: "case study",
-    name: "Mission to Abs",
-    tagline: "A body recomposition PWA I use every day, with motion design, live charts, and one hard integration.",
+    name: "Waystone",
+    tagline: "A native Android fitness app: weigh-ins, food and training in one record, with a coach that reads it.",
     intro:
-      "Mission to Abs is a private, offline-first PWA I built to run my own 15-week body recomposition mission: open it daily, log weight, diet, and exercise, take a weekly photo and waist measurement, and watch progress move along a 105-day path. I use it every day with my own data, and it shows the frontend work I care most about: purposeful motion, live data visualisation, lean state, and one integration that was harder than it looks, syncing a Bluetooth smart scale through a backend proxy.",
-    stack: "react · framer-motion · recharts · zustand",
+      "Waystone keeps the record of a body recomposition on your phone: a daily weigh-in, what you eat, the sessions you train, and a smoothed trend that frames every number. It started in May as Mission to Abs, a React PWA I used every day for a 15-week cut. The PWA hit the limits of the browser, so I rebuilt it as a native Kotlin app and retired the web version. It's in testing on Google Play by invitation; the code stays private because the docs hold my own health data.",
+    stack: "kotlin · jetpack-compose · room · firebase",
     stackChips: [
-      "React 18",
-      "TypeScript",
-      "Vite",
-      "Zustand",
-      "Recharts",
-      "Framer Motion",
-      "IndexedDB",
-      "PWA (offline)",
+      "Kotlin",
+      "Jetpack Compose",
+      "Room",
+      "Bluetooth LE",
+      "CameraX + ML Kit",
+      "Firebase Auth + Firestore",
+      "OpenAI tool calls",
+      "Cloudflare Workers",
     ],
     blocks: [
       {
-        heading: "the problem",
+        heading: "why native",
         body: [
-          "Most fitness apps are either a spreadsheet or a hype machine. I wanted a calm daily ritual for a fixed 15-week mission, bright but never loud, something to look forward to rather than a chore. It ships zero workouts and zero diet rules on purpose: you bring the plan, the app keeps you honest.",
-          "It's also a deliberate portfolio piece. A CV can claim “strong React and animation skills”; an app you can open and poke at proves it. Nothing in it is faked. It's the tool I use every day with my own data, not a demo wired to sample JSON.",
+          "Mission to Abs proved the idea: I opened it every day. But it was a witness, not a coach. It shipped no food logging and no workouts on purpose, and reading my Renpho scale meant a serverless proxy holding credentials for Renpho's cloud. The next version had to log food by barcode, run a rest timer that keeps counting with the screen off, and talk to the scale itself.",
+          "Camera, background work and Bluetooth are all ordinary features on Android and awkward in a browser. So rather than stretch the web app, I rebuilt it from the data model up, and kept the parts that worked: the 15-week mission as the default frame, the daily record, and levels and streaks that reward logging rather than results.",
         ],
       },
       {
-        heading: "the daily loop",
+        heading: "three modules, one rule each",
         body: [
-          "The loop is one screen: today's weight, diet, and exercise, each logged with a slide-to-confirm that only fires on release. Marking a failure is just as easy as marking a win, and a planned rest day counts without penalty. Every action is reversible: each confirm drops an undo toast, and anything destructive takes two steps.",
-          "That matters because honest logging is what makes everything downstream mean anything, so the daily loop is built to remove every reason to fudge it.",
+          "The engine is pure Kotlin with no Android in it, and it owns the numbers: the weight trend, body fat, energy balance, every metric the app shows is derived there and never stored. The design module holds every colour, size, duration and spring. The app module holds screens and data, and the build fails if it contains a design literal, or any copy on the banned list.",
+          "The record is Room. Every row has a UUID v7 id, created and updated timestamps, and a soft delete, so cloud sync can be added later without migrating anyone's history. Each schema version is exported and committed, and the migrations are tested against them.",
         ],
       },
       {
-        heading: "progress as a journey",
+        heading: "talking to the scale directly",
         body: [
-          "Instead of a heatmap of squares, progress moves along a 105-day path split into five named stages: Foundation, Build, Push, Refine, Reveal. Logging earns XP and levels, a streak builds, and crossing a stage boundary plays a deliberate transition. The gamification is generous but quiet, built on motion and visible XP rather than confetti and exclamation marks.",
-          "Recharts renders the weight trend, clipped to the mission window so synced days from before the start don't drag the line sideways. Weekly waist measurements and progress photos capture the change a scale misses, and Framer Motion carries the level-ups and page transitions, always to communicate state.",
+          "The PWA read my weigh-ins from Renpho's cloud through a proxy. Waystone speaks the scale's Bluetooth protocol itself: the protocol and session logic sit in the engine with their own tests, so the parsing is checked without a phone. Anyone without a smart scale types the number in, in kg or stones and pounds.",
         ],
       },
       {
-        heading: "syncing a real smart scale",
+        heading: "a coach that can't act",
         body: [
-          "The least visible feature took the most work. I weigh in on a Renpho Bluetooth scale, and the app pulls those readings automatically. The catch is that there's no official API, and a scale password can never touch a static frontend. So the PWA talks to a small serverless backend proxy that holds the credentials, and the client only ever sends a user-pasted sync token as a header.",
-          "Synced readings then flow through the same merge path as a manual CSV import, with a “manual wins” rule so a hand-typed weight is never silently overwritten by a sync. The bug that ate the most time was timezone drift: Renpho's wall-clock field sits ahead of the device, which tipped an evening weigh-in onto the next calendar day, landing one day late on the home screen and one day early on the chart. Dating each reading from its true UTC timestamp fixed both.",
+          "The coach is an AI you can ask about your numbers, and it is fenced on purpose. It reads the record only through tool calls (an overview, body data, intake over a range), so every figure it quotes comes from a call with its working shown. It has two propose tools, a calorie target and a training template, and no write tools at all: it never logs, edits or deletes, and nothing changes until you accept its card.",
+          "It runs on your own OpenAI key, kept encrypted on the phone with a monthly cap you set. Without a key the app still writes a weekly review of your record, from rules in the engine.",
         ],
       },
       {
-        heading: "offline-first & state",
+        heading: "shipping it",
         body: [
-          "State is a single, schema-versioned Zustand store. Entries and settings live in localStorage and photo blobs in IndexedDB, so the whole app works with no connection, which a daily habit tool has to. It's an installable PWA with a self-hosted font (no third-party CDN on first paint) and lazy-split routes to stay inside a tight bundle budget.",
-          "A top-level error boundary catches anything that throws and shows a reload button plus a one-tap “export my data” escape hatch, because silently losing 15 weeks of logs was never an acceptable failure mode.",
+          "It's on Google Play's internal testing track: a signed release published by a Gradle task, with the version code taken from the commit count. The privacy policy and account-deletion page Play requires are served from a Cloudflare Worker at waystone.juberahmed.dev.",
+          "The one thing that leaves the phone by choice is weigh-in sharing with one other person, for my brother and me. That runs on Google sign-in and Firestore, with the security rules covered by their own tests, and it's off unless you turn it on.",
         ],
       },
     ],
     shotShape: "phone",
     screenshots: [
       {
-        label: "daily dashboard · day 47",
-        src: "/work/mission-to-abs/01-dashboard.webp",
-        alt: "Day 47 dashboard: today's diet and exercise cards, XP level, weight and body-fat readings",
+        label: "today · day 14 of 105",
+        src: "/work/waystone/01-today.webp",
+        alt: "Today screen: day 14 of 105, an 18-day streak, today's record with weigh-in and food logged, and the next training session",
       },
       {
-        label: "the 105-day journey",
-        src: "/work/mission-to-abs/02-journey.webp",
-        alt: "The 105-day journey map, five stages from foundation to reveal with the current day marked",
+        label: "body · the weight trend",
+        src: "/work/waystone/02-body.webp",
+        alt: "Body screen: a trend weight of 82.0 kg, body fat with its error band, and a six-month chart with the projected path",
       },
       {
-        label: "weight & body-fat charts",
-        src: "/work/mission-to-abs/03-progress.webp",
-        alt: "Progress tab: weight down 2.8kg and waist down 2.7cm, with a weight trend chart and adherence score",
+        label: "food · macros against target",
+        src: "/work/waystone/03-food.webp",
+        alt: "Food screen: 1,130 of 2,100 kcal eaten, and a macros table of protein, carbs, fat and fibre against their targets",
       },
       {
-        label: "weekly progress photos",
-        src: "/work/mission-to-abs/04-photos.webp",
-        alt: "Weekly photo ritual: the week's prompt and a grid of six past weeks, each labelled with its weight",
+        label: "training · logging a set",
+        src: "/work/waystone/04-training.webp",
+        alt: "Training screen: bench press with last time's numbers beside each set, and steppers for weight and reps",
       },
     ],
     links: [
-      { label: "Live demo", href: "#", external: true },
-      { label: "Code", href: "https://github.com/Juber-Ahmed98/mission_to_abs_app", external: true },
+      { label: "Visit the site", href: "https://waystone.juberahmed.dev/", external: true },
     ],
   },
   "ecommerce-store": {

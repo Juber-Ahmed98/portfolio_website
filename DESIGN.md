@@ -144,6 +144,9 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
 ## Layout
 
 - Container `max-w-[1240px]`, gutters 20px / 40px (`sm`) / 64px (`xl`).
+- Section padding 56px / 80px (`sm`); client rows 48px / 80px. Tightened from 80 / 112
+  on 2026-10-15: on a phone every section boundary was 160–190px of bare paper, which
+  read as dead space rather than rhythm.
 - Sections are bands separated by hairlines or a change of surface, never boxed.
 - Order: Hero → Film → Jembatan (+ demo) → Clients → Day job → Builds → Contact.
 - Radii: pill buttons 999px; demo panel 26px; review strip 18px; browser frame 14px.
@@ -173,8 +176,10 @@ until they are rebuilt in v3 (session 2). Delete them with that work.
   (`demo.live`): free text → POST to the landing Worker's demo proxy, SSE frames
   `{"delta"}` / `{"done","translation"}` / `{"error"}` exactly as the API emits them.
 - **Clients** (`clients.tsx`): name, who, summary, four facts in a ruled 2×2, Visit
-  button. Media: the client's mobile full-page capture in a Phone, panning as it passes;
-  from `lg` a browser frame with the desktop capture sits behind it.
+  button. Media: a browser frame with the desktop capture, and the client's mobile
+  full-page capture in a Phone over its lower corner, panning as it passes. Same picture
+  at every width (phone at 38% of the frame below `lg`, 34% from `lg`): on a phone the
+  desktop half used to vanish, and phones are where the site is shown.
 - **Builds** (`builds.tsx`): ruled index; name, month started, status, what, stack, links.
   Nothing under the list.
 - **Day job** (`day-job.tsx`): "By day, Wolseley." at poster scale; two roles; tools as
@@ -189,8 +194,10 @@ no-preference`; under reduce the page is complete and still.
 
 - **Set down** (`.set-down`): the film's phone rises 64px and fades in on load, .9s
   expo-out. The page's one load animation, and it moves a plane, not text.
-- **The film** (`film.tsx`), the one scroll-bound set-piece. A 300svh track (260vh at
-  `lg`) holds a sticky stage. Kept short on purpose: longer read as a stuck page to
+- **The film** (`film.tsx`), the one scroll-bound set-piece. A 260svh track (230vh at
+  `lg`; shortened from 300 / 260 on 2026-10-15) holds a sticky stage. On phones the
+  phone is sized to leave 270px for the copy (was 310, which left ~90px of dark stage
+  under the last beat). Kept short on purpose: longer read as a stuck page to
   first-time visitors. JS writes `--enter` (the phone straightens from −6° and
   scales .9→1 as the track arrives), `--dim` (the stage mixes from paper to night,
   smoothstep over 32% of a screen so it never sits at a muddy mid-grey) and the playhead.

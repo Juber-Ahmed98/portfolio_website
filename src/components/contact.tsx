@@ -27,7 +27,7 @@ export function Contact() {
 
   return (
     <section id="contact" data-night aria-labelledby="contact-title" className="bg-night text-night-ink">
-      <div className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-20 sm:px-10 sm:pt-28 xl:px-16">
+      <div className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-14 sm:px-10 sm:pt-20 xl:px-16">
         <h2 id="contact-title" className="t-poster max-w-[10ch] text-[clamp(56px,16vw,140px)]">
           {contact.heading}
         </h2>

@@ -27,7 +27,7 @@ export function WebsitesClose() {
 
   return (
     <section id="contact" data-night aria-labelledby="close-title" className="scroll-mt-16 bg-night text-night-ink">
-      <div className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-20 sm:px-10 sm:pt-28 xl:px-16">
+      <div className="mx-auto w-full max-w-[1240px] px-5 pb-10 pt-14 sm:px-10 sm:pt-20 xl:px-16">
         <h2 id="close-title" className="t-poster max-w-[11ch] text-[clamp(52px,14vw,128px)]">
           {close.heading}
         </h2>

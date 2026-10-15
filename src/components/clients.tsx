@@ -7,13 +7,13 @@ import { clients } from "@/content/site";
  * visitors mostly see it, on a phone, and its whole page slides past inside
  * the frame as you scroll by (CSS scroll-driven animation, compositor-only,
  * no JS; it rests on the top of the page where unsupported or under reduced
- * motion). From `lg` up the desktop layout sits behind the phone, so both
- * halves of the responsive work are on show.
+ * motion). The desktop layout sits behind the phone at every width, so both
+ * halves of the responsive work are on show, phones included.
  */
 export function Clients() {
   return (
     <section id="work" aria-labelledby="clients-title" className="scroll-mt-16">
-      <div className="mx-auto w-full max-w-[1240px] px-5 pt-20 sm:px-10 sm:pt-28 xl:px-16">
+      <div className="mx-auto w-full max-w-[1240px] px-5 pt-14 sm:px-10 sm:pt-20 xl:px-16">
         <h2 id="clients-title" className="t-poster max-w-[12ch] text-[clamp(52px,14vw,120px)]">
           Sites for Birmingham businesses.
         </h2>
@@ -27,7 +27,7 @@ export function Clients() {
           <article
             key={c.name}
             aria-labelledby={`client-${i}`}
-            className="grid items-center gap-10 border-b border-line py-16 last:border-b-0 sm:py-24 lg:grid-cols-2 lg:gap-16"
+            className="grid items-center gap-10 border-b border-line py-12 last:border-b-0 sm:py-20 lg:grid-cols-2 lg:gap-16"
           >
             {/* Media */}
             <ClientMedia url={c.url} host={c.host} shots={c.shots} flip={i % 2 === 1} />
@@ -71,9 +71,10 @@ export function Clients() {
 }
 
 /**
- * The media half of a client row: the desktop capture in a browser frame from
- * `lg` up, with the phone overlapping its lower corner (on the side away from
- * the words), and the phone alone below that. Shared with `/websites`.
+ * The media half of a client row: the desktop capture in a browser frame, with
+ * the phone overlapping its lower corner (on the side away from the words on
+ * desktop). On phones it's the same picture scaled down, and the margin below
+ * keeps the overhanging phone clear of the words. Shared with `/websites`.
  */
 export function ClientMedia({
   url,
@@ -87,9 +88,9 @@ export function ClientMedia({
   flip: boolean;
 }) {
   return (
-    <div className={`relative ${flip ? "lg:order-2" : ""}`}>
-      <div aria-hidden className="hidden overflow-clip rounded-[14px] border border-line-strong bg-surface shadow-[var(--lift)] lg:block">
-        <div className="flex h-9 items-center justify-center border-b border-line">
+    <div className={`relative mb-6 lg:mb-0 ${flip ? "lg:order-2" : ""}`}>
+      <div aria-hidden className="overflow-clip rounded-[10px] border border-line-strong bg-surface shadow-[var(--lift)] lg:rounded-[14px]">
+        <div className="flex h-7 items-center justify-center border-b border-line lg:h-9">
           <span className="t-data rounded-full bg-bg px-3 py-0.5 text-[11px] text-muted">{host}</span>
         </div>
         <img src={shots.desktop} alt="" loading="lazy" className="aspect-[16/10] w-full object-cover object-top" />
@@ -99,8 +100,8 @@ export function ClientMedia({
         target="_blank"
         rel="noreferrer"
         tabIndex={-1}
-        className={`tap mx-auto block w-[min(68vw,290px)] lg:absolute lg:-bottom-12 lg:w-[34%] ${
-          flip ? "lg:-left-6" : "lg:-right-6"
+        className={`tap absolute -bottom-8 block w-[38%] lg:-bottom-12 lg:w-[34%] ${
+          flip ? "-left-2 lg:-left-6" : "-right-2 lg:-right-6"
         }`}
       >
         <Phone screenClassName="scroll-frame">
