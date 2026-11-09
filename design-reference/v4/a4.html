@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juber Ahmed · the agreed direction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Anek+Bangla:wght@400..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f5f2;
+    --ink: #121211;
+    --soft: #72716c;
+    --line: #dcdbd5;
+    --pad: 20px;
+    --peek: 30px;
+    --sans: "Instrument Sans", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 400 16px/1.5 var(--sans); font-variation-settings: "wdth" 100;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img, video { display: block; max-width: 100%; }
+
+  /* ── First screen: me, and one sentence. Nothing else. ─────────────────── */
+  .hero {
+    height: calc(100svh - var(--peek)); min-height: 540px;
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+    padding: 0 var(--pad) 26px;
+  }
+  .top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 18px 0 14px; font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+  }
+  .top b { font-weight: 600; }
+  .top nav { display: flex; gap: 22px; color: var(--soft); }
+  .me { position: relative; border-radius: 4px; overflow: hidden; background: #3a2a22; }
+  .me img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 46% 58%; }
+  .hero h1 {
+    margin-top: 22px;
+    font-size: clamp(30px, 8.2vw, 60px);
+    line-height: 1.03; letter-spacing: -0.04em; font-weight: 500;
+    max-width: 19ch; text-wrap: balance;
+  }
+  .hero h1 span { color: var(--soft); }
+
+  /* ── A room for each piece of work, the full screen, in its own colour ─── */
+  .room {
+    min-height: 100svh; background: var(--room); color: var(--on);
+    display: grid; grid-template-rows: auto minmax(330px, 1fr) auto;
+    padding: 22px var(--pad) 32px; position: relative; overflow: hidden;
+  }
+  .kind { font-size: 14px; font-weight: 500; opacity: .74; }
+  .room h2 {
+    font-size: clamp(44px, 12.6vw, 96px); line-height: .96; letter-spacing: -0.048em; font-weight: 600;
+    margin-top: 6px; text-wrap: balance;
+  }
+  .stage { position: relative; margin: 22px calc(var(--pad) * -1); }
+  .foot p { max-width: 42ch; font-size: 17px; line-height: 1.42; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 14px; font-weight: 500; }
+  .links a { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+
+  .device {
+    position: absolute; border-radius: 7.5% / 3.5%; overflow: hidden; background: #0c0b0a;
+    box-shadow: 0 0 0 5px #0c0b0a, 0 30px 60px -20px rgb(0 0 0 / .45);
+  }
+  .device > * { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .screen { position: absolute; border-radius: 6px; overflow: hidden; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .5); }
+
+  .umma { --room: #14245e; --on: #fff; }
+  .alilm { --room: #e6e1d6; --on: #14110f; }
+  .umma .screen, .alilm .screen { height: 84%; aspect-ratio: 16 / 10; left: 34%; top: 5%; }
+  .screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .umma .device, .alilm .device { height: 96%; aspect-ratio: 780 / 1690; left: var(--pad); top: 2%; }
+
+  .more { --room: #171716; --on: #f5f5f2; }
+  .more .stage { margin: 26px 0; display: grid; gap: 24px; align-content: center; }
+  .more figure img { border-radius: 5px; }
+  .more figcaption { display: flex; justify-content: space-between; gap: 12px; margin-top: 10px; font-size: 15px; }
+  .more figcaption b { font-weight: 600; }
+  .more figcaption a { opacity: .7; border-bottom: 1px solid currentColor; }
+
+  .jem { --room: #b84d37; --on: #fff; }
+  .jem .device { height: 100%; aspect-ratio: 720 / 1560; left: 50%; translate: -50% 0; top: 0; }
+  .jem .stage { min-height: 400px; }
+  .pair small { display: block; font-size: 14px; opacity: .75; font-weight: 500; margin-bottom: 4px; }
+  .pair .said { font-size: 16px; line-height: 1.35; margin-bottom: 12px; opacity: .92; }
+  .pair .sent { font: 500 25px/1.34 "Anek Bangla", sans-serif; margin-bottom: 20px; }
+  .jem .stage .pair { display: none; }
+
+  .way { --room: #0c4f4b; --on: #fff; }
+  .way .device { height: 94%; aspect-ratio: 540 / 1199; top: 2%; }
+  .way .d1 { left: var(--pad); } .way .d2 { left: 58%; top: 9%; } .way .d3 { display: none; }
+
+  /* ── After the rooms ───────────────────────────────────────────────────── */
+  .rest { padding: 64px var(--pad) 64px; }
+  .rest h3, .day h3, .end h3 { font-size: 14px; font-weight: 500; color: var(--soft); margin-bottom: 14px; }
+  .line { display: grid; grid-template-columns: 1fr auto; gap: 2px 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .line b { font-weight: 600; font-size: 18px; letter-spacing: -0.02em; }
+  .line span { color: var(--soft); grid-column: 1 / -1; }
+  .line i { font-style: normal; color: var(--soft); font-size: 15px; }
+  .day { padding: 0 var(--pad) 72px; }
+  .day p { font-size: clamp(22px, 5.8vw, 40px); line-height: 1.15; letter-spacing: -0.03em; font-weight: 500; max-width: 26ch; }
+  .day p span { color: var(--soft); }
+  .end { background: var(--ink); color: var(--bg); padding: 56px var(--pad) 40px; }
+  .end h3 { color: #a3a29c; }
+  .end a.mail { display: block; font-size: clamp(20px, 5.5vw, 64px); letter-spacing: -0.035em; font-weight: 500; line-height: 1.1; white-space: nowrap; }
+  .end .feet { display: flex; gap: 20px; margin-top: 36px; color: #a3a29c; font-size: 15px; }
+
+  /* ── Wide screens: photo beside the sentence; words beside the work ────── */
+  @media (min-width: 900px) and (min-aspect-ratio: 11 / 10) {
+    :root { --pad: 36px; --peek: 44px; }
+    .hero {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto minmax(0, 1fr);
+      column-gap: 56px; padding-bottom: 36px;
+    }
+    .top { grid-column: 1 / -1; padding: 26px 0 22px; font-size: 16px; }
+    .hero h1 { align-self: end; margin: 0 0 -0.14em; font-size: clamp(44px, 5vw, 78px); }
+
+    .room {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto 1fr auto;
+      column-gap: 56px; padding: 44px var(--pad) 48px;
+    }
+    .kind { font-size: 15px; }
+    .room h2 { font-size: clamp(56px, 6.6vw, 104px); margin-top: 10px; }
+    .head { grid-area: 1 / 1; } .foot { grid-area: 3 / 1; }
+    .foot p { font-size: 19px; line-height: 1.45; max-width: 34ch; }
+    .links { margin-top: 20px; font-size: 17px; }
+    .stage { grid-area: 1 / 2 / 4 / 3; margin: -44px calc(var(--pad) * -1) -48px 0; }
+
+    .umma .screen, .alilm .screen { height: auto; width: 108%; left: 12%; top: 14%; }
+    .umma .device, .alilm .device { height: 58%; left: 2%; top: 35%; }
+
+    .more .stage { margin: 0; padding-right: var(--pad); gap: 30px; }
+    .more figure { width: 78%; }
+    .more figure + figure { margin-left: 22%; }
+
+    .jem .stage { min-height: 0; }
+    .jem .device { height: 72%; left: 6%; top: 14%; translate: none; }
+    .jem .stage .pair { display: block; position: absolute; left: 50%; right: 8%; top: 50%; transform: translateY(-50%); }
+    .jem .foot .pair { display: none; }
+    .pair small { margin-bottom: 8px; }
+    .pair .said { font-size: 19px; line-height: 1.4; margin-bottom: 30px; }
+    .pair .sent { font-size: clamp(28px, 2.9vw, 42px); line-height: 1.36; margin: 0; }
+
+    .way .device { height: 74%; top: 10%; }
+    .way .d1 { left: 2%; } .way .d2 { left: 36%; top: 17%; } .way .d3 { display: block; left: 70%; top: 10%; }
+
+    .rest { padding: 110px var(--pad) 110px; }
+    .line { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) 7rem; align-items: baseline; padding: 20px 0; }
+    .line span { grid-column: auto; font-size: 17px; }
+    .line b { font-size: 21px; }
+    .line i { text-align: right; }
+    .day { padding: 0 var(--pad) 130px; display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+    .end { padding: 96px var(--pad) 44px; }
+  }
+  /* Tablets held upright: the phone layout, with more room. */
+  @media (min-width: 700px) and (max-aspect-ratio: 11 / 10) {
+    :root { --pad: 32px; --peek: 40px; }
+    .me img { object-position: 46% 46%; }
+    .room h2 { font-size: 88px; }
+    .foot p { font-size: 20px; }
+    .umma .screen, .alilm .screen { left: 30%; }
+    .way .d3 { display: block; left: 86%; top: 2%; } .way .d2 { left: 44%; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <header class="top">
+    <a href="#"><b>Juber Ahmed</b></a>
+    <nav><a href="#">CV</a><a href="#">Email</a></nav>
+  </header>
+  <div class="me"><img src="img/juber-scene.webp" alt="Juber Ahmed, in profile, in evening light"></div>
+  <h1><span>I’m Juber, a developer in Birmingham.</span> I build websites and apps, and I do every part myself.</h1>
+</section>
+
+<section class="room umma">
+  <div class="head">
+    <span class="kind">Client website · Sparkhill, Birmingham</span>
+    <h2>UMMA BJJ</h2>
+  </div>
+  <div class="stage">
+    <div class="screen"><img src="/public/shots/umma-bjj/desktop.webp" alt=""></div>
+    <div class="device"><img src="img/umma-bjj-m.webp" alt=""></div>
+  </div>
+  <div class="foot">
+    <p>A jiu-jitsu gym, moved off a GoDaddy template. Six pages, a timetable you can read on a phone, and a free-trial form that opens WhatsApp with the message already written.</p>
+    <div class="links"><a href="#">Visit ummabjj.com</a></div>
+  </div>
+</section>
+
+<section class="room alilm">
+  <div class="head">
+    <span class="kind">Client website · Birmingham</span>
+    <h2>Al-Ilm Martial Arts</h2>
+  </div>
+  <div class="stage">
+    <div class="screen"><img src="/public/shots/al-ilm/desktop.webp" alt=""></div>
+    <div class="device"><img src="img/al-ilm-m.webp" alt=""></div>
+  </div>
+  <div class="foot">
+    <p>One page for a boxing and Muay Thai club, on a server that also runs its waiting-list forms. They still work with JavaScript switched off.</p>
+    <div class="links"><a href="#">Visit alilmmartialarts.co.uk</a></div>
+  </div>
+</section>
+
+<section class="room more">
+  <div class="head">
+    <span class="kind">Client websites</span>
+    <h2>And two more</h2>
+  </div>
+  <div class="stage">
+    <figure><img src="/public/shots/yoosuf-zaman/desktop.webp" alt=""><figcaption><b>Yoosuf Zaman</b><a href="#">yoosufzaman.com</a></figcaption></figure>
+    <figure><img src="/public/shots/stratemize/desktop.webp" alt=""><figcaption><b>Stratemize</b><a href="#">stratemize.co.uk</a></figcaption></figure>
+  </div>
+  <div class="foot">
+    <p>A business coach’s site with a booking form, and a marketing agency’s site with its own consultation booker. All four sites are live, for paying clients.</p>
+  </div>
+</section>
+
+<section class="room jem">
+  <div class="head">
+    <span class="kind">Android app · with its own server</span>
+    <h2>Jembatan</h2>
+  </div>
+  <div class="stage">
+    <div class="device">
+      <video src="/public/film/jembatan-phone.mp4" poster="/public/film/still-review.webp" autoplay muted loop playsinline></video>
+    </div>
+    <div class="pair">
+      <small>You say</small>
+      <p class="said">can you uh pick up some rice and eggs on the way home please</p>
+      <small>It sends</small>
+      <p class="sent" lang="bn">আপনি কি দয়া করে বাড়ি ফেরার পথে কিছু চাল আর ডিম নিয়ে আসবেন?</p>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="pair">
+      <small>You say</small>
+      <p class="said">can you uh pick up some rice and eggs on the way home please</p>
+      <small>It sends</small>
+      <p class="sent" lang="bn">আপনি কি দয়া করে বাড়ি ফেরার পথে কিছু চাল আর ডিম নিয়ে আসবেন?</p>
+    </div>
+    <p>A keyboard that turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali.</p>
+    <div class="links"><a href="#">Read the case study</a><a href="#">Visit the site</a></div>
+  </div>
+</section>
+
+<section class="room way">
+  <div class="head">
+    <span class="kind">Android app · in testing</span>
+    <h2>Waystone</h2>
+  </div>
+  <div class="stage">
+    <div class="device d1"><img src="/public/work/waystone/01-today.webp" alt=""></div>
+    <div class="device d2"><img src="/public/work/waystone/02-body.webp" alt=""></div>
+    <div class="device d3"><img src="/public/work/waystone/04-training.webp" alt=""></div>
+  </div>
+  <div class="foot">
+    <p>A fitness app that reads my bathroom scale over Bluetooth and keeps weigh-ins, food and training in one record.</p>
+    <div class="links"><a href="#">Read the case study</a></div>
+  </div>
+</section>
+
+<section class="rest">
+  <h3>Also</h3>
+  <div class="line"><b>E-commerce store</b><span>A shop with the backend my day job doesn’t touch</span><i>Case study</i></div>
+  <div class="line"><b>Qibla Compass</b><span>Finds the qibla from your phone’s sensors, in about 8 KB</span><i>Live</i></div>
+  <div class="line"><b>Habit tracker</b><span>An installable app shell. The features come next</span><i>Building</i></div>
+</section>
+
+<section class="day">
+  <h3>Day job</h3>
+  <p>Since 2022 I’ve worked on Wolseley’s online store, <span>where trade customers order plumbing and heating supplies. Every change I ship goes out as a test, and only the winners stay.</span></p>
+</section>
+
+<footer class="end">
+  <h3>Get in touch</h3>
+  <a class="mail" href="#">mohammed.juber.ahmed@gmail.com</a>
+  <div class="feet"><a href="#">CV</a><a href="#">GitHub</a><a href="#">LinkedIn</a></div>
+</footer>
+
+</body>
+</html>

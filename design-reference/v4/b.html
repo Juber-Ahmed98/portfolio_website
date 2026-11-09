@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B · The person first</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Tiro+Bangla&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ground: #271c18;      /* his shirt, in shadow */
+    --lift: #33251f;
+    --canvas: #efe1c9;      /* the parasol, in sun */
+    --soft: #b6a08a;
+    --sky: #bcd3ea;         /* the sky behind him */
+    --line: #4a372e;
+    --pad: 22px;
+    --serif: "Newsreader", Georgia, serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--ground); color: var(--canvas);
+    font: 400 18px/1.5 var(--serif); font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img, video { display: block; max-width: 100%; }
+  .u { border-bottom: 1px solid var(--sky); color: var(--sky); padding-bottom: 1px; }
+
+  .top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 18px var(--pad) 14px; font-size: 17px;
+  }
+  .top nav { display: flex; gap: 20px; color: var(--soft); }
+
+  .first { display: flex; flex-direction: column; }
+  .top { order: -1; }
+  .portrait { position: relative; height: 46svh; min-height: 300px; overflow: hidden; }
+  .portrait picture { display: contents; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 42% 20%; }
+  .portrait::after {
+    content: ""; position: absolute; inset: auto 0 0 0; height: 34%;
+    background: linear-gradient(to bottom, rgb(39 28 24 / 0), var(--ground));
+  }
+  .hello { padding: 2px var(--pad) 40px; position: relative; margin-top: -26px; }
+  .hello h1 {
+    font-weight: 400; font-size: clamp(44px, 12.4vw, 104px);
+    line-height: .98; letter-spacing: -0.03em;
+  }
+  .hello p { margin-top: 16px; font-size: 20px; line-height: 1.38; max-width: 31ch; color: #e4d4ba; }
+  .hello .go { margin-top: 22px; display: flex; gap: 24px; font-size: 18px; }
+
+  section.for { padding: 54px var(--pad) 10px; border-top: 1px solid var(--line); }
+  .for .who { font-style: italic; color: var(--soft); font-size: 18px; }
+  .for h2 {
+    font-weight: 400; font-size: clamp(30px, 8vw, 60px); line-height: 1.06;
+    letter-spacing: -0.025em; margin-top: 8px; max-width: 18ch; text-wrap: balance;
+  }
+  .for .note { margin-top: 18px; max-width: 34ch; color: #dccbb0; }
+  .for .note + .links { margin-top: 12px; display: flex; gap: 22px; }
+
+  .fig { margin: 30px calc(var(--pad) * -1) 44px; background: var(--lift); position: relative; overflow: hidden; }
+  .jem { aspect-ratio: 39 / 50; }
+  .device {
+    position: absolute; border-radius: 7.5% / 3.5%; overflow: hidden; background: #0c0b0a;
+    box-shadow: 0 0 0 5px #120d0b, 0 30px 60px -20px rgb(0 0 0 / .6);
+  }
+  .device > * { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .jem .device { width: 52%; left: 24%; top: 9%; aspect-ratio: 720 / 1560; }
+  .pair { display: none; }
+
+  .sites { display: grid; gap: 34px; margin: 30px 0 48px; }
+  .site img { border-radius: 3px; }
+  .site h3 { font-weight: 400; font-size: 24px; letter-spacing: -0.02em; margin-top: 12px; }
+  .site p { color: var(--soft); font-size: 17px; }
+
+  .mine { margin: 26px 0 50px; }
+  .mine div { padding: 16px 0; border-top: 1px solid var(--line); }
+  .mine b { font-weight: 400; font-size: 24px; letter-spacing: -0.02em; display: block; }
+  .mine span { color: var(--soft); font-size: 17px; }
+
+  .sign { padding: 64px var(--pad) 44px; border-top: 1px solid var(--line); }
+  .sign .who { font-style: italic; color: var(--soft); }
+  .sign a.mail { display: block; font-size: clamp(22px, 6vw, 60px); letter-spacing: -0.025em; line-height: 1.1; margin-top: 8px; }
+  .sign .foot { margin-top: 34px; display: flex; gap: 22px; color: var(--soft); font-size: 17px; }
+
+  @media (min-width: 860px) {
+    :root { --pad: 44px; }
+    .first { display: grid; grid-template-columns: 43fr 57fr; grid-template-rows: auto 1fr; min-height: 100svh; }
+    .portrait { height: 100svh; grid-area: 1 / 1 / 3 / 2; }
+    .top { grid-area: 1 / 2; } .hello { grid-area: 2 / 2; }
+    .portrait img { object-position: 26% 30%; }
+    .portrait::after { display: none; }
+    .top { padding: 28px var(--pad) 0; align-self: start; font-size: 18px; }
+    .hello { align-self: end; margin: 0; padding: 0 var(--pad) 64px; }
+    .hello p { font-size: 25px; margin-top: 24px; max-width: 30ch; }
+    .hello .go { font-size: 20px; margin-top: 30px; }
+
+    section.for { padding: 110px var(--pad) 30px; display: grid; grid-template-columns: 43fr 57fr; column-gap: 0; }
+    .for .who { font-size: 22px; padding-top: 10px; }
+    .for .text { padding-left: var(--pad); }
+    .for h2 { margin-top: 0; }
+    .for .note { font-size: 21px; max-width: 36ch; margin-top: 22px; }
+    .fig, .sites, .mine { grid-column: 1 / -1; }
+    .fig { margin: 64px 0 80px; border-radius: 3px; }
+    .jem { aspect-ratio: 21 / 10; }
+    .jem .device { width: auto; height: 82%; left: 13%; top: 9%; }
+    .pair { display: block; position: absolute; left: 46%; right: 6%; top: 50%; transform: translateY(-50%); }
+    .pair small { display: block; font-style: italic; color: var(--soft); font-size: 18px; margin-bottom: 6px; }
+    .pair .said { font-size: 23px; line-height: 1.35; max-width: 28ch; margin-bottom: 34px; }
+    .pair .sent { font: 400 clamp(30px, 3.3vw, 46px)/1.4 "Tiro Bangla", serif; max-width: 17ch; }
+    .sites { grid-template-columns: 1fr 1fr; gap: 56px 28px; margin: 64px 0 90px; }
+    .site h3 { font-size: 28px; }
+    .mine { margin: 54px 0 90px; }
+    .mine div { display: grid; grid-template-columns: 43fr 57fr; align-items: baseline; padding: 22px 0; }
+    .mine b { font-size: 30px; }
+    .mine span { font-size: 20px; padding-left: var(--pad); }
+    .sign { padding: 120px var(--pad) 50px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="first">
+  <div class="portrait"><picture><source media="(min-width: 860px)" srcset="img/juber-tight.webp"><img src="img/juber-wide.webp" alt="Juber, in profile, in evening light"></picture></div>
+  <header class="top">
+    <a href="#">Juber Ahmed</a>
+    <nav><a href="#">CV</a><a href="#">Email</a></nav>
+  </header>
+  <div class="hello">
+    <h1>Hello, I’m Juber.</h1>
+    <p>I’m a developer in Birmingham. I build websites and apps: for my family, for local businesses, and for a living.</p>
+    <div class="go"><a class="u" href="#">See what I’ve made</a><a class="u" href="#">Write to me</a></div>
+  </div>
+</div>
+
+<section class="for">
+  <p class="who">For my dad</p>
+  <div class="text">
+    <h2>My dad reads Bengali, and I can’t type it. So I built a keyboard that can.</h2>
+    <p class="note">It’s called Jembatan. You hold the mic and say it in English, and it writes the message the way a native speaker would. The app, the server and the site are all mine.</p>
+    <div class="links"><a class="u" href="#">Read how I built it</a><a class="u" href="#">Visit the site</a></div>
+  </div>
+  <div class="fig jem">
+    <div class="device">
+      <video src="/public/film/jembatan-phone.mp4" poster="/public/film/still-review.webp" autoplay muted loop playsinline></video>
+    </div>
+    <div class="pair">
+      <small>You say</small>
+      <p class="said">can you uh pick up some rice and eggs on the way home please</p>
+      <small>It sends</small>
+      <p class="sent" lang="bn">আপনি কি দয়া করে বাড়ি ফেরার পথে কিছু চাল আর ডিম নিয়ে আসবেন?</p>
+    </div>
+  </div>
+</section>
+
+<section class="for">
+  <p class="who">For local businesses</p>
+  <div class="text">
+    <h2>A jiu-jitsu gym, a boxing club, a business coach and a marketing agency.</h2>
+    <p class="note">Four sites, all live, all built by hand for people who needed something better than a template.</p>
+  </div>
+  <div class="sites">
+    <a class="site" href="#"><img src="/public/shots/umma-bjj/desktop.webp" alt=""><h3>UMMA BJJ</h3><p>Six pages, and a free-trial form that opens WhatsApp</p></a>
+    <a class="site" href="#"><img src="/public/shots/al-ilm/desktop.webp" alt=""><h3>Al-Ilm Martial Arts</h3><p>One page, on a server that runs its own forms</p></a>
+    <a class="site" href="#"><img src="/public/shots/yoosuf-zaman/desktop.webp" alt=""><h3>Yoosuf Zaman</h3><p>A coach’s site, with a booking form</p></a>
+    <a class="site" href="#"><img src="/public/shots/stratemize/desktop.webp" alt=""><h3>Stratemize</h3><p>An agency site with its own consultation booker</p></a>
+  </div>
+</section>
+
+<section class="for">
+  <p class="who">For a living</p>
+  <div class="text">
+    <h2>Since 2022 I’ve worked on Wolseley’s online store.</h2>
+    <p class="note">Trade customers order plumbing and heating supplies there. Every change I ship goes out as a test, and only the winners stay.</p>
+  </div>
+</section>
+
+<section class="for">
+  <p class="who">For myself</p>
+  <div class="text">
+    <h2>And the ones I build because I want them to exist.</h2>
+  </div>
+  <div class="mine">
+    <div><b>Waystone</b><span>A fitness app that reads my bathroom scale over Bluetooth</span></div>
+    <div><b>Qibla Compass</b><span>Finds the qibla from a phone’s sensors, in about 8 KB</span></div>
+    <div><b>E-commerce store</b><span>A shop I built to learn the half of the job I don’t do at work</span></div>
+  </div>
+</section>
+
+<footer class="sign">
+  <p class="who">Write to me</p>
+  <a class="mail" href="#">mohammed.juber.ahmed@gmail.com</a>
+  <div class="foot"><a href="#">CV</a><a href="#">GitHub</a><a href="#">LinkedIn</a></div>
+</footer>
+
+</body>
+</html>

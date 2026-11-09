@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A3 · The work first, a room each</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&family=Anek+Bangla:wght@400..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f5f2;
+    --ink: #121211;
+    --soft: #72716c;
+    --line: #dcdbd5;
+    --pad: 20px;
+    --sans: "Instrument Sans", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 400 16px/1.5 var(--sans); font-variation-settings: "wdth" 100;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img, video { display: block; max-width: 100%; }
+
+  /* Each piece of work is a room in its own colour. On a phone the room is the
+     whole screen and the next one slides over it; on a wide screen the words
+     sit on the left and the room fills the right, floor to ceiling. */
+  .row {
+    position: sticky; top: min(0px, calc(100svh - var(--h, 100svh)));
+    min-height: 100svh; display: flex; flex-direction: column;
+    background: var(--room); color: var(--on);
+  }
+  .words { display: contents; }
+
+  .intro { background: var(--bg); color: var(--ink); padding: 0 var(--pad) 28px; }
+  .top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 18px 0 0; font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+  }
+  .top nav { display: flex; gap: 22px; color: var(--soft); }
+  .intro h1 {
+    margin-top: 44px;
+    font-size: clamp(31px, 8.3vw, 64px);
+    line-height: 1.03; letter-spacing: -0.04em; font-weight: 500;
+    max-width: 19ch; text-wrap: balance;
+  }
+  .intro h1 span { color: var(--soft); }
+
+  .room { order: 1; flex: 1; position: relative; overflow: hidden; min-height: 52svh; }
+  .cap { order: 2; padding: 4px var(--pad) 30px; display: grid; gap: 8px; }
+  .cap .kind { font-size: 14px; font-weight: 500; opacity: .72; }
+  .cap h2 { font-size: clamp(40px, 11vw, 76px); line-height: .98; letter-spacing: -0.045em; font-weight: 600; }
+  .cap p { max-width: 44ch; opacity: .94; margin-top: 4px; }
+  .cap .links { display: flex; gap: 20px; margin-top: 6px; font-weight: 500; }
+  .cap .links a { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+
+  .device {
+    position: absolute; border-radius: 7.5% / 3.5%; overflow: hidden; background: #0c0b0a;
+    box-shadow: 0 0 0 5px #0c0b0a, 0 30px 60px -20px rgb(0 0 0 / .45);
+  }
+  .device > * { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .screen { position: absolute; border-radius: 6px; overflow: hidden; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .5); }
+
+  .jem { --room: #b84d37; --on: #fff; }
+  .jem .device { height: 88%; aspect-ratio: 720 / 1560; left: 50%; top: 7%; translate: -50% 0; }
+  .pair { display: none; }
+
+  .umma { --room: #14245e; --on: #fff; }
+  .umma .screen { width: 150%; left: 30%; top: 8%; }
+  .umma .device { height: 84%; aspect-ratio: 780 / 1690; left: 7%; top: 12%; }
+
+  .alilm { --room: #e6e1d6; --on: #14110f; }
+  .alilm .screen { width: 150%; right: 30%; top: 8%; }
+  .alilm .device { height: 84%; aspect-ratio: 780 / 1690; right: 7%; top: 12%; }
+
+  .way { --room: #0c4f4b; --on: #fff; }
+  .way .device { height: 84%; aspect-ratio: 540 / 1199; top: 9%; }
+  .way .d1 { left: 7%; } .way .d2 { left: 54%; top: 15%; } .way .d3 { display: none; }
+
+  /* after the rooms */
+  .after { position: relative; background: var(--bg); }
+  .rest { padding: 64px var(--pad) 64px; }
+  .rest h3, .day h3, .end h3 { font-size: 14px; font-weight: 500; color: var(--soft); margin-bottom: 14px; }
+  .line { display: grid; grid-template-columns: 1fr auto; gap: 2px 16px; padding: 16px 0; border-top: 1px solid var(--line); }
+  .line b { font-weight: 600; font-size: 18px; letter-spacing: -0.02em; }
+  .line span { color: var(--soft); grid-column: 1 / -1; }
+  .line i { font-style: normal; color: var(--soft); font-size: 15px; }
+  .day { padding: 0 var(--pad) 72px; }
+  .day p { font-size: clamp(22px, 5.8vw, 40px); line-height: 1.15; letter-spacing: -0.03em; font-weight: 500; max-width: 26ch; }
+  .day p span { color: var(--soft); }
+  .end { background: var(--ink); color: var(--bg); padding: 56px var(--pad) 40px; }
+  .end h3 { color: #a3a29c; }
+  .end a.mail { display: block; font-size: clamp(20px, 5.5vw, 64px); letter-spacing: -0.035em; font-weight: 500; line-height: 1.1; white-space: nowrap; }
+  .end .foot { display: flex; gap: 20px; margin-top: 36px; color: #a3a29c; font-size: 15px; }
+
+  @media (min-width: 900px) {
+    :root { --pad: 36px; }
+    .row {
+      position: relative; top: auto; height: 100svh; min-height: 620px;
+      display: grid; grid-template-columns: 46fr 54fr;
+      background: var(--bg); color: var(--ink);
+    }
+    .words { display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
+    .intro { padding: 0 var(--pad); background: none; }
+    .top { padding-top: 26px; font-size: 16px; }
+    .intro h1 { margin-top: clamp(40px, 9svh, 96px); font-size: clamp(40px, 4.3vw, 64px); }
+    .cap { order: 0; margin-top: auto; padding: 0 var(--pad) 40px; gap: 12px; }
+    .cap .kind { color: var(--soft); opacity: 1; font-size: 15px; }
+    .cap p { font-size: 18px; line-height: 1.45; opacity: 1; color: #3d3c39; max-width: 40ch; }
+    .row:not(.jem) .cap h2 { font-size: clamp(56px, 6.4vw, 96px); }
+    .room { order: 0; background: var(--room); color: var(--on); min-height: 0; }
+
+    .jem .device { height: 68%; left: 9%; top: 16%; translate: none; }
+    .pair { display: block; position: absolute; left: 51%; right: 7%; top: 50%; transform: translateY(-50%); }
+    .pair small { display: block; font-size: 14px; opacity: .75; font-weight: 500; margin-bottom: 8px; }
+    .pair .said { font-size: 18px; line-height: 1.4; margin-bottom: 30px; opacity: .92; }
+    .pair .sent { font: 500 clamp(26px, 2.6vw, 38px)/1.36 "Anek Bangla", sans-serif; }
+
+    .umma .screen { width: 118%; left: 16%; top: 9%; }
+    .umma .device { height: 60%; left: 7%; top: 33%; }
+    .alilm .screen { width: 118%; left: 16%; right: auto; top: 9%; }
+    .alilm .device { height: 60%; left: 7%; right: auto; top: 33%; }
+    .way .device { height: 74%; top: 10%; }
+    .way .d1 { left: 8%; } .way .d2 { left: 40%; top: 17%; } .way .d3 { display: block; left: 72%; top: 10%; }
+
+    .rest { padding: 110px var(--pad) 110px; }
+    .line { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) 7rem; align-items: baseline; padding: 20px 0; }
+    .line span { grid-column: auto; font-size: 17px; }
+    .line b { font-size: 21px; }
+    .line i { text-align: right; }
+    .day { padding: 0 var(--pad) 130px; display: grid; grid-template-columns: 1fr 2fr; gap: 20px; }
+    .end { padding: 96px var(--pad) 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .row { position: relative; top: auto; } }
+</style>
+</head>
+<body>
+
+<section class="row jem">
+  <div class="words">
+    <div class="intro">
+      <header class="top">
+        <a href="#"><b style="font-weight:600">Juber Ahmed</b></a>
+        <nav><a href="#">CV</a><a href="#">Email</a></nav>
+      </header>
+      <h1><span>I’m Juber, a developer in Birmingham.</span> I build websites and apps, and I do every part myself.</h1>
+    </div>
+    <div class="cap">
+      <span class="kind">Android keyboard, with its own server</span>
+      <h2>Jembatan</h2>
+      <p>It turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali.</p>
+      <div class="links"><a href="#">Read the case study</a><a href="#">Visit the site</a></div>
+    </div>
+  </div>
+  <div class="room">
+    <div class="device">
+      <video src="/public/film/jembatan-phone.mp4" poster="/public/film/still-review.webp" autoplay muted loop playsinline></video>
+    </div>
+    <div class="pair">
+      <small>You say</small>
+      <p class="said">can you uh pick up some rice and eggs on the way home please</p>
+      <small>It sends</small>
+      <p class="sent" lang="bn">আপনি কি দয়া করে বাড়ি ফেরার পথে কিছু চাল আর ডিম নিয়ে আসবেন?</p>
+    </div>
+  </div>
+</section>
+
+<section class="row umma">
+  <div class="words">
+    <div class="cap">
+      <span class="kind">Client site, Sparkhill</span>
+      <h2>UMMA BJJ</h2>
+      <p>A jiu-jitsu gym, moved off a GoDaddy template. Six pages, a timetable you can read on a phone, and a free-trial form that opens WhatsApp with the message written.</p>
+      <div class="links"><a href="#">ummabjj.com</a></div>
+    </div>
+  </div>
+  <div class="room">
+    <div class="screen"><img src="/public/shots/umma-bjj/desktop.webp" alt=""></div>
+    <div class="device"><img src="img/umma-bjj-m.webp" alt=""></div>
+  </div>
+</section>
+
+<section class="row alilm">
+  <div class="words">
+    <div class="cap">
+      <span class="kind">Client site, Birmingham</span>
+      <h2>Al-Ilm Martial Arts</h2>
+      <p>One page for a boxing and Muay Thai club, on a server that also runs its waiting-list forms. They still work with JavaScript switched off.</p>
+      <div class="links"><a href="#">alilmmartialarts.co.uk</a></div>
+    </div>
+  </div>
+  <div class="room">
+    <div class="screen"><img src="/public/shots/al-ilm/desktop.webp" alt=""></div>
+    <div class="device"><img src="img/al-ilm-m.webp" alt=""></div>
+  </div>
+</section>
+
+<section class="row way">
+  <div class="words">
+    <div class="cap">
+      <span class="kind">Android app, in testing</span>
+      <h2>Waystone</h2>
+      <p>A fitness app that reads my bathroom scale over Bluetooth and keeps weigh-ins, food and training in one record.</p>
+      <div class="links"><a href="#">Read the case study</a></div>
+    </div>
+  </div>
+  <div class="room">
+    <div class="device d1"><img src="/public/work/waystone/01-today.webp" alt=""></div>
+    <div class="device d2"><img src="/public/work/waystone/02-body.webp" alt=""></div>
+    <div class="device d3"><img src="/public/work/waystone/04-training.webp" alt=""></div>
+  </div>
+</section>
+
+<div class="after">
+  <section class="rest">
+    <h3>Also</h3>
+    <div class="line"><b>Stratemize</b><span>A marketing agency’s site with its own consultation booker</span><i>Live</i></div>
+    <div class="line"><b>Yoosuf Zaman</b><span>A site for a business coach, with a booking form</span><i>Live</i></div>
+    <div class="line"><b>E-commerce store</b><span>A shop with the backend my day job doesn’t touch</span><i>Case study</i></div>
+    <div class="line"><b>Qibla Compass</b><span>Finds the qibla from your phone’s sensors, in about 8 KB</span><i>Live</i></div>
+  </section>
+  <section class="day">
+    <h3>Day job</h3>
+    <p>Since 2022 I’ve worked on Wolseley’s online store, <span>where trade customers order plumbing and heating supplies. Every change I ship goes out as a test, and only the winners stay.</span></p>
+  </section>
+  <footer class="end">
+    <h3>Get in touch</h3>
+    <a class="mail" href="#">mohammed.juber.ahmed@gmail.com</a>
+    <div class="foot"><a href="#">CV</a><a href="#">GitHub</a><a href="#">LinkedIn</a></div>
+  </footer>
+</div>
+
+<script>
+  // A room taller than the screen pins by its foot, not its head, so none of it is skipped.
+  const rows = document.querySelectorAll('.row');
+  const measure = () => rows.forEach((r) => r.style.setProperty('--h', r.offsetHeight + 'px'));
+  new ResizeObserver(measure).observe(document.body); measure();
+</script>
+</body>
+</html>

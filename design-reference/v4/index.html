@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>juberahmed.dev v4 · the agreed direction</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #e9e9e6; color: #161615; font: 15px/1.45 system-ui, "Segoe UI", sans-serif; padding: 16px; }
+  h1 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+  .lede { color: #5c5b57; margin-bottom: 16px; max-width: 70ch; }
+  .lede a { color: inherit; font-weight: 600; }
+  .grid { display: grid; grid-template-columns: 390fr 1440fr; gap: 14px; align-items: start; }
+  .col h2 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .vp { position: relative; overflow: hidden; background: #fff; border-radius: 8px; box-shadow: 0 1px 0 #cfcec8, 0 12px 30px -18px rgb(0 0 0 / .35); }
+  .vp iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+  <h1>The agreed direction, as one page</h1>
+  <p class="lede">You and one sentence fill the first screen. Then a full screen for each piece of work: websites first, apps after. Both frames are live, so scroll inside them. <a href="a4.html">Open it on its own</a> · earlier rounds: <a href="round2.html">A, A2, A3</a></p>
+  <div class="grid">
+    <div class="col"><h2>Phone</h2><div class="vp" data-w="390" data-h="844"><iframe src="a4.html" title="Phone width"></iframe></div></div>
+    <div class="col"><h2>Desktop</h2><div class="vp" data-w="1440" data-h="900"><iframe src="a4.html" title="Desktop width"></iframe></div></div>
+  </div>
+<script>
+  function fit() {
+    document.querySelectorAll('.vp').forEach((vp) => {
+      const w = +vp.dataset.w, h = +vp.dataset.h, f = vp.firstElementChild;
+      const s = Math.min(1, vp.parentElement.clientWidth / w);
+      f.style.width = w + 'px'; f.style.height = h + 'px'; f.style.transform = `scale(${s})`;
+      vp.style.width = w * s + 'px'; vp.style.height = h * s + 'px';
+    });
+  }
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>

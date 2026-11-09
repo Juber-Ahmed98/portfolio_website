@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C · Said plainly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,300..700&family=Anek+Bangla:wdth,wght@75..125,300..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f5b331;
+    --ink: #1a1408;
+    --page: #fcfbf7;
+    --soft: #6f6a5d;
+    --line: #e3dfd3;
+    --pad: 20px;
+    --sans: "Anek Latin", "Anek Bangla", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--page); color: var(--ink);
+    font: 400 18px/1.45 var(--sans); font-variation-settings: "wdth" 100;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img, video { display: block; max-width: 100%; }
+
+  /* the cover */
+  .cover { background: var(--gold); min-height: 100svh; display: flex; flex-direction: column; }
+  .top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 18px var(--pad) 0; font-size: 17px; font-weight: 500;
+  }
+  .top nav { display: flex; gap: 20px; }
+  .say {
+    padding: 40px var(--pad) 28px; margin-block: auto;
+    font-size: clamp(28px, 7.45vw, 64px); line-height: 1.1; letter-spacing: -0.022em;
+    font-weight: 500; font-variation-settings: "wdth" 92;
+    max-width: 21em; text-wrap: pretty;
+  }
+  .say a {
+    text-decoration: underline; text-decoration-thickness: .04em; text-underline-offset: .14em;
+  }
+  .say a:hover { background: var(--ink); color: var(--gold); text-decoration-color: var(--ink); }
+  .cover .foot { padding: 0 var(--pad) 20px; display: flex; justify-content: space-between; font-size: 16px; font-weight: 500; }
+
+  /* the pages */
+  .piece { padding: 64px var(--pad) 8px; }
+  .piece + .piece { border-top: 1px solid var(--line); }
+  .piece h2 {
+    font-size: clamp(29px, 7.6vw, 58px); line-height: 1.08; letter-spacing: -0.022em;
+    font-weight: 500; font-variation-settings: "wdth" 92; max-width: 17em; text-wrap: balance;
+  }
+  .piece h2 mark {
+    color: inherit; background: linear-gradient(to top, var(--gold) 0 42%, transparent 42%);
+    padding: 0 .08em; margin: 0 -.08em;
+  }
+  .piece .facts { margin-top: 18px; max-width: 36em; color: #3b372c; }
+  .piece .links { margin-top: 14px; display: flex; gap: 20px; font-weight: 600; }
+  .piece .links a { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-color: var(--gold); }
+
+  .shots { margin: 34px 0 56px; position: relative; }
+  .phones { display: flex; gap: 14px; margin-right: calc(var(--pad) * -1); overflow: hidden; }
+  .phones > * {
+    flex: 0 0 58%; border-radius: 22px; overflow: hidden; background: #0c0b0a;
+    border: 5px solid #14110b; aspect-ratio: 720 / 1560;
+  }
+  .phones > * > * { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .phones.way > * { aspect-ratio: 540 / 1199; }
+  .webs { display: grid; gap: 12px; }
+  .webs img { border: 1px solid var(--line); border-radius: 4px; }
+  .webs figcaption { font-size: 16px; color: var(--soft); margin-top: 8px; display: flex; justify-content: space-between; }
+  .webs figure { margin-bottom: 18px; }
+  .webs figcaption b { color: var(--ink); font-weight: 600; }
+
+  .said { margin-top: 26px; display: grid; gap: 4px; }
+  .said small { font-size: 15px; color: var(--soft); font-weight: 500; }
+  .said p { font-size: 19px; margin-bottom: 10px; }
+  .said .bn { font-size: 27px; line-height: 1.35; font-weight: 500; }
+
+  .end { background: var(--gold); padding: 64px var(--pad) 28px; }
+  .end p { font-size: clamp(28px, 7.45vw, 70px); line-height: 1.1; letter-spacing: -0.022em; font-weight: 500; font-variation-settings: "wdth" 92; max-width: 20em; }
+  .end p a { text-decoration: underline; text-decoration-thickness: .055em; text-underline-offset: .13em; overflow-wrap: anywhere; }
+  .end .foot { margin-top: 44px; display: flex; gap: 20px; font-weight: 500; font-size: 16px; }
+
+  @media (min-width: 860px) {
+    :root { --pad: 40px; }
+    body { font-size: 20px; }
+    .top { padding-top: 28px; font-size: 19px; }
+    .say { padding: 40px var(--pad); line-height: 1.07; }
+    .cover .foot { padding-bottom: 28px; font-size: 18px; }
+    .piece { padding: 120px var(--pad) 20px; display: grid; grid-template-columns: 7fr 5fr; column-gap: 40px; }
+    .piece h2 { grid-column: 1 / -1; }
+    .piece .text { grid-column: 2; grid-row: 2; padding-top: 44px; }
+    .piece .shots { grid-column: 1; grid-row: 2; margin: 44px 0 100px; }
+    .piece.full .shots { grid-column: 1 / -1; grid-row: 3; margin-top: 44px; }
+    .piece.full .text { grid-column: 1; max-width: 34em; padding-top: 24px; }
+    .phones { margin-right: 0; gap: 20px; overflow: visible; }
+    .phones > * { flex: 1 1 0; border-radius: 28px; }
+    .webs { grid-template-columns: 1fr 1fr; gap: 20px; }
+    .said .bn { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <header class="top">
+    <a href="#">Juber Ahmed</a>
+    <nav><a href="#">CV</a><a href="#">Email</a></nav>
+  </header>
+  <p class="say">I’m Juber, a developer in Birmingham. By day I work on <a href="#wolseley">Wolseley’s online store</a>. The rest is my own: <a href="#jembatan">a keyboard that lets me text my dad in Bengali</a>, websites for <a href="#umma">a jiu-jitsu gym</a>, <a href="#alilm">a boxing club</a> and <a href="#more">a few more local businesses</a>, and <a href="#waystone">a fitness app that reads my bathroom scale</a>.</p>
+  <div class="foot"><span>Birmingham, UK</span><span>All of it is below ↓</span></div>
+</div>
+
+<section class="piece" id="jembatan">
+  <h2>A keyboard that lets me <mark>text my dad in Bengali</mark>.</h2>
+  <div class="shots phones">
+    <div><video src="/public/film/jembatan-phone.mp4" poster="/public/film/still-review.webp" autoplay muted loop playsinline></video></div>
+    <div><img src="/public/work/jembatan/03-review.webp" alt=""></div>
+    <div><img src="/public/work/jembatan/04-in-person.webp" alt=""></div>
+  </div>
+  <div class="text">
+    <p class="facts">It’s called Jembatan. You hold the mic and say it in English, and it writes the message the way a native speaker would send it. I built the Android app, the server behind it, the brand and the site.</p>
+    <div class="said">
+      <small>You say</small>
+      <p>can you uh pick up some rice and eggs on the way home please</p>
+      <small>It sends</small>
+      <p class="bn" lang="bn">আপনি কি দয়া করে বাড়ি ফেরার পথে কিছু চাল আর ডিম নিয়ে আসবেন?</p>
+    </div>
+    <div class="links"><a href="#">How I built it</a><a href="#">Visit the site</a></div>
+  </div>
+</section>
+
+<section class="piece full" id="umma">
+  <h2>Websites for a jiu-jitsu gym, a boxing club and <mark>a few more local businesses</mark>.</h2>
+  <div class="text">
+    <p class="facts">All four are live and were built by hand for paying clients. Open them on your phone and have a look around.</p>
+  </div>
+  <div class="shots webs">
+    <figure><img src="/public/shots/umma-bjj/desktop.webp" alt=""><figcaption><b>UMMA BJJ</b><span>ummabjj.com</span></figcaption></figure>
+    <figure><img src="/public/shots/al-ilm/desktop.webp" alt=""><figcaption><b>Al-Ilm Martial Arts</b><span>alilmmartialarts.co.uk</span></figcaption></figure>
+    <figure><img src="/public/shots/yoosuf-zaman/desktop.webp" alt=""><figcaption><b>Yoosuf Zaman</b><span>yoosufzaman.com</span></figcaption></figure>
+    <figure><img src="/public/shots/stratemize/desktop.webp" alt=""><figcaption><b>Stratemize</b><span>stratemize.co.uk</span></figcaption></figure>
+  </div>
+</section>
+
+<section class="piece" id="waystone">
+  <h2>A fitness app that <mark>reads my bathroom scale</mark>.</h2>
+  <div class="shots phones way">
+    <div><img src="/public/work/waystone/01-today.webp" alt=""></div>
+    <div><img src="/public/work/waystone/02-body.webp" alt=""></div>
+    <div><img src="/public/work/waystone/04-training.webp" alt=""></div>
+  </div>
+  <div class="text">
+    <p class="facts">Waystone keeps weigh-ins, food and training in one record, and talks to the scale over Bluetooth. It started as a web app. I rebuilt it as a native Android app when the browser ran out.</p>
+    <div class="links"><a href="#">How I built it</a></div>
+  </div>
+</section>
+
+<section class="piece full" id="wolseley">
+  <h2>By day, <mark>Wolseley’s online store</mark>.</h2>
+  <div class="text">
+    <p class="facts">Since 2022 I’ve worked on the site where trade customers order plumbing and heating supplies. Every change I ship goes out as a test, and only the winners stay.</p>
+  </div>
+</section>
+
+<footer class="end">
+  <p>If you’d like me to build something for you, write to <a href="#">mohammed.juber.ahmed@gmail.com</a>.</p>
+  <div class="foot"><a href="#">CV</a><a href="#">GitHub</a><a href="#">LinkedIn</a></div>
+</footer>
+
+</body>
+</html>
