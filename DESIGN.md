@@ -1,285 +1,214 @@
-# Design system — juberahmed.dev · v3, "Proof you can hold"
+# Design system — juberahmed.dev · v4
 
-The design contract for the site. v3 was decided on 2026-10-01 under the owner's
-full-control brief ("make something amazing… especially for mobile, since I share and
-show it on mobile… without making performance poor"). It supersedes "The Workshop"
-(2026-08-04). Production code is built from this file; any change of direction edits
-this file first. The working direction doc (premise, world, rung argument, budget,
-fallback matrix, kill criteria, session plan) is local-only at
-`design-reference/plans/2026-10-01-v3-direction.md`.
+The design contract for the site. v4 was decided between 9 and 13 November 2026 under the
+owner's full-control brief: v1–v3 looked, in his words, AI-made, too busy and too clever,
+and the work got lost. Production code is built from this file; any change of direction
+edits this file first.
+
+**The reference:** `design-reference/v4/home.html` is the finished home page, hand-written,
+and the production home page matches it element for element (same boxes, same type, same
+colours at 360, 390, 768, 1024, 1440 and 1920 wide). The case studies and `/websites` were
+built afterwards from the same parts.
 
 ## The idea
 
-**Proof you can hold.** The site is built for the phone in someone's hand, and the work
-shows up there as the real thing, working, at device scale. The first screen is a claim
-at poster scale with the same claim in Bengali beneath it; straight under it, in the dark
-room, Jembatan proves it front to back: what you say, the four layers it passes through,
-what the other person reads, beside a real recording of the keyboard on loop.
+**Him first, then the work, one room at a time.**
 
-**The world:** warm paper and lit glass, evening lamp light from the upper left. Things
-arrive like a phone set down on a table and stop: no float, no drift, no bounce.
+- The first screen is his photo and one sentence, and nothing else. It takes the whole
+  first screen on a phone, a tablet and a desktop, less a strip of the next room's colour
+  along the bottom edge so the page reads as continuing.
+- Every piece of work gets a **room**: the full screen, in that project's own colour, with
+  the real capture in it and a few plain words on the colour.
+- Websites first, then the day job, then the apps. Recruiters and hiring managers want the
+  websites first.
+- The page scrolls normally. Nothing slides, stacks, pins or fades in.
 
-**Two signature devices, and only two:** the bilingual poster hero, and Jembatan's route.
-Every other section is quieter on purpose (bands and hairline rules, real screenshots as
-the only imagery). The scroll-scrubbed film is the case study's set-piece now, not the
-home page's (2026-10-15, below).
+## Rules that hold on every page
 
-## Decision log
+- **The first screen stays bare:** name, at most two links, the photo, the sentence, the
+  peek. Adding to it turns the site back into v3.
+- **One typeface, one theme.** Schibsted Grotesk everywhere; one light theme. No dark
+  theme, no theme toggle.
+- **No motion** beyond the Jembatan recording, which plays only while it is on screen and
+  never under `prefers-reduced-motion`. No reveals, no scroll effects, no hover animation,
+  no view transitions.
+- **Edge-aligned.** Everything hangs off the left edge or the 5fr / 7fr split. No centred
+  column, no max-width container: the page uses the screen it is given.
+- **Rules, not boxes.** Lists are ruled with a hairline above each row. No cards, no
+  borders around units, no chips or pills. Corners are 4px (buttons, the photo) or 6px
+  (screen captures); only phone frames are rounder.
+- **Links are underlined text.** The one filled button is the CV (or "Get in touch" on
+  `/websites`), solid ink with 4px corners.
+- **No numbered eyebrows, no monospace labels, no icons, no directional glyphs** (`→ ↗`).
+  The small line above a heading (`.kind`) says what the thing is, in words.
+- **Real captures only.** Every picture is the real site or app. Nothing is illustrated.
+- **Nothing overclaims.** Real output is labelled as real output; a section with nothing
+  real to show (client quotes) stays hidden.
+- **Words on a room's colour need contrast.** Check a new room colour against its text
+  before using it (the table below).
 
-Rules carried forward. These were anti-AI-tell decisions, not aesthetics, and they
-survive any redesign:
+## Colour
 
-- **No numbered section eyebrows**, anywhere.
-- **No mono kicker above headings.** JetBrains Mono is for data only: dates, stacks,
-  status, spec-sheet keys.
-- **The header has no inline link row.** Wordmark left, theme + CV right.
-- **No directional Unicode glyphs in link text** (`↗ → ↓`). Icons come from
-  `lucide-react` only.
-- **No italic headings.** No serif display face (twice rejected by the owner).
-- **The type never moves.** No fade-up, slide-in or reveal on any text. Media and planes
-  move; text is simply there. (The one text-level change, the language switch, is a
-  short opacity swap the visitor asked for.)
-- **No skills chip wall. No metric without its denominator.** Tools are a sentence each.
-- **Every interactive element has a touch state** (`.tap`: scale .97), because on a phone
-  it is the only state feedback there is. Hover is extra, never required.
-- **Counts are derived** (`builds.length`), never typed.
-- **Nothing overclaims.** Until the demo is live it says, right under its title, that
-  its translations were written by hand; the hero translations carry no caption, and
-  nothing near them claims to be the app's output.
+| Token | Value | Use |
+|---|---|---|
+| `--bg` | `#f5f5f2` | the ground: first screen, Wolseley, lists |
+| `--ink` | `#121211` | text, the footer, the CV button · 17.2:1 on the ground |
+| `--soft` | `#6c6b66` | the quiet half of a sentence, labels, dates · 4.9:1 |
+| `--line` | `#dcdbd5` | hairline rules on the ground |
+| body grey | `#3d3c39` | long paragraphs on the ground · 10.1:1 |
 
-v3 decisions (2026-10-01):
+Rooms set `--room` (background) and `--on` (text) through a class:
 
-- **The Workshop is retired.** Measured against the vault's `AI tells` and `Portfolio &
-  personal brand` notes it carried the very tells it was meant to avoid: bordered cards
-  around every unit, five equal bands, a skills chip wall, denominator-free stats, a mono
-  kicker over the H1. On a phone its personality (all hover) disappeared, and its best
-  moment, the flagship scrub, was switched off below `md`. Kept: the warm palette's logic
-  (it echoes Jembatan), dual theme with no default, the content module, every honesty rule.
-- **Phone first, literally.** The film runs on phones because that is where the owner
-  shows the site. Both encodes are 720px wide: the first 480px cut was shown about 1.7×
-  upscaled on a 3x phone and the chat text went soft. Phones get 15fps (729 KB), desktop
-  20fps (1.3 MB).
-- **Mona Sans over Bricolage.** Rendered side by side at 390px (Mona 75 / Bricolage 75 /
-  Archivo 62 / Mona 125): Mona's condensed 900 fills a phone width like a poster;
-  Bricolage condensed read soft and is now a common pick. Mona is GitHub's typeface,
-  which is a quiet nod for a developer, and its width axis gives a real display/body split
-  from one family.
-- **Rung 0–1 only (no Three.js).** A DOM phone with a lit rim reads as a phone; a modelled
-  one would cost ~150 KB gz and GPU on the phone the owner hands to people. Revisit only if
-  real-device measurements leave headroom.
-- **Client sites are shown on phones, panning.** A desktop screenshot shrunk to a phone
-  is illegible; the client's own mobile layout at device scale, sliding from hero to
-  footer as you scroll past, shows the whole site in two seconds.
-- **The builds index is a contents page, not a card grid.** Rows without a public link
-  stay off, and so does any sentence about private work (a promise with nothing to
-  click). Thin builds stay off too: every row should be worth an interview question.
+| Class | Room | `--room` | `--on` | Contrast |
+|---|---|---|---|---|
+| `.umma` | UMMA BJJ | `#14245e` | `#fff` | 14.5:1 |
+| `.alilm` | Al-Ilm Martial Arts | `#e6e1d6` | `#14110f` | 14.4:1 |
+| `.more`, `.screens`, `.how` | charcoal: two more sites, captures, how it works | `#171716` | `#f5f5f2` | 16.4:1 |
+| `.day`, `.offer` | the ground: Wolseley, what's on offer | `--bg` | `--ink` | 17.2:1 |
+| `.jem`, `.apps` | Jembatan | `#b84d37` | `#fff` | 5.1:1 |
+| `.way` | Waystone | `#0c4f4b` | `#fff` | 9.4:1 |
+| `.shop` | E-commerce store (case study) | `#1d4ed8` | `#fff` | 6.7:1 |
+| `.yoosuf` | Yoosuf Zaman (`/websites`) | `#c9a227` | `#0a1f45` | 6.7:1 |
+| `.strat` | Stratemize (`/websites`) | `#16213b` | `#fff` | 16.0:1 |
 
-After a hiring-manager critique of the first build (2026-10-01):
+Each colour comes from the project itself (UMMA's navy, Al-Ilm's bone, Jembatan's
+terracotta, Waystone's teal, Yoosuf Zaman's gold and navy, Stratemize's slate, the store's
+button blue). The footer is ink with `#a3a29c` labels (7.3:1) and `#c9c8c2` body (11.2:1).
 
-- **The role is said before the claim.** The H1 never says "frontend", so the name and
-  "Frontend developer, Birmingham" sit above it in ink, not as a grey byline.
-- **The day job comes before the side projects.** Wolseley moved above the builds index:
-  it is the job being applied for, and at screen 12 of 14 it read as an afterthought.
-- **The film names itself.** "Jembatan, the Android keyboard I built" sits under the
-  pinned phone; a cold visitor was three screens into a WhatsApp chat before learning
-  what it was.
-- **Light is not made the default.** The critique asked for it because the room vanished
-  in dark mode. Instead the dark theme's page lifts and its room sinks (see the colour
-  tables), and "no opinionated default" stands.
+Rules inside a room are `color-mix(in srgb, currentColor 26%, transparent)`, so they work
+on any colour. Shadows exist only under captures and phone frames.
 
-The owner's spacing pass (2026-10-15):
+## Type
 
-- **The film and the demo moved to the Jembatan case study.** Together with the spec
-  sheet they took ~4,200px of a ~10,400px phone page, about 40% of it for one project,
-  ahead of the client work and the day job. The canned demo was also the weakest proof on
-  the page (hand-written translations). Home now has one compact section (below), and the
-  phone page went from 10,429px to 7,801px.
-- **"Front to back" replaces the spec sheet.** The hero claims "front to back"; the
-  section proves it with the layers a message actually passes through, the dot running
-  them in time with the recording. Said-vs-sent pairs frame the layers so a non-developer
-  gets the product in one glance.
-- **Examples are real output, and are the message itself.** The first is the pair on
-  screen in the recording; the others are the production prompt and model's most common
-  answer in Jembatan's eval sweep. Jembatan translates what you say; it doesn't take
-  instructions, so an example never reads "Tell Dad...".
-- **Facts corrected from Jembatan's repo:** the model is `gpt-5.6-luna` (since
-  2026-08-03, not gpt-5-mini) and the app is in Play *open* testing.
+- **Schibsted Grotesk**, variable, weights 400–700, Latin subset, self-hosted
+  (`public/fonts/schibsted-grotesk-latin.woff2`, 43 KB, preloaded). Chosen on 13 Nov over
+  Instrument Sans, Host Grotesk and Funnel Display, tried on the first screen and a room:
+  its serifed capital I suits a first-person sentence, and it is not one of the faces
+  everything else uses.
+- **Anek Bangla** 500 for Bengali (`anek-bangla-500-bengali.woff2`, 51 KB, plus a 5 KB file
+  for the punctuation inside a Bengali sentence). Loaded only where Bengali text appears.
+- No monospace face is loaded. `code` in case-study copy uses the system monospace.
 
-## Color tokens
+| Element | Phone | Wide | Notes |
+|---|---|---|---|
+| First-screen sentence (`.hero h1`) | `clamp(25px, 7.1vw, 52px)` | `clamp(40px, 5vw, 104px)` | 500, −0.04em, lh 1.04, balanced; the tail in `--soft` |
+| Room name (`.room h1, h2`) | `clamp(44px, 12.6vw, 96px)` | `clamp(56px, 6.6vw, 104px)` | 600, −0.048em, lh .96 |
+| Long room heading (`.more`, `.offer`) | `clamp(32px, 9.4vw, 96px)` | as room name | lh 1 |
+| Claim (`.claim`) | `clamp(21px, 5.7vw, 40px)` | `clamp(32px, 3.5vw, 70px)` | 500, −0.03em; `.about p` runs a step smaller |
+| Lede | 17px / 1.42 | 19px / 1.45, max 37ch | |
+| Facts | 14px, .78 opacity | 16px, 500, ruled | |
+| Body | 16px / 1.5–1.6 | 17–18px | |
+| Small label (`.kind`, list headings) | 14px, 500 | 15px | |
 
-CSS variables on `:root` (light) / `.dark`, exposed to Tailwind via `@theme inline` in
-`globals.css`. Contrast is measured (WCAG 2.x), not eyeballed.
-
-| Token | Light | Dark | Use / contrast |
-|-------|-------|------|-----|
-| `--bg` | `#f3ede3` | `#1d1813` | paper / espresso |
-| `--surface` | `#fbf8f2` | `#28201a` | raised band (day job) |
-| `--ink` | `#1d1611` | `#f1e8da` | headings, primary text · 15.4:1 / 14.5:1 on bg |
-| `--body` | `#4a3d30` | `#cbbda8` | body · 9.0:1 / 9.6:1 |
-| `--muted` | `#6e5e4e` | `#a08f7a` | secondary · 5.3:1 / 5.6:1 (5.1:1 on surface) |
-| `--line` | `#dcd1bf` | `#362c24` | hairline rules |
-| `--line-strong` | `#c4b6a0` | `#4d4034` | outline buttons |
-| `--accent` | `#a94b25` | `#e3895b` | terracotta · 4.85:1 / 6.7:1 as text on bg |
-| `--on-accent` | `#fff8f0` | `#1a120c` | text on accent · 5.4:1 / 7.0:1 |
-| `--live` | `#3f5c37` | `#9dc48f` | "live" status · 6.5:1 / 9.0:1 |
-| `--wip` | `#85591a` | `#d9ae4a` | "building" status · 5.2:1 / 8.5:1 |
-
-**The room** (`--night-*`) is dark in both themes. The film, the Jembatan section and the
-contact close sit in it. In the dark theme the room sinks below the page, because a room
-the same tone as an already-dark page (they were 1.01:1) made the lights-down moment and
-the night sections disappear. Page to room is now 1.13:1, surface to room 1.24:1.
-
-| Token | Light theme | Dark theme | Contrast on `--night` (light / dark) |
-|-------|-------|------|------|
-| `--night` | `#14100d` | `#0b0907` | — |
-| `--night-raise` | `#1d1813` | `#171310` | demo panel |
-| `--night-ink` | `#f1e8da` | same | 15.6:1 / 16.4:1 |
-| `--night-body` | `#c4b5a0` | same | 9.4:1 / 9.9:1 |
-| `--night-muted` | `#968671` | same | 5.4:1 / 5.6:1 (5.0:1 / 5.2:1 on raise) |
-| `--night-line` | `#2c241d` | same | rules |
-| `--night-accent` | `#e3895b` | same | 7.2:1 / 7.6:1 |
-
-`--lift` is the only shadow: warm, offset, soft elevation for device frames
-(`0 34px 60px -28px` + `0 12px 24px -14px`), black in dark. No block shadows, no glows.
-
-The Workshop's token names (`--panel`, `--hl`, `--chip`, `--shadow-card`, `--flag`, …)
-survive as aliases at the bottom of each block **only** so the case-study pages render
-until they are rebuilt in v3 (session 2). Delete them with that work.
-
-## Typography
-
-- **Mona Sans** (variable: `wdth` 75–125, `wght` 200–900), `--font-mona`, display + body.
-- **Anek Bangla** 600, Bengali subset only, not preloaded: the hero's Bengali line.
-- **JetBrains Mono**, not preloaded: data only.
-
-| Class / element | Spec |
-|---|---|
-| `.t-poster` (H1, section H2s) | wdth 75, 900, −0.018em, lh .86 |
-| `.t-head` (H3s, film beats, client names) | wdth 75, 850, −0.012em, lh .92 |
-| `.t-data` | JetBrains Mono 12px 500 |
-| Hero H1 | `clamp(64px, 19vw, 156px)`; from `lg` `min(9.6vw, 148px)` with the break at the comma |
-| Section H2 | `clamp(52px, 14vw, 120px)` |
-| Body | 16–18px, 450 weight, lh 1.55–1.65 |
+From 1700px wide the small type steps up with the headings (lede 24px, facts 20px, and so
+on), so a big monitor does not get poster headings over tiny text.
 
 ## Layout
 
-- Container `max-w-[1240px]`, gutters 20px / 40px (`sm`) / 64px (`xl`).
-- Section padding 56px / 80px (`sm`); client rows 48px / 80px. Tightened from 80 / 112
-  on 2026-10-15: on a phone every section boundary was 160–190px of bare paper, which
-  read as dead space rather than rhythm.
-- Sections are bands separated by hairlines or a change of surface, never boxed.
-- Order: Hero → Jembatan → Clients → Day job → Builds → Contact. The film and the demo
-  sit on `/work/jembatan/`, full bleed after the intro.
-- Radii: pill buttons 999px; demo panel 26px; review strip 18px; browser frame 14px.
+- Page padding `--pad`: 20px (phone), 32px (upright tablet), 36px (wide), 48px (from 1700).
+- **The split:** `minmax(0, 5fr) minmax(0, 7fr)` with a `--gap` of 56px (72px from 1700).
+  Words take the 5, the work takes the 7. Ruled lists use the same split.
+- **Breakpoints are about shape, not just width:**
+  - *Wide:* `(min-width: 900px) and (min-aspect-ratio: 11/10)`. Two columns.
+  - *Upright tablet:* `(min-width: 700px) and (max-aspect-ratio: 11/10)`. The phone layout
+    with more room and larger type.
+  - Everything else is the phone layout.
+- A room is `min-height: 100svh`. On a phone it is a column: name, capture (the stage,
+  which flexes), lede, facts, links; every home-page room fits 390×844. Wide: name and lede
+  at the top of the left column, the ruled facts and the links at its foot, the stage
+  filling the right column and bleeding off the right edge.
+- Sections after the rooms (`.also`, `.lead`, `.story`, `.about`) are padded 60px on a
+  phone and 104px wide, on the ground.
 
-## Components
+## Parts
 
-- **Header** (`site-header.tsx`): fixed, 64px. Transparent at the top, paper with blur once
-  scrolled, night-toned over any `[data-night]` section. Slides away while scrolling down,
-  returns on scroll up.
-- **Theme toggle**: 40px circle. The new theme spreads from the button as a circle
-  (`document.startViewTransition` + `clip-path`), instant under reduced motion or without
-  the API.
-- **Hero** (`hero.tsx`, `bilingual.tsx`): name and role line; the H1; the Bengali line
-  with a one-button switch (bn → id → ar → es; `lang`/`dir` set; `aria-live`), no
-  caption: the button's label is enough. The line sits in a cell sized by every language
-  at once (invisible copies stacked beneath), so switching never moves the 44px button.
-  Sub; Email (accent) + Download CV (outline).
-- **Phone** (`phone.tsx`): DOM body, lit rim, side keys, punch-hole, screen at the
-  capture's own 480:1040. Scales via container units.
-- **Film** (`film.tsx`, on the Jembatan case study): see *Motion*.
-- **Jembatan** (`jembatan.tsx`, `jembatan-route.tsx`): status with live dot; name at
-  poster scale; meaning; lede; one line on the product work (onboarding, billing, brand,
-  site); Read the case study + Visit the site. The route: "You say" (the words as
-  spoken), the four layers (Phone / Keyboard / Worker / Model) on a rail, "Sent in
-  <language>" in a review-strip bubble, then the honesty note and Next example (n/3).
-  Three examples, changed by tap only, stacked in one cell so a swap never moves the
-  button. Beside them a Phone plays the film's recording muted on loop. One DOM: phones
-  read said / phone + layers / sent; from `lg` intro and links take the left column and
-  the route the right, the phone standing beside the words. About 1½ screens on a phone,
-  under one on desktop.
-- **Demo** (`demo.tsx`, on the Jembatan case study under the film): the keyboard's
-  review strip on the page, titled "How it reads"
-  in canned mode with the hand-written disclosure under the title ("Try the keyboard"
-  once live). Canned mode: three sample messages × four languages, streamed in grapheme clusters (Intl.Segmenter, so
-  Bengali conjuncts never render half-built), auto-plays once on first view. Live mode
-  (`demo.live`): free text → POST to the landing Worker's demo proxy, SSE frames
-  `{"delta"}` / `{"done","translation"}` / `{"error"}` exactly as the API emits them.
-- **Clients** (`clients.tsx`): name, who, summary, four facts in a ruled 2×2, Visit
-  button. Media: a browser frame with the desktop capture, and the client's mobile
-  full-page capture in a Phone over its lower corner, panning as it passes. Same picture
-  at every width (phone at 38% of the frame below `lg`, 34% from `lg`): on a phone the
-  desktop half used to vanish, and phones are where the site is shown.
-- **Builds** (`builds.tsx`): ruled index; name, month started, status, what, stack, links.
-  Nothing under the list.
-- **Day job** (`day-job.tsx`): "By day, Wolseley." at poster scale; two roles; tools as
-  two sentences.
-- **Contact** (`contact.tsx`): the room again. Heading, the address at poster scale
-  (mailto), Copy address, CV, GitHub, LinkedIn; footer with a one-line colophon.
+All in `src/styles/site.css`; the class names are the vocabulary.
 
-## Motion
+- **First screen** (`.hero`): `.top` (name left; links and the `.cv` button right), `.me`
+  (the photo, cropped to fill), the `h1`. Phone: photo above the sentence. Wide: photo left
+  (5fr), sentence bottom-right (7fr); he looks right, towards his words, so the photo stays
+  on the left. Height is `100svh` minus `--peek` (30–44px).
+- **Room** (`.room` + a colour class): `.head` (`.kind`, the name), `.stage`, `.lede`,
+  `.facts`, `.links`.
+- **Stages:**
+  - *Client site* (`.site`): the desktop capture (`.screen`) with the phone capture
+    (`.device`) over its corner.
+  - *Pair* (`.pairs`): two sites side by side. Phones show phone captures in device frames;
+    wide shows the desktop captures, each with name, one line, stack and link.
+  - *Recording* (`.jem .stage`, `Recording.astro`): the video in a phone with its caption,
+    and beside it "You say" / "It sends, in Bengali" with "Real output, not written by hand."
+  - *Phones* (`.way`): two overlapping app captures, a third where there is room.
+  - *One screen* (`.shop`), *one phone* (`.apps`).
+- **The words as the stage** (`.day`): for Wolseley, which has no picture. The claim, the
+  roles as a ruled list with dates, the two tool lists (`.tools`) and a CV link.
+- **Ruled list** (`.rows`): name on the left of the split, what it is on the right, links
+  at the end of the row. Used for "Also", the Jembatan steps and examples, services and
+  how-it-works.
+- **Footer** (`.end`): ink. A label, the email address large, one sentence, the CV button
+  with GitHub and LinkedIn, then a ruled last line. `/websites` has its own, with no CV.
 
-Zero animation dependencies. All of it is gated on `prefers-reduced-motion:
-no-preference`; under reduce the page is complete and still.
+## The other pages
 
-- **The route** (`jembatan-route.tsx`): the recording loops muted beside the layers,
-  fetched a screen early, playing while a third of the section is on screen and paused
-  otherwise. A dot runs the rail, driven by the video's own clock so the two can't drift:
-  on the phone while you speak (to ~1.9s), down to the model as the mic lets go, streaming
-  back up to the keyboard while the review strip fills (to ~5.4s), then held there for
-  insert and send; it fades over the loop's seam. The layer it is at takes the accent
-  (colour only). Reduced motion and Save-Data never fetch the clip: the poster is the
-  review frame, which shows the first example, and the dot stays hidden.
-- **Set down** (`.set-down`): the film's phone rises 64px and fades in on load, .9s
-  expo-out. It moves a plane, not text. Case study only, since the film moved.
-- **The film** (`film.tsx`, on `/work/jembatan/`), the site's one scroll-bound set-piece. A 260svh track (230vh at
-  `lg`; shortened from 300 / 260 on 2026-10-15) holds a sticky stage. On phones the
-  phone is sized to leave 270px for the copy (was 310, which left ~90px of dark stage
-  under the last beat). Kept short on purpose: longer read as a stuck page to
-  first-time visitors. JS writes `--enter` (the phone straightens from −6° and
-  scales .9→1 as the track arrives), `--dim` (the stage mixes from paper to night,
-  smoothstep over 32% of a screen so it never sits at a muddy mid-grey) and the playhead.
-  Mechanics: Blob fetch a screen early; lerped playhead (0.22) that stops when settled;
-  no seek while seeking or under one frame; play()/pause() prime for iOS; video revealed
-  on its first painted frame. Beats: phones show one at a time under a three-part progress
-  bar, the outgoing beat clearing (120ms) before the next fades in, so two captions never
-  overlap; desktop lists all three with the current one lit. The label under the phone
-  shares the beats' `--dim` opacity (it is night-coloured). A "Keep scrolling" cue sits
-  at the foot of the stage so nobody thinks the page is stuck: it arrives with the dark
-  room and fades over the last eighth of the film (JS writes `--p`); only its chevron
-  nudges. On `lg` the phone grows to 80svh tall (560px wide at most), so a tall monitor
-  doesn't open a band of empty paper between hero and phone. Save-Data never fetches the
-  clip.
-- **Client pans** (`.pan-y`): CSS scroll-driven animation on the frame's own
-  `view-timeline` (`--frame`), range `cover 12% → 88%`. Compositor-only, no JS; rests on
-  the top of the page where unsupported.
-- **The lamp** theme transition (above). **Swap-in** for the language line (opacity).
-- **Touch** (`.tap`): scale .97 on `:active`, 140ms.
+- **Case studies** (`/work/<slug>/`): the first screen is the project's room (`.first`),
+  with the top bar on its colour. Then on the ground: the first sentence of the intro as a
+  claim with the rest under it and a "Built with" line (`.lead`); for Jembatan, how it
+  works and three real said/sent pairs; the captures on charcoal (`.screens`: phones four
+  across, two on a phone; web captures two across); the story as a ruled list with the
+  heading on the left of the split (`.blocks`); the footer, whose last line leads back to
+  the home page.
+- **`/websites`:** a bare first screen with a sentence for a business owner and a "Get in
+  touch" button; the four client sites as rooms, each with what it does for the business
+  and one quiet line on how it is built; what's on offer (`.offer`); client quotes
+  (`.quotes`, hidden until there is a real one); how it works (`.how`); "I build apps too"
+  in Jembatan's room (`.apps`); who you're working with (`.about`); the close. No CV, no
+  day-job room, no builds list, no link to the home page.
+- **404:** the ground, the name, one line at room-name scale, a link home.
 
-## Fallbacks
+## Motion and fallbacks
 
 | Condition | Result |
 |---|---|
-| No JS | Home: the route shows the first example over the review frame; Next does nothing. Case study: `.js` never lands on `<html>`, so CSS shows the film's stills (three phones, swipeable); the demo panel renders but cannot stream |
-| Reduced motion | Route: poster, no dot, no loop. Case study: the film's stills; no set-down, no pans, no lamp transition; demo output appears whole |
-| Save-Data | Neither clip is fetched: the route holds its poster; the film pins and its beats advance over the poster frame |
-| No scroll-driven animation support | Client captures rest at the top of their pages |
-| No View Transitions | Instant theme swap |
-
-## Measured (2026-10-01, production build)
-
-| | Budget | Measured |
-|---|---|---|
-| HTML (gz) | — | 16 KB |
-| JS gz, modern browsers | ≤ 130 KB (set below Next's floor; revised to ≤ 170 KB) | 161 KB, of which React DOM + Next runtime ≈ 111 KB |
-| CSS gz | — | 10 KB |
-| Fonts on first view | — | Mona Sans 98 KB (preloaded) + Anek Bangla Bengali subset |
-| Film | ≤ 600 KB / ≤ 1.4 MB | 729 KB / 1.3 MB, fetched a screen early. The phone cut is 129 KB over, accepted for sharp text at 3x; it loads after first paint, so first view is unaffected. Since 2026-10-15 home loads only the 729 KB cut, for the route's loop, and only near the section |
-| Client captures | — | 244–372 KB each, lazy |
-| Real-device fps, LCP, CLS | ≥ 50 fps · ≤ 1.8 s · ≤ 0.02 | **not yet measured: owner's phone, session 3** |
+| Default | The recording plays, muted and looping, while at least 35% of it is on screen, and pauses when it leaves. `preload="metadata"`, so the clip (729 KB) is fetched when it first plays |
+| `prefers-reduced-motion: reduce` | The recording never plays. Its poster, the review frame, shows instead |
+| No JavaScript, or no IntersectionObserver | The same poster. Every page is complete without script |
+| Fonts not yet loaded | `font-display: swap` over `system-ui` |
 
 ## Meta surfaces
 
-Not yet moved to v3 (session 2): `opengraph-image.tsx` and `icon.svg` still carry the
-Workshop palette, close enough to v3's that nothing clashes. `themeColor` is updated
-(`#f3ede3` / `#1d1813`).
+- **Share images:** `public/og.jpg` (home and case studies) and `public/og-websites.jpg`,
+  1200×630: the photo, the page's sentence, and the navy peek along the bottom. Their
+  source is `design-reference/v4/og.html` (`?websites` for the second).
+- **Favicon:** `public/favicon.svg`, the ink plate with a drawn capital J in the ground
+  colour (a path, since an SVG favicon cannot load the typeface); `favicon.ico` (32 and 16)
+  and `apple-touch-icon.png` (180) are rendered from it.
+- `theme-color` is the ground, `#f5f5f2`.
+
+## Measured (2026-11-13, production build)
+
+| | v4 | v3 for comparison |
+|---|---|---|
+| Home HTML, gzipped, stylesheet included | 8.8 KB | 16 KB + 10 KB CSS |
+| JavaScript | one inline script, about 0.4 KB | 161 KB gz |
+| Requests before the first screen is complete | the document, one font (43 KB), the photo | — |
+| The photo | 293 KB at 1200 wide (phones at 3x); 720-wide cut for 1x desktops | — |
+| Client captures | 56–143 KB each, lazy | 244–372 KB each |
+| The recording | 729 KB, fetched when it first plays | the same |
+| Real-device LCP and CLS | **not yet measured on the owner's phone** | |
+
+## Decision log
+
+- **9 Nov.** Three ideas (work-first, person-first, words on colour). He picked work-first,
+  then asked for his photo on the first screen and for each section to take the whole
+  screen. He rejected sliding or stacking scroll ("cool or gimmicky", and the text
+  disappears first) and empty desktop space.
+- **9 Nov.** The first screen stays bare: his one condition from Claude, and he agreed.
+- **13 Nov.** A blind review (a recruiter, a buyer, a lead developer) of the sketch led to:
+  the first sentence naming Wolseley; a tighter photo crop; Wolseley as its own room between
+  the client sites and the apps; hard facts as a ruled list in each room; real links and
+  stacks on every "Also" row.
+- **13 Nov.** Schibsted Grotesk replaced Instrument Sans. One light theme; no dark theme.
+- **13 Nov.** Built in Astro with one hand-written stylesheet and no client framework.
+  v3 shipped 161 KB of JavaScript for a static page.
+- **Carried from earlier versions:** no numbered eyebrows, no monospace kickers, no italic
+  or serif headings, no directional glyphs in links, no skills chip wall, no metric without
+  its denominator, nothing that overclaims.

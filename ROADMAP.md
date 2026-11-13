@@ -1,5 +1,9 @@
 # Roadmap — juberahmed.dev
 
+> **Historical.** This is the build plan for the first version (July 2026, Next.js). The site
+> is now v4, built in Astro: see [`CLAUDE.md`](CLAUDE.md) and [`DESIGN.md`](DESIGN.md).
+> Nothing below describes the current code.
+
 Build plan for the portfolio site. Structured as **checkpoints**, each sized to fit
 one Claude Code session. Read this + [`CLAUDE.md`](CLAUDE.md) (the brief) +
 [`DESIGN.md`](DESIGN.md) (the concrete design system) before starting a checkpoint.
