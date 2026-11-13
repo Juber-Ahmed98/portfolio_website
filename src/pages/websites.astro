@@ -31,6 +31,7 @@ import { curl, label } from "../lib/text";
   path={websitesMeta.path}
   ogImage="/og-websites.jpg"
   ogImageAlt="Websites for Birmingham businesses, built by hand, by Juber Ahmed"
+  themeColor="#e4d4ba"
 >
   <section class="hero">
     <header class="top">
@@ -40,8 +41,8 @@ import { curl, label } from "../lib/text";
         <a class="cv" href={websitesHero.action.href}>{websitesHero.action.label}</a>
       </nav>
     </header>
-    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} alt={person.photo.alt} fetchpriority="high" /></div>
-    <h1>{websitesHero.lead} <span>{websitesHero.tail}</span></h1>
+    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} width={person.photo.width} height={person.photo.height} alt={person.photo.alt} fetchpriority="high" /></div>
+    <h1><span class="say">{websitesHero.say}</span> <span class="rest">{websitesHero.rest}</span></h1>
   </section>
 
   <main>

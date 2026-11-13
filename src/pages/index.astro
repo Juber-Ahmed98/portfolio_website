@@ -15,7 +15,7 @@ const personLd = {
   name: person.fullName,
   alternateName: person.name,
   url: "https://juberahmed.dev",
-  image: new URL(person.photo.src, Astro.site).href,
+  image: new URL(person.photo.uncut, Astro.site).href,
   jobTitle: "Frontend Developer",
   email: `mailto:${person.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Birmingham", addressCountry: "GB" },
@@ -28,7 +28,7 @@ const personLd = {
 const wide = "(min-width: 900px) and (min-aspect-ratio: 11/10)";
 ---
 
-<Base title={homeMeta.title} description={homeMeta.description} path="/" jsonLd={personLd}>
+<Base title={homeMeta.title} description={homeMeta.description} path="/" jsonLd={personLd} themeColor="#e4d4ba">
   <section class="hero">
     <header class="top">
       <a class="name" href="#top">{person.name}</a>
@@ -37,8 +37,8 @@ const wide = "(min-width: 900px) and (min-aspect-ratio: 11/10)";
         <a class="cv" href={person.cv.href}>{person.cv.label}</a>
       </nav>
     </header>
-    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} alt={person.photo.alt} fetchpriority="high" /></div>
-    <h1>{hero.lead} <span>{hero.tail}</span></h1>
+    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} width={person.photo.width} height={person.photo.height} alt={person.photo.alt} fetchpriority="high" /></div>
+    <h1><span class="say">{hero.say}</span> <span class="rest">{hero.rest} <span class="tail">{hero.tail}</span></span></h1>
   </section>
 
   <main>

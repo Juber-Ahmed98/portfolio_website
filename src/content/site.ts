@@ -22,12 +22,20 @@ export const person = {
   cv: { label: "Download CV", href: "/cv.pdf" },
   github: "https://github.com/Juber-Ahmed98",
   linkedin: "https://www.linkedin.com/in/mohammed-juber-ahmed/",
-  /** 1086 wide (the retouched file's own size) for phones at 3x; the 720 cut is enough beside the sentence on a 1x desktop. */
+  /**
+   * The cut-out: him without the café behind him, transparent, 1837 × 1290.
+   * The 1100 cut is enough on a 1x laptop. On a wide screen it is drawn at 93%
+   * of the first screen's height; on a phone at up to 188vw.
+   */
   photo: {
-    src: "/juber.webp",
-    srcset: "/juber-720.webp 720w, /juber.webp 1086w",
-    sizes: "(min-width: 900px) and (min-aspect-ratio: 11/10) 42vw, 100vw",
+    src: "/juber-cut.webp",
+    srcset: "/juber-cut-1100.webp 1100w, /juber-cut.webp 1837w",
+    sizes: "(min-width: 900px) and (min-aspect-ratio: 11/10) calc((100vh - 44px) * 1.33), 188vw",
+    width: 1837,
+    height: 1290,
     alt: "Juber Ahmed, in profile, in evening light",
+    /** The photo as taken, café and all: for structured data. */
+    uncut: "/juber.webp",
   },
 } as const;
 
@@ -40,11 +48,13 @@ export const homeMeta = {
 // ── First screen ─────────────────────────────────────────────────────────────
 
 /**
- * One sentence, and nothing else on the first screen but the photo. `lead` is
- * set in ink, `tail` in the soft grey.
+ * Nothing on the first screen but him and these words, in two steps: `say` is
+ * the headline, `rest` the claim under it, and `tail` the quiet end of the
+ * claim.
  */
 export const hero = {
-  lead: "I’m Juber, a frontend developer in Birmingham. I’ve worked on Wolseley’s online store since 2022,",
+  say: "I’m Juber, a frontend developer in Birmingham.",
+  rest: "I’ve worked on Wolseley’s online store since 2022,",
   tail: "and I build websites and apps of my own.",
 } as const;
 

@@ -33,13 +33,14 @@ export const whatsappHref = reach.whatsapp
   : null;
 
 /**
- * The first screen: the photo and one sentence, as on the home page. `lead` is
- * set in ink, `tail` in the soft grey.
+ * The first screen: him and one sentence, as on the home page. `say` is the
+ * headline and `rest` runs on under it. All of it is in ink: an owner reading
+ * on a phone should not have to work for the second half.
  */
 export const websitesHero = {
   name: "Juber Ahmed",
-  lead: "Websites for Birmingham businesses, built by hand,",
-  tail: "with booking and enquiry forms that land straight in your inbox or WhatsApp.",
+  say: "Websites for Birmingham businesses, built by hand,",
+  rest: "with booking and enquiry forms that land straight in your inbox or WhatsApp.",
   action: { label: "Get in touch", href: "#contact" },
 } as const;
 

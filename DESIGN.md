@@ -14,9 +14,10 @@ built afterwards from the same parts.
 
 **Him first, then the work, one room at a time.**
 
-- The first screen is his photo and one sentence, and nothing else. It takes the whole
-  first screen on a phone, a tablet and a desktop, less a strip of the next room's colour
-  along the bottom edge so the page reads as continuing.
+- The first screen is him and one sentence, and nothing else. He is cut out of his photo
+  and stands on the bottom edge of the screen, on a sand taken from the photo itself. It
+  takes the whole first screen on a phone, a tablet and a desktop, less a strip of the next
+  room's colour along the bottom edge so the page reads as continuing.
 - Every piece of work gets a **room**: the full screen, in that project's own colour, with
   the real capture in it and a few plain words on the colour.
 - Websites first, then the day job, then the apps. Recruiters and hiring managers want the
@@ -35,13 +36,15 @@ built afterwards from the same parts.
 - **Edge-aligned.** Everything hangs off the left edge or the 5fr / 7fr split. No centred
   column, no max-width container: the page uses the screen it is given.
 - **Rules, not boxes.** Lists are ruled with a hairline above each row. No cards, no
-  borders around units, no chips or pills. Corners are 4px (buttons, the photo) or 6px
-  (screen captures); only phone frames are rounder.
+  borders around units, no chips or pills. Corners are 4px (buttons) or 6px (screen
+  captures); only phone frames are rounder. The photo has no box at all.
 - **Links are underlined text.** The one filled button is the CV (or "Get in touch" on
   `/websites`), solid ink with 4px corners.
 - **No numbered eyebrows, no monospace labels, no icons, no directional glyphs** (`→ ↗`).
   The small line above a heading (`.kind`) says what the thing is, in words.
 - **Real captures only.** Every picture is the real site or app. Nothing is illustrated.
+  The photo of him is real too: the cut-out removes the café behind him and generates
+  nothing (his touched-up crop for the face, the full frame for the shoulders).
 - **Nothing overclaims.** Real output is labelled as real output; a section with nothing
   real to show (client quotes) stays hidden.
 - **Words on a room's colour need contrast.** Check a new room colour against its text
@@ -51,11 +54,13 @@ built afterwards from the same parts.
 
 | Token | Value | Use |
 |---|---|---|
-| `--bg` | `#f5f5f2` | the ground: first screen, Wolseley, lists |
+| `--bg` | `#f5f5f2` | the ground: Wolseley, lists, the 404 |
 | `--ink` | `#121211` | text, the footer, the CV button · 17.2:1 on the ground |
 | `--soft` | `#6c6b66` | the quiet half of a sentence, labels, dates · 4.9:1 |
 | `--line` | `#dcdbd5` | hairline rules on the ground |
 | body grey | `#3d3c39` | long paragraphs on the ground · 10.1:1 |
+| `--sand` | `#e4d4ba` | the first screen, on the home page and `/websites`: the colour of the parasol in his photo · ink on it is 12.9:1 |
+| `--sand-soft` | `#675640` | the quiet half of the sentence on sand, tinted from it instead of grey · 4.8:1 |
 
 Rooms set `--room` (background) and `--on` (text) through a class:
 
@@ -91,7 +96,8 @@ on any colour. Shadows exist only under captures and phone frames.
 
 | Element | Phone | Wide | Notes |
 |---|---|---|---|
-| First-screen sentence (`.hero h1`) | `clamp(25px, 7.1vw, 52px)` | `clamp(40px, 5vw, 104px)` | 500, −0.04em, lh 1.04, balanced; the tail in `--soft` |
+| First-screen headline (`.hero .say`) | `clamp(34px, 9.9vw, 64px)` | `clamp(44px, 5.7vw, 108px)` | the first sentence · 600, −0.045em, lh .98, balanced: a room name's weight |
+| First-screen claim (`.hero .rest`) | `clamp(19px, 5.2vw, 30px)` | `clamp(22px, 2.3vw, 44px)` | the second sentence · 500, −0.025em, lh 1.18 / 1.14, max 30ch / 26ch; the tail in `--sand-soft` |
 | Room name (`.room h1, h2`) | `clamp(44px, 12.6vw, 96px)` | `clamp(56px, 6.6vw, 104px)` | 600, −0.048em, lh .96 |
 | Long room heading (`.more`, `.offer`) | `clamp(32px, 9.4vw, 96px)` | as room name | lh 1 |
 | Claim (`.claim`) | `clamp(21px, 5.7vw, 40px)` | `clamp(32px, 3.5vw, 70px)` | 500, −0.03em; `.about p` runs a step smaller |
@@ -124,10 +130,16 @@ on), so a big monitor does not get poster headings over tiny text.
 
 All in `src/styles/site.css`; the class names are the vocabulary.
 
-- **First screen** (`.hero`): `.top` (name left; links and the `.cv` button right), `.me`
-  (the photo, cropped to fill), the `h1`. Phone: photo above the sentence. Wide: photo left
-  (5fr), sentence bottom-right (7fr); he looks right, towards his words, so the photo stays
-  on the left. Height is `100svh` minus `--peek` (30–44px).
+- **First screen** (`.hero`), on `--sand`: `.top` (name left; links and the `.cv` button
+  right), `.me` (the cut-out, 1837 × 1290, transparent), the `h1` in two steps (`.say`, the
+  headline; `.rest`, the claim, with its `.tail`). Height is `100svh` minus `--peek`
+  (30–44px), and he always stands on its bottom edge.
+  - *Phone:* the words first, then him below them, centred, as tall as the space left
+    allows and never more than 132vw, his shoulders running off both sides.
+  - *Wide:* he stands bottom-left at 93% of the height, placed so the edge of his beard is
+    52px inside the 5fr / 7fr split; the words sit on the split, centred a little above
+    the middle, level with his eyes. He looks up and right, at his words, so he stays on
+    the left and is never mirrored. His right shoulder runs on under the words.
 - **Room** (`.room` + a colour class): `.head` (`.kind`, the name), `.stage`, `.lede`,
   `.facts`, `.links`.
 - **Stages:**
@@ -156,8 +168,8 @@ All in `src/styles/site.css`; the class names are the vocabulary.
   across, two on a phone; web captures two across); the story as a ruled list with the
   heading on the left of the split (`.blocks`); the footer, whose last line leads back to
   the home page.
-- **`/websites`:** a bare first screen with a sentence for a business owner and a "Get in
-  touch" button; the four client sites as rooms, each with what it does for the business
+- **`/websites`:** the same first screen (the cut-out on sand) with a sentence for a
+  business owner, all in ink, and a "Get in touch" button; the four client sites as rooms, each with what it does for the business
   and one quiet line on how it is built; what's on offer (`.offer`); client quotes
   (`.quotes`, hidden until there is a real one); how it works (`.how`); "I build apps too"
   in Jembatan's room (`.apps`); who you're working with (`.about`); the close. No CV, no
@@ -176,12 +188,14 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 ## Meta surfaces
 
 - **Share images:** `public/og.jpg` (home and case studies) and `public/og-websites.jpg`,
-  1200×630: the photo, the page's sentence, and the navy peek along the bottom. Their
-  source is `design-reference/v4/og.html` (`?websites` for the second).
+  1200×630: the first screen in small. The cut-out on sand, the page's sentence in its two
+  steps, and the navy peek along the bottom. Their source is `design-reference/v4/og.html`
+  (`?websites` for the second).
 - **Favicon:** `public/favicon.svg`, the ink plate with a drawn capital J in the ground
   colour (a path, since an SVG favicon cannot load the typeface); `favicon.ico` (32 and 16)
   and `apple-touch-icon.png` (180) are rendered from it.
-- `theme-color` is the ground, `#f5f5f2`.
+- `theme-color` is the sand, `#e4d4ba`, on the home page and `/websites`, so a phone's
+  browser bar matches the first screen; the ground, `#f5f5f2`, everywhere else.
 
 ## Measured (2026-11-13, production build)
 
@@ -190,7 +204,7 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 | Home HTML, gzipped, stylesheet included | 8.8 KB | 16 KB + 10 KB CSS |
 | JavaScript | one inline script, about 0.4 KB | 161 KB gz |
 | Requests before the first screen is complete | the document, one font (43 KB), the photo | — |
-| The photo | 285 KB at 1086 wide (phones at 3x); 720-wide cut, 120 KB, for 1x desktops | — |
+| The photo | the cut-out, 184 KB at 1837 wide (phones, big screens); 1100-wide cut, 72 KB, for 1x laptops. Was 285 KB and 120 KB before it was cut out | — |
 | Client captures | 56–143 KB each, lazy | 244–372 KB each |
 | The recording | 729 KB, fetched when it first plays | the same |
 | Real-device LCP and CLS | **not yet measured on the owner's phone** | |
@@ -209,6 +223,13 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 - **13 Nov.** Schibsted Grotesk replaced Instrument Sans. One light theme; no dark theme.
 - **13 Nov.** Built in Astro with one hand-written stylesheet and no client framework.
   v3 shipped 161 KB of JavaScript for a static page.
+- **13 Nov, after the build.** He called the first screen the weakest part and could not
+  supply a better photo. Five sketches with the same photo (`design-reference/v4/hero/`):
+  cut out on sand, cut out on dark, cut out in black and white, words first with a small
+  photo, and the photo untouched but edge to edge. He chose the cut-out on sand. What it
+  fixed: the café behind him read as a holiday photo, the boxed photo was the one thing on
+  the page that did not run to an edge, and a seven-line sentence at one size had no
+  headline. The first screen is still bare: the same five things, nothing added.
 - **Carried from earlier versions:** no numbered eyebrows, no monospace kickers, no italic
   or serif headings, no directional glyphs in links, no skills chip wall, no metric without
   its denominator, nothing that overclaims.

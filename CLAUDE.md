@@ -30,9 +30,10 @@ All copy lives in `src/content/site.ts` (home page and case studies) and
 
 ### The home page, top to bottom
 
-1. **First screen:** his photo and one sentence. "I'm Juber, a frontend developer in
-   Birmingham. I've worked on Wolseley's online store since 2022, and I build websites and
-   apps of my own." Name, Email and Download CV above it. Nothing else goes here.
+1. **First screen:** him, cut out of his photo, on sand, and one sentence in two steps.
+   The headline: "I'm Juber, a frontend developer in Birmingham." The claim under it: "I've
+   worked on Wolseley's online store since 2022, and I build websites and apps of my own."
+   Name, Email and Download CV above it. Nothing else goes here.
 2. **UMMA BJJ** (paid client site). Six-page site for a Birmingham Jiu-Jitsu and MMA gym,
    replacing a GoDaddy template: hand-coded HTML/CSS/JS, no build step, served as Workers
    static assets. The timetable renders from one data block; the free-trial form composes a
@@ -108,7 +109,10 @@ The owner gave Claude full control of the design after v1–v3, in his words, lo
 too busy and too clever, so the work got lost. What he chose from the sketches:
 
 - **The first screen is him:** his photo and one sentence, taking the whole first screen on
-  phone, tablet and desktop. Seeing him builds trust.
+  phone, tablet and desktop. Seeing him builds trust. Later the same day he called it the
+  weakest part of the site and chose, from five sketches (`design-reference/v4/hero/`), the
+  version now built: he is cut out of the photo and stands on the bottom edge, on a sand
+  taken from the parasol behind him, with the first sentence as the headline.
 - **Then a room for each piece of work:** the full screen, in that project's own colour,
   with the real capture in it. Websites first, then apps.
 - **Normal scrolling.** No sliding or stacking panels, no reveals, no empty desktop space.
@@ -133,7 +137,8 @@ direction ever changes.
   `/work/ecommerce-store/`, `/cv.pdf`, plus the redirects in `public/_redirects`. Never
   break one.
 - **`/websites`:** the page linked from cold emails to small and medium businesses, read by
-  an owner on a phone. Same design: a bare first screen (photo and one sentence), the four
+  an owner on a phone. Same design: the same bare first screen (the cut-out on sand and one
+  sentence, all in ink), the four
   client sites as rooms in the owner's terms, what he can build, how it works, "I build
   apps too" (Jembatan), who you're working with, contact. It **never links back to the
   job-hunting material** (no CV, day job or builds list); the home page's footer links to
@@ -142,9 +147,15 @@ direction ever changes.
   the owner sets them.
 - **Fonts** are self-hosted in `public/fonts/` (Schibsted Grotesk 400–700, Anek Bangla 500
   for Bengali). No request leaves the site.
-- **Media** lives in `public/`: `juber.webp`, `shots/<client>/{desktop,phone}.webp`,
-  `film/`, `work/<project>/`, `og.jpg`, `og-websites.jpg`, favicons. The repo is public:
-  only the photo crop the site uses is committed; the masters stay untracked.
+- **Media** lives in `public/`: `juber-cut.webp` and `juber-cut-1100.webp` (the first
+  screen's cut-out), `juber.webp` (the photo as taken, for structured data only),
+  `shots/<client>/{desktop,phone}.webp`, `film/`, `work/<project>/`, `og.jpg`,
+  `og-websites.jpg`, favicons. The repo is public: only the photo files the site uses are
+  committed; the masters stay untracked.
+- **The cut-out** is made by `design-reference/plans/v4-tools/cutout.py` (local-only), from
+  the two masters in `design-reference/plans/`: his touched-up crop for the face and the
+  full frame for the shoulders. It generates nothing and downloads nothing. Run it again
+  if the photo changes; a new photo needs its own numbers at the top of the script.
 - **Build and deploy:** `npm run build` writes `dist/`. `wrangler.jsonc` serves it as
   Workers static assets with `dist/404.html` for unknown paths. `main` auto-deploys through
   `.github/workflows/deploy.yml`, so **never push or merge to `main` without the owner
@@ -163,10 +174,11 @@ Done means all of these, on the built site (`npm run build`, then serve `dist/`)
 - The home page still matches `design-reference/v4/home.html`.
 
 The screenshot and comparison scripts (`shot.mjs`, `compare.mjs`, `check.mjs`,
-`icons.mjs`) are local-only in `design-reference/plans/v4-tools/` (gitignored, with the
-working plans). They drive the installed Edge through `puppeteer-core` and must be run from
+`icons.mjs`, `cutout.py`) are local-only in `design-reference/plans/v4-tools/` (gitignored,
+with the working plans). They drive the installed Edge through `puppeteer-core` and must be run from
 PowerShell. `icons.mjs` regenerates the favicons and the two share images from
-`public/favicon.svg` and `design-reference/v4/og.html`.
+`public/favicon.svg` and `design-reference/v4/og.html` (pass `og` as a third argument to
+render the share images alone).
 
 ## Still to come from the owner
 
@@ -178,5 +190,9 @@ Nothing below can be written until he supplies it. Never fill a gap with somethi
 - Prices or timelines for `/websites`, if he wants them shown.
 - Whether he takes contract work, and whether to say so.
 - A photo facing the camera, if he prefers one. (The current photo is his own touched-up
-  version, supplied 2026-11-13; its master is local-only in `design-reference/plans/`.)
+  version, supplied 2026-11-13; its master is local-only in `design-reference/plans/`. A
+  new one has to be cut out the same way, and he should still look right, towards the
+  words.)
+- The first screen on his own phone: it has only been checked in a desktop browser at
+  phone sizes.
 - A Bengali recording of the keyboard (the current one is English into Indonesian).
