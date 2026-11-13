@@ -1,0 +1,29 @@
+---
+/**
+ * The ink footer on the home page and the case studies: the address, the CV,
+ * GitHub and LinkedIn. `/websites` has its own close and never uses this.
+ */
+import { contact, person } from "../content/site";
+
+interface Props {
+  /** "home" shows the door to /websites; "case" shows the way back to the work. */
+  variant?: "home" | "case";
+}
+
+const { variant = "home" } = Astro.props;
+const door = variant === "home" ? contact.forBusiness : contact.allWork;
+---
+
+<footer class="end">
+  <h3>{contact.heading}</h3>
+  <a class="mail" href={`mailto:${person.email}`}>{person.email}</a>
+  <p class="sub">{contact.sub}</p>
+  <div class="feet">
+    <a class="cv" href={person.cv.href}>{person.cv.label}</a>
+    {contact.links.map((link) => <a href={link.href} rel="noopener">{link.label}</a>)}
+  </div>
+  <div class="small">
+    <p><a href={door.href}>{door.label}</a></p>
+    <p>{contact.footer}</p>
+  </div>
+</footer>

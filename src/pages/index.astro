@@ -1,0 +1,178 @@
+---
+/**
+ * The home page. The design is design-reference/v4/home.html, ported as it
+ * stands; the copy lives in src/content/site.ts.
+ */
+import Base from "../layouts/Base.astro";
+import Footer from "../components/Footer.astro";
+import Recording from "../components/Recording.astro";
+import { also, clients, dayJob, hero, homeMeta, jembatan, moreClients, person, waystone } from "../content/site";
+
+/** Person entity, so search engines tie the site to the named individual. */
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: person.fullName,
+  alternateName: person.name,
+  url: "https://juberahmed.dev",
+  image: new URL(person.photo.src, Astro.site).href,
+  jobTitle: "Frontend Developer",
+  email: `mailto:${person.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Birmingham", addressCountry: "GB" },
+  worksFor: { "@type": "Organization", name: "Wolseley" },
+  knowsAbout: ["Frontend development", "React", "Next.js", "TypeScript", "E-commerce", "A/B testing", "Cloudflare Workers"],
+  sameAs: [person.github, person.linkedin],
+};
+
+/** The media query that switches the two-column layouts on (see site.css). */
+const wide = "(min-width: 900px) and (min-aspect-ratio: 11/10)";
+---
+
+<Base title={homeMeta.title} description={homeMeta.description} path="/" jsonLd={personLd}>
+  <section class="hero">
+    <header class="top">
+      <a class="name" href="#top">{person.name}</a>
+      <nav>
+        <a href={`mailto:${person.email}`}>Email</a>
+        <a class="cv" href={person.cv.href}>{person.cv.label}</a>
+      </nav>
+    </header>
+    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} alt={person.photo.alt} fetchpriority="high" /></div>
+    <h1>{hero.lead} <span>{hero.tail}</span></h1>
+  </section>
+
+  <main>
+    {
+      clients.map((client) => (
+        <section class:list={["room", "site", client.room]}>
+          <div class="head">
+            <span class="kind">{client.kind}</span>
+            <h2>{client.name}</h2>
+          </div>
+          <div class="stage">
+            <div class="screen"><img src={client.shots.desktop} alt="" loading="lazy" decoding="async" /></div>
+            <div class="device"><img src={client.shots.phone} alt={client.shots.phoneAlt} loading="lazy" decoding="async" /></div>
+          </div>
+          <p class="lede">{client.lede}</p>
+          <ul class="facts">{client.facts.map((fact) => <li>{fact}</li>)}</ul>
+          <div class="links"><a href={client.link.href} rel="noopener">{client.link.label}</a></div>
+        </section>
+      ))
+    }
+
+    <section class="room more">
+      <div class="head">
+        <span class="kind">{moreClients.kind}</span>
+        <h2>{moreClients.heading}</h2>
+      </div>
+      <div class="pairs">
+        {
+          moreClients.sites.map((site) => (
+            <figure>
+              <a class="shot" href={site.url} rel="noopener" tabindex="-1" aria-hidden="true">
+                <picture>
+                  <source media={wide} srcset={site.shots.desktop} />
+                  <img src={site.shots.phone} alt="" loading="lazy" decoding="async" />
+                </picture>
+              </a>
+              <figcaption>
+                <div>
+                  <b>{site.name}</b>
+                  {site.what}
+                  <small>{site.stack}</small>
+                </div>
+                <a href={site.url} rel="noopener">{site.host}</a>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="room day">
+      <div class="head">
+        <span class="kind">{dayJob.kind}</span>
+        <h2>{dayJob.name}</h2>
+      </div>
+      <p class="claim"><span>{dayJob.claimLead}</span> {dayJob.claimTail}</p>
+      <ol class="roles">
+        {
+          dayJob.roles.map((role) => (
+            <li>
+              <span class="when">{role.dates}</span>
+              <div>
+                <b>{role.title}</b>
+                <p>{role.desc}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="kit">
+        <dl class="tools">
+          {dayJob.tools.map((tool) => <div><dt>{tool.k}</dt><dd>{tool.v}</dd></div>)}
+        </dl>
+        <div class="links"><a href={dayJob.cv.href}>{dayJob.cv.label}</a></div>
+      </div>
+    </section>
+
+    <section class="room jem">
+      <div class="head">
+        <span class="kind">{jembatan.kind}</span>
+        <h2>{jembatan.name}</h2>
+      </div>
+      <Recording />
+      <p class="lede">{jembatan.lede}</p>
+      <ul class="facts">{jembatan.facts.map((fact) => <li>{fact}</li>)}</ul>
+      <div class="links">
+        {jembatan.links.map((link) => <a href={link.href} rel={link.external ? "noopener" : undefined}>{link.label}</a>)}
+      </div>
+    </section>
+
+    <section class="room way">
+      <div class="head">
+        <span class="kind">{waystone.kind}</span>
+        <h2>{waystone.name}</h2>
+      </div>
+      <div class="stage">
+        {
+          waystone.shots.map((shot, i) => (
+            <div class:list={["device", `d${i + 1}`]}><img src={shot.src} alt={shot.alt} loading="lazy" decoding="async" /></div>
+          ))
+        }
+      </div>
+      <p class="lede">{waystone.lede}</p>
+      <ul class="facts">{waystone.facts.map((fact) => <li>{fact}</li>)}</ul>
+      <div class="links">
+        {waystone.links.map((link) => <a href={link.href} rel={link.external ? "noopener" : undefined}>{link.label}</a>)}
+      </div>
+    </section>
+
+    <section class="also">
+      <header>
+        <h3>{also.heading}</h3>
+        <a href={also.github.href} rel="noopener">{also.github.label}</a>
+      </header>
+      <ul class="rows">
+        {
+          also.builds.map((build) => (
+            <li>
+              <b>{build.name}</b>
+              <div class="what">
+                <div>
+                  <p>{build.what}</p>
+                  <small>{build.stack}</small>
+                </div>
+                <span class="go">
+                  {build.links.map((link) => <a href={link.href} rel={link.external ? "noopener" : undefined}>{link.label}</a>)}
+                </span>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+
+  <Footer variant="home" />
+</Base>

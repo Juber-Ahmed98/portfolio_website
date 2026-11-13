@@ -1,104 +1,176 @@
 /**
- * Single source of truth for the site's content.
+ * Single source of truth for the site's content (v4).
  *
- * Every string and project on the site lives here, typed, so copy never lives
- * inline in a component. The home page reads top to bottom: hero, Jembatan,
- * clients, day job, builds, contact. The film and the demo belong to the
- * Jembatan case study. Case studies are keyed by slug further down.
+ * Every string and project on the home page and the case studies lives here,
+ * typed, so copy never lives inline in a page. The home page reads top to
+ * bottom: first screen, UMMA BJJ, Al-Ilm, two more client sites, Wolseley,
+ * Jembatan, Waystone, "Also", footer. Case studies are keyed by slug further
+ * down. `/websites` has its own module, `websites.ts`.
+ *
+ * Nothing here is invented: no quote, number or claim without a source.
  */
 
-// ── Nav ──────────────────────────────────────────────────────────────────────
+export type Link = { label: string; href: string; external?: boolean };
 
-export type NavLink = { label: string; href: string };
+// ── The person ───────────────────────────────────────────────────────────────
+
+export const person = {
+  name: "Juber Ahmed",
+  fullName: "Mohammed Juber Ahmed",
+  email: "mohammed.juber.ahmed@gmail.com",
+  /** The real CV PDF lives at public/cv.pdf. */
+  cv: { label: "Download CV", href: "/cv.pdf" },
+  github: "https://github.com/Juber-Ahmed98",
+  linkedin: "https://www.linkedin.com/in/mohammed-juber-ahmed/",
+  /** 1200 wide for phones at 3x; the 720 cut is enough beside the sentence on a 1x desktop. */
+  photo: {
+    src: "/juber.webp",
+    srcset: "/juber-720.webp 720w, /juber.webp 1200w",
+    sizes: "(min-width: 900px) and (min-aspect-ratio: 11/10) 42vw, 100vw",
+    alt: "Juber Ahmed, in profile, in evening light",
+  },
+} as const;
+
+export const homeMeta = {
+  title: "Juber Ahmed · Frontend developer, Birmingham",
+  description:
+    "Juber Ahmed, a frontend developer in Birmingham. Wolseley’s online store by day, plus client websites and apps of my own.",
+} as const;
+
+// ── First screen ─────────────────────────────────────────────────────────────
 
 /**
- * The nav carries the wordmark and the CV button and nothing else (DESIGN.md:
- * Hallmark N9, edge-aligned minimal). The section anchors moved into the hero —
- * see `jumpLinks` below.
+ * One sentence, and nothing else on the first screen but the photo. `lead` is
+ * set in ink, `tail` in the soft grey.
  */
-export const nav = {
-  /** Logo splits so `.dev` can take the accent colour. */
-  brand: { text: "juberahmed", accent: ".dev", href: "#top" },
-  /**
-   * Real CV PDF lives at public/cv.pdf. `shortLabel` is what the button shows
-   * below 375px — the full label plus the wordmark and toggle needs 349px of
-   * bar, so under that it pushes past the right padding and off the screen,
-   * and it stays cramped against the wordmark until ~375px. The accessible
-   * name stays "Download CV" at every width.
-   */
-  cv: { label: "Download CV", shortLabel: "CV", href: "/cv.pdf" },
-} as const;
-
-// ── Hero ─────────────────────────────────────────────────────────────────────
-
-export type Translation = {
-  /** BCP 47 tag, set on the element so screen readers switch voice. */
-  lang: string;
-  label: string;
-  text: string;
-  dir?: "rtl";
-};
-
 export const hero = {
-  name: "Mohammed Juber Ahmed",
-  /** The H1 is a claim, so the role has to be said plainly right above it. */
-  role: "Frontend developer, Birmingham",
-  /** Rendered as one H1; split so the desktop break lands on the comma. */
-  headingLead: "I build web products,",
-  headingTail: "front to back.",
-  /**
-   * The same sentence in the languages the keyboard below speaks. Bengali
-   * leads: it is the reason the app exists. Drafted by hand, not by the app.
-   * Owner to check the wording. No captions: the button names both the
-   * language showing and the one a tap switches to.
-   */
-  translations: [
-    { lang: "bn", label: "Bengali", text: "আমি ওয়েব প্রোডাক্ট বানাই, শুরু থেকে শেষ পর্যন্ত।" },
-    { lang: "id", label: "Indonesian", text: "Aku bikin produk web, dari frontend sampai backend." },
-    { lang: "ar", label: "Arabic", text: "أبني منتجات ويب، من الواجهة إلى الخلفية.", dir: "rtl" },
-    { lang: "es", label: "Spanish", text: "Construyo productos web, de principio a fin." },
-  ] satisfies Translation[],
-  /** The role line already says "frontend developer", so this one doesn't. */
-  sub: "Building Wolseley's high-traffic B2B e-commerce storefront since 2022. In the evenings I ship my own products.",
+  lead: "I’m Juber, a frontend developer in Birmingham. I’ve worked on Wolseley’s online store since 2022,",
+  tail: "and I build websites and apps of my own.",
 } as const;
 
-// ── The film (Jembatan, under scroll; on the case study) ─────────────────────
+// ── Client sites ─────────────────────────────────────────────────────────────
 
-export type FilmStep = {
-  /** Second in the clip where this beat starts. */
-  at: number;
-  title: string;
-  body: string;
+export type Client = {
+  /** CSS class that carries the room's colour. */
+  room: string;
+  kind: string;
+  name: string;
+  lede: string;
+  /** Three or four hard facts a developer would ask about. */
+  facts: string[];
+  link: Link;
+  shots: { desktop: string; phone: string; phoneAlt: string };
 };
 
-export const film = {
-  /** Says what the film is, on screen, before the first beat. */
-  label: { name: "Jembatan", rest: "the Android keyboard I built" },
-  /** Pinned at the foot of the stage, so nobody wonders whether the page is stuck. */
-  cue: "Keep scrolling",
-  /** Scrub-encoded (keyframe every 8 frames). Both are 720 wide, so text stays
-      sharp on a 3x phone; phones get the 15fps cut (729 KB), desktop 20fps. */
-  src: { small: "/film/jembatan-phone.mp4", large: "/film/jembatan-720.mp4" },
-  poster: "/film/jembatan-poster.webp",
-  alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
-  /** The reduced-motion / no-JS version: three stills. */
-  stills: [
-    { src: "/film/still-speak.webp", alt: "Holding the mic: a live waveform fills the keyboard" },
-    { src: "/film/still-review.webp", alt: "Review before sending: what I heard, and the Indonesian translation" },
-    { src: "/film/still-sent.webp", alt: "The Indonesian message sent in the WhatsApp thread" },
-  ],
-  steps: [
-    { at: 0, title: "Hold the mic and say it in English.", body: "Speech is recognised on the phone itself." },
-    { at: 2.2, title: "Read it back in natural Indonesian.", body: "My Cloudflare Worker rewrites it the way a native speaker would text it, streamed in as it's written." },
-    { at: 6.2, title: "Insert it and send.", body: "It all happens inside the keyboard, so you never leave WhatsApp." },
-  ] satisfies FilmStep[],
+/**
+ * Paid, signed-off work for real businesses, shown with the owners'
+ * permission. One live link each: no code link (client repos) and no
+ * case-study page.
+ */
+export const clients: Client[] = [
+  {
+    room: "umma",
+    kind: "Paid client website · Sparkhill, Birmingham",
+    name: "UMMA BJJ",
+    lede: "A jiu-jitsu gym, moved off a GoDaddy template. Six pages, a timetable you can read on a phone, and a free-trial form that opens WhatsApp with the message already written.",
+    facts: [
+      "Hand-coded, no build step",
+      "Timetable from one data block",
+      "AVIF photos from Cloudflare’s edge",
+      "No third-party scripts",
+    ],
+    link: { label: "Visit ummabjj.com", href: "https://ummabjj.com/", external: true },
+    shots: {
+      desktop: "/shots/umma-bjj/desktop.webp",
+      phone: "/shots/umma-bjj/phone.webp",
+      phoneAlt: "ummabjj.com on a phone: the “Learn real self-defence” hero, with the free-trial button",
+    },
+  },
+  {
+    room: "alilm",
+    kind: "Paid client website · Birmingham",
+    name: "Al-Ilm Martial Arts",
+    lede: "One page for a boxing and Muay Thai club, on a server that also runs its waiting-list forms. They still work with JavaScript switched off.",
+    facts: [
+      "One Cloudflare Worker: the page and its API",
+      "Forms post to /api/enquiry and email the club",
+      "No visitor data leaves Cloudflare",
+    ],
+    link: { label: "Visit alilmmartialarts.co.uk", href: "https://alilmmartialarts.co.uk/", external: true },
+    shots: {
+      desktop: "/shots/al-ilm/desktop.webp",
+      phone: "/shots/al-ilm/phone.webp",
+      phoneAlt: "alilmmartialarts.co.uk on a phone: the “Al-Ilm means the knowledge” hero",
+    },
+  },
+];
+
+export type MoreClient = {
+  name: string;
+  what: string;
+  stack: string;
+  url: string;
+  host: string;
+  shots: { desktop: string; phone: string };
+};
+
+/** The other two client sites, as a matched pair in one room. */
+export const moreClients = {
+  kind: "Two more client websites",
+  heading: "All four sites are live, for paying clients.",
+  sites: [
+    {
+      name: "Yoosuf Zaman",
+      what: "A business coach’s site, with a booking form that runs on a Cloudflare Worker.",
+      stack: "HTML · CSS · JavaScript · Workers",
+      url: "https://yoosufzaman.com/",
+      host: "yoosufzaman.com",
+      shots: { desktop: "/shots/yoosuf-zaman/desktop.webp", phone: "/shots/yoosuf-zaman/phone.webp" },
+    },
+    {
+      name: "Stratemize",
+      what: "A marketing agency’s site, with a live consultation booker on a tRPC API and D1.",
+      stack: "React 19 · TypeScript · Workers · D1",
+      url: "https://stratemize.co.uk/",
+      host: "stratemize.co.uk",
+      shots: { desktop: "/shots/stratemize/desktop.webp", phone: "/shots/stratemize/phone.webp" },
+    },
+  ] satisfies MoreClient[],
 } as const;
 
-// ── Jembatan, the product ────────────────────────────────────────────────────
+// ── Day job ──────────────────────────────────────────────────────────────────
 
-export type RouteLayer = { k: string; v: string };
+export type Role = { dates: string; title: string; desc: string };
 
-export type RouteExample = {
+/** Wolseley, kept at this level of detail: nothing internal, no numbers. */
+export const dayJob = {
+  kind: "Day job · since December 2022",
+  name: "Wolseley",
+  /** `claimLead` is set in the soft grey, `claimTail` in ink. */
+  claimLead: "Wolseley’s online store is where trade customers order plumbing and heating supplies.",
+  claimTail: "Every change I ship goes out as a test, and only the winners stay.",
+  roles: [
+    {
+      dates: "Aug 2024 – now",
+      title: "Digital Developer",
+      desc: "Responsive, accessible pages, shipped through A/B and multivariate tests in Monetate: merchandising badges, promotions, seasonal lightboxes.",
+    },
+    {
+      dates: "Dec 2022 – Aug 2024",
+      title: "Apprentice Merchandiser and Developer",
+      desc: "Shipped to production while earning the Level 3 Software Development Technician qualification with QA.",
+    },
+  ] satisfies Role[],
+  tools: [
+    { k: "At work", v: "HTML, SCSS, JavaScript, Monetate, Bloomreach, Yext, Jira" },
+    { k: "On my own", v: "React, Next.js, TypeScript, Kotlin, Cloudflare Workers and D1" },
+  ],
+  cv: { label: "Download my CV", href: "/cv.pdf" },
+} as const;
+
+// ── Jembatan ─────────────────────────────────────────────────────────────────
+
+export type Example = {
   /** What was said, as it was said (fillers and all: cleaning them up is the job). */
   said: string;
   lang: "bn" | "id";
@@ -106,42 +178,53 @@ export type RouteExample = {
   sent: string;
 };
 
-/**
- * The home page's Jembatan section: "front to back". What you say, the four
- * layers it passes through, and what the other person reads, beside the real
- * recording on loop. The scroll-scrubbed film and the demo panel live on the
- * case study (`/work/jembatan/`).
- */
 export const jembatan = {
+  room: "jem",
+  kind: "Android app · used daily by my family",
   name: "Jembatan",
-  meaning: "Indonesian for “bridge”",
-  status: "Used daily by my family · Google Play open testing",
-  lede: "An Android keyboard that turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali, without leaving the chat.",
-  also: "Every layer is mine, and so are the onboarding, billing through RevenueCat, the brand and the marketing site.",
-  /** Top to bottom, the order a message travels. */
-  layers: [
-    { k: "Phone", v: "Speech recognised on the device" },
-    { k: "Keyboard", v: "Kotlin and Compose, a custom Android keyboard with swipe typing" },
-    { k: "Worker", v: "Cloudflare Worker at POST /api/v1/translate, streamed over SSE, stores no message text" },
-    { k: "Model", v: "gpt-5.6-luna, with my instructions and your speech kept in separate roles" },
-  ] satisfies RouteLayer[],
-  route: {
+  lede: "A keyboard that turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali.",
+  facts: [
+    "Kotlin and Compose, a custom Android keyboard",
+    "Speech recognised on the phone",
+    "A Cloudflare Worker, streamed over SSE",
+    "Stores no message text",
+  ],
+  links: [
+    { label: "Read the case study", href: "/work/jembatan/" },
+    { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
+  ] satisfies Link[],
+  /**
+   * The real recording, muted and looping, played only while it is on screen
+   * and never under reduced motion. The phone cut is 720px wide. The poster is
+   * the review frame.
+   */
+  loop: {
+    src: "/film/jembatan-phone.mp4",
+    poster: "/film/still-review.webp",
+    alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
+    caption: "The recording: English into Indonesian",
+  },
+  labels: {
     said: "You say",
-    sent: "Sent in",
-    next: "Next example",
-    note: "Real output, not written by hand. The first is the message in the recording; the others ran through the app's own prompt and model.",
+    /** Followed by the language: "It sends, in Bengali". */
+    sent: "It sends, in",
+    note: "Real output, not written by hand.",
+    /** The fuller note, on the case study, where all three examples show. */
+    noteLong: "Real output, not written by hand. The first is the message in the recording; the others ran through the app’s own prompt and model.",
   },
   /**
-   * Real output only. The first pair is on screen in the recording beside it
-   * (its review strip). The other two are the most common answer across nine
-   * runs of the production prompt and model (`gpt-5.6-luna`, neutral register)
-   * in Jembatan's eval sweep (`cpm-neutral.json`, `worker/tools/ttft-sweep.mjs`).
+   * Real output only. The first pair is on screen in the recording (its review
+   * strip). The other two are the most common answer across nine runs of the
+   * production prompt and model (`gpt-5.6-luna`, neutral register) in
+   * Jembatan's eval sweep (`cpm-neutral.json`, `worker/tools/ttft-sweep.mjs`).
    * Every `said` is the message itself, addressed to the reader: the app
    * translates what you say, it doesn't take instructions.
+   *
+   * The home page shows `examples[homeExample]`; the case study shows all three.
    */
   examples: [
     {
-      said: "Great, I will start getting ready. Let's meet up in one hour.",
+      said: "Great, I will start getting ready. Let’s meet up in one hour.",
       lang: "id",
       langLabel: "Indonesian",
       sent: "Oke, aku mulai siap-siap. Kita ketemu dalam satu jam, ya.",
@@ -158,274 +241,108 @@ export const jembatan = {
       langLabel: "Bengali",
       sent: "আমার একটু দেরি হয়ে যাচ্ছে, এখন রাস্তায় ভীষণ জ্যাম। দুঃখিত।",
     },
-  ] satisfies RouteExample[],
-  /**
-   * The film's recording, played on its own (muted, looping, only while on
-   * screen). The phone cut is 720px wide, sharp at this size. The poster is
-   * the review frame, so a still shows the first example as it appears.
-   */
-  loop: {
-    src: "/film/jembatan-phone.mp4",
-    poster: "/film/still-review.webp",
-    alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
-  },
+  ] satisfies Example[],
+  homeExample: 1,
+  /** The three beats of the recording, for the case study. */
+  steps: [
+    { title: "Hold the mic and say it in English.", body: "Speech is recognised on the phone itself." },
+    { title: "Read it back in natural Indonesian.", body: "My Cloudflare Worker rewrites it the way a native speaker would text it, streamed in as it’s written." },
+    { title: "Insert it and send.", body: "It all happens inside the keyboard, so you never leave WhatsApp." },
+  ],
+} as const;
+
+// ── Waystone ─────────────────────────────────────────────────────────────────
+
+export const waystone = {
+  room: "way",
+  kind: "Android app · in testing on Google Play",
+  name: "Waystone",
+  lede: "A fitness app that reads my bathroom scale over Bluetooth and keeps weigh-ins, food and training in one record.",
+  facts: [
+    "Kotlin and Jetpack Compose",
+    "Talks to the scale over Bluetooth LE",
+    "The record is stored on the phone, in Room",
+    "An AI coach that can propose, never write",
+  ],
+  /** No code link: the repo is private (health data in the docs). */
   links: [
-    { label: "Read the case study", href: "/work/jembatan/" },
-    { label: "Visit the site", href: "https://jembatan.juberahmed.dev/", external: true },
+    { label: "Read the case study", href: "/work/waystone/" },
+    { label: "Visit the site", href: "https://waystone.juberahmed.dev/", external: true },
+  ] satisfies Link[],
+  /** The third capture only shows where there is room for it. */
+  shots: [
+    { src: "/work/waystone/01-today.webp", alt: "Waystone’s Today screen: day 14 of 105, an 18-day streak and today’s record" },
+    { src: "/work/waystone/02-body.webp", alt: "Waystone’s Body screen: a trend weight of 82.0 kg and a six-month chart" },
+    { src: "/work/waystone/04-training.webp", alt: "" },
   ],
 } as const;
 
-// ── The demo (on the case study) ─────────────────────────────────────────────
+// ── Also ─────────────────────────────────────────────────────────────────────
 
-export type DemoTarget = { code: "bn" | "id" | "ar" | "es"; label: string; dir?: "rtl" };
-
-export const demo = {
-  /**
-   * `false` until the demo proxy on the Jembatan landing Worker is deployed
-   * (design-reference/plans, session 2). Canned mode plays the samples below
-   * through the same streaming UI and says so on screen.
-   */
-  live: false,
-  /**
-   * What the panel calls itself in each mode. The canned note sits right under
-   * the title, not in a footnote: if someone is told "try it" and asks "is
-   * that real?", the panel has already answered.
-   */
-  copy: {
-    live: {
-      title: "Try the keyboard",
-      badge: "live · on the app's Worker",
-      note: "Runs on the same Worker the app uses, capped per visitor. Nothing you type is stored.",
-    },
-    canned: {
-      title: "How it reads",
-      badge: "samples",
-      note: "Sample messages, with translations written by hand to show the review step. Not live output from the app.",
-    },
-  },
-  endpoint: "https://jembatan.juberahmed.dev/api/demo/translate",
-  maxChars: 140,
-  targets: [
-    { code: "bn", label: "Bengali" },
-    { code: "id", label: "Indonesian" },
-    { code: "ar", label: "Arabic", dir: "rtl" },
-    { code: "es", label: "Spanish" },
-  ] satisfies DemoTarget[],
-  /** Drafted by hand to show the flow; replaced by real Worker output once live. */
-  samples: [
-    {
-      en: "Running ten minutes late, save me a seat.",
-      out: {
-        bn: "দশ মিনিট দেরি হবে, আমার জন্য একটা সিট রেখো।",
-        id: "Telat sepuluh menit nih, simpenin kursi buat aku ya.",
-        ar: "متأخر عشر دقائق، احجز لي مكان.",
-        es: "Llego diez minutos tarde, guárdame un sitio.",
-      },
-    },
-    {
-      en: "Have you eaten yet? I can bring something back.",
-      out: {
-        bn: "খেয়েছ? আসার সময় কিছু নিয়ে আসতে পারি।",
-        id: "Udah makan belum? Aku bisa bawain sesuatu.",
-        ar: "أكلت؟ أقدر أجيب لك شي وأنا راجع.",
-        es: "¿Ya comiste? Te puedo llevar algo.",
-      },
-    },
-    {
-      en: "Call me when you land, no rush.",
-      out: {
-        bn: "নামার পর ফোন দিও, তাড়া নেই।",
-        id: "Kabarin aku kalau udah mendarat ya, santai aja.",
-        ar: "كلمني لما توصل، على راحتك.",
-        es: "Llámame cuando aterrices, sin prisa.",
-      },
-    },
-  ],
-} as const;
-
-// ── Client sites ─────────────────────────────────────────────────────────────
-
-export type Client = {
-  name: string;
-  /** Who it's for, plainly. */
-  who: string;
-  url: string;
-  host: string;
-  summary: string;
-  /** Four facts a developer would ask about. */
-  facts: string[];
-  shots: { phone: string; desktop: string; alt: string };
-};
-
-/**
- * Paid, signed-off work for real businesses, shown with the owners'
- * permission. One live link each: no code link (client repos) and no
- * case-study page.
- */
-export const clients: Client[] = [
-  {
-    name: "UMMA BJJ",
-    who: "Jiu-Jitsu and MMA gym, Sparkhill",
-    url: "https://ummabjj.com/",
-    host: "ummabjj.com",
-    summary: "The gym was on a GoDaddy template with its timetable posted as a JPEG. I rebuilt it as six hand-coded pages: the timetable renders from one data block, and the free-trial form writes the WhatsApp message to the coaches for you.",
-    facts: ["6 pages, no build step", "Timetable from one data block", "AVIF photos from Cloudflare's edge", "No third-party scripts"],
-    shots: {
-      phone: "/shots/umma-bjj/mobile-full.webp",
-      desktop: "/shots/umma-bjj/desktop.webp",
-      alt: "ummabjj.com on a phone, from the “Learn real self-defence” hero down through reviews, classes and the week's timetable",
-    },
-  },
-  {
-    name: "Al-Ilm Martial Arts",
-    who: "Boxing, kickboxing and Muay Thai club",
-    url: "https://alilmmartialarts.co.uk/",
-    host: "alilmmartialarts.co.uk",
-    summary: "A one-pager served from a Cloudflare Worker that also runs its own enquiry endpoint. Both waiting-list forms mail the club through a send_email binding, post natively, and still work with JavaScript switched off.",
-    facts: ["One Worker, static + API", "POST /api/enquiry", "Works without JavaScript", "No visitor data leaves Cloudflare"],
-    shots: {
-      phone: "/shots/al-ilm/mobile-full.webp",
-      desktop: "/shots/al-ilm/desktop.webp",
-      alt: "alilmmartialarts.co.uk on a phone, from the “Al-Ilm means the knowledge” hero down through the three disciplines",
-    },
-  },
-];
-
-// ── More builds ──────────────────────────────────────────────────────────────
-
-export type Build = {
-  name: string;
-  what: string;
-  stack: string;
-  /** Month it started. Every build here is from 2026, so the month is the signal. */
-  started: string;
-  status: "live" | "building";
-  links: { label: string; href: string; external?: boolean }[];
-};
+export type Build = { name: string; what: string; stack: string; links: Link[] };
 
 /**
  * Everything else with something to click, strongest first. Rows without a
  * public link stay off: a row you can't open is a dead end, and so is a
- * sentence about private work. Thin builds (a one-day calculator) stay off
- * too; each row should be worth an interview question.
+ * sentence about private work. Thin builds stay off too; each row should be
+ * worth an interview question.
  */
-export const builds: Build[] = [
-  {
-    name: "Stratemize",
-    what: "Client site for a marketing agency, with a live consultation booker on a tRPC API and D1",
-    stack: "React 19 · TypeScript · Workers · D1",
-    started: "Jul 2026",
-    status: "live",
-    links: [{ label: "Live site", href: "https://stratemize.co.uk/", external: true }],
-  },
-  {
-    name: "Waystone",
-    what: "My fitness PWA rebuilt as a native Android app: Bluetooth scale sync, food and training logs, and an AI coach that only proposes",
-    stack: "Kotlin · Compose · Room · Firebase",
-    started: "May 2026",
-    status: "building",
-    links: [
-      { label: "Case study", href: "/work/waystone/" },
-      { label: "Site", href: "https://waystone.juberahmed.dev/", external: true },
-    ],
-  },
-  {
-    name: "E-commerce store",
-    what: "A storefront with an Express and Postgres backend, built to learn the half my day job doesn't touch",
-    stack: "React 19 · Express · Postgres · JWT",
-    started: "May 2026",
-    status: "live",
-    links: [
-      { label: "Case study", href: "/work/ecommerce-store/" },
-      { label: "Code", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
-    ],
-  },
-  {
-    name: "Yoosuf Zaman",
-    what: "Client site for a business-setup consultant, with a Worker-backed booking form",
-    stack: "HTML · CSS · JavaScript · Workers",
-    started: "Jul 2026",
-    status: "live",
-    links: [{ label: "Live site", href: "https://yoosufzaman.com/", external: true }],
-  },
-  {
-    name: "Habit tracker",
-    // Repo is spelled "habbit_tracker" on GitHub; the row keeps the right spelling.
-    what: "An installable PWA shell with strict TypeScript and dual themes. The features come next",
-    stack: "Next.js 16 · React 19 · Tailwind 4",
-    started: "May 2026",
-    status: "building",
-    links: [{ label: "Code", href: "https://github.com/Juber-Ahmed98/habbit_tracker", external: true }],
-  },
-  {
-    name: "Qibla Compass",
-    what: "A browser qibla finder driven by the phone's orientation sensors, in about 8 KB",
-    stack: "HTML · CSS · JavaScript",
-    started: "Jan 2026",
-    status: "live",
-    links: [
-      { label: "Live site", href: "https://juber-ahmed98.github.io/Qibla_Compass/", external: true },
-      { label: "Code", href: "https://github.com/Juber-Ahmed98/Qibla_Compass", external: true },
-    ],
-  },
-];
-
-
-// ── Day job ──────────────────────────────────────────────────────────────────
-
-export type Role = { dates: string; title: string; desc: string };
-
-export const dayJob = {
-  heading: "By day, Wolseley.",
-  lede: "Since December 2022 I've worked on Wolseley's B2B e-commerce site, a high-traffic storefront where trade customers order plumbing and heating supplies.",
-  roles: [
+export const also = {
+  heading: "Also",
+  github: { label: "GitHub", href: person.github, external: true },
+  builds: [
     {
-      dates: "Aug 2024 – now",
-      title: "Digital Developer",
-      desc: "Responsive, accessible pages, shipped through A/B and multivariate tests in Monetate: merchandising badges, promotions, seasonal lightboxes. Each change goes out as a test, and only the winners stay.",
+      name: "E-commerce store",
+      what: "A storefront with an Express and Postgres backend, built to learn the half my day job doesn’t touch.",
+      stack: "React 19 · Express · Postgres · JWT",
+      links: [
+        { label: "Case study", href: "/work/ecommerce-store/" },
+        { label: "Code", href: "https://github.com/Juber-Ahmed98/ecommerce_store", external: true },
+      ],
     },
     {
-      dates: "Dec 2022 – Aug 2024",
-      title: "Apprentice Merchandiser and Developer",
-      desc: "Shipped to production while earning the Level 3 Software Development Technician qualification with QA.",
+      name: "Qibla Compass",
+      what: "Finds the qibla from your phone’s sensors, in about 8 KB.",
+      stack: "HTML · CSS · JavaScript",
+      links: [
+        { label: "Live", href: "https://juber-ahmed98.github.io/Qibla_Compass/", external: true },
+        { label: "Code", href: "https://github.com/Juber-Ahmed98/Qibla_Compass", external: true },
+      ],
     },
-  ] satisfies Role[],
-  tools: [
-    { k: "At work", v: "HTML, SCSS, JavaScript, Monetate, Bloomreach, Yext, Jira" },
-    { k: "On my own", v: "React, Next.js, TypeScript, Kotlin, Cloudflare Workers and D1" },
-  ],
+    {
+      // Repo is spelled "habbit_tracker" on GitHub; the row keeps the right spelling.
+      name: "Habit tracker",
+      what: "An installable app shell in strict TypeScript, with light and dark themes. In progress.",
+      stack: "Next.js 16 · React 19 · Tailwind 4",
+      links: [{ label: "Code", href: "https://github.com/Juber-Ahmed98/habbit_tracker", external: true }],
+    },
+  ] satisfies Build[],
 } as const;
 
-// ── Contact ──────────────────────────────────────────────────────────────────
-
-export type ContactLink = { label: string; href: string; external?: boolean };
+// ── Footer ───────────────────────────────────────────────────────────────────
 
 export const contact = {
-  heading: "Let's build the next one.",
+  heading: "Get in touch",
   sub: "A frontend role, a site for your business, or a product idea: email is the quickest way to reach me.",
   /** One-way door to the client page; `/websites` never links back here. */
   forBusiness: { label: "Need a website for your business? See the sites I build for clients", href: "/websites/" },
-  email: "mohammed.juber.ahmed@gmail.com",
-  cv: { label: "Download CV", href: "/cv.pdf" },
   links: [
-    { label: "GitHub", href: "https://github.com/Juber-Ahmed98", external: true },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/mohammed-juber-ahmed/", external: true },
-  ] satisfies ContactLink[],
-  colophon: "Built with Next.js and Tailwind, set in Mona Sans, served from Cloudflare's edge.",
+    { label: "GitHub", href: person.github, external: true },
+    { label: "LinkedIn", href: person.linkedin, external: true },
+  ] satisfies Link[],
+  /** On the case studies, the way back. */
+  allWork: { label: "All my work", href: "/" },
   footer: "© 2026 Mohammed Juber Ahmed · Birmingham",
 } as const;
 
-
 // ── Case studies ─────────────────────────────────────────────────────────────
-// Drives the `/work/[slug]/` routes (CP5). One entry per featured project, keyed
-// by slug. This is the CP5 *template* content — honest starter drafts; the deep
-// narratives land in CP6 (Jembatan) and CP7 (Waystone, E-commerce).
+// Drives the `/work/[slug]/` pages. One entry per project, keyed by slug. Each
+// page opens in the project's own room (the same colour as on the home page).
 //
-// Links reuse the home-page values; a live link of "#" means "not public yet" and
-// is skipped rather than faked (the "don't fake it" rule).
+// A live link of "#" means "not public yet" and is skipped rather than faked.
 
 export type CaseStudyBlock = {
-  /** Mono sub-heading, e.g. "the problem". */
+  /** Sub-heading, e.g. "the problem" (the page capitalises it). */
   heading: string;
   /** One or more paragraphs of body copy. */
   body: string[];
@@ -434,7 +351,7 @@ export type CaseStudyBlock = {
 export type CaseStudyLink = { label: string; href: string; external?: boolean };
 
 export type CaseStudyShot = {
-  /** Mono caption under the frame. Names what the capture shows, plainly. */
+  /** Caption under the frame. Names what the capture shows, plainly. */
   label: string;
   /** Real capture. Without one the frame falls back to a caption-only tile. */
   src?: string;
@@ -443,41 +360,47 @@ export type CaseStudyShot = {
 
 export type CaseStudy = {
   slug: string;
-  /** Mono eyebrow above the title, e.g. "case study · flagship". */
-  eyebrow: string;
+  /** CSS class that carries the room's colour. */
+  room: string;
+  /** The quiet line above the name. */
+  kind: string;
   name: string;
   /** One-line summary under the title. */
   tagline: string;
   /** Lead paragraph. */
   intro: string;
-  stack: string; // mono stack line (mirrors the featured card)
-  stackChips: string[]; // toolbox-style pills
+  /** Three or four hard facts, the ruled list in the first room. */
+  facts: readonly string[];
+  /** Everything it's built with, as one line under the intro. */
+  stackChips: string[];
   /** Narrative blocks rendered in order: problem → approach → … */
   blocks: CaseStudyBlock[];
   /**
-   * What the captures are of — decides the frame aspect and how many sit in a
-   * row. Phone captures stand four across at device aspect; web captures run
-   * two across at 16:10. Mixing shapes in one grid is what makes a case study
-   * read as a folder of PNGs.
+   * What the captures are of: decides the frame and how many sit in a row.
+   * Phone captures stand four across in device frames (two on a phone); web
+   * captures run two across at 16:10.
    */
   shotShape: "phone" | "web";
+  /** The captures' own width / height, so the frames hold their place before the images load. */
+  shotRatio: string;
   screenshots: CaseStudyShot[];
   /** Live + code links. Live entries with href "#" are skipped (not yet public). */
   links: CaseStudyLink[];
 };
 
-/** Build order — also drives `generateStaticParams` for the static export. */
+/** Build order: also the list of pages `getStaticPaths` generates. */
 export const caseStudyOrder = ["jembatan", "waystone", "ecommerce-store"] as const;
 
 export const caseStudies: Record<string, CaseStudy> = {
   jembatan: {
     slug: "jembatan",
-    eyebrow: "case study · flagship",
+    room: "jem",
+    kind: "Case study · Android app",
     name: "Jembatan",
     tagline: "An Android translation keyboard with its own production API.",
     intro:
       "Jembatan is a native Android keyboard that turns what you say into a natural, colloquial message in someone else's language and drops it straight into WhatsApp. Hold the mic and speak. On-device speech recognition catches it, a Cloudflare Worker cleans it up and translates it, and the result lands in the field you're already typing in. I built every part of it: the Kotlin app, the backend, the AI prompt, onboarding, branding, billing, and the roadmap.",
-    stack: "kotlin · cloudflare-workers · openai-api",
+    facts: jembatan.facts,
     stackChips: [
       "Kotlin",
       "Jetpack Compose",
@@ -554,12 +477,13 @@ export const caseStudies: Record<string, CaseStudy> = {
       {
         heading: "where it is now",
         body: [
-          "The Worker is deployed and the app is code-complete through the monetization wave: on-device and cloud translation, five languages (English, Indonesian, Bengali, Arabic, Spanish), and Pro billing wired through RevenueCat and the Play Console. It's in daily use by the people it was built for, running in a closed Play test.",
+          "The Worker is deployed and the app is code-complete through the monetization wave: on-device and cloud translation, five languages (English, Indonesian, Bengali, Arabic, Spanish), and Pro billing wired through RevenueCat and the Play Console. It's in daily use by the people it was built for, and in open testing on Google Play.",
           "Next up: a final polish pass on the keyboard itself, a public soft launch, and iOS once its keyboard extension limits are validated. I'd rather ship it right for the family already using it than rush it to a store.",
         ],
       },
     ],
     shotShape: "phone",
+    shotRatio: "540 / 1170",
     /* All four are captures of the shipping app on a real device — the first
        three from one session, so they read as one shoot rather than a folder
        of PNGs. The conversation in them is the demo thread from the launch
@@ -593,12 +517,13 @@ export const caseStudies: Record<string, CaseStudy> = {
   },
   waystone: {
     slug: "waystone",
-    eyebrow: "case study",
+    room: "way",
+    kind: "Case study · Android app",
     name: "Waystone",
     tagline: "A native Android fitness app: weigh-ins, food and training in one record, with a coach that reads it.",
     intro:
       "Waystone keeps the record of a body recomposition on your phone: a daily weigh-in, what you eat, the sessions you train, and a smoothed trend that frames every number. It started in May as Mission to Abs, a React PWA I used every day for a 15-week cut. The PWA hit the limits of the browser, so I rebuilt it as a native Kotlin app and retired the web version. It's in testing on Google Play by invitation; the code stays private because the docs hold my own health data.",
-    stack: "kotlin · jetpack-compose · room · firebase",
+    facts: waystone.facts,
     stackChips: [
       "Kotlin",
       "Jetpack Compose",
@@ -646,6 +571,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       },
     ],
     shotShape: "phone",
+    shotRatio: "540 / 1199",
     screenshots: [
       {
         label: "today · day 14 of 105",
@@ -674,12 +600,18 @@ export const caseStudies: Record<string, CaseStudy> = {
   },
   "ecommerce-store": {
     slug: "ecommerce-store",
-    eyebrow: "case study",
-    name: "E-commerce Store",
+    room: "shop",
+    kind: "Case study · Personal build",
+    name: "E-commerce store",
     tagline: "A storefront I built front to back to teach myself the backend my day job doesn't touch.",
     intro:
       "A complete e-commerce store I built from scratch on my own: a React frontend with an Express and PostgreSQL backend behind it. My role at Wolseley is frontend only, so I built this to learn the other half: how a product catalogue, user accounts, and authentication fit together end to end. E-commerce is the domain I know best from the day job, which made it the natural thing to build, and every line here is my own.",
-    stack: "react · tailwind · react-router",
+    facts: [
+      "React 19 and Tailwind 4",
+      "React Router 7, basket in Context",
+      "Express and PostgreSQL",
+      "bcrypt passwords, JWT sessions",
+    ],
     stackChips: [
       "React 19",
       "Tailwind CSS v4",
@@ -722,6 +654,7 @@ export const caseStudies: Record<string, CaseStudy> = {
       },
     ],
     shotShape: "web",
+    shotRatio: "16 / 10",
     screenshots: [
       {
         label: "product grid",

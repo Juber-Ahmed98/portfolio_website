@@ -1,0 +1,164 @@
+---
+/**
+ * Case studies: one static page per entry in `caseStudies` (site.ts).
+ *
+ * Each opens in the project's own room, the same colour it has on the home
+ * page, then reads down on the light ground: what it is, the captures, and the
+ * story as a ruled list. Jembatan also carries the recording, its three beats
+ * and three real said/sent pairs.
+ */
+import Base from "../../layouts/Base.astro";
+import Footer from "../../components/Footer.astro";
+import Recording from "../../components/Recording.astro";
+import { caseStudies, caseStudyOrder, jembatan, person, waystone } from "../../content/site";
+import { curl, prose, sentenceCase } from "../../lib/text";
+
+export function getStaticPaths() {
+  return caseStudyOrder.map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const study = caseStudies[slug];
+
+// Skip links that aren't public yet ("#"): no faked demo button.
+const links = study.links.filter((link) => link.href !== "#");
+const isJembatan = slug === "jembatan";
+const isWaystone = slug === "waystone";
+
+// The first sentence of the intro is the claim; the rest is the paragraph under it.
+const cut = study.intro.indexOf(". ") + 1;
+const claim = study.intro.slice(0, cut);
+const rest = study.intro.slice(cut).trim();
+
+const title = `${study.name} · Case study · ${person.name}`;
+---
+
+<Base title={title} description={study.tagline} path={`/work/${slug}/`}>
+  <div class:list={["first", study.room]}>
+    <header class="top">
+      <a class="name" href="/">{person.name}</a>
+      <nav>
+        <a href={`mailto:${person.email}`}>Email</a>
+        <a class="cv" href={person.cv.href}>{person.cv.label}</a>
+      </nav>
+    </header>
+    <section class="room">
+      <div class="head">
+        <span class="kind">{study.kind}</span>
+        <h1>{study.name}</h1>
+      </div>
+      {isJembatan && <Recording />}
+      {
+        isWaystone && (
+          <div class="stage">
+            {waystone.shots.map((shot, i) => (
+              <div class:list={["device", `d${i + 1}`]}><img src={shot.src} alt={shot.alt} /></div>
+            ))}
+          </div>
+        )
+      }
+      {
+        study.shotShape === "web" && (
+          <div class="stage">
+            <div class="screen"><img src={study.screenshots[0].src} alt={study.screenshots[0].alt} /></div>
+          </div>
+        )
+      }
+      <p class="lede">{curl(study.tagline)}</p>
+      <ul class="facts">{study.facts.map((fact) => <li>{fact}</li>)}</ul>
+      {
+        links.length > 0 && (
+          <div class="links">
+            {links.map((link) => <a href={link.href} rel={link.external ? "noopener" : undefined}>{link.label}</a>)}
+          </div>
+        )
+      }
+    </section>
+  </div>
+
+  <main>
+    <section class="lead">
+      <p class="claim">{curl(claim)}</p>
+      <p class="body" set:html={prose(rest)} />
+      <div class="kit">
+        <dl class="tools">
+          <div><dt>Built with</dt><dd>{study.stackChips.join(", ")}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    {
+      isJembatan && (
+        <section class="also">
+          <header><h2>How it works</h2></header>
+          <ol class="rows">
+            {jembatan.steps.map((step) => (
+              <li>
+                <b>{step.title}</b>
+                <div class="what"><p>{step.body}</p></div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )
+    }
+    {
+      isJembatan && (
+        <section class="also">
+          <header><h2>What it sends</h2></header>
+          <ul class="rows">
+            {jembatan.examples.map((example) => (
+              <li class="ex">
+                <div>
+                  <small>{jembatan.labels.said}</small>
+                  <p class="said">{example.said}</p>
+                </div>
+                <div>
+                  <small>{jembatan.labels.sent} {example.langLabel}</small>
+                  <p class="sent" lang={example.lang}>{example.sent}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <p class="note">{jembatan.labels.noteLong}</p>
+        </section>
+      )
+    }
+
+    <section class="room screens">
+      <h2>Screens</h2>
+      <div class:list={["shots", study.shotShape]}>
+        {
+          study.screenshots.map((shot) => (
+            <figure>
+              <div class="frame" style={`aspect-ratio: ${study.shotRatio}`}><img src={shot.src} alt={shot.alt ?? ""} loading="lazy" decoding="async" /></div>
+              <figcaption>{sentenceCase(shot.label)}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <article class="story">
+      <ol class="blocks">
+        {
+          study.blocks.map((block) => (
+            <li>
+              <h2>{sentenceCase(block.heading)}</h2>
+              <div>{block.body.map((para) => <p set:html={prose(para)} />)}</div>
+            </li>
+          ))
+        }
+      </ol>
+      {
+        links.length > 0 && (
+          <div class="links">
+            {links.map((link) => <a href={link.href} rel={link.external ? "noopener" : undefined}>{link.label}</a>)}
+          </div>
+        )
+      }
+    </article>
+  </main>
+
+  <Footer variant="case" />
+</Base>

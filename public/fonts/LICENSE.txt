@@ -1,0 +1,14 @@
+# Fonts
+
+Self-hosted, both under the SIL Open Font License 1.1.
+
+- `schibsted-grotesk-latin.woff2`: Schibsted Grotesk, variable, weights 400 to 700,
+  Latin subset. Copyright 2023 The Schibsted-Grotesk Project Authors
+  (https://github.com/schibsted/schibsted-grotesk).
+- `anek-bangla-500-bengali.woff2`, `anek-bangla-500-latin.woff2`: Anek Bangla at
+  weight 500, the Bengali subset plus the few Latin punctuation marks that sit
+  inside Bengali sentences. Copyright 2021 The Anek Project Authors
+  (https://github.com/EkType/Anek).
+
+Made from the `@fontsource-variable` packages with fontTools (`varLib.instancer`
+to limit the weight axis, `subset` for the punctuation file).

@@ -1,0 +1,155 @@
+---
+/**
+ * `/websites`: the page linked from cold emails to small and medium
+ * businesses, read by an owner on a phone. Same design as the home page: a
+ * bare first screen, then each client site in its own room, in the owner's
+ * terms. It never links back to the job-hunting material (no CV, day job or
+ * builds list). Copy lives in src/content/websites.ts.
+ */
+import Base from "../layouts/Base.astro";
+import { person } from "../content/site";
+import {
+  about,
+  apps,
+  clientSites,
+  close,
+  howItWorks,
+  quotes,
+  reach,
+  services,
+  websitesHero,
+  websitesMeta,
+  whatsappHref,
+  work,
+} from "../content/websites";
+import { curl, label } from "../lib/text";
+---
+
+<Base
+  title={websitesMeta.title}
+  description={websitesMeta.description}
+  path={websitesMeta.path}
+  ogImage="/og-websites.jpg"
+  ogImageAlt="Websites for Birmingham businesses, built by hand, by Juber Ahmed"
+>
+  <section class="hero">
+    <header class="top">
+      <a class="name" href="#top">{websitesHero.name}</a>
+      <nav>
+        {whatsappHref && <a href={whatsappHref} rel="noopener">WhatsApp</a>}
+        <a class="cv" href={websitesHero.action.href}>{websitesHero.action.label}</a>
+      </nav>
+    </header>
+    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} alt={person.photo.alt} fetchpriority="high" /></div>
+    <h1>{websitesHero.lead} <span>{websitesHero.tail}</span></h1>
+  </section>
+
+  <main>
+    {
+      clientSites.map((site) => (
+        <section class:list={["room", "site", site.room]}>
+          <div class="head">
+            <span class="kind">{site.who}</span>
+            <h2>{site.name}</h2>
+          </div>
+          <div class="stage">
+            <div class="screen"><img src={site.shots.desktop} alt="" loading="lazy" decoding="async" /></div>
+            <div class="device"><img src={site.shots.phone} alt={site.shots.alt} loading="lazy" decoding="async" /></div>
+          </div>
+          <p class="lede">{curl(site.summary)}</p>
+          <ul class="facts">{site.points.map((point) => <li>{curl(point)}</li>)}</ul>
+          <div class="links">
+            <a href={site.url} rel="noopener">Visit {site.host}</a>
+            <small>{site.tech}</small>
+          </div>
+        </section>
+      ))
+    }
+
+    <section class="room offer">
+      <div class="head">
+        <span class="kind">{work.kind}</span>
+        <h2>{work.claim}</h2>
+        <p class="lede">{work.invite}</p>
+      </div>
+      <div class="list">
+        <h3>{services.heading}</h3>
+        <ul class="rows">
+          {
+            services.items.map((item) => (
+              <li>
+                <b>{item.title}</b>
+                <div class="what"><p>{curl(item.body)}</p></div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    {
+      quotes.length > 0 && (
+        <section class="quotes">
+          <h2>What clients say</h2>
+          <ul>
+            {quotes.map((quote) => (
+              <li>
+                <blockquote><p>{curl(quote.text)}</p></blockquote>
+                <footer>{quote.name}, {quote.role}, {quote.business}</footer>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="room how">
+      <div class="head">
+        <h2>{howItWorks.heading}</h2>
+      </div>
+      <ol class="rows">
+        {
+          howItWorks.steps.map((step) => (
+            <li>
+              <b>{step.label}</b>
+              <div class="what"><p>{curl(step.body)}</p></div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="room apps">
+      <div class="head">
+        <span class="kind">{apps.kind}</span>
+        <h2>{apps.heading}</h2>
+      </div>
+      <div class="stage">
+        <div class="device"><img src={apps.still.src} alt={apps.still.alt} loading="lazy" decoding="async" /></div>
+      </div>
+      <p class="lede">{curl(apps.body)}</p>
+      <div class="links"><a href={apps.link.href}>{apps.link.label}</a></div>
+    </section>
+
+    <section class="about">
+      <h2>{label(about.heading)}</h2>
+      <p>{curl(about.body)}</p>
+    </section>
+  </main>
+
+  <footer class="end" id="contact">
+    <h3>{label(close.heading)}</h3>
+    <a class="mail" href={reach.mailto}>{reach.email}</a>
+    <p class="sub">{curl(close.sub)}</p>
+    {
+      whatsappHref && (
+        <div class="feet">
+          <a class="cv" href={whatsappHref} rel="noopener">Message me on WhatsApp</a>
+        </div>
+      )
+    }
+    <div class="small">
+      <p>{close.footer}</p>
+    </div>
+  </footer>
+</Base>

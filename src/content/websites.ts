@@ -4,11 +4,11 @@
  * talks to a business owner reading on their phone, so the copy is about what
  * each site does for the business and the tech is one small line per project.
  *
- * Nothing here links back into the job-hunting material (CV, builds index,
+ * Nothing here links back into the job-hunting material (CV, builds list,
  * day job). The home page links here, not the other way round.
  */
 
-import { contact } from "@/content/site";
+import { person } from "./site";
 
 export const websitesMeta = {
   title: "Websites for Birmingham businesses · Juber Ahmed",
@@ -18,9 +18,9 @@ export const websitesMeta = {
 } as const;
 
 export const reach = {
-  email: contact.email,
+  email: person.email,
   /** Prefilled subject so enquiries are easy to spot in the inbox. */
-  mailto: `mailto:${contact.email}?subject=${encodeURIComponent("Website enquiry")}`,
+  mailto: `mailto:${person.email}?subject=${encodeURIComponent("Website enquiry")}`,
   /**
    * International format, digits only (e.g. "447700900123"). Empty hides the
    * WhatsApp buttons; set it and they appear in the hero and the close.
@@ -32,18 +32,22 @@ export const whatsappHref = reach.whatsapp
   ? `https://wa.me/${reach.whatsapp}?text=${encodeURIComponent("Hi Juber, I'd like to talk about a website.")}`
   : null;
 
+/**
+ * The first screen: the photo and one sentence, as on the home page. `lead` is
+ * set in ink, `tail` in the soft grey.
+ */
 export const websitesHero = {
   name: "Juber Ahmed",
-  role: "Web developer in Birmingham",
-  headingLead: "Websites for Birmingham businesses,",
-  headingTail: "built by hand.",
-  sub: "I build fast, good-looking sites for gyms, clubs, consultants and local firms, with booking and enquiry forms that land straight in your inbox or WhatsApp.",
-  seeWork: "See the sites I've built",
+  lead: "Websites for Birmingham businesses, built by hand,",
+  tail: "with booking and enquiry forms that land straight in your inbox or WhatsApp.",
+  action: { label: "Get in touch", href: "#contact" },
 } as const;
 
 // ── Work ─────────────────────────────────────────────────────────────────────
 
 export type ClientSite = {
+  /** CSS class that carries the room's colour. */
+  room: string;
   name: string;
   who: string;
   url: string;
@@ -56,13 +60,16 @@ export type ClientSite = {
   shots: { phone: string; desktop: string; alt: string };
 };
 
+/** Said straight after the four sites, above the list of what's on offer. */
 export const work = {
-  heading: "Recent sites.",
-  intro: "Every one of these is live and was built for a paying client. Open them on your phone and have a look around.",
+  kind: "Recent sites",
+  claim: "Every one of these is live and was built for a paying client.",
+  invite: "Open them on your phone and have a look around.",
 };
 
 export const clientSites: ClientSite[] = [
   {
+    room: "umma",
     name: "UMMA BJJ",
     who: "Jiu-Jitsu and MMA gym, Sparkhill",
     url: "https://ummabjj.com/",
@@ -77,12 +84,13 @@ export const clientSites: ClientSite[] = [
     ],
     tech: "Hand-coded HTML, CSS and JavaScript on Cloudflare",
     shots: {
-      phone: "/shots/umma-bjj/mobile-full.webp",
+      phone: "/shots/umma-bjj/phone.webp",
       desktop: "/shots/umma-bjj/desktop.webp",
-      alt: "ummabjj.com on a phone, from the “Learn real self-defence” hero down through reviews, classes and the week's timetable",
+      alt: "ummabjj.com on a phone: the “Learn real self-defence” hero, with the free-trial button",
     },
   },
   {
+    room: "yoosuf",
     name: "Yoosuf Zaman",
     who: "Business coach and setup consultant",
     url: "https://yoosufzaman.com/",
@@ -97,12 +105,13 @@ export const clientSites: ClientSite[] = [
     ],
     tech: "HTML, CSS and JavaScript, with a Cloudflare Worker behind the form",
     shots: {
-      phone: "/shots/yoosuf-zaman/mobile-full.webp",
+      phone: "/shots/yoosuf-zaman/phone.webp",
       desktop: "/shots/yoosuf-zaman/desktop.webp",
-      alt: "yoosufzaman.com on a phone, from the “Stop building projects” hero down through the businesses he has built and his services",
+      alt: "yoosufzaman.com on a phone: the “Stop building projects” hero",
     },
   },
   {
+    room: "alilm",
     name: "Al-Ilm Martial Arts",
     who: "Boxing, kickboxing and Muay Thai club",
     url: "https://alilmmartialarts.co.uk/",
@@ -117,12 +126,13 @@ export const clientSites: ClientSite[] = [
     ],
     tech: "HTML, CSS and JavaScript on a Cloudflare Worker",
     shots: {
-      phone: "/shots/al-ilm/mobile-full.webp",
+      phone: "/shots/al-ilm/phone.webp",
       desktop: "/shots/al-ilm/desktop.webp",
-      alt: "alilmmartialarts.co.uk on a phone, from the “Al-Ilm means the knowledge” hero down through the three disciplines",
+      alt: "alilmmartialarts.co.uk on a phone: the “Al-Ilm means the knowledge” hero",
     },
   },
   {
+    room: "strat",
     name: "Stratemize",
     who: "Marketing agency",
     url: "https://stratemize.co.uk/",
@@ -137,9 +147,9 @@ export const clientSites: ClientSite[] = [
     ],
     tech: "React and TypeScript on Cloudflare Workers, with a D1 database",
     shots: {
-      phone: "/shots/stratemize/mobile-full.webp",
+      phone: "/shots/stratemize/phone.webp",
       desktop: "/shots/stratemize/desktop.webp",
-      alt: "stratemize.co.uk on a phone, from the “Words that move markets forward” hero down through its services",
+      alt: "stratemize.co.uk on a phone: the “Words that move markets forward” hero",
     },
   },
 ];
@@ -158,7 +168,7 @@ export const quotes: Quote[] = [];
 // ── Services ─────────────────────────────────────────────────────────────────
 
 export const services = {
-  heading: "What I can build for you.",
+  heading: "What I can build for you",
   items: [
     {
       title: "A new website",
@@ -194,6 +204,7 @@ export const howItWorks = {
 // ── Apps ─────────────────────────────────────────────────────────────────────
 
 export const apps = {
+  kind: "Jembatan, my own Android keyboard",
   heading: "I build apps too.",
   body: "Websites are most of what I do for clients, but I also build full products. Jembatan is my own Android keyboard: you speak, and it writes the message the way a native speaker would text it, running on a server I built and look after myself. If your business needs more than a website, I can take it further.",
   still: { src: "/film/still-sent.webp", alt: "The Jembatan keyboard in WhatsApp, with the translated message sent" },

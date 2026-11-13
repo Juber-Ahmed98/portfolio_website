@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- v4 favicon: the ink plate with a drawn capital J in the ground colour.
+       The glyph is a stroked path, not a font: SVG favicons can't load web fonts. -->
+  <rect width="64" height="64" rx="8" fill="#121211"/>
+  <path d="M40 14 V38.5 A11 11 0 0 1 18 38.5" fill="none" stroke="#f5f5f2" stroke-width="9"/>
+</svg>

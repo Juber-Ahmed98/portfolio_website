@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Share image source (1200 × 630)</title>
+<!--
+  The source of public/og.jpg and public/og-websites.jpg. Open it through the
+  sketch server (which serves the repo root) and capture it at 1200 × 630:
+    /design-reference/v4/og.html            → public/og.jpg
+    /design-reference/v4/og.html?websites   → public/og-websites.jpg
+-->
+<style>
+  @font-face {
+    font-family: "Schibsted Grotesk"; font-weight: 400 700;
+    src: url("/public/fonts/schibsted-grotesk-latin.woff2") format("woff2");
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: #f5f5f2; color: #121211;
+    font: 500 24px/1.3 "Schibsted Grotesk", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    display: grid; grid-template-columns: 396px 1fr; column-gap: 56px;
+    padding: 48px 56px 66px 48px; position: relative;
+  }
+  .me { border-radius: 6px; overflow: hidden; background: #3a2a22; }
+  .me img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .words { display: grid; grid-template-rows: auto 1fr; }
+  .top { display: flex; justify-content: space-between; letter-spacing: -0.01em; }
+  .top b { font-weight: 600; }
+  .top span { color: #6c6b66; }
+  h1 { align-self: end; font-size: 55px; line-height: 1.05; letter-spacing: -0.04em; font-weight: 500; margin-bottom: -8px; }
+  h1 span { color: #6c6b66; }
+  .peek { position: absolute; left: 0; right: 0; bottom: 0; height: 18px; background: #14245e; }
+</style>
+</head>
+<body>
+  <div class="me"><img src="/public/juber.webp" alt=""></div>
+  <div class="words">
+    <div class="top"><b>Juber Ahmed</b><span id="where">juberahmed.dev</span></div>
+    <h1 id="line">I’m Juber, a frontend developer in Birmingham. I’ve worked on Wolseley’s online store since 2022, <span>and I build websites and apps of my own.</span></h1>
+  </div>
+  <div class="peek"></div>
+  <script>
+    if (location.search.includes('websites')) {
+      document.getElementById('where').textContent = 'juberahmed.dev/websites';
+      document.getElementById('line').innerHTML = 'Websites for Birmingham businesses, built by hand, <span>with booking and enquiry forms that land straight in your inbox or WhatsApp.</span>';
+    }
+  </script>
+</body>
+</html>

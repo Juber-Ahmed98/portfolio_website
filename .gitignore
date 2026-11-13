@@ -13,9 +13,9 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# astro
+/dist/
+/.astro/
 
 # production
 /build
@@ -42,7 +42,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # working design plans — kept local. This repo is public, and the plans discuss
 # unreleased work and the internals of the Jembatan API (auth, CORS and rate-limit

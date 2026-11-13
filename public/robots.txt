@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://juberahmed.dev/sitemap.xml
+Host: juberahmed.dev

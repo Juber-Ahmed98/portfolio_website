@@ -1,0 +1,425 @@
+/*
+  juberahmed.dev, v4. One hand-written stylesheet for every page, inlined at
+  build time. The home page's rules are the finished design in
+  design-reference/v4/home.html; the case studies and /websites reuse them.
+  DESIGN.md is the contract.
+*/
+
+/* ── Fonts, self-hosted (public/fonts) ─────────────────────────────────────── */
+@font-face {
+  font-family: "Schibsted Grotesk"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url("/fonts/schibsted-grotesk-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Anek Bangla"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("/fonts/anek-bangla-500-bengali.woff2") format("woff2");
+  unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2, U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7, U+200C-200D, U+20B9, U+25CC, U+A8F1;
+}
+/* The spaces and punctuation inside a Bengali sentence. */
+@font-face {
+  font-family: "Anek Bangla"; font-style: normal; font-weight: 500; font-display: swap;
+  src: url("/fonts/anek-bangla-500-latin.woff2") format("woff2");
+  unicode-range: U+0020-0040, U+00A0, U+2013, U+2018-2019, U+201C-201D;
+}
+
+:root {
+  --bg: #f5f5f2;
+  --ink: #121211;
+  --soft: #6c6b66;
+  --line: #dcdbd5;
+  --pad: 20px;
+  --peek: 30px;
+  --gap: 56px;
+  --sans: "Schibsted Grotesk", system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 16px/1.5 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }
+img, video { display: block; max-width: 100%; }
+ul, ol { list-style: none; padding: 0; }
+code { font: 400 .9em/1 ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace; letter-spacing: -0.01em; }
+
+/* ── First screen: me, and one sentence. Nothing else. ─────────────────────── */
+.hero {
+  height: calc(100svh - var(--peek)); min-height: 560px;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+  padding: 0 var(--pad) 24px;
+}
+.top {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0 12px; font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+}
+.top .name { font-weight: 600; }
+.top nav { display: flex; align-items: center; gap: 18px; }
+.top nav a:not(.cv) { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+.cv {
+  display: inline-block; background: var(--ink); color: var(--bg);
+  padding: 7px 12px 8px; border-radius: 4px; font-weight: 600; line-height: 1.2;
+}
+.me { position: relative; border-radius: 4px; overflow: hidden; background: #3a2a22; }
+.me img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
+.hero h1 {
+  margin-top: 18px;
+  font-size: clamp(25px, 7.1vw, 52px);
+  line-height: 1.04; letter-spacing: -0.04em; font-weight: 500;
+  text-wrap: balance;
+}
+.hero h1 span { color: var(--soft); }
+
+/* ── A room for each piece of work, the full screen, in its own colour ─────── */
+.room {
+  min-height: 100svh; background: var(--room); color: var(--on);
+  display: grid; grid-template-rows: auto minmax(300px, 1fr) auto auto auto;
+  padding: 22px var(--pad) 30px; position: relative; overflow: hidden;
+}
+.kind { display: block; font-size: 14px; font-weight: 500; opacity: .76; }
+.room h1, .room h2 {
+  font-size: clamp(44px, 12.6vw, 96px); line-height: .96; letter-spacing: -0.048em; font-weight: 600;
+  margin-top: 6px; text-wrap: balance;
+}
+.stage { position: relative; margin: 20px calc(var(--pad) * -1); }
+.lede { max-width: 42ch; font-size: 17px; line-height: 1.42; }
+.facts { margin-top: 10px; font-size: 14px; line-height: 1.5; opacity: .78; max-width: 46ch; }
+.facts li { display: block; }
+.links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 14px; font-weight: 500; }
+.links a { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+
+.device {
+  position: absolute; border-radius: 7.5% / 3.5%; overflow: hidden; background: #0c0b0a;
+  box-shadow: 0 0 0 5px #0c0b0a, 0 30px 60px -20px rgb(0 0 0 / .45);
+}
+.device > * { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.screen { position: absolute; border-radius: 6px; overflow: hidden; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .5); }
+.screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+
+/* The rooms' colours. */
+.umma { --room: #14245e; --on: #fff; }
+.alilm { --room: #e6e1d6; --on: #14110f; }
+.yoosuf { --room: #c9a227; --on: #0a1f45; }
+.strat { --room: #16213b; --on: #fff; }
+.yoosuf .kind, .yoosuf .facts { opacity: .9; }
+.jem, .apps { --room: #b84d37; --on: #fff; }
+.way { --room: #0c4f4b; --on: #fff; }
+.shop { --room: #1d4ed8; --on: #fff; }
+
+/* A client site: the desktop capture, with the phone capture over its corner. */
+.site .screen { height: 84%; aspect-ratio: 16 / 10; left: 34%; top: 5%; }
+.site .device { height: 96%; aspect-ratio: 780 / 1690; left: var(--pad); top: 2%; }
+
+/* Two more client sites: the claim, then a matched pair. */
+.more { --room: #171716; --on: #f5f5f2; grid-template-rows: auto 1fr; }
+.more h2 { font-size: clamp(32px, 9.4vw, 96px); line-height: 1; }
+.pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-self: center; margin-top: 26px; }
+.shot { display: block; position: relative; aspect-ratio: 780 / 1690; border-radius: 7.5% / 3.5%; overflow: hidden; background: #0c0b0a; box-shadow: 0 0 0 4px #0c0b0a, 0 24px 50px -20px rgb(0 0 0 / .6); margin: 4px; }
+.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.pairs figcaption { margin-top: 14px; font-size: 14px; line-height: 1.4; }
+.pairs figcaption b { display: block; font-size: 17px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 3px; }
+.pairs figcaption small { display: block; font-size: 12.5px; opacity: .66; margin-top: 5px; }
+.pairs figcaption a { display: inline-block; margin-top: 8px; font-weight: 500; border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+
+/* The day job: no picture, so the words are the stage. */
+.day { --room: var(--bg); --on: var(--ink); grid-template-rows: auto auto 1fr auto auto; }
+.claim { margin-top: 20px; font-size: clamp(21px, 5.7vw, 40px); line-height: 1.14; letter-spacing: -0.03em; font-weight: 500; max-width: 25ch; text-wrap: pretty; }
+.claim span { color: var(--soft); }
+.roles { margin-top: 24px; align-self: end; }
+.roles li { padding: 12px 0 13px; border-top: 1px solid var(--line); }
+.roles .when { display: block; font-size: 14px; color: var(--soft); }
+.roles b { display: block; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+.roles p { font-size: 15px; line-height: 1.42; color: #3d3c39; margin-top: 3px; max-width: 54ch; }
+.kit { border-top: 1px solid var(--line); padding-top: 12px; }
+.tools { display: grid; gap: 8px; }
+.tools dt { font-size: 14px; color: var(--soft); }
+.tools dd { font-size: 15px; line-height: 1.4; font-weight: 500; }
+
+.jem .stage { margin: 18px 0; display: grid; grid-template-columns: 47% minmax(0, 1fr); column-gap: 18px; align-items: center; }
+.jem .device { position: relative; width: 100%; aspect-ratio: 720 / 1560; }
+.rec { padding: 5px; }
+.rec figcaption { margin-top: 12px; font-size: 12.5px; line-height: 1.3; opacity: .8; }
+.pair small { display: block; font-size: 13px; opacity: .78; font-weight: 500; margin-bottom: 3px; }
+.pair .said { font-size: 15px; line-height: 1.35; margin-bottom: 12px; opacity: .94; }
+.pair .sent { font: 500 20px/1.38 "Anek Bangla", var(--sans); }
+.pair .note { margin: 10px 0 0; font-weight: 400; opacity: .7; }
+
+.way .device { height: 94%; aspect-ratio: 540 / 1199; top: 2%; }
+.way .d1 { left: var(--pad); } .way .d2 { left: 58%; top: 9%; } .way .d3 { display: none; }
+
+/* ── After the rooms ───────────────────────────────────────────────────────── */
+.also { padding: 60px var(--pad) 64px; }
+.also header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; font-size: 14px; font-weight: 500; }
+.also h2, .also h3, .end h3 { font-size: 14px; font-weight: 500; color: var(--soft); }
+.also header a, .go a { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+.rows li { padding: 16px 0 18px; border-top: 1px solid var(--line); }
+.rows b { display: block; font-weight: 600; font-size: 18px; letter-spacing: -0.02em; }
+.rows p { margin-top: 2px; max-width: 46ch; }
+.rows small { display: block; font-size: 13.5px; color: var(--soft); margin-top: 3px; }
+.go { display: flex; gap: 18px; margin-top: 10px; font-size: 15px; font-weight: 500; }
+
+.end { background: var(--ink); color: var(--bg); padding: 56px var(--pad) 32px; }
+.end h3 { color: #a3a29c; margin-bottom: 12px; }
+.end a.mail { display: block; font-size: clamp(18px, 5.3vw, 64px); letter-spacing: -0.035em; font-weight: 500; line-height: 1.1; white-space: nowrap; }
+.end .sub { margin-top: 16px; max-width: 40ch; color: #c9c8c2; }
+.end .feet { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; font-size: 15px; font-weight: 500; }
+.end .feet a:not(.cv) { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+.end .cv { background: var(--bg); color: var(--ink); }
+.end .small { margin-top: 44px; padding-top: 16px; border-top: 1px solid #33322f; display: grid; gap: 8px; font-size: 14px; color: #a3a29c; }
+.end .small a { color: #c9c8c2; border-bottom: 1px solid currentColor; }
+
+/* ── Case studies ──────────────────────────────────────────────────────────── */
+/* The first screen is the project's room, with the top bar on its colour. */
+.first { background: var(--room); color: var(--on); min-height: 100svh; display: grid; grid-template-rows: auto 1fr; }
+.first > .top { padding-left: var(--pad); padding-right: var(--pad); }
+.first .cv { background: var(--on); color: var(--room); }
+.first .room { min-height: 0; padding-top: 12px; }
+.shop .screen { height: 88%; aspect-ratio: 16 / 10; left: var(--pad); top: 6%; }
+
+/* What it is, in a sentence, then the rest of the introduction. */
+.lead { padding: 56px var(--pad) 60px; }
+.lead .claim { margin-top: 0; max-width: 30ch; }
+.lead .body { margin-top: 18px; font-size: 17px; line-height: 1.55; color: #3d3c39; max-width: 60ch; }
+.lead .kit { margin-top: 28px; }
+.lead + .also, .also + .also { padding-top: 0; }
+
+.rows .said { font-size: 17px; line-height: 1.4; max-width: 40ch; }
+.rows .sent { font: 500 20px/1.38 "Anek Bangla", var(--sans); margin-top: 0; max-width: 34ch; }
+.rows .ex > div + div { margin-top: 12px; }
+.also .note { border-top: 1px solid var(--line); padding-top: 14px; font-size: 14px; color: var(--soft); max-width: 60ch; }
+
+.screens { --room: #171716; --on: #f5f5f2; min-height: 0; display: block; padding-top: 44px; padding-bottom: 52px; }
+.screens h2 { font-size: 14px; font-weight: 500; line-height: 1.5; letter-spacing: 0; opacity: .76; margin: 0; }
+.shots { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 20px; margin-top: 22px; }
+.shots.web { grid-template-columns: 1fr; }
+.shots .frame { position: relative; overflow: hidden; background: #0c0b0a; }
+.shots.phone .frame { border-radius: 7.5% / 3.5%; box-shadow: 0 0 0 4px #0c0b0a, 0 24px 50px -20px rgb(0 0 0 / .6); margin: 4px; }
+.shots.web .frame { border-radius: 6px; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .7); }
+.shots .frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.shots figcaption { margin-top: 12px; font-size: 14px; line-height: 1.4; opacity: .8; }
+
+.story { padding: 60px var(--pad) 64px; }
+.blocks li { padding: 20px 0 26px; border-top: 1px solid var(--line); }
+.blocks h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; }
+.blocks p { margin-top: 10px; font-size: 16px; line-height: 1.6; color: #3d3c39; max-width: 62ch; text-wrap: pretty; }
+.story .links { border-top: 1px solid var(--line); margin-top: 0; padding-top: 20px; font-size: 17px; }
+
+/* ── /websites ─────────────────────────────────────────────────────────────── */
+.links small { font-size: 13.5px; font-weight: 400; opacity: .74; flex-basis: 100%; }
+.offer { --room: var(--bg); --on: var(--ink); min-height: 0; grid-template-rows: auto auto; padding-top: 56px; padding-bottom: 56px; }
+.offer h2 { font-size: clamp(32px, 9.4vw, 96px); line-height: 1; }
+.offer .lede { margin-top: 16px; color: #3d3c39; }
+.offer .list { margin-top: 44px; }
+.offer h3 { font-size: 14px; font-weight: 500; color: var(--soft); margin-bottom: 14px; }
+.offer .rows p, .how .rows p { margin-top: 4px; }
+.how { --room: #171716; --on: #f5f5f2; min-height: 0; grid-template-rows: auto auto; padding-top: 56px; padding-bottom: 56px; }
+.how .rows { margin-top: 36px; }
+.how .rows li { border-color: color-mix(in srgb, currentColor 24%, transparent); }
+.how .rows li:last-child { padding-bottom: 0; }
+.how .rows p { opacity: .86; }
+.apps .device { height: 94%; aspect-ratio: 720 / 1560; top: 3%; left: 50%; translate: -50% 0; }
+.about { padding: 60px var(--pad) 64px; }
+.about h2 { font-size: 14px; font-weight: 500; color: var(--soft); margin-bottom: 14px; }
+.about p { font-size: clamp(21px, 5.7vw, 30px); line-height: 1.2; letter-spacing: -0.03em; font-weight: 500; max-width: 30ch; text-wrap: pretty; }
+.quotes { padding: 60px var(--pad) 0; }
+.quotes h2 { font-size: 14px; font-weight: 500; color: var(--soft); margin-bottom: 14px; }
+.quotes li { padding: 20px 0 24px; border-top: 1px solid var(--line); }
+.quotes blockquote p { font-size: clamp(21px, 5.7vw, 30px); line-height: 1.2; letter-spacing: -0.03em; font-weight: 500; max-width: 30ch; text-wrap: pretty; }
+.quotes footer { margin-top: 12px; font-size: 15px; color: var(--soft); }
+
+/* ── The page that isn't there ─────────────────────────────────────────────── */
+.lost { min-height: 100svh; display: grid; grid-template-rows: auto 1fr; padding: 0 var(--pad) 36px; }
+.lost div { align-self: end; }
+.lost h1 { font-size: clamp(44px, 12.6vw, 96px); line-height: .96; letter-spacing: -0.048em; font-weight: 600; text-wrap: balance; }
+.lost p { margin-top: 18px; font-size: 17px; max-width: 42ch; }
+.lost .links { margin-top: 22px; }
+
+/* ── Wide screens: photo beside the sentence; words beside the work ────────── */
+@media (min-width: 900px) and (min-aspect-ratio: 11 / 10) {
+  :root { --pad: 36px; --peek: 44px; }
+  .hero {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto minmax(0, 1fr);
+    column-gap: var(--gap); padding-bottom: 36px;
+  }
+  .top { grid-column: 1 / -1; padding: 20px 0 18px; font-size: 16px; }
+  .top nav { gap: 24px; }
+  .hero h1 { align-self: end; margin: 0 0 -0.14em; font-size: clamp(40px, 5vw, 104px); }
+
+  .room {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto auto 1fr auto auto;
+    column-gap: var(--gap); padding: 44px var(--pad) 48px;
+  }
+  .kind { font-size: 15px; }
+  .room h1, .room h2 { font-size: clamp(56px, 6.6vw, 104px); margin-top: 10px; }
+  .head { grid-area: 1 / 1; }
+  .lede { grid-area: 2 / 1; margin-top: 24px; font-size: 19px; line-height: 1.45; max-width: 37ch; }
+  .facts { grid-area: 4 / 1; margin: 0; font-size: 16px; font-weight: 500; opacity: 1; max-width: none; }
+  .facts li { padding: 11px 0 12px; border-top: 1px solid color-mix(in srgb, currentColor 26%, transparent); }
+  .links { grid-area: 5 / 1; margin-top: 0; padding-top: 22px; font-size: 17px; border-top: 1px solid color-mix(in srgb, currentColor 26%, transparent); }
+  .stage { grid-area: 1 / 2 / 6 / 3; margin: -44px calc(var(--pad) * -1) -48px 0; }
+
+  .site .screen { height: auto; width: 108%; left: 12%; top: 14%; }
+  .site .device { height: 58%; left: 2%; top: 35%; }
+
+  .more { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .more .head { grid-area: auto; }
+  .more h2 { font-size: clamp(56px, 6.6vw, 104px); line-height: .96; }
+  .pairs { gap: 40px; align-self: end; margin-top: 40px; }
+  .shot { aspect-ratio: 16 / 10; border-radius: 6px; margin: 0; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .7); }
+  .shot img { object-position: top left; }
+  .pairs figcaption { margin-top: 16px; display: grid; grid-template-columns: 1fr auto; column-gap: 24px; font-size: 17px; }
+  .pairs figcaption b { font-size: 21px; }
+  .pairs figcaption small { font-size: 14px; }
+  .pairs figcaption a { grid-area: 1 / 2; align-self: start; margin: 2px 0 0; }
+
+  .day { grid-template-rows: auto 1fr auto; }
+  .claim { grid-area: 1 / 2 / 3 / 3; margin: 30px 0 0; font-size: clamp(32px, 3.5vw, 70px); line-height: 1.1; max-width: 22ch; }
+  .roles { grid-area: 3 / 2; margin: 0; align-self: start; }
+  .roles li { display: grid; grid-template-columns: 11rem minmax(0, 1fr); column-gap: 20px; padding: 16px 0 20px; }
+  .roles li:last-child { padding-bottom: 0; }
+  .roles .when { font-size: 15px; padding-top: 3px; }
+  .roles b { font-size: 21px; }
+  .roles p { font-size: 17px; margin-top: 4px; }
+  .kit { grid-area: 3 / 1; align-self: start; padding-top: 16px; }
+  .tools { gap: 14px; }
+  .tools dd { font-size: 17px; max-width: 30ch; }
+  .tools dt { font-size: 15px; }
+  .day .links { margin-top: 20px; padding-top: 20px; }
+
+  .jem .stage { margin: -44px calc(var(--pad) * -1) -48px 0; padding: 44px 8% 48px 2%; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--gap); }
+  .jem .device { width: auto; height: min(64svh, 660px); }
+  .rec figcaption { font-size: 14px; margin-top: 16px; }
+  .pair small { font-size: 14px; margin-bottom: 8px; }
+  .pair .said { font-size: 19px; line-height: 1.4; margin-bottom: 30px; }
+  .pair .sent { font-size: clamp(28px, 2.9vw, 42px); line-height: 1.36; }
+  .pair .note { margin-top: 22px; }
+
+  .way .device { height: 74%; top: 10%; }
+  .way .d1 { left: 2%; } .way .d2 { left: 36%; top: 17%; } .way .d3 { display: block; left: 70%; top: 10%; }
+
+  .also { padding: 104px var(--pad) 110px; }
+  .also header { font-size: 15px; margin-bottom: 18px; }
+  .also h2, .also h3, .end h3 { font-size: 15px; }
+  .rows li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--gap); align-items: baseline; padding: 20px 0 22px; }
+  .rows b { font-size: 21px; }
+  .rows .what { display: flex; justify-content: space-between; align-items: baseline; gap: 32px; }
+  .rows p { font-size: 17px; margin: 0; }
+  .rows small { font-size: 14px; }
+  .go { margin: 0; font-size: 16px; white-space: nowrap; }
+
+  .end { padding: 96px var(--pad) 36px; }
+  .end .sub { font-size: 19px; margin-top: 22px; }
+  .end .feet { font-size: 16px; margin-top: 32px; }
+  .end .small { grid-template-columns: 1fr auto; margin-top: 80px; }
+
+  /* Case studies */
+  .first .room { padding-top: 28px; }
+  .first .stage { margin-top: -28px; }
+  .shop .screen { height: auto; width: 108%; left: 6%; top: 14%; }
+
+  .lead { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--gap); padding: 104px var(--pad) 110px; }
+  .lead .claim { grid-area: 1 / 2; max-width: 24ch; }
+  .lead .body { grid-area: 2 / 2; margin-top: 28px; font-size: 19px; }
+  .lead .kit { grid-area: 1 / 1 / 3 / 2; margin: 8px 0 0; align-self: start; }
+  .rows .ex > div + div { margin-top: 0; }
+  .rows .said { font-size: 19px; }
+  .rows .sent { font-size: clamp(24px, 2.2vw, 36px); line-height: 1.36; }
+  .rows .ex small { font-size: 14px; margin: 0 0 6px; }
+  .also .note { font-size: 15px; padding-top: 18px; }
+
+  .screens { padding: 64px var(--pad) 76px; }
+  .screens h2 { font-size: 15px; margin: 0; }
+  .shots { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); margin-top: 28px; max-width: calc(120svh + 3 * var(--gap)); }
+  .shots.web { grid-template-columns: 1fr 1fr; max-width: none; gap: 44px var(--gap); }
+  .shots figcaption { font-size: 15px; margin-top: 16px; }
+
+  .story { padding: 104px var(--pad) 110px; }
+  .blocks li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--gap); align-items: baseline; padding: 26px 0 34px; }
+  .blocks h2 { font-size: 24px; }
+  .blocks p { font-size: 18px; margin: 0; }
+  .blocks p + p { margin-top: 16px; }
+  .story .links { padding-top: 26px; }
+
+  /* /websites */
+  .links small { font-size: 14px; }
+  .offer, .how { grid-template-columns: 1fr; grid-template-rows: auto auto; padding-top: 96px; padding-bottom: 104px; }
+  .offer .head, .how .head { grid-area: auto; }
+  .offer h2 { font-size: clamp(56px, 6.6vw, 104px); line-height: .96; max-width: 16em; }
+  .offer .lede { grid-area: auto; margin-top: 28px; max-width: none; }
+  .offer .list { margin-top: 72px; }
+  .offer h3 { font-size: 15px; margin-bottom: 18px; }
+  .how .rows { margin-top: 64px; }
+  .apps .device { height: 76%; top: 12%; }
+  .about { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--gap); padding: 104px var(--pad) 110px; }
+  .about h2 { font-size: 15px; margin: 6px 0 0; }
+  .about p { font-size: clamp(28px, 2.6vw, 52px); line-height: 1.16; max-width: 28ch; }
+  .quotes { padding: 104px var(--pad) 0; }
+  .quotes h2 { font-size: 15px; margin-bottom: 18px; }
+  .quotes li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--gap); align-items: baseline; padding: 26px 0 34px; }
+  .quotes blockquote { grid-column: 2; grid-row: 1; }
+  .quotes blockquote p { font-size: clamp(28px, 2.6vw, 52px); line-height: 1.16; }
+  .quotes footer { grid-column: 1; grid-row: 1; margin: 0; font-size: 16px; }
+
+  .lost { padding-bottom: 48px; }
+  .lost h1 { font-size: clamp(56px, 6.6vw, 104px); }
+  .lost p { font-size: 19px; }
+}
+/* Big monitors: the small type steps up with the headings. */
+@media (min-width: 1700px) and (min-aspect-ratio: 11 / 10) {
+  :root { --pad: 48px; --gap: 72px; }
+  .top { font-size: 18px; }
+  .kind { font-size: 18px; }
+  .lede { font-size: 24px; }
+  .facts { font-size: 20px; }
+  .facts li { padding: 14px 0 15px; }
+  .links { font-size: 21px; }
+  .pairs figcaption { font-size: 21px; } .pairs figcaption b { font-size: 26px; } .pairs figcaption small { font-size: 17px; }
+  .roles .when { font-size: 18px; } .roles b { font-size: 26px; } .roles p { font-size: 21px; }
+  .roles li { grid-template-columns: 14rem minmax(0, 1fr); }
+  .tools dt { font-size: 18px; } .tools dd { font-size: 21px; }
+  .rec figcaption, .pair small { font-size: 17px; }
+  .pair .said { font-size: 24px; }
+  .also header, .also h2, .also h3, .end h3 { font-size: 18px; }
+  .rows b { font-size: 26px; } .rows p { font-size: 21px; } .rows small { font-size: 17px; }
+  .go { font-size: 20px; }
+  .end .sub { font-size: 24px; } .end .feet { font-size: 20px; } .end .small { font-size: 17px; }
+
+  .lead .body { font-size: 24px; }
+  .rows .said { font-size: 24px; } .rows .ex small { font-size: 17px; }
+  .also .note { font-size: 18px; }
+  .screens h2, .shots figcaption { font-size: 18px; }
+  .blocks h2 { font-size: 30px; } .blocks p { font-size: 22px; }
+  .story .links { font-size: 21px; }
+  .links small, .offer h3, .about h2, .quotes h2 { font-size: 18px; }
+  .quotes footer { font-size: 20px; }
+  .lost p { font-size: 24px; }
+}
+/* Tablets held upright: the phone layout, with more room. */
+@media (min-width: 700px) and (max-aspect-ratio: 11 / 10) {
+  :root { --pad: 32px; --peek: 40px; }
+  .hero h1 { font-size: 48px; max-width: 24ch; }
+  .kind { font-size: 16px; }
+  .room h1, .room h2 { font-size: 88px; }
+  .more h2 { font-size: 64px; }
+  .lede { font-size: 20px; }
+  .facts { font-size: 16px; }
+  .site .screen { left: 30%; }
+  .way .d3 { display: block; left: 86%; top: 2%; } .way .d2 { left: 44%; }
+  .jem .stage { grid-template-columns: 36% minmax(0, 1fr); column-gap: 32px; }
+  .pair .said { font-size: 19px; } .pair .sent { font-size: 30px; }
+  .pairs { gap: 32px; padding: 0 8%; }
+
+  .lead .claim { font-size: 40px; }
+  .lead .body, .blocks p { font-size: 18px; }
+  .screens h2 { font-size: 16px; }
+  .shots.phone { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .shots.web { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+  .blocks h2 { font-size: 24px; }
+  .rows .said { font-size: 19px; } .rows .sent { font-size: 26px; }
+  .offer h2 { font-size: 64px; }
+  .about p, .quotes blockquote p { font-size: 40px; }
+  .lost h1 { font-size: 88px; }
+}

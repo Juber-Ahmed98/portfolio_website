@@ -1,0 +1,18 @@
+---
+/** Served by wrangler for any path that isn't a page (`not_found_handling`). */
+import Base from "../layouts/Base.astro";
+import { person } from "../content/site";
+---
+
+<Base title={`Page not found · ${person.name}`} description="That page isn’t here." path="/404.html" noindex>
+  <main class="lost">
+    <header class="top">
+      <a class="name" href="/">{person.name}</a>
+    </header>
+    <div>
+      <h1>That page isn’t here.</h1>
+      <p>It may have moved, or the link may be wrong. Everything I’ve built is on the home page.</p>
+      <div class="links"><a href="/">Go to the home page</a></div>
+    </div>
+  </main>
+</Base>

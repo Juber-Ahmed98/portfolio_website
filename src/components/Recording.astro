@@ -1,0 +1,45 @@
+---
+/**
+ * The Jembatan recording in a phone, with a said/sent pair beside it. The
+ * video is muted and loops; the script below plays it only while it is on
+ * screen, and never under prefers-reduced-motion (the poster shows instead).
+ */
+import { jembatan } from "../content/site";
+
+const example = jembatan.examples[jembatan.homeExample];
+---
+
+<div class="stage">
+  <figure class="rec">
+    <div class="device">
+      <video
+        src={jembatan.loop.src}
+        poster={jembatan.loop.poster}
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label={jembatan.loop.alt}
+        data-onscreen></video>
+    </div>
+    <figcaption>{jembatan.loop.caption}</figcaption>
+  </figure>
+  <div class="pair">
+    <small>{jembatan.labels.said}</small>
+    <p class="said">{example.said}</p>
+    <small>{jembatan.labels.sent} {example.langLabel}</small>
+    <p class="sent" lang={example.lang}>{example.sent}</p>
+    <small class="note">{jembatan.labels.note}</small>
+  </div>
+</div>
+
+<script is:inline>
+  // The recording plays only while it is on screen, and never for reduced motion.
+  (function () {
+    var v = document.querySelector('video[data-onscreen]');
+    if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (e) {
+      e[0].isIntersecting ? v.play().catch(function () {}) : v.pause();
+    }, { threshold: 0.35 }).observe(v);
+  })();
+</script>
