@@ -22,10 +22,10 @@ export const person = {
   cv: { label: "Download CV", href: "/cv.pdf" },
   github: "https://github.com/Juber-Ahmed98",
   linkedin: "https://www.linkedin.com/in/mohammed-juber-ahmed/",
-  /** 1200 wide for phones at 3x; the 720 cut is enough beside the sentence on a 1x desktop. */
+  /** 1086 wide (the retouched file's own size) for phones at 3x; the 720 cut is enough beside the sentence on a 1x desktop. */
   photo: {
     src: "/juber.webp",
-    srcset: "/juber-720.webp 720w, /juber.webp 1200w",
+    srcset: "/juber-720.webp 720w, /juber.webp 1086w",
     sizes: "(min-width: 900px) and (min-aspect-ratio: 11/10) 42vw, 100vw",
     alt: "Juber Ahmed, in profile, in evening light",
   },

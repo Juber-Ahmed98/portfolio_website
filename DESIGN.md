@@ -190,7 +190,7 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 | Home HTML, gzipped, stylesheet included | 8.8 KB | 16 KB + 10 KB CSS |
 | JavaScript | one inline script, about 0.4 KB | 161 KB gz |
 | Requests before the first screen is complete | the document, one font (43 KB), the photo | — |
-| The photo | 293 KB at 1200 wide (phones at 3x); 720-wide cut for 1x desktops | — |
+| The photo | 285 KB at 1086 wide (phones at 3x); 720-wide cut, 120 KB, for 1x desktops | — |
 | Client captures | 56–143 KB each, lazy | 244–372 KB each |
 | The recording | 729 KB, fetched when it first plays | the same |
 | Real-device LCP and CLS | **not yet measured on the owner's phone** | |

@@ -177,6 +177,6 @@ Nothing below can be written until he supplies it. Never fill a gap with somethi
 - A live demo URL for the e-commerce store, if there is one.
 - Prices or timelines for `/websites`, if he wants them shown.
 - Whether he takes contract work, and whether to say so.
-- A photo facing the camera, if he prefers one; and whether to keep the parasol lettering
-  that was retouched out of the current photo.
+- A photo facing the camera, if he prefers one. (The current photo is his own touched-up
+  version, supplied 2026-11-13; its master is local-only in `design-reference/plans/`.)
 - A Bengali recording of the keyboard (the current one is English into Indonesian).
