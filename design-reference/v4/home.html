@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juber Ahmed · Frontend developer, Birmingham</title>
+<meta name="description" content="Juber Ahmed, a frontend developer in Birmingham. Wolseley's online store by day, plus client websites and apps of my own.">
+<!--
+  v4 home page, finished design (acts on the blind review of 13 Nov 2026).
+  Served by the sketch server from the repo root, so media paths start /public/.
+  When this is ported into the build: drop the /public prefix, self-host the fonts,
+  and the /work/… and /websites/ links resolve.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..700&family=Anek+Bangla:wght@400..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f5f2;
+    --ink: #121211;
+    --soft: #6c6b66;
+    --line: #dcdbd5;
+    --pad: 20px;
+    --peek: 30px;
+    --gap: 56px;
+    --sans: "Schibsted Grotesk", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font: 400 16px/1.5 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }
+  img, video { display: block; max-width: 100%; }
+  ul, ol { list-style: none; padding: 0; }
+
+  /* ── First screen: me, and one sentence. Nothing else. ─────────────────── */
+  .hero {
+    height: calc(100svh - var(--peek)); min-height: 560px;
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto;
+    padding: 0 var(--pad) 24px;
+  }
+  .top {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0 12px; font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+  }
+  .top .name { font-weight: 600; }
+  .top nav { display: flex; align-items: center; gap: 18px; }
+  .top nav a:not(.cv) { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+  .cv {
+    display: inline-block; background: var(--ink); color: var(--bg);
+    padding: 7px 12px 8px; border-radius: 4px; font-weight: 600; line-height: 1.2;
+  }
+  .me { position: relative; border-radius: 4px; overflow: hidden; background: #3a2a22; }
+  .me img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
+  .hero h1 {
+    margin-top: 18px;
+    font-size: clamp(25px, 7.1vw, 52px);
+    line-height: 1.04; letter-spacing: -0.04em; font-weight: 500;
+    text-wrap: balance;
+  }
+  .hero h1 span { color: var(--soft); }
+
+  /* ── A room for each piece of work, the full screen, in its own colour ─── */
+  .room {
+    min-height: 100svh; background: var(--room); color: var(--on);
+    display: grid; grid-template-rows: auto minmax(300px, 1fr) auto auto auto;
+    padding: 22px var(--pad) 30px; position: relative; overflow: hidden;
+  }
+  .kind { display: block; font-size: 14px; font-weight: 500; opacity: .76; }
+  .room h2 {
+    font-size: clamp(44px, 12.6vw, 96px); line-height: .96; letter-spacing: -0.048em; font-weight: 600;
+    margin-top: 6px; text-wrap: balance;
+  }
+  .stage { position: relative; margin: 20px calc(var(--pad) * -1); }
+  .lede { max-width: 42ch; font-size: 17px; line-height: 1.42; }
+  .facts { margin-top: 10px; font-size: 14px; line-height: 1.5; opacity: .78; max-width: 46ch; }
+  .facts li { display: inline; white-space: nowrap; }
+  .facts li:not(:last-child)::after { content: " · "; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 14px; font-weight: 500; }
+  .links a { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+
+  .device {
+    position: absolute; border-radius: 7.5% / 3.5%; overflow: hidden; background: #0c0b0a;
+    box-shadow: 0 0 0 5px #0c0b0a, 0 30px 60px -20px rgb(0 0 0 / .45);
+  }
+  .device > * { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .screen { position: absolute; border-radius: 6px; overflow: hidden; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .5); }
+  .screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+
+  .umma { --room: #14245e; --on: #fff; }
+  .alilm { --room: #e6e1d6; --on: #14110f; }
+  .umma .screen, .alilm .screen { height: 84%; aspect-ratio: 16 / 10; left: 34%; top: 5%; }
+  .umma .device, .alilm .device { height: 96%; aspect-ratio: 780 / 1690; left: var(--pad); top: 2%; }
+
+  /* Two more client sites: the claim, then a matched pair. */
+  .more { --room: #171716; --on: #f5f5f2; grid-template-rows: auto 1fr; }
+  .more h2 { font-size: clamp(32px, 9.4vw, 96px); line-height: 1; }
+  .pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-self: center; margin-top: 26px; }
+  .shot { display: block; position: relative; aspect-ratio: 780 / 1690; border-radius: 7.5% / 3.5%; overflow: hidden; background: #0c0b0a; box-shadow: 0 0 0 4px #0c0b0a, 0 24px 50px -20px rgb(0 0 0 / .6); margin: 4px; }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .pairs figcaption { margin-top: 14px; font-size: 14px; line-height: 1.4; }
+  .pairs figcaption b { display: block; font-size: 17px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 3px; }
+  .pairs figcaption small { display: block; font-size: 12.5px; opacity: .66; margin-top: 5px; }
+  .pairs figcaption a { display: inline-block; margin-top: 8px; font-weight: 500; border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+
+  /* The day job: no picture, so the words are the stage. */
+  .day { --room: var(--bg); --on: var(--ink); grid-template-rows: auto auto 1fr auto auto; }
+  .claim { margin-top: 20px; font-size: clamp(21px, 5.7vw, 40px); line-height: 1.14; letter-spacing: -0.03em; font-weight: 500; max-width: 25ch; text-wrap: pretty; }
+  .claim span { color: var(--soft); }
+  .roles { margin-top: 24px; align-self: end; }
+  .roles li { padding: 12px 0 13px; border-top: 1px solid var(--line); }
+  .roles .when { display: block; font-size: 14px; color: var(--soft); }
+  .roles b { display: block; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+  .roles p { font-size: 15px; line-height: 1.42; color: #3d3c39; margin-top: 3px; max-width: 54ch; }
+  .kit { border-top: 1px solid var(--line); padding-top: 12px; }
+  .tools { display: grid; gap: 8px; }
+  .tools dt { font-size: 14px; color: var(--soft); }
+  .tools dd { font-size: 15px; line-height: 1.4; font-weight: 500; }
+
+  .jem { --room: #b84d37; --on: #fff; }
+  .jem .stage { margin: 18px 0; display: grid; grid-template-columns: 47% minmax(0, 1fr); column-gap: 18px; align-items: center; }
+  .jem .device { position: relative; width: 100%; aspect-ratio: 720 / 1560; }
+  .rec { padding: 5px; }
+  .rec figcaption { margin-top: 12px; font-size: 12.5px; line-height: 1.3; opacity: .8; }
+  .pair small { display: block; font-size: 13px; opacity: .78; font-weight: 500; margin-bottom: 3px; }
+  .pair .said { font-size: 15px; line-height: 1.35; margin-bottom: 12px; opacity: .94; }
+  .pair .sent { font: 500 20px/1.38 "Anek Bangla", sans-serif; }
+  .pair .note { margin: 10px 0 0; font-weight: 400; opacity: .7; }
+
+  .way { --room: #0c4f4b; --on: #fff; }
+  .way .device { height: 94%; aspect-ratio: 540 / 1199; top: 2%; }
+  .way .d1 { left: var(--pad); } .way .d2 { left: 58%; top: 9%; } .way .d3 { display: none; }
+
+  /* ── After the rooms ───────────────────────────────────────────────────── */
+  .also { padding: 60px var(--pad) 64px; }
+  .also header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; font-size: 14px; font-weight: 500; }
+  .also h3, .end h3 { font-size: 14px; font-weight: 500; color: var(--soft); }
+  .also header a, .go a { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+  .rows li { padding: 16px 0 18px; border-top: 1px solid var(--line); }
+  .rows b { display: block; font-weight: 600; font-size: 18px; letter-spacing: -0.02em; }
+  .rows p { margin-top: 2px; max-width: 46ch; }
+  .rows small { display: block; font-size: 13.5px; color: var(--soft); margin-top: 3px; }
+  .go { display: flex; gap: 18px; margin-top: 10px; font-size: 15px; font-weight: 500; }
+
+  .end { background: var(--ink); color: var(--bg); padding: 56px var(--pad) 32px; }
+  .end h3 { color: #a3a29c; margin-bottom: 12px; }
+  .end a.mail { display: block; font-size: clamp(18px, 5.3vw, 64px); letter-spacing: -0.035em; font-weight: 500; line-height: 1.1; white-space: nowrap; }
+  .end .sub { margin-top: 16px; max-width: 40ch; color: #c9c8c2; }
+  .end .feet { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 28px; font-size: 15px; font-weight: 500; }
+  .end .feet a:not(.cv) { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
+  .end .cv { background: var(--bg); color: var(--ink); }
+  .end .small { margin-top: 44px; padding-top: 16px; border-top: 1px solid #33322f; display: grid; gap: 8px; font-size: 14px; color: #a3a29c; }
+  .end .small a { color: #c9c8c2; border-bottom: 1px solid currentColor; }
+
+  /* ── Wide screens: photo beside the sentence; words beside the work ────── */
+  @media (min-width: 900px) and (min-aspect-ratio: 11 / 10) {
+    :root { --pad: 36px; --peek: 44px; }
+    .hero {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto minmax(0, 1fr);
+      column-gap: var(--gap); padding-bottom: 36px;
+    }
+    .top { grid-column: 1 / -1; padding: 20px 0 18px; font-size: 16px; }
+    .top nav { gap: 24px; }
+    .hero h1 { align-self: end; margin: 0 0 -0.14em; font-size: clamp(40px, 5vw, 76px); }
+
+    .room {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto auto 1fr auto auto;
+      column-gap: var(--gap); padding: 44px var(--pad) 48px;
+    }
+    .kind { font-size: 15px; }
+    .room h2 { font-size: clamp(56px, 6.6vw, 104px); margin-top: 10px; }
+    .head { grid-area: 1 / 1; }
+    .lede { grid-area: 2 / 1; margin-top: 24px; font-size: 19px; line-height: 1.45; max-width: 37ch; }
+    .facts { grid-area: 4 / 1; margin: 0; font-size: 16px; font-weight: 500; opacity: 1; max-width: none; }
+    .facts li { display: block; white-space: normal; padding: 11px 0 12px; border-top: 1px solid color-mix(in srgb, currentColor 26%, transparent); }
+    .facts li:not(:last-child)::after { content: none; }
+    .links { grid-area: 5 / 1; margin-top: 0; padding-top: 22px; font-size: 17px; border-top: 1px solid color-mix(in srgb, currentColor 26%, transparent); }
+    .stage { grid-area: 1 / 2 / 6 / 3; margin: -44px calc(var(--pad) * -1) -48px 0; }
+
+    .umma .screen, .alilm .screen { height: auto; width: 108%; left: 12%; top: 14%; }
+    .umma .device, .alilm .device { height: 58%; left: 2%; top: 35%; }
+
+    .more { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+    .more .head { grid-area: auto; }
+    .more h2 { font-size: clamp(56px, 6.6vw, 104px); line-height: .96; }
+    .pairs { gap: 40px; align-self: end; margin-top: 40px; }
+    .shot { aspect-ratio: 16 / 10; border-radius: 6px; margin: 0; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .7); }
+    .shot img { object-position: top left; }
+    .pairs figcaption { margin-top: 16px; display: grid; grid-template-columns: 1fr auto; column-gap: 24px; font-size: 17px; }
+    .pairs figcaption b { font-size: 21px; }
+    .pairs figcaption small { font-size: 14px; }
+    .pairs figcaption a { grid-area: 1 / 2; align-self: start; margin: 2px 0 0; }
+
+    .day { grid-template-rows: auto 1fr auto; }
+    .claim { grid-area: 1 / 2 / 3 / 3; margin: 30px 0 0; font-size: clamp(32px, 3.5vw, 54px); line-height: 1.1; max-width: 22ch; }
+    .roles { grid-area: 3 / 2; margin: 0; align-self: start; }
+    .roles li { display: grid; grid-template-columns: 11rem minmax(0, 1fr); column-gap: 20px; padding: 16px 0 20px; }
+    .roles li:last-child { padding-bottom: 0; }
+    .roles .when { font-size: 15px; padding-top: 3px; }
+    .roles b { font-size: 21px; }
+    .roles p { font-size: 17px; margin-top: 4px; }
+    .kit { grid-area: 3 / 1; align-self: start; padding-top: 16px; }
+    .tools { gap: 14px; }
+    .tools dd { font-size: 17px; max-width: 30ch; }
+    .tools dt { font-size: 15px; }
+    .day .links { margin-top: 20px; padding-top: 20px; }
+
+    .jem .stage { margin: -44px calc(var(--pad) * -1) -48px 0; padding: 44px 8% 48px 2%; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--gap); }
+    .jem .device { width: auto; height: min(64svh, 660px); }
+    .rec figcaption { font-size: 14px; margin-top: 16px; }
+    .pair small { font-size: 14px; margin-bottom: 8px; }
+    .pair .said { font-size: 19px; line-height: 1.4; margin-bottom: 30px; }
+    .pair .sent { font-size: clamp(28px, 2.9vw, 42px); line-height: 1.36; }
+    .pair .note { margin-top: 22px; }
+
+    .way .device { height: 74%; top: 10%; }
+    .way .d1 { left: 2%; } .way .d2 { left: 36%; top: 17%; } .way .d3 { display: block; left: 70%; top: 10%; }
+
+    .also { padding: 104px var(--pad) 110px; }
+    .also header { font-size: 15px; margin-bottom: 18px; }
+    .also h3, .end h3 { font-size: 15px; }
+    .rows li { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: var(--gap); align-items: baseline; padding: 20px 0 22px; }
+    .rows b { font-size: 21px; }
+    .rows .what { display: flex; justify-content: space-between; align-items: baseline; gap: 32px; }
+    .rows p { font-size: 17px; margin: 0; }
+    .rows small { font-size: 14px; }
+    .go { margin: 0; font-size: 16px; white-space: nowrap; }
+
+    .end { padding: 96px var(--pad) 36px; }
+    .end .sub { font-size: 19px; margin-top: 22px; }
+    .end .feet { font-size: 16px; margin-top: 32px; }
+    .end .small { grid-template-columns: 1fr auto; margin-top: 80px; }
+  }
+  /* Tablets held upright: the phone layout, with more room. */
+  @media (min-width: 700px) and (max-aspect-ratio: 11 / 10) {
+    :root { --pad: 32px; --peek: 40px; }
+    .hero h1 { font-size: 48px; max-width: 24ch; }
+    .room h2 { font-size: 88px; }
+    .more h2 { font-size: 64px; }
+    .lede { font-size: 20px; }
+    .facts { font-size: 16px; }
+    .umma .screen, .alilm .screen { left: 30%; }
+    .way .d3 { display: block; left: 86%; top: 2%; } .way .d2 { left: 44%; }
+    .jem .stage { grid-template-columns: 36% minmax(0, 1fr); column-gap: 32px; }
+    .pair .said { font-size: 19px; } .pair .sent { font-size: 30px; }
+    .pairs { gap: 32px; padding: 0 8%; }
+  }
+</style>
+</head>
+<body id="top">
+
+<section class="hero">
+  <header class="top">
+    <a class="name" href="#top">Juber Ahmed</a>
+    <nav>
+      <a href="mailto:mohammed.juber.ahmed@gmail.com">Email</a>
+      <a class="cv" href="/public/cv.pdf">Download CV</a>
+    </nav>
+  </header>
+  <div class="me"><img src="img/juber-close.webp" alt="Juber Ahmed, in profile, in evening light" fetchpriority="high"></div>
+  <h1>I’m Juber, a frontend developer in Birmingham. I’ve worked on Wolseley’s online store since 2022, <span>and I build websites and apps of my own.</span></h1>
+</section>
+
+<main>
+
+<section class="room umma">
+  <div class="head">
+    <span class="kind">Paid client website · Sparkhill, Birmingham</span>
+    <h2>UMMA BJJ</h2>
+  </div>
+  <div class="stage">
+    <div class="screen"><img src="/public/shots/umma-bjj/desktop.webp" alt="" loading="lazy" decoding="async"></div>
+    <div class="device"><img src="img/umma-bjj-m.webp" alt="ummabjj.com on a phone: the “Learn real self-defence” hero, with the free-trial button" loading="lazy" decoding="async"></div>
+  </div>
+  <p class="lede">A jiu-jitsu gym, moved off a GoDaddy template. Six pages, a timetable you can read on a phone, and a free-trial form that opens WhatsApp with the message already written.</p>
+  <ul class="facts">
+    <li>Hand-coded, no build step</li>
+    <li>Timetable from one data block</li>
+    <li>AVIF photos from Cloudflare’s edge</li>
+    <li>No third-party scripts</li>
+  </ul>
+  <div class="links"><a href="https://ummabjj.com/" rel="noopener">Visit ummabjj.com</a></div>
+</section>
+
+<section class="room alilm">
+  <div class="head">
+    <span class="kind">Paid client website · Birmingham</span>
+    <h2>Al-Ilm Martial Arts</h2>
+  </div>
+  <div class="stage">
+    <div class="screen"><img src="/public/shots/al-ilm/desktop.webp" alt="" loading="lazy" decoding="async"></div>
+    <div class="device"><img src="img/al-ilm-m2.webp" alt="alilmmartialarts.co.uk on a phone: the “Al-Ilm means the knowledge” hero" loading="lazy" decoding="async"></div>
+  </div>
+  <p class="lede">One page for a boxing and Muay Thai club, on a server that also runs its waiting-list forms. They still work with JavaScript switched off.</p>
+  <ul class="facts">
+    <li>One Cloudflare Worker: the page and its API</li>
+    <li>Forms post to /api/enquiry and email the club</li>
+    <li>No visitor data leaves Cloudflare</li>
+  </ul>
+  <div class="links"><a href="https://alilmmartialarts.co.uk/" rel="noopener">Visit alilmmartialarts.co.uk</a></div>
+</section>
+
+<section class="room more">
+  <div class="head">
+    <span class="kind">Two more client websites</span>
+    <h2>All four sites are live, for paying clients.</h2>
+  </div>
+  <div class="pairs">
+    <figure>
+      <a class="shot" href="https://yoosufzaman.com/" rel="noopener" tabindex="-1" aria-hidden="true">
+        <picture>
+          <source media="(min-width: 900px) and (min-aspect-ratio: 11/10)" srcset="/public/shots/yoosuf-zaman/desktop.webp">
+          <img src="img/yoosuf-zaman-m.webp" alt="" loading="lazy" decoding="async">
+        </picture>
+      </a>
+      <figcaption>
+        <div>
+          <b>Yoosuf Zaman</b>
+          A business coach’s site, with a booking form that runs on a Cloudflare Worker.
+          <small>HTML · CSS · JavaScript · Workers</small>
+        </div>
+        <a href="https://yoosufzaman.com/" rel="noopener">yoosufzaman.com</a>
+      </figcaption>
+    </figure>
+    <figure>
+      <a class="shot" href="https://stratemize.co.uk/" rel="noopener" tabindex="-1" aria-hidden="true">
+        <picture>
+          <source media="(min-width: 900px) and (min-aspect-ratio: 11/10)" srcset="/public/shots/stratemize/desktop.webp">
+          <img src="img/stratemize-m.webp" alt="" loading="lazy" decoding="async">
+        </picture>
+      </a>
+      <figcaption>
+        <div>
+          <b>Stratemize</b>
+          A marketing agency’s site, with a live consultation booker on a tRPC API and D1.
+          <small>React 19 · TypeScript · Workers · D1</small>
+        </div>
+        <a href="https://stratemize.co.uk/" rel="noopener">stratemize.co.uk</a>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="room day">
+  <div class="head">
+    <span class="kind">Day job · since December 2022</span>
+    <h2>Wolseley</h2>
+  </div>
+  <p class="claim"><span>Wolseley’s online store is where trade customers order plumbing and heating supplies.</span> Every change I ship goes out as a test, and only the winners stay.</p>
+  <ol class="roles">
+    <li>
+      <span class="when">Aug 2024 – now</span>
+      <div>
+        <b>Digital Developer</b>
+        <p>Responsive, accessible pages, shipped through A/B and multivariate tests in Monetate: merchandising badges, promotions, seasonal lightboxes.</p>
+      </div>
+    </li>
+    <li>
+      <span class="when">Dec 2022 – Aug 2024</span>
+      <div>
+        <b>Apprentice Merchandiser and Developer</b>
+        <p>Shipped to production while earning the Level 3 Software Development Technician qualification with QA.</p>
+      </div>
+    </li>
+  </ol>
+  <div class="kit">
+    <dl class="tools">
+      <div><dt>At work</dt><dd>HTML, SCSS, JavaScript, Monetate, Bloomreach, Yext, Jira</dd></div>
+      <div><dt>On my own</dt><dd>React, Next.js, TypeScript, Kotlin, Cloudflare Workers and D1</dd></div>
+    </dl>
+    <div class="links"><a href="/public/cv.pdf">Download my CV</a></div>
+  </div>
+</section>
+
+<section class="room jem">
+  <div class="head">
+    <span class="kind">Android app · used daily by my family</span>
+    <h2>Jembatan</h2>
+  </div>
+  <div class="stage">
+    <figure class="rec">
+      <div class="device">
+        <video src="/public/film/jembatan-phone.mp4" poster="/public/film/still-review.webp" muted loop playsinline preload="metadata" aria-label="The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat"></video>
+      </div>
+      <figcaption>The recording: English into Indonesian</figcaption>
+    </figure>
+    <div class="pair">
+      <small>You say</small>
+      <p class="said">can you uh pick up some rice and eggs on the way home please</p>
+      <small>It sends, in Bengali</small>
+      <p class="sent" lang="bn">আপনি কি দয়া করে বাড়ি ফেরার পথে কিছু চাল আর ডিম নিয়ে আসবেন?</p>
+      <small class="note">Real output, not written by hand.</small>
+    </div>
+  </div>
+  <p class="lede">A keyboard that turns what you say into the message a native speaker would send. I built it so I could text my dad, who reads Bengali.</p>
+  <ul class="facts">
+    <li>Kotlin and Compose, a custom Android keyboard</li>
+    <li>Speech recognised on the phone</li>
+    <li>A Cloudflare Worker, streamed over SSE</li>
+    <li>Stores no message text</li>
+  </ul>
+  <div class="links"><a href="/work/jembatan/">Read the case study</a><a href="https://jembatan.juberahmed.dev/" rel="noopener">Visit the site</a></div>
+</section>
+
+<section class="room way">
+  <div class="head">
+    <span class="kind">Android app · in testing on Google Play</span>
+    <h2>Waystone</h2>
+  </div>
+  <div class="stage">
+    <div class="device d1"><img src="/public/work/waystone/01-today.webp" alt="Waystone’s Today screen: day 14 of 105, an 18-day streak and today’s record" loading="lazy" decoding="async"></div>
+    <div class="device d2"><img src="/public/work/waystone/02-body.webp" alt="Waystone’s Body screen: a trend weight of 82.0 kg and a six-month chart" loading="lazy" decoding="async"></div>
+    <div class="device d3"><img src="/public/work/waystone/04-training.webp" alt="" loading="lazy" decoding="async"></div>
+  </div>
+  <p class="lede">A fitness app that reads my bathroom scale over Bluetooth and keeps weigh-ins, food and training in one record.</p>
+  <ul class="facts">
+    <li>Kotlin and Jetpack Compose</li>
+    <li>Talks to the scale over Bluetooth LE</li>
+    <li>The record is stored on the phone, in Room</li>
+    <li>An AI coach that can propose, never write</li>
+  </ul>
+  <div class="links"><a href="/work/waystone/">Read the case study</a><a href="https://waystone.juberahmed.dev/" rel="noopener">Visit the site</a></div>
+</section>
+
+<section class="also">
+  <header>
+    <h3>Also</h3>
+    <a href="https://github.com/Juber-Ahmed98" rel="noopener">GitHub</a>
+  </header>
+  <ul class="rows">
+    <li>
+      <b>E-commerce store</b>
+      <div class="what">
+        <div>
+          <p>A storefront with an Express and Postgres backend, built to learn the half my day job doesn’t touch.</p>
+          <small>React 19 · Express · Postgres · JWT</small>
+        </div>
+        <span class="go"><a href="/work/ecommerce-store/">Case study</a><a href="https://github.com/Juber-Ahmed98/ecommerce_store" rel="noopener">Code</a></span>
+      </div>
+    </li>
+    <li>
+      <b>Qibla Compass</b>
+      <div class="what">
+        <div>
+          <p>Finds the qibla from your phone’s sensors, in about 8 KB.</p>
+          <small>HTML · CSS · JavaScript</small>
+        </div>
+        <span class="go"><a href="https://juber-ahmed98.github.io/Qibla_Compass/" rel="noopener">Live</a><a href="https://github.com/Juber-Ahmed98/Qibla_Compass" rel="noopener">Code</a></span>
+      </div>
+    </li>
+    <li>
+      <b>Habit tracker</b>
+      <div class="what">
+        <div>
+          <p>An installable app shell in strict TypeScript, with light and dark themes. In progress.</p>
+          <small>Next.js 16 · React 19 · Tailwind 4</small>
+        </div>
+        <span class="go"><a href="https://github.com/Juber-Ahmed98/habbit_tracker" rel="noopener">Code</a></span>
+      </div>
+    </li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="end">
+  <h3>Get in touch</h3>
+  <a class="mail" href="mailto:mohammed.juber.ahmed@gmail.com">mohammed.juber.ahmed@gmail.com</a>
+  <p class="sub">A frontend role, a site for your business, or a product idea: email is the quickest way to reach me.</p>
+  <div class="feet">
+    <a class="cv" href="/public/cv.pdf">Download CV</a>
+    <a href="https://github.com/Juber-Ahmed98" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/mohammed-juber-ahmed/" rel="noopener">LinkedIn</a>
+  </div>
+  <div class="small">
+    <p><a href="/websites/">Need a website for your business? See the sites I build for clients</a></p>
+    <p>© 2026 Mohammed Juber Ahmed · Birmingham</p>
+  </div>
+</footer>
+
+<script>
+  // The recording plays only while it is on screen, and never for reduced motion.
+  (function () {
+    var v = document.querySelector('.jem video');
+    if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    new IntersectionObserver(function (e) {
+      e[0].isIntersecting ? v.play().catch(function () {}) : v.pause();
+    }, { threshold: 0.35 }).observe(v);
+  })();
+</script>
+</body>
+</html>
