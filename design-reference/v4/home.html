@@ -78,8 +78,7 @@
   .stage { position: relative; margin: 20px calc(var(--pad) * -1); }
   .lede { max-width: 42ch; font-size: 17px; line-height: 1.42; }
   .facts { margin-top: 10px; font-size: 14px; line-height: 1.5; opacity: .78; max-width: 46ch; }
-  .facts li { display: inline; white-space: nowrap; }
-  .facts li:not(:last-child)::after { content: " · "; }
+  .facts li { display: block; }
   .links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 14px; font-weight: 500; }
   .links a { border-bottom: 1.5px solid currentColor; padding-bottom: 1px; }
 
@@ -165,7 +164,7 @@
     }
     .top { grid-column: 1 / -1; padding: 20px 0 18px; font-size: 16px; }
     .top nav { gap: 24px; }
-    .hero h1 { align-self: end; margin: 0 0 -0.14em; font-size: clamp(40px, 5vw, 76px); }
+    .hero h1 { align-self: end; margin: 0 0 -0.14em; font-size: clamp(40px, 5vw, 104px); }
 
     .room {
       grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto auto 1fr auto auto;
@@ -176,8 +175,7 @@
     .head { grid-area: 1 / 1; }
     .lede { grid-area: 2 / 1; margin-top: 24px; font-size: 19px; line-height: 1.45; max-width: 37ch; }
     .facts { grid-area: 4 / 1; margin: 0; font-size: 16px; font-weight: 500; opacity: 1; max-width: none; }
-    .facts li { display: block; white-space: normal; padding: 11px 0 12px; border-top: 1px solid color-mix(in srgb, currentColor 26%, transparent); }
-    .facts li:not(:last-child)::after { content: none; }
+    .facts li { padding: 11px 0 12px; border-top: 1px solid color-mix(in srgb, currentColor 26%, transparent); }
     .links { grid-area: 5 / 1; margin-top: 0; padding-top: 22px; font-size: 17px; border-top: 1px solid color-mix(in srgb, currentColor 26%, transparent); }
     .stage { grid-area: 1 / 2 / 6 / 3; margin: -44px calc(var(--pad) * -1) -48px 0; }
 
@@ -196,7 +194,7 @@
     .pairs figcaption a { grid-area: 1 / 2; align-self: start; margin: 2px 0 0; }
 
     .day { grid-template-rows: auto 1fr auto; }
-    .claim { grid-area: 1 / 2 / 3 / 3; margin: 30px 0 0; font-size: clamp(32px, 3.5vw, 54px); line-height: 1.1; max-width: 22ch; }
+    .claim { grid-area: 1 / 2 / 3 / 3; margin: 30px 0 0; font-size: clamp(32px, 3.5vw, 70px); line-height: 1.1; max-width: 22ch; }
     .roles { grid-area: 3 / 2; margin: 0; align-self: start; }
     .roles li { display: grid; grid-template-columns: 11rem minmax(0, 1fr); column-gap: 20px; padding: 16px 0 20px; }
     .roles li:last-child { padding-bottom: 0; }
@@ -235,10 +233,31 @@
     .end .feet { font-size: 16px; margin-top: 32px; }
     .end .small { grid-template-columns: 1fr auto; margin-top: 80px; }
   }
+  /* Big monitors: the small type steps up with the headings. */
+  @media (min-width: 1700px) and (min-aspect-ratio: 11 / 10) {
+    :root { --pad: 48px; --gap: 72px; }
+    .top { font-size: 18px; }
+    .kind { font-size: 18px; }
+    .lede { font-size: 24px; }
+    .facts { font-size: 20px; }
+    .facts li { padding: 14px 0 15px; }
+    .links { font-size: 21px; }
+    .pairs figcaption { font-size: 21px; } .pairs figcaption b { font-size: 26px; } .pairs figcaption small { font-size: 17px; }
+    .roles .when { font-size: 18px; } .roles b { font-size: 26px; } .roles p { font-size: 21px; }
+    .roles li { grid-template-columns: 14rem minmax(0, 1fr); }
+    .tools dt { font-size: 18px; } .tools dd { font-size: 21px; }
+    .rec figcaption, .pair small { font-size: 17px; }
+    .pair .said { font-size: 24px; }
+    .also header, .also h3, .end h3 { font-size: 18px; }
+    .rows b { font-size: 26px; } .rows p { font-size: 21px; } .rows small { font-size: 17px; }
+    .go { font-size: 20px; }
+    .end .sub { font-size: 24px; } .end .feet { font-size: 20px; } .end .small { font-size: 17px; }
+  }
   /* Tablets held upright: the phone layout, with more room. */
   @media (min-width: 700px) and (max-aspect-ratio: 11 / 10) {
     :root { --pad: 32px; --peek: 40px; }
     .hero h1 { font-size: 48px; max-width: 24ch; }
+    .kind { font-size: 16px; }
     .room h2 { font-size: 88px; }
     .more h2 { font-size: 64px; }
     .lede { font-size: 20px; }
