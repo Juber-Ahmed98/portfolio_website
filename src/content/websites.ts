@@ -25,7 +25,7 @@ export const reach = {
    * International format, digits only (e.g. "447700900123"). Empty hides the
    * WhatsApp buttons; set it and they appear in the hero and the close.
    */
-  whatsapp: "",
+  whatsapp: "447422554436",
 } as const;
 
 export const whatsappHref = reach.whatsapp

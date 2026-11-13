@@ -137,8 +137,9 @@ direction ever changes.
   client sites as rooms in the owner's terms, what he can build, how it works, "I build
   apps too" (Jembatan), who you're working with, contact. It **never links back to the
   job-hunting material** (no CV, day job or builds list); the home page's footer links to
-  it, one way. WhatsApp buttons appear once `reach.whatsapp` is set in `websites.ts`. No
-  prices or timelines until the owner sets them.
+  it, one way. The WhatsApp buttons (top bar and close) come from `reach.whatsapp` in
+  `websites.ts`, set on 2026-11-13; emptying it hides them. No prices or timelines until
+  the owner sets them.
 - **Fonts** are self-hosted in `public/fonts/` (Schibsted Grotesk 400–700, Anek Bangla 500
   for Bengali). No request leaves the site.
 - **Media** lives in `public/`: `juber.webp`, `shots/<client>/{desktop,phone}.webp`,
@@ -171,7 +172,6 @@ PowerShell. `icons.mjs` regenerates the favicons and the two share images from
 
 Nothing below can be written until he supplies it. Never fill a gap with something invented.
 
-- A WhatsApp number for `/websites`.
 - Client quotes (Stratemize, Yoosuf Zaman, UMMA BJJ).
 - One concrete Wolseley A/B test result with rough scale, if he is allowed to share it.
 - A live demo URL for the e-commerce store, if there is one.
