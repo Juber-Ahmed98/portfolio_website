@@ -133,7 +133,9 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 - **First screen** (`.hero`), on `--sand`: `.top` (name left; links and the `.cv` button
   right), `.me` (the cut-out, 1837 × 1290, transparent), the `h1` in two steps (`.say`, the
   headline; `.rest`, the claim, with its `.tail`). Height is `100svh` minus `--peek`
-  (30–44px), and he always stands on its bottom edge.
+  (16px phone, 18px upright tablet, 44px wide), and he always stands on its bottom edge.
+  The peek is the scroll cue: a band of the next room's colour and nothing else, so it is
+  never more than that room's top padding (no sliver of its words).
   - *Phone:* the words first, then him below them, centred, as tall as the space left
     allows and never more than 132vw, his shoulders running off both sides.
   - *Wide:* he stands bottom-left at 93% of the height, placed so the edge of his beard is

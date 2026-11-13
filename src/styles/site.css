@@ -31,7 +31,7 @@
   --sand: #e4d4ba;       /* the first screen: the parasol in his photo */
   --sand-soft: #675640;  /* the quiet half of the sentence, on sand */
   --pad: 20px;
-  --peek: 30px;
+  --peek: 16px;          /* never more than the next room's top padding: a band of colour, no words */
   --gap: 56px;
   --sans: "Schibsted Grotesk", system-ui, sans-serif;
 }
@@ -418,7 +418,7 @@ code { font: 400 .9em/1 ui-monospace, "Cascadia Code", "SF Mono", Consolas, mono
 }
 /* Tablets held upright: the phone layout, with more room. */
 @media (min-width: 700px) and (max-aspect-ratio: 11 / 10) {
-  :root { --pad: 32px; --peek: 40px; }
+  :root { --pad: 32px; --peek: 18px; }
   .hero .say { font-size: 72px; }
   .hero .rest { font-size: 32px; }
   .kind { font-size: 16px; }
