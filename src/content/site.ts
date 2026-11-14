@@ -207,13 +207,13 @@ export const jembatan = {
   /**
    * The real recording, muted and looping, played only while it is on screen
    * and never under reduced motion. The phone cut is 720px wide. The poster is
-   * the review frame, which the clip shows from 4.6s to 5.8s, so the first play
-   * starts there (`posterAt`) instead of jumping back to the start.
+   * the review frame, and the clip begins on it (re-cut on 14 Nov to start at
+   * the old 4.6s), so nothing jumps when it starts. The host serves no Range
+   * requests, so the clip can't be seeked into.
    */
   loop: {
     src: "/film/jembatan-phone.mp4",
     poster: "/film/still-review.webp",
-    posterAt: 4.6,
     alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
     caption: "The recording: English into Indonesian",
   },

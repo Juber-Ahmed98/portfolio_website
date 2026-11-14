@@ -194,7 +194,7 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 
 | Condition | Result |
 |---|---|
-| Default | The recording plays, muted and looping, while at least 35% of it is on screen, and pauses when it leaves. `preload="none"`: the clip (729 KB) is fetched when it comes within a screen of view, and starts only once it can play through, from 4.6 s, the frame its poster shows. A tap, a click, Enter or Space pauses it (`role="button"`, `aria-pressed`), and a paused clip stays paused on scroll |
+| Default | The recording plays, muted and looping, while at least 35% of it is on screen, and pauses when it leaves. `preload="none"`: the clip (704 KB) is fetched when it comes within a screen of view, and starts only once it can play through. The clip begins on its poster's frame (re-cut on 14 Nov from the old 4.6 s, 704 KB), so nothing jumps; it can't be seeked, because Cloudflare's static assets ignore Range requests. A tap, a click, Enter or Space pauses it (`role="button"`, `aria-pressed`), and a paused clip stays paused on scroll |
 | `prefers-reduced-motion: reduce` | The recording is never fetched and never plays. Its poster, the review frame, shows instead. No transitions anywhere |
 | No JavaScript, or no IntersectionObserver | The same poster, and the photo shows as it loads. Every page is complete without script |
 | Photo not yet loaded | `html.js` hides the first-screen photo until it is decoded, then it fades in over 0.2 s; from cache it shows at once. If the script never runs, a CSS fallback shows it after 3 s |
@@ -235,7 +235,7 @@ single word; headings keep `balance`.
 | Requests before the first screen is complete | the document, one font (43 KB), the photo | — |
 | The photo | the cut-out, 184 KB at 1837 wide (phones, big screens); 1100-wide cut, 72 KB, for 1x laptops; a 1400-wide cut (added 14 Nov) for 1x desktops 900–1080px tall. Was 285 KB and 120 KB before it was cut out | — |
 | Client captures | 56–143 KB each, lazy | 244–372 KB each |
-| The recording | 729 KB, fetched a screen before it is reached (it was fetched on load until 14 Nov) | the same |
+| The recording | 704 KB, fetched a screen before it is reached (it was fetched on load until 14 Nov) | the same |
 | Real-device LCP and CLS | **not yet measured on the owner's phone** | |
 
 ## Decision log

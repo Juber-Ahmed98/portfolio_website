@@ -22,8 +22,7 @@ const example = jembatan.examples[jembatan.homeExample];
         playsinline
         preload="none"
         aria-label={jembatan.loop.alt}
-        data-onscreen
-        data-start={jembatan.loop.posterAt}></video>
+        data-onscreen></video>
     </div>
     <figcaption>{jembatan.loop.caption}</figcaption>
   </figure>
@@ -37,15 +36,15 @@ const example = jembatan.examples[jembatan.homeExample];
 </div>
 
 <script is:inline>
-  // Fetch a screen early; play while on screen, once it can play through, from the
-  // poster's frame; a tap pauses it. Nothing at all for reduced motion.
+  // Fetch a screen early; play while on screen, once it can play through; a tap
+  // pauses it. Nothing at all for reduced motion. The clip's first frame is its
+  // poster, so nothing jumps when it starts (the host can't seek: no Range).
   (function () {
     var v = document.querySelector('video[data-onscreen]');
     if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-    var phone = v.parentNode, on = false, held = false, fetched = false, started = false;
+    var phone = v.parentNode, on = false, held = false, fetched = false;
     function go() {
       if (!on || held || !fetched || v.readyState < 4) return;
-      if (!started) { started = true; v.currentTime = +v.dataset.start || 0; }
       v.play().catch(function () {});
     }
     v.addEventListener('canplaythrough', go);
