@@ -42,9 +42,18 @@ body {
   font: 400 16px/1.5 var(--sans);
   -webkit-font-smoothing: antialiased;
 }
-a { color: inherit; text-decoration: none; }
+a { color: inherit; text-decoration: none; transition: border-color .12s ease-out, box-shadow .12s ease-out, color .12s ease-out; }
 a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }
+/* A filled button's text is the colour of its own fill, so its ring takes the colour of
+   the words around it instead: ink on sand, --on in a room, the ground in the footer. */
+.cv:focus-visible { outline-color: var(--ink); border-radius: 4px; }
+.first .cv:focus-visible { outline-color: var(--on); }
+.end .cv:focus-visible { outline-color: var(--bg); }
 img, video { display: block; max-width: 100%; }
+p, li, dd, figcaption, small { text-wrap: pretty; }
+::selection { background: var(--ink); color: var(--bg); }
+.room ::selection, .first ::selection { background: var(--on); color: var(--room); }
+.end ::selection { background: var(--bg); color: var(--ink); }
 ul, ol { list-style: none; padding: 0; }
 code { font: 400 .9em/1 ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace; letter-spacing: -0.01em; }
 
@@ -74,6 +83,12 @@ code { font: 400 .9em/1 ui-monospace, "Cascadia Code", "SF Mono", Consolas, mono
   position: absolute; bottom: 0; left: 50%; translate: -52% 0;
   height: min(100%, 132vw); width: auto; max-width: none; aspect-ratio: 1837 / 1290;
 }
+/* He arrives whole, never painted in slices: hidden until decoded (Photo.astro), then a
+   0.2s fade; from cache, at once. If the photo's script never runs, he shows after 3s. */
+.js .me img { opacity: 0; }
+.js .me img:not(.wait) { animation: photo-late 0s 3s forwards; }
+.js .me img.in { opacity: 1; animation: none; transition: opacity .2s ease-out; }
+@keyframes photo-late { to { opacity: 1; } }
 /* The sentence in two steps: the first sentence is the headline, at a room name's weight;
    the second is the claim under it. */
 .hero h1 { grid-row: 2; margin-top: 6px; font-weight: 500; }
@@ -105,7 +120,10 @@ code { font: 400 .9em/1 ui-monospace, "Cascadia Code", "SF Mono", Consolas, mono
   box-shadow: 0 0 0 5px #0c0b0a, 0 30px 60px -20px rgb(0 0 0 / .45);
 }
 .device > * { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.screen { position: absolute; border-radius: 6px; overflow: hidden; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .5); }
+.screen { position: absolute; border-radius: 6px; overflow: hidden; box-shadow: 0 30px 60px -24px rgb(0 0 0 / .5); background: color-mix(in srgb, currentColor 8%, transparent); }
+/* The recording's phone is a pause button once its script runs. */
+.device[role="button"] { cursor: pointer; }
+.device:focus-visible { outline: 2px solid currentColor; outline-offset: 8px; }
 .screen img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
 
 /* The rooms' colours. */
@@ -245,6 +263,25 @@ code { font: 400 .9em/1 ui-monospace, "Cascadia Code", "SF Mono", Consolas, mono
 .lost h1 { font-size: clamp(44px, 12.6vw, 96px); line-height: .96; letter-spacing: -0.048em; font-weight: 600; text-wrap: balance; }
 .lost p { margin-top: 18px; font-size: 17px; max-width: 42ch; }
 .lost .links { margin-top: 22px; }
+
+/* ── Feedback: links and buttons answer, by colour only. Nothing moves. ───── */
+/* Underlines lighten, a filled button tints with its own text colour. Hover only where
+   there is a pointer that hovers, so a tap never leaves a state stuck on; press everywhere. */
+@media (hover: hover) {
+  :is(.top nav a:not(.cv), .links a, .pairs figcaption a, .also header a, .go a, .end .feet a:not(.cv), .end .small a):hover {
+    border-bottom-color: color-mix(in srgb, currentColor 40%, transparent);
+  }
+  .cv:hover { box-shadow: inset 0 0 0 99px color-mix(in srgb, currentColor 14%, transparent); }
+  .end a.mail:hover { color: #c9c8c2; }
+}
+:is(.top nav a:not(.cv), .links a, .pairs figcaption a, .also header a, .go a, .end .feet a:not(.cv), .end .small a):active {
+  border-bottom-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+.cv:active { box-shadow: inset 0 0 0 99px color-mix(in srgb, currentColor 24%, transparent); }
+.end a.mail:active { color: #c9c8c2; }
+@media (prefers-reduced-motion: reduce) {
+  a, .js .me img.in { transition: none; }
+}
 
 /* ── Wide screens: him beside the sentence; words beside the work ──────────── */
 @media (min-width: 900px) and (min-aspect-ratio: 11 / 10) {

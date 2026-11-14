@@ -1,0 +1,19 @@
+---
+/**
+ * The first screen's cut-out of him, on the home page and /websites. With script
+ * on (`html.js`, set in Base's head), it stays hidden until it is decoded, then
+ * fades in, so a slow connection never shows it painting in slices. From cache it
+ * shows at once. With script off it loads as any image does.
+ */
+import { person } from "../content/site";
+---
+
+<div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} width={person.photo.width} height={person.photo.height} alt={person.photo.alt} fetchpriority="high" /><script is:inline>
+  (function (i) {
+    function show() { i.classList.add('in'); }
+    if (i.complete) return show();
+    i.classList.add('wait');
+    i.addEventListener('load', function () { i.decode ? i.decode().then(show, show) : show(); });
+    i.addEventListener('error', show);
+  })(document.currentScript.previousElementSibling);
+</script></div>

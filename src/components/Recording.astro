@@ -1,8 +1,10 @@
 ---
 /**
  * The Jembatan recording in a phone, with a said/sent pair beside it. The
- * video is muted and loops; the script below plays it only while it is on
- * screen, and never under prefers-reduced-motion (the poster shows instead).
+ * video is muted and loops; the script below fetches it a screen before it is
+ * reached, plays it only while it is on screen and only once it can play
+ * through, and never under prefers-reduced-motion (the poster shows instead).
+ * A tap on the phone pauses it.
  */
 import { jembatan } from "../content/site";
 
@@ -18,9 +20,10 @@ const example = jembatan.examples[jembatan.homeExample];
         muted
         loop
         playsinline
-        preload="metadata"
+        preload="none"
         aria-label={jembatan.loop.alt}
-        data-onscreen></video>
+        data-onscreen
+        data-start={jembatan.loop.posterAt}></video>
     </div>
     <figcaption>{jembatan.loop.caption}</figcaption>
   </figure>
@@ -34,12 +37,36 @@ const example = jembatan.examples[jembatan.homeExample];
 </div>
 
 <script is:inline>
-  // The recording plays only while it is on screen, and never for reduced motion.
+  // Fetch a screen early; play while on screen, once it can play through, from the
+  // poster's frame; a tap pauses it. Nothing at all for reduced motion.
   (function () {
     var v = document.querySelector('video[data-onscreen]');
     if (!v || matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    var phone = v.parentNode, on = false, held = false, fetched = false, started = false;
+    function go() {
+      if (!on || held || !fetched || v.readyState < 4) return;
+      if (!started) { started = true; v.currentTime = +v.dataset.start || 0; }
+      v.play().catch(function () {});
+    }
+    v.addEventListener('canplaythrough', go);
+    new IntersectionObserver(function (e, o) {
+      if (!e[0].isIntersecting) return;
+      o.disconnect(); fetched = true; v.preload = 'auto'; v.load();
+    }, { rootMargin: '0px 0px 100% 0px' }).observe(v);
     new IntersectionObserver(function (e) {
-      e[0].isIntersecting ? v.play().catch(function () {}) : v.pause();
+      on = e[0].isIntersecting; on ? go() : v.pause();
     }, { threshold: 0.35 }).observe(v);
+    phone.setAttribute('role', 'button');
+    phone.setAttribute('tabindex', '0');
+    phone.setAttribute('aria-label', 'Pause the recording');
+    phone.setAttribute('aria-pressed', 'false');
+    function toggle() {
+      held = !held; phone.setAttribute('aria-pressed', String(held));
+      held ? v.pause() : go();
+    }
+    phone.addEventListener('click', toggle);
+    phone.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
   })();
 </script>

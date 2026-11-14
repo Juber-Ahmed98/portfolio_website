@@ -22,7 +22,7 @@ built afterwards from the same parts.
   the real capture in it and a few plain words on the colour.
 - Websites first, then the day job, then the apps. Recruiters and hiring managers want the
   websites first.
-- The page scrolls normally. Nothing slides, stacks, pins or fades in.
+- The page scrolls normally. Nothing slides, stacks, pins or fades in as you scroll.
 
 ## Rules that hold on every page
 
@@ -30,9 +30,21 @@ built afterwards from the same parts.
   peek. Adding to it turns the site back into v3.
 - **One typeface, one theme.** Schibsted Grotesk everywhere; one light theme. No dark
   theme, no theme toggle.
-- **No motion** beyond the Jembatan recording, which plays only while it is on screen and
-  never under `prefers-reduced-motion`. No reveals, no scroll effects, no hover animation,
-  no view transitions.
+- **Motion is feedback, never a show** (14 Nov; replaced "no motion beyond the recording").
+  - One thing moves by itself: the Jembatan recording, which plays only while it is on
+    screen, never under `prefers-reduced-motion`, and pauses on a tap. Nothing else plays,
+    loops or drifts.
+  - Nothing moves on scroll: no reveals, no parallax, no scroll-linked effects, no smooth
+    scrolling, no view transitions. Every element is in its final place, at full opacity,
+    in the HTML. The one exception on load: the first-screen photo fades in (0.2 s,
+    opacity only) if it was not already loaded, so it never paints in slices.
+  - Links and buttons answer hover (only where hover exists), focus and press, by colour
+    only, in 0.12 s, `ease-out`: an underline lightens, a button tints. Never position,
+    size, a lift or layout.
+  - CSS does it. JavaScript only plays the recording and shows the photo once decoded.
+  - Under `prefers-reduced-motion` there are no transitions at all.
+  - Test before shipping: a full-page screenshot with JavaScript off shows every word and
+    picture.
 - **Edge-aligned.** Everything hangs off the left edge or the 5fr / 7fr split. No centred
   column, no max-width container: the page uses the screen it is given.
 - **Rules, not boxes.** Lists are ruled with a hairline above each row. No cards, no
@@ -182,10 +194,25 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 
 | Condition | Result |
 |---|---|
-| Default | The recording plays, muted and looping, while at least 35% of it is on screen, and pauses when it leaves. `preload="metadata"`, so the clip (729 KB) is fetched when it first plays |
-| `prefers-reduced-motion: reduce` | The recording never plays. Its poster, the review frame, shows instead |
-| No JavaScript, or no IntersectionObserver | The same poster. Every page is complete without script |
+| Default | The recording plays, muted and looping, while at least 35% of it is on screen, and pauses when it leaves. `preload="none"`: the clip (729 KB) is fetched when it comes within a screen of view, and starts only once it can play through, from 4.6 s, the frame its poster shows. A tap, a click, Enter or Space pauses it (`role="button"`, `aria-pressed`), and a paused clip stays paused on scroll |
+| `prefers-reduced-motion: reduce` | The recording is never fetched and never plays. Its poster, the review frame, shows instead. No transitions anywhere |
+| No JavaScript, or no IntersectionObserver | The same poster, and the photo shows as it loads. Every page is complete without script |
+| Photo not yet loaded | `html.js` hides the first-screen photo until it is decoded, then it fades in over 0.2 s; from cache it shows at once. If the script never runs, a CSS fallback shows it after 3 s |
+| A capture not yet loaded | `.screen` shows a faint tint of the room's text colour, so the slot reads as a frame |
 | Fonts not yet loaded | `font-display: swap` over `system-ui` |
+
+## Feedback
+
+| State | Underlined links | Filled button (`.cv`) |
+|---|---|---|
+| Hover (only `(hover: hover)`) | underline to 40% of the text colour | an inset tint of its own text colour, 14% |
+| Press (`:active`) | the same | 24% |
+| `:focus-visible` | 2px ring in `currentColor`, 3px out | the ring takes the colour of the text around the button: ink on sand, `--on` in a room, the ground in the footer |
+| Selection | ink on the ground and the sand; `--on` with `--room` text in a room; inverted in the footer | |
+
+The big email address in the footer dims to the footer's body grey on hover. Body copy
+(`p, li, dd, figcaption, small`) uses `text-wrap: pretty`, so a paragraph doesn't end on a
+single word; headings keep `balance`.
 
 ## Meta surfaces
 
@@ -204,11 +231,11 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 | | v4 | v3 for comparison |
 |---|---|---|
 | Home HTML, gzipped, stylesheet included | 8.8 KB | 16 KB + 10 KB CSS |
-| JavaScript | one inline script, about 0.4 KB | 161 KB gz |
+| JavaScript | inline only: the recording (about 1 KB) and the photo (about 0.3 KB) | 161 KB gz |
 | Requests before the first screen is complete | the document, one font (43 KB), the photo | — |
-| The photo | the cut-out, 184 KB at 1837 wide (phones, big screens); 1100-wide cut, 72 KB, for 1x laptops. Was 285 KB and 120 KB before it was cut out | — |
+| The photo | the cut-out, 184 KB at 1837 wide (phones, big screens); 1100-wide cut, 72 KB, for 1x laptops; a 1400-wide cut (added 14 Nov) for 1x desktops 900–1080px tall. Was 285 KB and 120 KB before it was cut out | — |
 | Client captures | 56–143 KB each, lazy | 244–372 KB each |
-| The recording | 729 KB, fetched when it first plays | the same |
+| The recording | 729 KB, fetched a screen before it is reached (it was fetched on load until 14 Nov) | the same |
 | Real-device LCP and CLS | **not yet measured on the owner's phone** | |
 
 ## Decision log
@@ -232,6 +259,15 @@ All in `src/styles/site.css`; the class names are the vocabulary.
   fixed: the café behind him read as a holiday photo, the boxed photo was the one thing on
   the page that did not run to an edge, and a seven-line sentence at one size had no
   headline. The first screen is still bare: the same five things, nothing added.
+- **14 Nov.** He kept the layout, structure and copy and asked for a polish pass. Three
+  reviewers (visitors, craft, restraint) looked at the built site
+  (`design-reference/plans/polish-2026-11-14/`). All three cut a scroll-linked drift on
+  the Jembatan phone (a second motion on the one moving thing, and v3's scrubbed film
+  again), scroll reveals (in a full-page screenshot every room came out as flat colour
+  with no words), page transitions, smooth scrolling and hover lifts. "No motion" became
+  "Motion is feedback, never a show": colour-only hover and press states, focus rings that
+  show on every button, selection in the site's colours, `text-wrap: pretty`, the photo
+  shown whole, and the recording fetched late, started cleanly and pausable on a tap.
 - **Carried from earlier versions:** no numbered eyebrows, no monospace kickers, no italic
   or serif headings, no directional glyphs in links, no skills chip wall, no metric without
   its denominator, nothing that overclaims.

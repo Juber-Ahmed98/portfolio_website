@@ -24,12 +24,13 @@ export const person = {
   linkedin: "https://www.linkedin.com/in/mohammed-juber-ahmed/",
   /**
    * The cut-out: him without the café behind him, transparent, 1837 × 1290.
-   * The 1100 cut is enough on a 1x laptop. On a wide screen it is drawn at 93%
-   * of the first screen's height; on a phone at up to 188vw.
+   * The 1100 cut is enough on a 1x laptop, the 1400 cut on a 1x desktop up to
+   * 1080px tall. On a wide screen it is drawn at 93% of the first screen's
+   * height; on a phone at up to 188vw.
    */
   photo: {
     src: "/juber-cut.webp",
-    srcset: "/juber-cut-1100.webp 1100w, /juber-cut.webp 1837w",
+    srcset: "/juber-cut-1100.webp 1100w, /juber-cut-1400.webp 1400w, /juber-cut.webp 1837w",
     sizes: "(min-width: 900px) and (min-aspect-ratio: 11/10) calc((100vh - 44px) * 1.33), 188vw",
     width: 1837,
     height: 1290,
@@ -206,11 +207,13 @@ export const jembatan = {
   /**
    * The real recording, muted and looping, played only while it is on screen
    * and never under reduced motion. The phone cut is 720px wide. The poster is
-   * the review frame.
+   * the review frame, which the clip shows from 4.6s to 5.8s, so the first play
+   * starts there (`posterAt`) instead of jumping back to the start.
    */
   loop: {
     src: "/film/jembatan-phone.mp4",
     poster: "/film/still-review.webp",
+    posterAt: 4.6,
     alt: "The Jembatan keyboard in WhatsApp: English is spoken, reviewed as Indonesian, then sent into the chat",
     caption: "The recording: English into Indonesian",
   },

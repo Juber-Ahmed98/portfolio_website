@@ -116,7 +116,9 @@ too busy and too clever, so the work got lost. What he chose from the sketches:
 - **Then a room for each piece of work:** the full screen, in that project's own colour,
   with the real capture in it. Websites first, then apps.
 - **Normal scrolling.** No sliding or stacking panels, no reveals, no empty desktop space.
-- One typeface (Schibsted Grotesk), one light theme, no motion beyond the Jembatan recording.
+- One typeface (Schibsted Grotesk), one light theme. Motion is feedback, never a show: the
+  Jembatan recording is the only thing that moves by itself, and links and buttons answer
+  hover, focus and press by colour only (`DESIGN.md`, 14 Nov).
 
 The finished home page design is `design-reference/v4/home.html`; the production page
 matches it element for element. `DESIGN.md` has the tokens, the layouts and the rules.
@@ -127,12 +129,13 @@ direction ever changes.
 
 - **Stack:** [Astro](https://astro.build) 7, static output, TypeScript for the content
   modules, one hand-written stylesheet (`src/styles/site.css`, inlined at build time). No
-  UI framework, no CSS framework. The only JavaScript on the site is one inline script that
-  plays the Jembatan recording while it is on screen.
+  UI framework, no CSS framework. The only JavaScript on the site is inline: one script
+  that plays the Jembatan recording while it is on screen (and pauses it on a tap), and
+  one that shows the first-screen photo once it is decoded (`Photo.astro`).
 - **Pages** (`src/pages/`): `index.astro` (home), `websites.astro`, `work/[slug].astro`
   (Jembatan, Waystone, E-commerce store, from `caseStudies` in `site.ts`), `404.astro`,
   `sitemap.xml.ts`. Shared: `src/layouts/Base.astro`, `src/components/Footer.astro`,
-  `src/components/Recording.astro`, `src/lib/text.ts`.
+  `src/components/Recording.astro`, `src/components/Photo.astro`, `src/lib/text.ts`.
 - **URLs are fixed:** `/`, `/websites/`, `/work/jembatan/`, `/work/waystone/`,
   `/work/ecommerce-store/`, `/cv.pdf`, plus the redirects in `public/_redirects`. Never
   break one.
@@ -147,8 +150,8 @@ direction ever changes.
   the owner sets them.
 - **Fonts** are self-hosted in `public/fonts/` (Schibsted Grotesk 400–700, Anek Bangla 500
   for Bengali). No request leaves the site.
-- **Media** lives in `public/`: `juber-cut.webp` and `juber-cut-1100.webp` (the first
-  screen's cut-out), `juber.webp` (the photo as taken, for structured data only),
+- **Media** lives in `public/`: `juber-cut.webp`, `juber-cut-1400.webp` and
+  `juber-cut-1100.webp` (the first screen's cut-out), `juber.webp` (the photo as taken, for structured data only),
   `shots/<client>/{desktop,phone}.webp`, `film/`, `work/<project>/`, `og.jpg`,
   `og-websites.jpg`, favicons. The repo is public: only the photo files the site uses are
   committed; the masters stay untracked.
@@ -171,6 +174,7 @@ Done means all of these, on the built site (`npm run build`, then serve `dist/`)
 - Every page looked at in screenshots at phone (390×844) and desktop (1440×900) widths.
 - No horizontal overflow at 360, 390, 768, 1024, 1440 and 1920 wide.
 - Under `prefers-reduced-motion` the recording never plays (the poster shows instead).
+- A full-page screenshot with JavaScript off shows every word and picture.
 - The home page still matches `design-reference/v4/home.html`.
 
 The screenshot and comparison scripts (`shot.mjs`, `compare.mjs`, `check.mjs`,

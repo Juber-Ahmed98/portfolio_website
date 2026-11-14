@@ -7,7 +7,7 @@
  * builds list). Copy lives in src/content/websites.ts.
  */
 import Base from "../layouts/Base.astro";
-import { person } from "../content/site";
+import Photo from "../components/Photo.astro";
 import {
   about,
   apps,
@@ -41,7 +41,7 @@ import { curl, label } from "../lib/text";
         <a class="cv" href={websitesHero.action.href}>{websitesHero.action.label}</a>
       </nav>
     </header>
-    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} width={person.photo.width} height={person.photo.height} alt={person.photo.alt} fetchpriority="high" /></div>
+    <Photo />
     <h1><span class="say">{websitesHero.say}</span> <span class="rest">{websitesHero.rest}</span></h1>
   </section>
 

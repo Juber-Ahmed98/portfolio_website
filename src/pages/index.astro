@@ -5,6 +5,7 @@
  */
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
+import Photo from "../components/Photo.astro";
 import Recording from "../components/Recording.astro";
 import { also, clients, dayJob, hero, homeMeta, jembatan, moreClients, person, waystone } from "../content/site";
 
@@ -37,7 +38,7 @@ const wide = "(min-width: 900px) and (min-aspect-ratio: 11/10)";
         <a class="cv" href={person.cv.href}>{person.cv.label}</a>
       </nav>
     </header>
-    <div class="me"><img src={person.photo.src} srcset={person.photo.srcset} sizes={person.photo.sizes} width={person.photo.width} height={person.photo.height} alt={person.photo.alt} fetchpriority="high" /></div>
+    <Photo />
     <h1><span class="say">{hero.say}</span> <span class="rest">{hero.rest} <span class="tail">{hero.tail}</span></span></h1>
   </section>
 
