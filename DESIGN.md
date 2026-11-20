@@ -22,7 +22,9 @@ built afterwards from the same parts.
   the real capture in it and a few plain words on the colour.
 - Websites first, then the day job, then the apps. Recruiters and hiring managers want the
   websites first.
-- The page scrolls normally. Nothing slides, stacks, pins or fades in as you scroll.
+- The page scrolls normally. Nothing slides over or stacks on anything else. On the home
+  page each room arrives once as it comes into view, and one room holds: on a wide screen
+  Jembatan stays put for under a screen of scrolling while its story plays (20 Nov).
 
 ## Rules that hold on every page
 
@@ -30,21 +32,35 @@ built afterwards from the same parts.
   peek. Adding to it turns the site back into v3.
 - **One typeface, one theme.** Schibsted Grotesk everywhere; one light theme. No dark
   theme, no theme toggle.
-- **Motion is feedback, never a show** (14 Nov; replaced "no motion beyond the recording").
-  - One thing moves by itself: the Jembatan recording, which plays only while it is on
-    screen, never under `prefers-reduced-motion`, and pauses on a tap. Nothing else plays,
-    loops or drifts.
-  - Nothing moves on scroll: no reveals, no parallax, no scroll-linked effects, no smooth
-    scrolling, no view transitions. Every element is in its final place, at full opacity,
-    in the HTML. The one exception on load: the first-screen photo fades in (0.2 s,
-    opacity only) if it was not already loaded, so it never paints in slices.
-  - Links and buttons answer hover (only where hover exists), focus and press, by colour
-    only, in 0.12 s, `ease-out`: an underline lightens, a button tints. Never position,
-    size, a lift or layout.
-  - CSS does it. JavaScript only plays the recording and shows the photo once decoded.
-  - Under `prefers-reduced-motion` there are no transitions at all.
+- **Motion arrives, answers, then stops** (20 Nov, the owner's brief; replaced "Motion is
+  feedback, never a show" of 14 Nov). It is on the home page only: `/websites`, the case
+  studies and the 404 are still.
+  - Every element is in its final place, at full opacity, in the HTML. The motion layer
+    (`src/scripts/motion.ts`, `src/styles/motion.css`, GSAP with ScrollTrigger and
+    SplitText) only decides how it arrives. With script off or under
+    `prefers-reduced-motion` the page is the still page, and GSAP is never fetched.
+  - **Arriving, once:** type rises out of clipped containers, line by line (0.8–0.9 s,
+    `expo.out`, about 0.09 s between lines); captures settle out of a slight turn, the
+    nearer one a beat after the one behind (0.9 s, `power3.out`, flat on a phone). Copy
+    under a room name only fades. It never moves, so it can always be read.
+  - **On scroll:** on the first screen he sinks a little while the words lift; on a wide
+    screen the captures in a room drift at different rates; the Jembatan story is told by
+    the scroll (below). Nothing else is tied to the scroll.
+  - **To the pointer** (wide screens with a pointer that hovers): layers shift a few
+    pixels and tilt up to about 2°, and one soft light per section follows the pointer.
+  - **Still never:** nothing loops or drifts by itself except the Jembatan recording; no
+    smooth scrolling, no view transitions, no bounce, overshoot or scaling; nothing slides
+    over anything else. Links and buttons answer hover (only where hover exists), focus
+    and press by colour only, in 0.12 s, `ease-out`.
+  - Each section has a switch in `ON` at the top of `motion.ts`, the Jembatan hold
+    included.
+  - **Two traps, both shipped once and caught by the owner on 20 Nov.** Never tween
+    `transformPerspective`: set it once. Tweened towards none it shrinks to a few pixels,
+    holds the capture skewed until the last frame, then snaps it flat. And a clip for
+    rising type must take no room (`clip-path`, never padding with a negative margin), or
+    the lines sit apart and close up when the markup is put back.
   - Test before shipping: a full-page screenshot with JavaScript off shows every word and
-    picture.
+    picture, and `motion-check.mjs` and `motion-continuity.mjs` pass (CLAUDE.md).
 - **Edge-aligned.** Everything hangs off the left edge or the 5fr / 7fr split. No centred
   column, no max-width container: the page uses the screen it is given.
 - **Rules, not boxes.** Lists are ruled with a hairline above each row. No cards, no
@@ -195,7 +211,10 @@ All in `src/styles/site.css`; the class names are the vocabulary.
 | Condition | Result |
 |---|---|
 | Default | The recording plays, muted and looping, while at least 35% of it is on screen, and pauses when it leaves. `preload="none"`: the clip (704 KB) is fetched when it comes within a screen of view, and starts only once it can play through. The clip begins on its poster's frame (re-cut on 14 Nov from the old 4.6 s, 704 KB), so nothing jumps; it can't be seeked, because Cloudflare's static assets ignore Range requests. A tap, a click, Enter or Space pauses it (`role="button"`, `aria-pressed`), and a paused clip stays paused on scroll |
-| `prefers-reduced-motion: reduce` | The recording is never fetched and never plays. Its poster, the review frame, shows instead. No transitions anywhere |
+| Default, home page | The motion layer above. A room already on screen when the page loads is left as it is. A room that has not arrived is transparent but still focusable: focus inside it, or printing, brings it in |
+| The Jembatan story | What you say lights up word by word, a hairline crosses to the other language, the Bengali rises word by word out of clips, and "Real output, not written by hand." comes last; scrolling back rewinds it. Wide screens at least 640px tall, where the room fits: the room holds for 80% of a screen while it plays. Everywhere else there is no hold and it plays as the pair crosses the middle of the screen. The phone does not move during the story |
+| The motion script is slow or never arrives | The first screen's words and photo wait for it for at most 1.6 s, then show as they are and the entrance is skipped |
+| `prefers-reduced-motion: reduce` | The recording is never fetched and never plays. Its poster, the review frame, shows instead. No transitions anywhere, and GSAP is never fetched: the page is the still page |
 | No JavaScript, or no IntersectionObserver | The same poster, and the photo shows as it loads. Every page is complete without script |
 | Photo not yet loaded | `html.js` hides the first-screen photo until it is decoded, then it fades in over 0.2 s; from cache it shows at once. If the script never runs, a CSS fallback shows it after 3 s |
 | A capture not yet loaded | `.screen` shows a faint tint of the room's text colour, so the slot reads as a frame |
@@ -231,7 +250,7 @@ single word; headings keep `balance`.
 | | v4 | v3 for comparison |
 |---|---|---|
 | Home HTML, gzipped, stylesheet included | 8.8 KB | 16 KB + 10 KB CSS |
-| JavaScript | inline only: the recording (about 1 KB) and the photo (about 0.3 KB) | 161 KB gz |
+| JavaScript | inline: the recording (about 1 KB) and the photo (about 0.3 KB). From 20 Nov the home page also fetches the motion layer, 49.6 KB gz (GSAP, ScrollTrigger, SplitText), after first paint and only when reduced motion is off | 161 KB gz |
 | Requests before the first screen is complete | the document, one font (43 KB), the photo | — |
 | The photo | the cut-out, 184 KB at 1837 wide (phones, big screens); 1100-wide cut, 72 KB, for 1x laptops; a 1400-wide cut (added 14 Nov) for 1x desktops 900–1080px tall. Was 285 KB and 120 KB before it was cut out | — |
 | Client captures | 56–143 KB each, lazy | 244–372 KB each |
@@ -268,6 +287,17 @@ single word; headings keep `balance`.
   "Motion is feedback, never a show": colour-only hover and press states, focus rings that
   show on every button, selection in the site's colours, `text-wrap: pretty`, the photo
   shown whole, and the recording fetched late, started cleanly and pausable on a tap.
+- **20 Nov.** He asked for depth and motion on the home page: clipped type reveals, layered
+  captures with perspective, pointer parallax and light, and a scroll-told Jembatan story,
+  with restraint (no fade-up on everything, no bounce, nothing perpetual). This reverses
+  the 14 Nov rule that nothing moves on scroll. It was built on the branch `motion/gsap`
+  as a layer that can be switched off section by section, he looked at it and kept it.
+  What answers the 14 Nov reviewers: the page is complete without script, reduced motion
+  fetches nothing, copy never moves, and the Jembatan phone stays still during its story,
+  so the recording is still the one thing that moves by itself. What does not: a
+  full-page screenshot with script on shows rooms that were never scrolled to as bare
+  colour. He found two breaks in continuity the same day (a tweened perspective, and
+  clips that took room); both are fixed and written into the rules above.
 - **Carried from earlier versions:** no numbered eyebrows, no monospace kickers, no italic
   or serif headings, no directional glyphs in links, no skills chip wall, no metric without
   its denominator, nothing that overclaims.

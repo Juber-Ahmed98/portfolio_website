@@ -115,10 +115,14 @@ too busy and too clever, so the work got lost. What he chose from the sketches:
   taken from the parasol behind him, with the first sentence as the headline.
 - **Then a room for each piece of work:** the full screen, in that project's own colour,
   with the real capture in it. Websites first, then apps.
-- **Normal scrolling.** No sliding or stacking panels, no reveals, no empty desktop space.
-- One typeface (Schibsted Grotesk), one light theme. Motion is feedback, never a show: the
-  Jembatan recording is the only thing that moves by itself, and links and buttons answer
-  hover, focus and press by colour only (`DESIGN.md`, 14 Nov).
+- **Normal scrolling.** No sliding or stacking panels, no empty desktop space.
+- One typeface (Schibsted Grotesk), one light theme.
+- **Motion on the home page (20 Nov, his brief, kept after he saw it):** type rises out of
+  clipped containers, captures settle out of a slight turn and drift at different depths,
+  the Jembatan room tells its story on the scroll, and on a desktop the layers and a soft
+  light answer the pointer. It arrives, answers, then stops: the Jembatan recording is
+  still the only thing that moves by itself, copy never moves, and links and buttons
+  answer by colour only. The rules, and two traps already hit, are in `DESIGN.md`.
 
 The finished home page design is `design-reference/v4/home.html`; the production page
 matches it element for element. `DESIGN.md` has the tokens, the layouts and the rules.
@@ -129,9 +133,15 @@ direction ever changes.
 
 - **Stack:** [Astro](https://astro.build) 7, static output, TypeScript for the content
   modules, one hand-written stylesheet (`src/styles/site.css`, inlined at build time). No
-  UI framework, no CSS framework. The only JavaScript on the site is inline: one script
-  that plays the Jembatan recording while it is on screen (and pauses it on a tap), and
-  one that shows the first-screen photo once it is decoded (`Photo.astro`).
+  UI framework, no CSS framework. Two inline scripts run everywhere: one plays the
+  Jembatan recording while it is on screen (and pauses it on a tap), and one shows the
+  first-screen photo once it is decoded (`Photo.astro`).
+- **The motion layer** is the home page's only bundled script: `src/scripts/motion.ts`
+  (GSAP, ScrollTrigger, SplitText; 49.6 KB gz) with `src/styles/motion.css`. A head script
+  in `index.astro` sets `html.motion` unless reduced motion is on, and only then is the
+  layer fetched. Every section has a switch in `ON` at the top of `motion.ts`. To remove
+  the layer: delete those two files and the lines marked "motion layer" in `index.astro`
+  and `Base.astro`, then `npm uninstall gsap`.
 - **Pages** (`src/pages/`): `index.astro` (home), `websites.astro`, `work/[slug].astro`
   (Jembatan, Waystone, E-commerce store, from `caseStudies` in `site.ts`), `404.astro`,
   `sitemap.xml.ts`. Shared: `src/layouts/Base.astro`, `src/components/Footer.astro`,
@@ -173,12 +183,20 @@ Done means all of these, on the built site (`npm run build`, then serve `dist/`)
 
 - Every page looked at in screenshots at phone (390×844) and desktop (1440×900) widths.
 - No horizontal overflow at 360, 390, 768, 1024, 1440 and 1920 wide.
-- Under `prefers-reduced-motion` the recording never plays (the poster shows instead).
+- Under `prefers-reduced-motion` the recording never plays (the poster shows instead) and
+  the motion layer is never fetched.
 - A full-page screenshot with JavaScript off shows every word and picture.
-- The home page still matches `design-reference/v4/home.html`.
+- The home page, once every room has arrived, still matches `design-reference/v4/home.html`
+  (the Jembatan hairline is the one addition).
+- After any change to the motion layer: `motion-check.mjs <origin> <out-dir>` (reduced
+  motion, script off, nothing left hidden or split after a scroll through at all six
+  widths, Tab into a room that has not arrived, a resize across the breakpoint) and
+  `motion-continuity.mjs <origin>` (frame by frame: type does not shift when its markup is
+  put back, a capture eases to flat with no hold or snap). The Browser pane does not tick
+  animations while it is in the background, so measure motion with these, not there.
 
 The screenshot and comparison scripts (`shot.mjs`, `compare.mjs`, `check.mjs`,
-`icons.mjs`, `cutout.py`) are local-only in `design-reference/plans/v4-tools/` (gitignored,
+`motion-check.mjs`, `motion-continuity.mjs`, `icons.mjs`, `cutout.py`) are local-only in `design-reference/plans/v4-tools/` (gitignored,
 with the working plans). They drive the installed Edge through `puppeteer-core` and must be run from
 PowerShell. `icons.mjs` regenerates the favicons and the two share images from
 `public/favicon.svg` and `design-reference/v4/og.html` (pass `og` as a third argument to
@@ -198,5 +216,6 @@ Nothing below can be written until he supplies it. Never fill a gap with somethi
   new one has to be cut out the same way, and he should still look right, towards the
   words.)
 - The first screen on his own phone: it has only been checked in a desktop browser at
-  phone sizes.
+  phone sizes. The same goes for the motion layer (20 Nov): how the scroll-told parts
+  feel under a thumb is unknown until he tries them.
 - A Bengali recording of the keyboard (the current one is English into Indonesian).
