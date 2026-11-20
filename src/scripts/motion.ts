@@ -289,10 +289,122 @@ function jembatan() {
   ]);
 }
 
+/**
+ * Layers that drift at different rates as their room scrolls past, so the
+ * nearer capture moves more than the one behind it. Wide screens only.
+ */
+function drift(room: HTMLElement, layers: [HTMLElement | null, number][]) {
+  mm.add(WIDE, () => {
+    layers.forEach(([el, px]) => {
+      if (!el) return;
+      gsap.fromTo(el, { y: px }, {
+        y: -px, ease: "none",
+        scrollTrigger: { trigger: room, start: "top bottom", end: "bottom top", scrub: 0.6 },
+      });
+    });
+  });
+}
+
+/** A capture arriving out of a slight turn (flat, just a rise, on a phone). */
+function turnIn(tl: gsap.core.Timeline, el: HTMLElement | null, at: number, turn: number, rise: number) {
+  if (!el) return;
+  const wide = matchMedia(WIDE).matches;
+  tl.from(el, {
+    opacity: 0, yPercent: rise, rotationY: wide ? turn : 0, rotationX: wide ? 3 : 0,
+    transformPerspective: 1600, duration: 0.9, ease: "power3.out", clearProps: "opacity",
+  }, at);
+}
+
+// ── The client rooms: two sheets at two depths ───────────────────────────────
+/**
+ * The name rises from a clip; the desktop capture comes in out of a slight
+ * turn and the phone capture follows from a deeper one. Scrolling past, the
+ * phone drifts faster than the screen behind it, and the pointer tilts both.
+ */
+function clients() {
+  $$(".room.site").forEach((room) => {
+    const { kind, name, copy } = roomParts(room);
+    const screen = $(".stage .screen", room), device = $(".stage .device", room);
+    arrive(room, [kind, name, screen, device, ...copy], () => {
+      const tl = roomHead(gsap.timeline(), kind, name);
+      turnIn(tl, screen, 0.1, -8, 6);
+      turnIn(tl, device, 0.24, -16, 10);
+      return roomCopy(tl, copy);
+    });
+    drift(room, [[screen, 20], [device, 52]]);
+    depth(room, () => [
+      { el: screen, shift: -6, tilt: 1.2 },
+      { el: device, shift: -14, tilt: 2.2 },
+    ]);
+  });
+}
+
+// ── Two more client sites ────────────────────────────────────────────────────
+/** The heading rises; the two captures arrive one after the other. */
+function more() {
+  const room = $(".room.more");
+  if (!room) return;
+  const { kind, name } = roomParts(room);
+  const figures = $$(".pairs figure", room);
+  arrive(room, [kind, name, ...figures], () => {
+    const tl = roomHead(gsap.timeline(), kind, name);
+    tl.from(figures, { opacity: 0, yPercent: 6, duration: 0.8, ease: "power3.out", stagger: 0.14, clearProps: "opacity" }, 0.2);
+    return tl;
+  });
+  depth(room, () => figures.map((figure, i) => ({ el: $(".shot", figure), shift: -5 - i * 4 })));
+}
+
+// ── Wolseley: the words are the stage ────────────────────────────────────────
+/** The claim rises line by line; the roles and the tools fade in, row by row. */
+function day() {
+  const room = $(".room.day");
+  if (!room) return;
+  const { kind, name } = roomParts(room);
+  const claim = $(".claim", room);
+  const rows = $$(".roles li, .kit", room);
+  arrive(room, [kind, name, claim, ...rows], () => {
+    const tl = roomHead(gsap.timeline(), kind, name);
+    if (claim) tl.add(riseLines(claim, { stagger: 0.07 }), 0.16);
+    tl.from(rows, { opacity: 0, duration: 0.6, ease: "power2.out", stagger: 0.09, clearProps: "opacity" }, 0.42);
+    return tl;
+  });
+  depth(room, () => []);
+}
+
+// ── Waystone: three phones at three depths ───────────────────────────────────
+function waystone() {
+  const room = $(".room.way");
+  if (!room) return;
+  const { kind, name, copy } = roomParts(room);
+  const phones = $$(".stage .device", room);
+  arrive(room, [kind, name, ...phones, ...copy], () => {
+    const tl = roomHead(gsap.timeline(), kind, name);
+    phones.forEach((phone, i) => turnIn(tl, phone, 0.1 + i * 0.12, -14, 7 + i * 3));
+    return roomCopy(tl, copy);
+  });
+  drift(room, phones.map((phone, i) => [phone, 18 + i * 26]));
+  depth(room, () => phones.map((phone, i) => ({ el: phone, shift: -6 - i * 5, tilt: 1.6 })));
+}
+
+// ── The footer ───────────────────────────────────────────────────────────────
+/** The email address rises once from a clip. Nothing else. */
+function footer() {
+  const end = $(".end");
+  const mail = end && $("a.mail", end);
+  if (!end || !mail) return;
+  arrive(end, [mail], () => gsap.timeline().add(riseLines(mail, { duration: 0.9 })), "top 82%");
+}
+
 // ── Start ────────────────────────────────────────────────────────────────────
 function start() {
+  // In page order: a held room adds scroll length, and the triggers below it must know.
   if (ON.hero) hero();
+  if (ON.clients) clients();
+  if (ON.more) more();
+  if (ON.day) day();
   if (ON.jembatan) jembatan();
+  if (ON.waystone) waystone();
+  if (ON.footer) footer();
   root.classList.add("motion-on");
 
   // Focus inside a section that hasn't arrived, or printing, brings it in.
