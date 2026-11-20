@@ -4,6 +4,7 @@
  * stands; the copy lives in src/content/site.ts.
  */
 import Base from "../layouts/Base.astro";
+import "../styles/motion.css"; // motion layer
 import Footer from "../components/Footer.astro";
 import Photo from "../components/Photo.astro";
 import Recording from "../components/Recording.astro";
@@ -30,6 +31,12 @@ const wide = "(min-width: 900px) and (min-aspect-ratio: 11/10)";
 ---
 
 <Base title={homeMeta.title} description={homeMeta.description} path="/" jsonLd={personLd} themeColor="#e4d4ba">
+  <Fragment slot="head">
+    {/* motion layer: flag the page before first paint, unless reduced motion is on */}
+    <script is:inline>
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { document.documentElement.classList.add('motion'); window.__m0 = performance.now(); }
+    </script>
+  </Fragment>
   <section class="hero">
     <header class="top">
       <a class="name" href="#top">{person.name}</a>
@@ -176,4 +183,9 @@ const wide = "(min-width: 900px) and (min-aspect-ratio: 11/10)";
   </main>
 
   <Footer variant="home" />
+
+  {/* motion layer: fetched only when the flag above was set */}
+  <script>
+    if (document.documentElement.classList.contains("motion")) import("../scripts/motion");
+  </script>
 </Base>
