@@ -203,9 +203,96 @@ function hero() {
   ]);
 }
 
+/** The parts every room shares: the small line, the name, and the copy under it. */
+function roomParts(room: HTMLElement) {
+  return {
+    kind: $(".kind", room),
+    name: $(".head h2", room),
+    copy: $$(":scope > .lede, :scope > .facts, :scope > .links", room),
+  };
+}
+
+/** The start of every room's entrance: the small line fades, the name rises from a clip. */
+function roomHead(tl: gsap.core.Timeline, kind: HTMLElement | null, name: HTMLElement | null) {
+  if (kind) tl.from(kind, { opacity: 0, duration: 0.5, ease: "power2.out", clearProps: "opacity" }, 0);
+  if (name) tl.add(riseLines(name), 0.04);
+  return tl;
+}
+
+/** The copy never moves: it fades in, one block after another, and is always readable. */
+function roomCopy(tl: gsap.core.Timeline, copy: HTMLElement[], at = 0.34) {
+  if (copy.length) tl.from(copy, { opacity: 0, duration: 0.6, ease: "power2.out", stagger: 0.07, clearProps: "opacity" }, at);
+  return tl;
+}
+
+// ── Jembatan: the story, told by the scroll ──────────────────────────────────
+/**
+ * The room arrives: its name from a clip, the phone settling out of a slight
+ * turn. Then the scroll tells what the app does. What you say lights up word
+ * by word; a hairline crosses to the other language; the Bengali rises word by
+ * word out of clipped containers; the note that it is real output comes last.
+ * On a wide screen the room holds still while this plays. The phone does not
+ * move during the story: the recording is the one thing that moves by itself.
+ */
+function jembatan() {
+  const room = $(".room.jem");
+  const pair = room && $(".pair", room);
+  if (!room || !pair) return;
+  const { kind, name, copy } = roomParts(room);
+  const phone = $(".rec .device", room);
+  const caption = $(".rec figcaption", room);
+  const said = $(".said", pair), sent = $(".sent", pair), note = $(".note", pair);
+  const sentLabel = sent?.previousElementSibling as HTMLElement | null;
+  if (!said || !sent) return;
+
+  arrive(room, [kind, name, phone, caption, ...copy], () => {
+    const wide = matchMedia(WIDE).matches;
+    const tl = roomHead(gsap.timeline(), kind, name);
+    if (phone) tl.from(phone, {
+      opacity: 0, yPercent: 6, rotationY: wide ? -14 : -6, rotationX: wide ? 4 : 0,
+      transformPerspective: 1400, duration: 0.9, ease: "power3.out", clearProps: "opacity",
+    }, 0.1);
+    if (caption) tl.from(caption, { opacity: 0, duration: 0.5, ease: "power2.out", clearProps: "opacity" }, 0.5);
+    return roomCopy(tl, copy);
+  });
+
+  // Words, not lines: words wrap by themselves, so the story survives any resize.
+  const saidWords = SplitText.create(said, { type: "words", aria: "none" }).words;
+  const sentWords = SplitText.create(sent, { type: "words", mask: "words", wordsClass: "wd", aria: "none" }).words;
+
+  const story = () => {
+    const tl = gsap.timeline({ defaults: { ease: "none" } });
+    tl.fromTo(saidWords, { opacity: 0.3 }, { opacity: 1, duration: 0.1, stagger: { amount: 0.26 } }, 0)
+      .fromTo(said, { "--bridge": 0 }, { "--bridge": 1, duration: 0.16, ease: "power1.inOut" }, 0.34);
+    if (sentLabel) tl.fromTo(sentLabel, { opacity: 0.3 }, { opacity: 0.78, duration: 0.08 }, 0.44);
+    tl.fromTo(sentWords, { yPercent: 135 }, { yPercent: 0, duration: 0.2, ease: "power2.out", stagger: { amount: 0.22 } }, 0.5);
+    if (note) tl.fromTo(note, { opacity: 0 }, { opacity: 0.7, duration: 0.1 }, 0.9);
+    return tl;
+  };
+
+  const HOLD = `${WIDE} and (min-height: 640px)`;
+  mm.add({ hold: HOLD, flow: `not all and ${HOLD}` }, (ctx) => {
+    const fits = room.offsetHeight <= innerHeight + 2;
+    if (ctx.conditions!.hold && ON.jembatanPin && fits) {
+      // The room holds for most of a screen; the story starts a little before it lands.
+      ScrollTrigger.create({ trigger: room, start: "top top", end: "+=80%", pin: true, anticipatePin: 1 });
+      ScrollTrigger.create({ trigger: room, start: "top 28%", end: "+=100%", scrub: 0.6, animation: story() });
+    } else {
+      // No hold: the story plays as the pair crosses the middle of the screen.
+      ScrollTrigger.create({ trigger: pair, start: "top 82%", end: "top 26%", scrub: 0.5, animation: story() });
+    }
+  });
+
+  depth(room, () => [
+    { el: phone, shift: -10, tilt: 2.4 },
+    { el: pair, shift: 5 },
+  ]);
+}
+
 // ── Start ────────────────────────────────────────────────────────────────────
 function start() {
   if (ON.hero) hero();
+  if (ON.jembatan) jembatan();
   root.classList.add("motion-on");
 
   // Focus inside a section that hasn't arrived, or printing, brings it in.

@@ -32,3 +32,15 @@
 .hero { --glow: rgb(255 248 234 / .44); }
 .alilm, .day { --glow: rgb(255 255 255 / .6); }
 .jem { --glow: rgb(255 226 196 / .16); }
+
+/* Jembatan: the hairline that crosses from what you say to what it sends. The script
+   draws it (--bridge, 0 to 1); without the script it is never there. */
+.motion .jem .pair .said { position: relative; }
+.motion .jem .pair .said::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px;
+  background: color-mix(in srgb, currentColor 44%, transparent);
+  transform: scaleX(var(--bridge, 0)); transform-origin: 0 50%;
+}
+@media (min-width: 900px) and (min-aspect-ratio: 11 / 10) {
+  .motion .jem .pair .said::after { bottom: -15px; }
+}
