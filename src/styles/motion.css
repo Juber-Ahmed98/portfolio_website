@@ -1,6 +1,5 @@
 /*
-  The motion layer for the home page. A trial on the branch motion/gsap: DESIGN.md still
-  says nothing moves on scroll, and is only rewritten if this is kept.
+  The motion layer for the home page (20 Nov; the rules are in DESIGN.md).
 
   Every rule sits under html.motion, which the head script in index.astro sets only when
   reduced motion is off. With script off, or reduced motion on, the page is the still v4
@@ -15,10 +14,14 @@
 .motion.motion-on .me img.in { transition: opacity .7s ease-out; }
 @keyframes motion-late-words { to { visibility: visible; } }
 
-/* Type that rises out of clipped containers. The clip is the mask's padding box, so the
-   padding keeps descenders, commas and Bengali vowel signs whole once a line has landed. */
-.ln-mask { padding: .1em .06em .18em; margin: -.1em -.06em -.18em; }
-.wd-mask { padding: .22em .04em .3em; margin: -.22em -.04em -.3em; }
+/* Type that rises out of clipped containers. The clip is drawn with clip-path, a little
+   outside each mask, so descenders, commas and Bengali vowel signs stay whole once a line
+   has landed. It takes no room: padding with a negative margin did (the margins of
+   neighbouring lines collapse), so the lines sat apart and closed up when the markup was
+   put back. SplitText sets overflow: clip inline, which is switched off here. */
+.ln-mask, .wd-mask { overflow: visible !important; }
+.ln-mask { clip-path: inset(-.1em -.06em -.18em); }
+.wd-mask { clip-path: inset(-.22em -.04em -.3em); }
 
 /* Ambient light: one soft patch per section, under the words and the work, moved by
    transform only. Made by the script, and only for a pointer that hovers. */

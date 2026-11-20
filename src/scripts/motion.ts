@@ -1,5 +1,5 @@
 /**
- * The motion layer for the home page (a trial, on the branch motion/gsap).
+ * The motion layer for the home page (20 Nov; the rules are in DESIGN.md).
  *
  * It is loaded only when reduced motion is off (see the head script in
  * index.astro), so under prefers-reduced-motion nothing here is even fetched.
@@ -29,6 +29,12 @@ const ON = {
 
 const WIDE = "(min-width: 900px) and (min-aspect-ratio: 11/10)";
 const POINTER = "(hover: hover) and (pointer: fine)";
+/**
+ * The viewing distance for every turned capture. It is set on the element once and never
+ * tweened: animated towards "none" it shrinks to a few pixels on the way, which holds the
+ * capture visibly skewed until the last frame and then snaps it flat.
+ */
+const PERSPECTIVE = 1600;
 
 const root = document.documentElement;
 const mm = gsap.matchMedia();
@@ -114,7 +120,7 @@ function depth(section: HTMLElement, layers: () => Layer[]) {
           const { el, shift, tilt = 0 } = l;
           const x = gsap.quickTo(el, "x", { duration: 0.9, ease: "power3.out" });
           if (!tilt) return (nx) => x(nx * shift);
-          gsap.set(el, { transformPerspective: 1400 });
+          gsap.set(el, { transformPerspective: PERSPECTIVE });
           const ry = gsap.quickTo(el, "rotationY", { duration: 0.9, ease: "power3.out" });
           const rx = gsap.quickTo(el, "rotationX", { duration: 0.9, ease: "power3.out" });
           return (nx, ny) => { x(nx * shift); ry(nx * tilt); rx(-ny * tilt * 0.6); };
@@ -248,10 +254,13 @@ function jembatan() {
   arrive(room, [kind, name, phone, caption, ...copy], () => {
     const wide = matchMedia(WIDE).matches;
     const tl = roomHead(gsap.timeline(), kind, name);
-    if (phone) tl.from(phone, {
-      opacity: 0, yPercent: 6, rotationY: wide ? -14 : -6, rotationX: wide ? 4 : 0,
-      transformPerspective: 1400, duration: 0.9, ease: "power3.out", clearProps: "opacity",
-    }, 0.1);
+    if (phone) {
+      gsap.set(phone, { transformPerspective: PERSPECTIVE });
+      tl.from(phone, {
+        opacity: 0, yPercent: 6, rotationY: wide ? -14 : -6, rotationX: wide ? 4 : 0,
+        duration: 0.9, ease: "power3.out", clearProps: "opacity",
+      }, 0.1);
+    }
     if (caption) tl.from(caption, { opacity: 0, duration: 0.5, ease: "power2.out", clearProps: "opacity" }, 0.5);
     return roomCopy(tl, copy);
   });
@@ -309,9 +318,10 @@ function drift(room: HTMLElement, layers: [HTMLElement | null, number][]) {
 function turnIn(tl: gsap.core.Timeline, el: HTMLElement | null, at: number, turn: number, rise: number) {
   if (!el) return;
   const wide = matchMedia(WIDE).matches;
+  gsap.set(el, { transformPerspective: PERSPECTIVE });
   tl.from(el, {
     opacity: 0, yPercent: rise, rotationY: wide ? turn : 0, rotationX: wide ? 3 : 0,
-    transformPerspective: 1600, duration: 0.9, ease: "power3.out", clearProps: "opacity",
+    duration: 0.9, ease: "power3.out", clearProps: "opacity",
   }, at);
 }
 
